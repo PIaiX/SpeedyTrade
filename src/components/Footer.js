@@ -9,7 +9,7 @@ function Footer(props) {
 
     return (
         <footer>
-            <Container className='d-none d-md-block'>
+            <Container className='d-none d-md-flex'>
                 <a href='/'><img src='imgs/logo.svg' alt='Games.ru'/></a>
                 
                 <div className='d-flex flex-column flex-xl-row-reverse align-item-center justify-content-center'>
