@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/games/static/css/main.301e8da6.css",
+    "main.js": "/games/static/js/main.ba82cc1d.js",
+    "static/media/moon.svg": "/games/static/media/moon.33bfce2614f062857a3f.svg",
+    "static/media/sun.svg": "/games/static/media/sun.0d801ea28a9e8b3e6bc4.svg",
+    "index.html": "/games/index.html",
+    "main.301e8da6.css.map": "/games/static/css/main.301e8da6.css.map",
+    "main.ba82cc1d.js.map": "/games/static/js/main.ba82cc1d.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.301e8da6.css",
+    "static/js/main.ba82cc1d.js"
+  ]
+}
