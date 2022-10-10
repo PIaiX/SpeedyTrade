@@ -390,6 +390,11 @@ header .container .menu {
 .themes-switcher {
   position: relative;
 }
+@media (max-width: 575px) {
+  .themes-switcher {
+    margin-right: 1em;
+  }
+}
 .themes-switcher input {
   appearance: none;
   -webkit-appearance: none;

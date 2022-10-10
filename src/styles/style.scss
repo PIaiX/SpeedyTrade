@@ -337,8 +337,10 @@ header {
     }
 }
 .themes-switcher {
-    // pointer-events: none;
     position: relative;
+    @media (max-width: 575px){
+        margin-right: 1em;
+    }
     input {
         @include no-appearance();
         display: block;
