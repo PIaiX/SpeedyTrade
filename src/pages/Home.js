@@ -5,11 +5,10 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Thumbs, Pagination, Navigation, EffectFade, Autoplay, Mousewheel } from 'swiper';
+import { Thumbs, Navigation, EffectFade, Autoplay, Mousewheel } from 'swiper';
 import 'swiper/css';
 import "swiper/css/effect-fade";
 import "swiper/css/thumbs";
-import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import 'swiper/css/autoplay';
 import 'swiper/css/mousewheel';
@@ -35,13 +34,7 @@ export default function Home(props) {
                         effect={"fade"}
                         spaceBetween={20}
                         thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }}
-                        modules={[EffectFade, Thumbs, Pagination, Navigation, Autoplay]}
-                        pagination={{ 
-                            el: '.swiper-pagination',
-                            type: 'progressbar',
-                            clickable: true,
-                            
-                         }}
+                        modules={[EffectFade, Thumbs, Navigation, Autoplay]}
                         navigation={{
                             nextEl: ".swiper-button-next",
                             prevEl: ".swiper-button-prev",
@@ -167,10 +160,10 @@ export default function Home(props) {
                                 {link: '/', anchor: 'Обучение'},
                             ]}/>
                         </SwiperSlide>
-                        <div className="swiper-button-prev">
+                        <div className="swiper-button-prev btn-2">
                             <HiArrowNarrowLeft />
                         </div>
-                        <div className="swiper-button-next">
+                        <div className="swiper-button-next btn-2">
                             <HiArrowNarrowRight />
                         </div>
                     </Swiper>
@@ -225,7 +218,7 @@ export default function Home(props) {
 
             <Container>
                 <h1>Каталог игр</h1>
-                <Sort />
+                <div id='sort'><Sort /></div>
 
                 <section className='mt-6 mb-6'>
                     <div className='d-flex align-items-center mb-4 mb-sm-5'>
@@ -242,7 +235,7 @@ export default function Home(props) {
                                 {link: '/', anchor: 'Наборы'},
                                 {link: '/', anchor: 'Донат'},
                                 {link: '/', anchor: 'Обучение'},
-                            ]}/>
+                            ]} servers={['RU', 'EU, NA', 'Free']}/>
                         </Col>
                         <Col>
                             <GameMidi title={'Genshin Impact'} imgLink={'imgs/slider-main/genshin.jpg'} subLinksArr={[
@@ -521,11 +514,8 @@ export default function Home(props) {
                 <hr className='horizontal mb-5'/>
 
                 <section className='mb-6'>
-                    <Row>
-                        <Col md={8} className='pe-md-5'>
-                            <ChatWindow />
-                        </Col>
-                        <Col md={4} className='d-none d-md-block'>
+                    <Row className='flex-lg-row-reverse'>
+                        <Col lg={5} xxl={4} className='d-none d-md-block mb-5'>
                             <div className='d-flex justify-content-between align-items-baseline'>
                                 <h2 className='mb-0'>Новости</h2>
                                 <div>24 сентября</div>
@@ -535,6 +525,9 @@ export default function Home(props) {
                             <News />
                             <News />
                             <News />
+                        </Col>
+                        <Col lg={7} xxl={8} className='pe-xxl-5'>
+                            <ChatWindow />
                         </Col>
                     </Row>
                 </section>

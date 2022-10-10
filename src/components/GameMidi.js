@@ -14,6 +14,16 @@ function GameMidi(props) {
                     }
                 </figcaption>
             </figure>
+            {
+                (props.servers) &&
+                <div className='mt-3 d-flex flex-wrap align-items-center'>
+                    {
+                        props.servers.map(obj => {
+                            return <button key={obj} type='button' className='btn-4 px-2 fs-08 me-1 mb-2 text-uppercase'>{obj}</button>
+                        })
+                    }
+                </div>
+            }
             <div className='mt-3 d-flex flex-wrap align-items-center'>
                 {
                     props.subLinksArr.map(obj => {
