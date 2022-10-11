@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/games/static/css/main.87504902.css",
-    "main.js": "/games/static/js/main.eb89a035.js",
+    "main.css": "/games/static/css/main.a5dbf074.css",
+    "main.js": "/games/static/js/main.5ce9ad8f.js",
     "static/media/moon.svg": "/games/static/media/moon.33bfce2614f062857a3f.svg",
     "static/media/sun.svg": "/games/static/media/sun.0d801ea28a9e8b3e6bc4.svg",
     "index.html": "/games/index.html",
-    "main.87504902.css.map": "/games/static/css/main.87504902.css.map",
-    "main.eb89a035.js.map": "/games/static/js/main.eb89a035.js.map"
+    "main.a5dbf074.css.map": "/games/static/css/main.a5dbf074.css.map",
+    "main.5ce9ad8f.js.map": "/games/static/js/main.5ce9ad8f.js.map"
   },
   "entrypoints": [
-    "static/css/main.87504902.css",
-    "static/js/main.eb89a035.js"
+    "static/css/main.a5dbf074.css",
+    "static/js/main.5ce9ad8f.js"
   ]
 }
