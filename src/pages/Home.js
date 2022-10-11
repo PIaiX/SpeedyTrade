@@ -220,7 +220,7 @@ export default function Home(props) {
                 <h1>Каталог игр</h1>
                 <div id='sort'><Sort /></div>
 
-                <section className='mt-6 mb-6'>
+                <section id='sort-1' className='mt-6 mb-6'>
                     <div className='d-flex align-items-center mb-4 mb-sm-5'>
                         <h3>Топ</h3>
                         <hr className='horizontal flex-1 ms-4'/>
@@ -317,7 +317,7 @@ export default function Home(props) {
                     </Row>
                 </section>
 
-                <section className='mb-6'>
+                <section id='sort-2' className='mb-6'>
                     <div className='d-flex align-items-center mb-4 mb-sm-5'>
                         <h3>0–9</h3>
                         <hr className='horizontal flex-1 ms-4'/>
@@ -414,9 +414,203 @@ export default function Home(props) {
                     </Row>
                 </section>
 
-                <section className='mb-6'>
+                <section id='sort-3' className='mb-6'>
                     <div className='d-flex align-items-center mb-4 mb-sm-5'>
                         <h3>Aa</h3>
+                        <hr className='horizontal flex-1 ms-4'/>
+                    </div>
+                    <Row xs={2} md={3} lg={4} className='gy-5 gx-4 gx-xl-5'>
+                        <Col>
+                            <GameMidi title={'Genshin Impact'} imgLink={'imgs/slider-main/genshin.jpg'} subLinksArr={[
+                                {link: '/', anchor: 'Золото'},
+                                {link: '/', anchor: 'Серебро'},
+                                {link: '/', anchor: 'Аккаунты'},
+                                {link: '/', anchor: 'Прокачка'},
+                                {link: '/', anchor: 'Наборы'},
+                                {link: '/', anchor: 'Донат'},
+                                {link: '/', anchor: 'Обучение'},
+                            ]}/>
+                        </Col>
+                        <Col>
+                            <GameMidi title={'Genshin Impact'} imgLink={'imgs/slider-main/genshin.jpg'} subLinksArr={[
+                                {link: '/', anchor: 'Золото'},
+                                {link: '/', anchor: 'Серебро'},
+                                {link: '/', anchor: 'Аккаунты'},
+                                {link: '/', anchor: 'Прокачка'},
+                                {link: '/', anchor: 'Наборы'},
+                                {link: '/', anchor: 'Донат'},
+                                {link: '/', anchor: 'Обучение'},
+                            ]}/>
+                        </Col>
+                        <Col>
+                            <GameMidi title={'Genshin Impact'} imgLink={'imgs/slider-main/genshin.jpg'} subLinksArr={[
+                                {link: '/', anchor: 'Золото'},
+                                {link: '/', anchor: 'Серебро'},
+                                {link: '/', anchor: 'Аккаунты'},
+                                {link: '/', anchor: 'Прокачка'},
+                                {link: '/', anchor: 'Наборы'},
+                                {link: '/', anchor: 'Донат'},
+                                {link: '/', anchor: 'Обучение'},
+                            ]}/>
+                        </Col>
+                        <Col>
+                            <GameMidi title={'Genshin Impact'} imgLink={'imgs/slider-main/genshin.jpg'} subLinksArr={[
+                                {link: '/', anchor: 'Золото'},
+                                {link: '/', anchor: 'Серебро'},
+                                {link: '/', anchor: 'Аккаунты'},
+                                {link: '/', anchor: 'Прокачка'},
+                                {link: '/', anchor: 'Наборы'},
+                                {link: '/', anchor: 'Донат'},
+                                {link: '/', anchor: 'Обучение'},
+                            ]}/>
+                        </Col>
+                        <Col>
+                            <GameMidi title={'Genshin Impact'} imgLink={'imgs/slider-main/genshin.jpg'} subLinksArr={[
+                                {link: '/', anchor: 'Золото'},
+                                {link: '/', anchor: 'Серебро'},
+                                {link: '/', anchor: 'Аккаунты'},
+                                {link: '/', anchor: 'Прокачка'},
+                                {link: '/', anchor: 'Наборы'},
+                                {link: '/', anchor: 'Донат'},
+                                {link: '/', anchor: 'Обучение'},
+                            ]}/>
+                        </Col>
+                        <Col>
+                            <GameMidi title={'Genshin Impact'} imgLink={'imgs/slider-main/genshin.jpg'} subLinksArr={[
+                                {link: '/', anchor: 'Золото'},
+                                {link: '/', anchor: 'Серебро'},
+                                {link: '/', anchor: 'Аккаунты'},
+                                {link: '/', anchor: 'Прокачка'},
+                                {link: '/', anchor: 'Наборы'},
+                                {link: '/', anchor: 'Донат'},
+                                {link: '/', anchor: 'Обучение'},
+                            ]}/>
+                        </Col>
+                        <Col>
+                            <GameMidi title={'Genshin Impact'} imgLink={'imgs/slider-main/genshin.jpg'} subLinksArr={[
+                                {link: '/', anchor: 'Золото'},
+                                {link: '/', anchor: 'Серебро'},
+                                {link: '/', anchor: 'Аккаунты'},
+                                {link: '/', anchor: 'Прокачка'},
+                                {link: '/', anchor: 'Наборы'},
+                                {link: '/', anchor: 'Донат'},
+                                {link: '/', anchor: 'Обучение'},
+                            ]}/>
+                        </Col>
+                        <Col>
+                            <GameMidi title={'Genshin Impact'} imgLink={'imgs/slider-main/genshin.jpg'} subLinksArr={[
+                                {link: '/', anchor: 'Золото'},
+                                {link: '/', anchor: 'Серебро'},
+                                {link: '/', anchor: 'Аккаунты'},
+                                {link: '/', anchor: 'Прокачка'},
+                                {link: '/', anchor: 'Наборы'},
+                                {link: '/', anchor: 'Донат'},
+                                {link: '/', anchor: 'Обучение'},
+                            ]}/>
+                        </Col>
+                    </Row>
+                </section>
+
+                <section id='sort-4' className='mb-6'>
+                    <div className='d-flex align-items-center mb-4 mb-sm-5'>
+                        <h3>Bb</h3>
+                        <hr className='horizontal flex-1 ms-4'/>
+                    </div>
+                    <Row xs={2} md={3} lg={4} className='gy-5 gx-4 gx-xl-5'>
+                        <Col>
+                            <GameMidi title={'Genshin Impact'} imgLink={'imgs/slider-main/genshin.jpg'} subLinksArr={[
+                                {link: '/', anchor: 'Золото'},
+                                {link: '/', anchor: 'Серебро'},
+                                {link: '/', anchor: 'Аккаунты'},
+                                {link: '/', anchor: 'Прокачка'},
+                                {link: '/', anchor: 'Наборы'},
+                                {link: '/', anchor: 'Донат'},
+                                {link: '/', anchor: 'Обучение'},
+                            ]}/>
+                        </Col>
+                        <Col>
+                            <GameMidi title={'Genshin Impact'} imgLink={'imgs/slider-main/genshin.jpg'} subLinksArr={[
+                                {link: '/', anchor: 'Золото'},
+                                {link: '/', anchor: 'Серебро'},
+                                {link: '/', anchor: 'Аккаунты'},
+                                {link: '/', anchor: 'Прокачка'},
+                                {link: '/', anchor: 'Наборы'},
+                                {link: '/', anchor: 'Донат'},
+                                {link: '/', anchor: 'Обучение'},
+                            ]}/>
+                        </Col>
+                        <Col>
+                            <GameMidi title={'Genshin Impact'} imgLink={'imgs/slider-main/genshin.jpg'} subLinksArr={[
+                                {link: '/', anchor: 'Золото'},
+                                {link: '/', anchor: 'Серебро'},
+                                {link: '/', anchor: 'Аккаунты'},
+                                {link: '/', anchor: 'Прокачка'},
+                                {link: '/', anchor: 'Наборы'},
+                                {link: '/', anchor: 'Донат'},
+                                {link: '/', anchor: 'Обучение'},
+                            ]}/>
+                        </Col>
+                        <Col>
+                            <GameMidi title={'Genshin Impact'} imgLink={'imgs/slider-main/genshin.jpg'} subLinksArr={[
+                                {link: '/', anchor: 'Золото'},
+                                {link: '/', anchor: 'Серебро'},
+                                {link: '/', anchor: 'Аккаунты'},
+                                {link: '/', anchor: 'Прокачка'},
+                                {link: '/', anchor: 'Наборы'},
+                                {link: '/', anchor: 'Донат'},
+                                {link: '/', anchor: 'Обучение'},
+                            ]}/>
+                        </Col>
+                        <Col>
+                            <GameMidi title={'Genshin Impact'} imgLink={'imgs/slider-main/genshin.jpg'} subLinksArr={[
+                                {link: '/', anchor: 'Золото'},
+                                {link: '/', anchor: 'Серебро'},
+                                {link: '/', anchor: 'Аккаунты'},
+                                {link: '/', anchor: 'Прокачка'},
+                                {link: '/', anchor: 'Наборы'},
+                                {link: '/', anchor: 'Донат'},
+                                {link: '/', anchor: 'Обучение'},
+                            ]}/>
+                        </Col>
+                        <Col>
+                            <GameMidi title={'Genshin Impact'} imgLink={'imgs/slider-main/genshin.jpg'} subLinksArr={[
+                                {link: '/', anchor: 'Золото'},
+                                {link: '/', anchor: 'Серебро'},
+                                {link: '/', anchor: 'Аккаунты'},
+                                {link: '/', anchor: 'Прокачка'},
+                                {link: '/', anchor: 'Наборы'},
+                                {link: '/', anchor: 'Донат'},
+                                {link: '/', anchor: 'Обучение'},
+                            ]}/>
+                        </Col>
+                        <Col>
+                            <GameMidi title={'Genshin Impact'} imgLink={'imgs/slider-main/genshin.jpg'} subLinksArr={[
+                                {link: '/', anchor: 'Золото'},
+                                {link: '/', anchor: 'Серебро'},
+                                {link: '/', anchor: 'Аккаунты'},
+                                {link: '/', anchor: 'Прокачка'},
+                                {link: '/', anchor: 'Наборы'},
+                                {link: '/', anchor: 'Донат'},
+                                {link: '/', anchor: 'Обучение'},
+                            ]}/>
+                        </Col>
+                        <Col>
+                            <GameMidi title={'Genshin Impact'} imgLink={'imgs/slider-main/genshin.jpg'} subLinksArr={[
+                                {link: '/', anchor: 'Золото'},
+                                {link: '/', anchor: 'Серебро'},
+                                {link: '/', anchor: 'Аккаунты'},
+                                {link: '/', anchor: 'Прокачка'},
+                                {link: '/', anchor: 'Наборы'},
+                                {link: '/', anchor: 'Донат'},
+                                {link: '/', anchor: 'Обучение'},
+                            ]}/>
+                        </Col>
+                    </Row>
+                </section>
+
+                <section id='sort-49' className='mb-6'>
+                    <div className='d-flex align-items-center mb-4 mb-sm-5'>
+                        <h3>Хх</h3>
                         <hr className='horizontal flex-1 ms-4'/>
                     </div>
                     <Row xs={2} md={3} lg={4} className='gy-5 gx-4 gx-xl-5'>

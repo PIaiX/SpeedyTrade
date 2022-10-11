@@ -2,15 +2,13 @@ import React, {useState} from 'react';
 import Container from 'react-bootstrap/Container';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import { Link } from 'react-router-dom';
-import { IoHomeOutline, IoGridOutline, IoSearchOutline, IoClose, IoCloseCircleOutline } from "react-icons/io5";
+import { IoHomeOutline, IoGridOutline, IoSearchOutline } from "react-icons/io5";
 import { VscAccount, VscCommentDiscussion, VscChromeClose } from "react-icons/vsc";
 import { FiSearch } from "react-icons/fi";
 import Sign from './utils/Sign';
 import Plaix from './utils/Plaix';
 
 function Footer(props) {
-    const currentYear = new Date().getFullYear();
-
     const [showMenu, setShowMenu] = useState(false)
     const handleCloseMenu = () => setShowMenu(false)
     const handleShowMenu = () => setShowMenu(true)

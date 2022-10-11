@@ -4,12 +4,14 @@
     --f-height: 100px;
     --transition: 300ms ease;
     --font-light: rgba(255, 255, 255, 0.9);
+    --gray: #8A8A8A;
     @media (max-width: 767px){
         --h-height: 60px;
         --f-height: 60px;
     }
 }
 :root[data-theme="light"] {
+    --total: #fff;
     --bg-main: #FCFCFC;
     --bg-2: #F05D66;
     --bg-3: #FFFBF9;
@@ -18,6 +20,8 @@
     --accent: linear-gradient(to right, #EB3349, #F45C43);
     --accent-br: #FF0000;
     --hr-color: #FCEEEE;
+
+    --search-btn: #E13F3F;
 
     --btn-1-bg: #FCFCFC;
     --btn-1-color: #B92730;
@@ -37,6 +41,7 @@
     --scroll-rgb: 255 149 156;
 }
 :root[data-theme="dark"] {
+    --total: #000;
     --bg-main: #05001C;
     --bg-2: #322054;
     --bg-3: #1F1F1F;
@@ -47,13 +52,12 @@
     --accent-br: #5736DB;
     --hr-color: #2B2831;
     
+    --search-btn: var(--font-color);
     --btn-1-bg: #5736DB;
     --btn-1-color: #FAF2FF;
-
     --btn-2-bg: #1C1C2A;
     --btn-2-border: #1C1C2A;
     --btn-2-color: #FAF2FF;
-
     --btn-3-bg: transparent;
     --btn-3-color: #FAF2FF;
     --btn-3-bg-active: var(--accent);
@@ -61,7 +65,6 @@
 
     --bubble: #25232A;
     --chat-border: #303030;
-
     --scroll-rgb: 255 255 255;
 }
 // "homepage": "https://ngf93.github.io/games",
@@ -80,6 +83,33 @@
     outline: none;
 }
 
+html {
+    scrollbar-color: rgba(var(--scroll-rgb) / .75) transparent;
+    scrollbar-width: thin;
+}
+::-webkit-scrollbar {
+    width: 3px;
+    height: 3px;
+    background-color: transparent;
+    &:hover, &:active {background: transparent;}
+}
+::-webkit-scrollbar-thumb {
+    background-color: rgba(var(--scroll-rgb) / .5);
+    border-radius: 3px;
+    transition: var(--transition);
+    &:hover {
+        background-color: rgba(var(--scroll-rgb) / .75);
+    }
+    &:active {
+        background-color: rgba(var(--scroll-rgb) / 1);
+    }
+}
+::-webkit-scrollbar-button:vertical:start:decrement,
+::-webkit-scrollbar-button:vertical:end:increment,
+::-webkit-scrollbar-button:horizontal:start:decrement,
+::-webkit-scrollbar-button:horizontal:end:increment {
+    display: none;
+}
 
 a, a:hover, a:focus, a:active {
     color: inherit;
@@ -301,6 +331,8 @@ body {
 }
 
 header {
+    position: relative;
+    z-index: 1050;
     height: var(--h-height);
     background-color: var(--bg-2);
     color: var(--font-light);
@@ -333,7 +365,9 @@ header {
         z-index: 2;
         width: 3em;
         font-size: 1.2em;
+        color: var(--search-btn);
         @include flex-center();
+        transition: var(--transition);
     }
 }
 .themes-switcher {
@@ -372,6 +406,56 @@ header {
                 left: 100%;
                 background-image: url(imgs/sun.svg);
                 transform: scale(1.5) translateX(-50%);
+            }
+        }
+    }
+}
+.fav {
+    &-btn {
+        font-size: 1.7em;
+        color: var(--accent);
+    }
+    &-box {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-items: flex-start;
+        button {
+            color: var(--gray);
+            margin-left: .35em;
+            font-size: 1.4em;
+            transition: var(--transition);
+            &:hover, &:focus, &:active {
+                color: var(--search-btn);
+            } 
+        }
+        ul {
+            list-style: none;
+            padding-left: 0px;
+            display: flex;
+            flex-wrap: wrap;
+            li {
+                border: 1px solid var(--hr-color);
+                color: var(--font-color);
+                background-color: transparent;
+                font-weight: 500;
+                @include flex-center();
+                padding: .25em .5em;
+                border-radius: 1em;
+                transition: var(--transition);
+                &:not(:first-child){
+                    margin-left: .5em;
+                }
+                &:hover, &:focus, &:active {
+                    background-color: var(--total); 
+                }
+                img {
+                    width: 1.35em;
+                    height: 1.35em;
+                    border-radius: 50%;
+                    object-fit: cover;
+                    margin-right: .5em;
+                }
             }
         }
     }
@@ -596,6 +680,12 @@ main {
     padding: .5em;
     border-radius: 1.5em;
     overflow: hidden;
+    .swiper {
+        width: 100%;
+        &-slide {
+            width: fit-content;
+        }
+    }
     ul {
         --line: 2.5em;
         --gap: .5em;
@@ -658,9 +748,6 @@ main {
     }
     hr {
         height: unset;
-        @media (max-width: 767px){
-            display: none;
-        }
     }
     &-more {
         font-size: 1.5em;
@@ -669,12 +756,6 @@ main {
         color: #fff;
         align-self: flex-end;
         transition: var(--transition);
-        &.less {
-            transform: rotate(-90deg);
-        }
-        @media (max-width: 767px){
-            display: none;
-        }
     }
 }
 .fixed-sort {
@@ -746,31 +827,6 @@ main {
     &-space {
         height: 570px;
         overflow-y: scroll;
-        scrollbar-color: rgba(var(--scroll-rgb) / .75) transparent;
-        scrollbar-width: thin;
-        &::-webkit-scrollbar {
-            width: 3px;
-            height: 3px;
-            background-color: transparent;
-            &:hover, &:active {background: transparent;}
-        }
-        &::-webkit-scrollbar-thumb {
-            background-color: rgba(var(--scroll-rgb) / .5);
-            border-radius: 3px;
-            transition: var(--transition);
-            &:hover {
-                background-color: rgba(var(--scroll-rgb) / .75);
-            }
-            &:active {
-                background-color: rgba(var(--scroll-rgb) / 1);
-            }
-        }
-        &::-webkit-scrollbar-button:vertical:start:decrement,
-        &::-webkit-scrollbar-button:vertical:end:increment,
-        &::-webkit-scrollbar-button:horizontal:start:decrement,
-        &::-webkit-scrollbar-button:horizontal:end:increment {
-            display: none;
-        }
     }
     &-box {
         display: flex;
@@ -894,7 +950,7 @@ footer {
     }
 }
 .dev {
-    color: #fff;
+    color: inherit;
     font-weight: 400;
     font-size: .95em;
     .color {
@@ -902,15 +958,29 @@ footer {
         font-size: 1.1em;
     }
 }
+
 .offcanvas {
     background-color: var(--bg-3);    
+    &.offcanvas-top {
+        height: fit-content;
+        .offcanvas-body {
+            padding: calc(var(--h-height) + 2em) 0 2em;
+        }
+    }
     &.offcanvas-bottom {
         height: fit-content;
+        .offcanvas-body {
+            padding: 2em 0 calc(var(--f-height) + 2em);
+        }
     }
     &.offcanvas-end {
         width: 575px;
+        .offcanvas-body {
+            padding: 2em 0 calc(var(--f-height) + 2em);
+        }
     }
-    &-body {
-        padding: 2em 0 calc(var(--f-height) + 2em);
+    .scrollable-area {
+        overflow-y: auto;
+        overflow-x: hidden;
     }
 }

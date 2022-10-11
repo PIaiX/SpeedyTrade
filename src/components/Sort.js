@@ -1,74 +1,140 @@
 import React, {useState} from 'react';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Offcanvas from 'react-bootstrap/Offcanvas';
 import { HiArrowNarrowRight } from "react-icons/hi";
+import { VscChromeClose } from "react-icons/vsc";
+
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { FreeMode, Mousewheel } from 'swiper';
+import 'swiper/css';
+import 'swiper/css/mousewheel';
+import 'swiper/css/free-mode';
+
+import { Link } from "react-scroll";
 
 function Sort(props) {
-    const [sortFull, setSortFull] = useState(false);
+    const [showSort, setShowSort] = useState(false)
+    const handleCloseSort = () => setShowSort(false)
+    const handleShowSort = () => setShowSort(true)
+
+    const offsetT = -80;
+
+    const Arr = [
+        {text: 'Топ', to: 'sort-1'}, 
+        {text: '0–9', to: 'sort-2'}, 
+        {text: 'A', to: 'sort-3'}, 
+        {text: 'B', to: 'sort-4'}, 
+        {text: 'C', to: 'sort-5'}, 
+        {text: 'D', to: 'sort-6'}, 
+        {text: 'E', to: 'sort-7'}, 
+        {text: 'F', to: 'sort-8'}, 
+        {text: 'G', to: 'sort-9'}, 
+        {text: 'H', to: 'sort-10'}, 
+        {text: 'I', to: 'sort-11'}, 
+        {text: 'J', to: 'sort-12'}, 
+        {text: 'K', to: 'sort-13'}, 
+        {text: 'L', to: 'sort-14'}, 
+        {text: 'M', to: 'sort-15'}, 
+        {text: 'N', to: 'sort-16'}, 
+        {text: 'O', to: 'sort-17'}, 
+        {text: 'P', to: 'sort-18'}, 
+        {text: 'Q', to: 'sort-19'}, 
+        {text: 'R', to: 'sort-20'}, 
+        {text: 'S', to: 'sort-21'}, 
+        {text: 'T', to: 'sort-22'}, 
+        {text: 'U', to: 'sort-23'}, 
+        {text: 'V', to: 'sort-24'}, 
+        {text: 'W', to: 'sort-25'}, 
+        {text: 'X', to: 'sort-26'}, 
+        {text: 'Y', to: 'sort-27'}, 
+        {text: 'Z', to: 'sort-28'}, 
+        {text: 'А', to: 'sort-29'}, 
+        {text: 'Б', to: 'sort-30'}, 
+        {text: 'В', to: 'sort-31'}, 
+        {text: 'Г', to: 'sort-32'},
+        {text: 'Д', to: 'sort-33'},
+        {text: 'Е', to: 'sort-34'},
+        {text: 'Ж', to: 'sort-35'},
+        {text: 'З', to: 'sort-36'},
+        {text: 'И', to: 'sort-37'}, 
+        {text: 'К', to: 'sort-38'},
+        {text: 'Л', to: 'sort-39'}, 
+        {text: 'М', to: 'sort-40'}, 
+        {text: 'Н', to: 'sort-41'}, 
+        {text: 'О', to: 'sort-42'}, 
+        {text: 'П', to: 'sort-43'}, 
+        {text: 'Р', to: 'sort-44'}, 
+        {text: 'С', to: 'sort-45'}, 
+        {text: 'Т', to: 'sort-46'}, 
+        {text: 'У', to: 'sort-47'}, 
+        {text: 'Ф', to: 'sort-48'}, 
+        {text: 'Х', to: 'sort-49'}, 
+        {text: 'Ц', to: 'sort-50'}, 
+        {text: 'Ч', to: 'sort-51'}, 
+        {text: 'Ш', to: 'sort-52'}, 
+        {text: 'Щ', to: 'sort-53'},
+        {text: 'Э', to: 'sort-54'},
+        {text: 'Ю', to: 'sort-55'},
+        {text: 'Я', to: 'sort-56'},
+    ];
+
+    const [sortSwiper, setSortSwiper] = useState(null);
+    const updateSlider = (i) => {
+        sortSwiper.slideTo(i)
+    }
+
 
     return (
+        <>
         <div className='sort'>
-            <ul className={(sortFull)?'full':''}>
-                <li><button type='button' className='btn-3'>Топ</button></li>
-                <li><button type='button' className='btn-3'>0–9</button></li>
-                <li><button type='button' className='btn-3'>A</button></li>
-                <li><button type='button' className='btn-3'>B</button></li>
-                <li><button type='button' className='btn-3'>C</button></li>
-                <li><button type='button' className='btn-3'>D</button></li>
-                <li><button type='button' className='btn-3'>E</button></li>
-                <li><button type='button' className='btn-3'>F</button></li>
-                <li><button type='button' className='btn-3'>G</button></li>
-                <li><button type='button' className='btn-3'>H</button></li>
-                <li><button type='button' className='btn-3'>I</button></li>
-                <li><button type='button' className='btn-3'>J</button></li>
-                <li><button type='button' className='btn-3'>K</button></li>
-                <li><button type='button' className='btn-3'>L</button></li>
-                <li><button type='button' className='btn-3'>M</button></li>
-                <li><button type='button' className='btn-3'>N</button></li>
-                <li><button type='button' className='btn-3'>O</button></li>
-                <li><button type='button' className='btn-3'>O</button></li>
-                <li><button type='button' className='btn-3'>Q</button></li>
-                <li><button type='button' className='btn-3'>R</button></li>
-                <li><button type='button' className='btn-3'>S</button></li>
-                <li><button type='button' className='btn-3'>T</button></li>
-                <li><button type='button' className='btn-3'>U</button></li>
-                <li><button type='button' className='btn-3'>V</button></li>
-                <li><button type='button' className='btn-3'>W</button></li>
-                <li><button type='button' className='btn-3'>X</button></li>
-                <li><button type='button' className='btn-3'>Y</button></li>
-                <li><button type='button' className='btn-3'>Z</button></li>
-                <li><button type='button' className='btn-3'>А</button></li>
-                <li><button type='button' className='btn-3'>Б</button></li>
-                <li><button type='button' className='btn-3'>В</button></li>
-                <li><button type='button' className='btn-3'>Г</button></li>
-                <li><button type='button' className='btn-3'>Д</button></li>
-                <li><button type='button' className='btn-3'>Е</button></li>
-                <li><button type='button' className='btn-3'>Ж</button></li>
-                <li><button type='button' className='btn-3'>З</button></li>
-                <li><button type='button' className='btn-3'>И</button></li>
-                <li><button type='button' className='btn-3'>К</button></li>
-                <li><button type='button' className='btn-3'>Л</button></li>
-                <li><button type='button' className='btn-3'>М</button></li>
-                <li><button type='button' className='btn-3'>Н</button></li>
-                <li><button type='button' className='btn-3'>О</button></li>
-                <li><button type='button' className='btn-3'>П</button></li>
-                <li><button type='button' className='btn-3'>Р</button></li>
-                <li><button type='button' className='btn-3'>С</button></li>
-                <li><button type='button' className='btn-3'>Т</button></li>
-                <li><button type='button' className='btn-3'>У</button></li>
-                <li><button type='button' className='btn-3'>Ф</button></li>
-                <li><button type='button' className='btn-3'>Х</button></li>
-                <li><button type='button' className='btn-3'>Ц</button></li>
-                <li><button type='button' className='btn-3'>Ч</button></li>
-                <li><button type='button' className='btn-3'>Ш</button></li>
-                <li><button type='button' className='btn-3'>Щ</button></li>
-                <li><button type='button' className='btn-3'>Э</button></li>
-                <li><button type='button' className='btn-3'>Ю</button></li>
-                <li><button type='button' className='btn-3'>Я</button></li>
-            </ul>
+            <Swiper
+                loop={false}
+                spaceBetween={0}
+                slidesPerView={'auto'}
+                watchSlidesProgress={true}
+                modules={[FreeMode, Mousewheel]}
+                mousewheel={true}
+                onSwiper={setSortSwiper}
+            >
+                {
+                    Arr.map((obj, index) => {
+                        return <SwiperSlide key={obj.to}>
+                            <Link className='btn-3' activeClass="active" to={obj.to} spy={true} smooth={true} offset={offsetT} duration={500} onSetActive={() => updateSlider(index)}>{obj.text}</Link>
+                        </SwiperSlide>
+                    })
+                }
+            </Swiper>
             <hr className='vertical mx-3'/>
-            <button type='button' className={(sortFull)?'sort-more less':'sort-more'} onClick={()=>setSortFull((sortFull)?false:true)}>
+            <button type='button' className='sort-more' onClick={handleShowSort}>
                 <HiArrowNarrowRight />
             </button>
         </div>
+        <Offcanvas show={showSort} placement={'end'} onHide={handleCloseSort}>
+            <Offcanvas.Body>
+                <Container className='h-100 d-flex flex-column justify-content-between px-sm-5'>
+                    <div className='d-flex align-itemc-center justify-content-between'>
+                        <h3>Каталог</h3>
+                        <button type='button' onClick={handleCloseSort} className='btn-4 px-3 py-2'>
+                            <VscChromeClose/>
+                        </button>
+                    </div>
+                    <div className='scrollable-area flex-1 mt-4' >
+                        <Row xs={4} className='g-3 g-sm-4'>
+                            {
+                                Arr.map((obj, index) => {
+                                    return <Col key={obj.to}>
+                                        <Link className='btn-4 px-2 w-100' activeClass="active" to={obj.to} spy={true} smooth={true} offset={offsetT} duration={500} onClick={handleCloseSort} onSetActive={() => updateSlider(index)}>{obj.text}</Link>
+                                    </Col>
+                                })
+                            }
+                        </Row>
+                    </div>
+                </Container>
+            </Offcanvas.Body>
+        </Offcanvas>
+        </>
     );
 }
 

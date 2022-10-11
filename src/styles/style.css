@@ -4,6 +4,7 @@
   --f-height: 100px;
   --transition: 300ms ease;
   --font-light: rgba(255, 255, 255, 0.9);
+  --gray: #8A8A8A;
 }
 @media (max-width: 767px) {
   :root {
@@ -13,6 +14,7 @@
 }
 
 :root[data-theme=light] {
+  --total: #fff;
   --bg-main: #FCFCFC;
   --bg-2: #F05D66;
   --bg-3: #FFFBF9;
@@ -21,6 +23,7 @@
   --accent: linear-gradient(to right, #EB3349, #F45C43);
   --accent-br: #FF0000;
   --hr-color: #FCEEEE;
+  --search-btn: #E13F3F;
   --btn-1-bg: #FCFCFC;
   --btn-1-color: #B92730;
   --btn-2-bg: transparent;
@@ -36,6 +39,7 @@
 }
 
 :root[data-theme=dark] {
+  --total: #000;
   --bg-main: #05001C;
   --bg-2: #322054;
   --bg-3: #1F1F1F;
@@ -45,6 +49,7 @@
   --accent: #5736DB;
   --accent-br: #5736DB;
   --hr-color: #2B2831;
+  --search-btn: var(--font-color);
   --btn-1-bg: #5736DB;
   --btn-1-color: #FAF2FF;
   --btn-2-bg: #1C1C2A;
@@ -60,6 +65,40 @@
 }
 
 /* mixins */
+html {
+  scrollbar-color: rgba(var(--scroll-rgb)/0.75) transparent;
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+  background-color: transparent;
+}
+::-webkit-scrollbar:hover, ::-webkit-scrollbar:active {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(var(--scroll-rgb)/0.5);
+  border-radius: 3px;
+  -webkit-transition: var(--transition);
+  transition: var(--transition);
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(var(--scroll-rgb)/0.75);
+}
+::-webkit-scrollbar-thumb:active {
+  background-color: rgba(var(--scroll-rgb)/1);
+}
+
+::-webkit-scrollbar-button:vertical:start:decrement,
+::-webkit-scrollbar-button:vertical:end:increment,
+::-webkit-scrollbar-button:horizontal:start:decrement,
+::-webkit-scrollbar-button:horizontal:end:increment {
+  display: none;
+}
+
 a, a:hover, a:focus, a:active {
   color: inherit;
   outline: none;
@@ -348,6 +387,8 @@ body {
 }
 
 header {
+  position: relative;
+  z-index: 1050;
   height: var(--h-height);
   background-color: var(--bg-2);
   color: var(--font-light);
@@ -382,9 +423,11 @@ header .container .menu {
   z-index: 2;
   width: 3em;
   font-size: 1.2em;
+  color: var(--search-btn);
   display: flex;
   justify-content: center;
   align-items: center;
+  transition: var(--transition);
 }
 
 .themes-switcher {
@@ -429,6 +472,58 @@ header .container .menu {
   left: 100%;
   background-image: url(imgs/sun.svg);
   transform: scale(1.5) translateX(-50%);
+}
+
+.fav-btn {
+  font-size: 1.7em;
+  color: var(--accent);
+}
+.fav-box {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.fav-box button {
+  color: var(--gray);
+  margin-left: 0.35em;
+  font-size: 1.4em;
+  transition: var(--transition);
+}
+.fav-box button:hover, .fav-box button:focus, .fav-box button:active {
+  color: var(--search-btn);
+}
+.fav-box ul {
+  list-style: none;
+  padding-left: 0px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.fav-box ul li {
+  border: 1px solid var(--hr-color);
+  color: var(--font-color);
+  background-color: transparent;
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.25em 0.5em;
+  border-radius: 1em;
+  transition: var(--transition);
+}
+.fav-box ul li:not(:first-child) {
+  margin-left: 0.5em;
+}
+.fav-box ul li:hover, .fav-box ul li:focus, .fav-box ul li:active {
+  background-color: var(--total);
+}
+.fav-box ul li img {
+  width: 1.35em;
+  height: 1.35em;
+  border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  margin-right: 0.5em;
 }
 
 main {
@@ -687,6 +782,14 @@ main {
   border-radius: 1.5em;
   overflow: hidden;
 }
+.sort .swiper {
+  width: 100%;
+}
+.sort .swiper-slide {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+}
 .sort ul {
   --line: 2.5em;
   --gap: .5em;
@@ -761,11 +864,6 @@ main {
 .sort hr {
   height: unset;
 }
-@media (max-width: 767px) {
-  .sort hr {
-    display: none;
-  }
-}
 .sort-more {
   font-size: 1.5em;
   width: 1.5em;
@@ -773,14 +871,6 @@ main {
   color: #fff;
   align-self: flex-end;
   transition: var(--transition);
-}
-.sort-more.less {
-  transform: rotate(-90deg);
-}
-@media (max-width: 767px) {
-  .sort-more {
-    display: none;
-  }
 }
 
 .fixed-sort {
@@ -858,31 +948,6 @@ main {
 .chat-space {
   height: 570px;
   overflow-y: scroll;
-  scrollbar-color: rgba(var(--scroll-rgb)/0.75) transparent;
-  scrollbar-width: thin;
-}
-.chat-space::-webkit-scrollbar {
-  width: 3px;
-  height: 3px;
-  background-color: transparent;
-}
-.chat-space::-webkit-scrollbar:hover, .chat-space::-webkit-scrollbar:active {
-  background: transparent;
-}
-.chat-space::-webkit-scrollbar-thumb {
-  background-color: rgba(var(--scroll-rgb)/0.5);
-  border-radius: 3px;
-  -webkit-transition: var(--transition);
-  transition: var(--transition);
-}
-.chat-space::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(var(--scroll-rgb)/0.75);
-}
-.chat-space::-webkit-scrollbar-thumb:active {
-  background-color: rgba(var(--scroll-rgb)/1);
-}
-.chat-space::-webkit-scrollbar-button:vertical:start:decrement, .chat-space::-webkit-scrollbar-button:vertical:end:increment, .chat-space::-webkit-scrollbar-button:horizontal:start:decrement, .chat-space::-webkit-scrollbar-button:horizontal:end:increment {
-  display: none;
 }
 .chat-box {
   display: flex;
@@ -1022,7 +1087,7 @@ footer nav.mobile a.active, footer nav.mobile button.active {
 }
 
 .dev {
-  color: #fff;
+  color: inherit;
   font-weight: 400;
   font-size: 0.95em;
 }
@@ -1034,14 +1099,29 @@ footer nav.mobile a.active, footer nav.mobile button.active {
 .offcanvas {
   background-color: var(--bg-3);
 }
+.offcanvas.offcanvas-top {
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+.offcanvas.offcanvas-top .offcanvas-body {
+  padding: calc(var(--h-height) + 2em) 0 2em;
+}
 .offcanvas.offcanvas-bottom {
   height: -webkit-fit-content;
   height: -moz-fit-content;
   height: fit-content;
 }
+.offcanvas.offcanvas-bottom .offcanvas-body {
+  padding: 2em 0 calc(var(--f-height) + 2em);
+}
 .offcanvas.offcanvas-end {
   width: 575px;
 }
-.offcanvas-body {
+.offcanvas.offcanvas-end .offcanvas-body {
   padding: 2em 0 calc(var(--f-height) + 2em);
+}
+.offcanvas .scrollable-area {
+  overflow-y: auto;
+  overflow-x: hidden;
 }/*# sourceMappingURL=style.css.map */

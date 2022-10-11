@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
+import { Link } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
 import ThemeToggler from './ThemeToggler';
 import { FiSearch, FiMessageCircle } from "react-icons/fi";
-import { HiBookmark } from "react-icons/hi";
 import { IoCaretDown } from "react-icons/io5";
 import Sort from './Sort';
+import Favorites from './Favorites';
 
 function Header(props) {
     const [sortVisible, setSortVisible] = useState(false)
@@ -30,17 +31,15 @@ function Header(props) {
             <header>
                 <Container>
                     <div className='d-flex align-items-center'>
-                        <a href='/' className='me-4'><img src='imgs/logo.svg' alt='Games.ru'/></a>
+                        <Link to='/' className='me-4'><img src='imgs/logo.svg' alt='Games.ru'/></Link>
                         <form className='form-search d-none d-md-flex'>
                             <input type='search' placeholder='Поиск по играм'/>
                             <button type='submit'>
                                 <FiSearch />
                             </button>
                         </form>
-                        <hr className='vertical d-none d-lg-block mx-3 mx-xl-4' />
-                        <a href='/' className='d-none d-lg-block fs-17 accent'>
-                            <HiBookmark/>
-                        </a>
+                        <hr className='vertical d-none d-md-block mx-3 mx-xl-4' />
+                        <Favorites />
                     </div>
                     <div className='d-none d-md-flex align-items-center'>
                         <button type='button'>Помощь <IoCaretDown className='fs-08'/></button>
