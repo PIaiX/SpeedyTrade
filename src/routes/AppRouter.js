@@ -1,8 +1,9 @@
-import React from 'react';
-import { useRoutes, useLocation } from "react-router-dom";
-import { useLayoutEffect } from "react";
-import Layout from '../components/Layout';
-import Home from '../pages/Home';
+import React from 'react'
+import { useRoutes, useLocation } from "react-router-dom"
+import { useLayoutEffect } from "react"
+import Layout from '../components/Layout'
+import Home from '../pages/Home'
+import Account from '../pages/account/Account'
 
 export const routeList = [
     {
@@ -10,10 +11,7 @@ export const routeList = [
       element: <Layout/>,
       children: [
         {index: true, element: <Home />},
-        // {path: 'registration', element: <Registration /> , breadcrumb: 'Регистрация'},
-        // {path: 'login', element: <Login /> , breadcrumb: 'Вход в личный кабинет'},
-        // {path: 'reset-password', element: <ResetPassword /> , breadcrumb: 'Восстановление пароля'},
-        // {path: 'personal-account/*', element: <PersonalAccount /> , breadcrumb: 'Личный кабинет'},
+        {path: 'account/*', element: <Account/>},
       ],
     },
   ];
@@ -29,7 +27,7 @@ export default function AppRouter() {
   
     return (
       <Wrapper>
-          {element}
+        {element}
       </Wrapper>
     );
   }

@@ -21,12 +21,15 @@ import ChatWindow from '../components/ChatWindow';
 
 import { HiArrowNarrowLeft, HiArrowNarrowRight } from "react-icons/hi";
 import News from '../components/News';
+import SortSection from '../components/SortSection';
 
 export default function Home(props) {
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
     return (
         <main>
+            <SortSection />
+            
             <Container fluid="md" className='px-mobile-0'>
                 <section className='main-slider mb-6'>
                     <Swiper
