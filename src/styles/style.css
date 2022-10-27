@@ -294,6 +294,58 @@ label span {
   transition: var(--transition);
 }
 
+.react-select__control {
+  border-radius: 10px !important;
+  border: 1px solid var(--achromat-4) !important;
+  background-color: var(--total) !important;
+  transition: var(--transition);
+}
+.react-select__control--is-focused {
+  border: 1px solid var(--color-3) !important;
+  box-shadow: none !important;
+}
+.react-select__value-container {
+  padding: 0.75em 0em 0.75em 0.85em !important;
+}
+.react-select__single-value {
+  color: var(--achromat-1) !important;
+}
+.react-select__indicator {
+  color: var(--achromat-3) !important;
+  transition: var(--transition);
+  cursor: pointer;
+}
+.react-select__indicator:hover {
+  color: var(--color-3) !important;
+}
+.react-select__indicator-separator {
+  display: none;
+}
+.react-select__menu {
+  font-size: 0.9em;
+  min-width: 150px;
+  background-color: var(--total) !important;
+  border: 1px solid var(--achromat-4) !important;
+  border-radius: 10px !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+.react-select__option {
+  transition: var(--transition);
+}
+.react-select__option:hover, .react-select__option:focus, .react-select__option:active, .react-select__option--is-focused {
+  background-color: var(--achromat-4) !important;
+  color: var(--achromat-2);
+}
+.react-select__option--is-selected {
+  background-color: var(--color-3) !important;
+  color: #fff;
+}
+.react-select__input-container {
+  margin: 0px !important;
+  padding: 0px !important;
+}
+
 button {
   background: none;
   border: none;
@@ -367,6 +419,21 @@ button {
 }
 .btn-5:hover, .btn-5:focus, .btn-5:active, .btn-5.active {
   background-color: var(--color-1);
+  color: var(--bg-main);
+}
+.btn-simple {
+  border: none;
+  padding: 0.25em 0.5em;
+  border-radius: 10px;
+  background-color: transparent;
+  color: var(--achromat-2);
+}
+.btn-simple::after {
+  content: unset;
+}
+.btn-simple:hover, .btn-simple:focus, .btn-simple:active, .btn-simple.active {
+  background-color: var(--color-4);
+  color: var(--achromat-5);
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -403,6 +470,13 @@ h4 {
 h5 {
   font-size: 1.1em;
   font-weight: 500;
+  margin-bottom: 1em;
+}
+
+h6 {
+  font-size: 1.3em;
+  font-weight: 400;
+  text-align: left;
   margin-bottom: 1em;
 }
 
@@ -481,6 +555,10 @@ h5 {
   color: var(--color-1);
 }
 
+.color-2 {
+  color: var(--color-2);
+}
+
 .accent {
   color: var(--accent-br);
 }
@@ -556,6 +634,80 @@ hr.horizontal {
   margin-left: 0.25em;
 }
 
+.pagination {
+  width: 100%;
+}
+.pagination ul {
+  width: 100%;
+  list-style: none;
+  padding-left: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.pagination ul li:not(:first-child) {
+  margin-left: 0.5em;
+}
+.pagination ul li a, .pagination ul li button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--achromat-2);
+  width: 2.6em;
+  height: 2.6em;
+  border: 1px solid var(--achromat-4);
+  border-radius: 50%;
+}
+.pagination ul li a:hover, .pagination ul li a:focus, .pagination ul li button:hover, .pagination ul li button:focus {
+  color: var(--color-3);
+  border: 1px solid var(--color-3);
+}
+.pagination ul li a:active, .pagination ul li a.active, .pagination ul li button:active, .pagination ul li button.active {
+  color: var(--color-1);
+  border: 1px solid var(--color-1);
+}
+
+.table th {
+  font-size: 1.3em;
+  font-weight: 400;
+  color: var(--achromat-1);
+  vertical-align: middle;
+}
+.table th div {
+  font-size: 0.8em;
+  color: var(--achromat-3);
+}
+.table td {
+  font-size: 1em;
+  color: var(--achromat-2);
+}
+
+.dropdown-menu {
+  border-radius: 1em;
+  background-color: var(--achromat-5);
+  border: 1px solid var(--achromat-4);
+}
+.dropdown-item {
+  color: var(--achromat-2);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  transition: var(--transition);
+}
+.dropdown-item:hover, .dropdown-item:focus {
+  background-color: var(--achromat-4);
+  color: var(--achromat-2);
+}
+.dropdown-item:active {
+  background-color: var(--color-1);
+  color: var(--achromat-5);
+}
+.dropdown-item svg {
+  font-size: 1.3em;
+  margin-right: 0.2em;
+}
+
 body {
   margin: 0;
   font-family: "Ubuntu";
@@ -616,6 +768,7 @@ header .container .menu {
   width: 2em;
   height: 1em;
   border-radius: 1em;
+  border: none !important;
   padding: 0px;
   cursor: pointer;
   background-color: rgba(0, 0, 0, 0.15);
@@ -629,6 +782,7 @@ header .container .menu {
   background-repeat: no-repeat;
   background-size: 1em;
   transition: all var(--transition);
+  border: none !important;
   left: 0%;
   background-image: url(imgs/moon.svg);
   transform: scale(1.5) translateX(-25%);
@@ -1196,36 +1350,36 @@ main {
   font-size: 0.95em;
 }
 
-.account nav {
+.account nav.menu {
   padding: 2em;
   background-color: var(--total);
   border: 1px solid var(--achromat-4);
   border-radius: 1.3em;
 }
-.account nav ul {
+.account nav.menu ul {
   list-style: none;
   padding-left: 0px;
 }
-.account nav ul li a, .account nav ul li button {
+.account nav.menu ul li a, .account nav.menu ul li button {
   padding: 1em 0;
   display: flex;
   align-items: center;
   justify-content: flex-start;
 }
-.account nav ul li a span, .account nav ul li button span {
+.account nav.menu ul li a span, .account nav.menu ul li button span {
   font-size: 1.1em;
   margin-left: 1em;
   color: var(--achromat-1);
 }
-.account nav ul li a svg, .account nav ul li button svg {
+.account nav.menu ul li a svg, .account nav.menu ul li button svg {
   font-size: 1.6em;
   color: var(--color-2);
 }
-.account nav ul li a.active span, .account nav ul li button.active span {
+.account nav.menu ul li a.active span, .account nav.menu ul li button.active span {
   font-weight: 700;
   color: var(--color-1);
 }
-.account nav ul li a.active svg, .account nav ul li button.active svg {
+.account nav.menu ul li a.active svg, .account nav.menu ul li button.active svg {
   color: var(--color-1);
 }
 .account .main {

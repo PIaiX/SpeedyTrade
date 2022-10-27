@@ -4,6 +4,7 @@ import AccountLayout from '../pages/account/AccountLayout'
 import AccountMenu from '../pages/account/AccountMenu'
 import History from '../pages/account/History'
 import MyAds from '../pages/account/MyAds'
+import PostAd from '../pages/account/PostAd'
 import SaleHistory from '../pages/account/SaleHistory'
 import UserProfile from '../pages/account/UserProfile'
 
@@ -18,6 +19,7 @@ const AccountRouter = ({isMobile}) => {
                 }
                 <Route path="profile" element={<UserProfile/>}/>
                 <Route path="ads" element={<MyAds/>}/>
+                <Route path="ads/new" element={<PostAd/>}/>
                 <Route path="history" element={<History/>}/>
                 <Route path="sales" element={<SaleHistory/>}/>
             </Route>

@@ -2,14 +2,14 @@ import React from 'react'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Table from 'react-bootstrap/Table'
-import Dropdown from 'react-bootstrap/Dropdown'
-import { IoEllipsisHorizontal } from "react-icons/io5"
+import AdsTr from '../../components/AdsTr'
+import { Link } from 'react-router-dom'
 
 const MyAds = () => {
     return (
         <div className='main'>
             <h4 className='color-1'>Мои объявления</h4>
-            <button type='button' className='btn-5'>+ Разместить новое объявление</button>
+            <Link to='new' className='btn-5'>+ Разместить новое объявление</Link>
             <Row md={3} className='mt-4'>
                 <Col className='d-flex align-items-center'>
                     <span className='me-3'>Игра:</span>
@@ -46,7 +46,7 @@ const MyAds = () => {
                 </Col>
             </Row>
 
-            <Table borderless>
+            <Table borderless className='my-4'>
                 <thead>
                     <tr>
                         <th>Дата</th>
@@ -58,29 +58,19 @@ const MyAds = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>24.08.2022</td>
-                        <td>#CTWVZGG6</td>
-                        <td>4738</td>
-                        <td>ProjectSuperEssence.net Top Rang Step - Season 3, l8k-2568, Прочее, Без ранга, 150 шт., Avatar</td>
-                        <td>3 000 руб.</td>
-                        <td>
-                            
-                            <Dropdown align="end">
-                                <Dropdown.Toggle>
-                                    <IoEllipsisHorizontal/>
-                                </Dropdown.Toggle>
-
-                                <Dropdown.Menu>
-                                    <Dropdown.Item href="#/action-1">Редактировать</Dropdown.Item>
-                                    <Dropdown.Item href="#/action-2">Удалить запись</Dropdown.Item>
-                                </Dropdown.Menu>
-                            </Dropdown>
-                        </td>
-                    </tr>
+                    <AdsTr date={'24.08.2022'} order={'#CTWVZGG6'} level={'4738'} description={'ProjectSuperEssence.net Top Rang Step - Season 3, l8k-2568, Прочее, Без ранга, 150 шт., Avatar'} price={3000}/>
+                    <AdsTr date={'24.08.2022'} order={'#CTWVZGG6'} level={'4738'} description={'ProjectSuperEssence.net Top Rang Step - Season 3, l8k-2568, Прочее, Без ранга, 150 шт., Avatar'} price={3000}/>
+                    <AdsTr date={'24.08.2022'} order={'#CTWVZGG6'} level={'4738'} description={'ProjectSuperEssence.net Top Rang Step - Season 3, l8k-2568, Прочее, Без ранга, 150 шт., Avatar'} price={3000}/>
+                    <AdsTr date={'24.08.2022'} order={'#CTWVZGG6'} level={'4738'} description={'ProjectSuperEssence.net Top Rang Step - Season 3, l8k-2568, Прочее, Без ранга, 150 шт., Avatar'} price={3000}/>
+                    <AdsTr date={'24.08.2022'} order={'#CTWVZGG6'} level={'4738'} description={'ProjectSuperEssence.net Top Rang Step - Season 3, l8k-2568, Прочее, Без ранга, 150 шт., Avatar'} price={3000}/>
                 </tbody>
-                </Table>
-
+            </Table>
+            <nav className='pagination'>
+                <ul>
+                    <li><a href='/' className='active'>1</a></li>
+                    <li><button>2</button></li>
+                </ul>
+            </nav>
         </div>
     );
 };

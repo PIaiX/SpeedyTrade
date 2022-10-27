@@ -281,6 +281,65 @@ label {
         transition: var(--transition);
     }
 }
+.react-select {
+    &__control {
+      border-radius: 10px !important;
+      border: 1px solid var(--achromat-4) !important;
+      background-color: var(--total) !important;
+      transition: var(--transition);
+      &--is-focused {
+        border: 1px solid var(--color-3) !important;
+        box-shadow: none !important;
+      }
+    }
+  
+    &__value-container {
+      padding: 0.75em 0em 0.75em 0.85em !important;
+    }
+    &__single-value {
+        color: var(--achromat-1) !important;
+    }
+  
+    &__indicator {
+      color: var(--achromat-3) !important;
+      transition: var(--transition);
+      cursor: pointer;
+      &:hover {
+        color: var(--color-3) !important;
+      }
+    }
+  
+    &__indicator-separator {
+      display: none;
+    }
+  
+    &__menu {
+      font-size: 0.9em;
+      min-width: 150px;
+      background-color: var(--total) !important;
+      border: 1px solid var(--achromat-4) !important;
+      border-radius: 10px !important;
+      box-shadow: none !important;
+      outline: none !important;
+    }
+  
+    &__option {
+        transition: var(--transition);
+        &:hover, &:focus, &:active, &--is-focused {
+            background-color: var(--achromat-4) !important;
+            color: var(--achromat-2);
+        }
+        &--is-selected {
+            background-color: var(--color-3) !important;
+            color: #fff;
+        }
+    }
+  
+    &__input-container {
+      margin: 0px !important;
+      padding: 0px !important;
+    }
+}  
 
 button {
     background: none;
@@ -353,6 +412,19 @@ button {
         background-color: var(--color-3);
         &:hover, &:focus, &:active, &.active {
             background-color: var(--color-1);
+            color: var(--bg-main);
+        }
+    }
+    &-simple {
+        border: none;
+        padding: .25em .5em;
+        border-radius: 10px;
+        background-color: transparent;
+        color: var(--achromat-2);
+        &::after {content: unset;}
+        &:hover, &:focus, &:active, &.active {
+            background-color: var(--color-4);
+            color: var(--achromat-5);
         }
     }
 }
@@ -385,6 +457,12 @@ h5 {
     font-weight: 500;
     margin-bottom: 1em;
 }
+h6 {
+    font-size: 1.3em;
+    font-weight: 400;
+    text-align: left;
+    margin-bottom: 1em;
+}
 
 .fs {
     &-08 {font-size: 0.8em;}
@@ -414,7 +492,8 @@ h5 {
     &-9 {font-weight: 900;}
 }
 
-.color-1{color: var(--color-1);}
+.color-1 {color: var(--color-1);}
+.color-2 {color: var(--color-2);}
 .accent {color: var(--accent-br);}
 
 hr {
@@ -472,6 +551,76 @@ hr {
         &:not(:first-child){margin-left: .25em;}
     }
 }
+.pagination {
+    width: 100%;
+    ul {
+        width: 100%;
+        list-style: none;
+        padding-left: 0px;
+        @include flex-center();
+        li {
+            &:not(:first-child){margin-left: .5em;}
+            a, button {
+                @include flex-center();
+                color: var(--achromat-2);
+                width: 2.6em;
+                height: 2.6em;
+                border: 1px solid var(--achromat-4);
+                border-radius: 50%;
+                &:hover, &:focus {
+                    color: var(--color-3);
+                    border: 1px solid var(--color-3);
+                }
+                &:active, &.active {
+                    color: var(--color-1);
+                    border: 1px solid var(--color-1);
+                }
+            }
+        }
+    }
+}
+
+.table {
+    th {
+        font-size: 1.3em;
+        font-weight: 400;
+        color: var(--achromat-1);
+        vertical-align: middle;
+        div {
+            font-size: .8em;
+            color: var(--achromat-3);
+        }
+    }
+    td {
+        font-size: 1em;
+        color: var(--achromat-2);
+    }
+}
+.dropdown {
+    &-menu {
+        border-radius: 1em;
+        background-color: var(--achromat-5);
+        border: 1px solid var(--achromat-4);
+    }
+    &-item {
+        color: var(--achromat-2);
+        @include flex-center();
+        background-color: transparent;
+        transition: var(--transition);
+        &:hover, &:focus {
+            background-color: var(--achromat-4);
+            color: var(--achromat-2);
+        }
+        &:active {
+            background-color: var(--color-1);
+            color: var(--achromat-5);
+        }
+        svg {
+            font-size: 1.3em;
+            margin-right: .2em;
+        }
+    }
+}
 
 
 body {
@@ -523,6 +672,7 @@ header {
         width: 2em;
         height: 1em;
         border-radius: 1em;
+        border: none !important;
         padding: 0px;
         cursor: pointer;
         //light theme
@@ -536,6 +686,7 @@ header {
             background-repeat: no-repeat;
             background-size: 1em;
             transition: all var(--transition);
+            border: none !important;
             //light theme
             left: 0%;
             background-image: url(imgs/moon.svg);
@@ -1044,7 +1195,7 @@ main {
 
 
 .account {
-    nav {
+    nav.menu {
         @include box();
         ul {
             list-style: none;

@@ -4,7 +4,7 @@ import { BiUserCircle, BiNews, BiHistory, BiBookOpen, BiEnvelope, BiWallet, BiCo
 
 export default function AccountMenu() {
     return (
-        <nav>
+        <nav className='menu'>
             <ul>
                 <li>
                     <NavLink to='profile'>

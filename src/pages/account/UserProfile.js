@@ -1,5 +1,4 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import StarRating from '../../components/utils/StarRating'
@@ -108,7 +107,6 @@ export default function UserProfile() {
                     </form>
                 </Col>
                 <Col lg={4}>
-                {/* imgUrl={'imgs/user.png'} */}
                     <UserPhoto imgUrl={'imgs/user.png'} name={'Колесникова Ирина'} />
                     <h4 className='text-center color-1'>Колесникова Ирина</h4>
                     <StarRating rate={4.35} />
