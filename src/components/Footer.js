@@ -49,7 +49,7 @@ function Footer(props) {
                                 </button>
                             </li>
                             <li>
-                                <Link to='/'><VscAccount /></Link>
+                                <Link to='/account'><VscAccount /></Link>
                             </li>
                             <li>
                                 <Link to='/'><VscCommentDiscussion /></Link>
