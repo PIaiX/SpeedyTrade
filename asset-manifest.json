@@ -1,15 +1,16 @@
 {
   "files": {
-    "main.css": "/games/static/css/main.a5dbf074.css",
-    "main.js": "/games/static/js/main.5ce9ad8f.js",
-    "static/media/moon.svg": "/games/static/media/moon.33bfce2614f062857a3f.svg",
-    "static/media/sun.svg": "/games/static/media/sun.0d801ea28a9e8b3e6bc4.svg",
-    "index.html": "/games/index.html",
-    "main.a5dbf074.css.map": "/games/static/css/main.a5dbf074.css.map",
-    "main.5ce9ad8f.js.map": "/games/static/js/main.5ce9ad8f.js.map"
+    "main.css": "/static/css/main.955be02a.css",
+    "main.js": "/static/js/main.ffd1859d.js",
+    "static/media/moon.svg": "/static/media/moon.33bfce2614f062857a3f.svg",
+    "static/media/sun.svg": "/static/media/sun.0d801ea28a9e8b3e6bc4.svg",
+    "index.html": "/index.html",
+    "static/media/chevron-down.svg": "/static/media/chevron-down.09ed81fe9283bc5023aa.svg",
+    "main.955be02a.css.map": "/static/css/main.955be02a.css.map",
+    "main.ffd1859d.js.map": "/static/js/main.ffd1859d.js.map"
   },
   "entrypoints": [
-    "static/css/main.a5dbf074.css",
-    "static/js/main.5ce9ad8f.js"
+    "static/css/main.955be02a.css",
+    "static/js/main.ffd1859d.js"
   ]
 }
