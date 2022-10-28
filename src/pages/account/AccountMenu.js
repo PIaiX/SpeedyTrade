@@ -19,7 +19,7 @@ export default function AccountMenu() {
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to='history'>
+                    <NavLink to='purchase-history'>
                         <BiHistory/>
                         <span>История покупок</span>
                     </NavLink>

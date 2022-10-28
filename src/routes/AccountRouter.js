@@ -2,10 +2,11 @@ import React from 'react'
 import {Route, Routes, Navigate} from 'react-router-dom'
 import AccountLayout from '../pages/account/AccountLayout'
 import AccountMenu from '../pages/account/AccountMenu'
-import History from '../pages/account/History'
+import PurchaseHistory from '../pages/account/PurchaseHistory'
 import MyAds from '../pages/account/MyAds'
 import PostAd from '../pages/account/PostAd'
-import SaleHistory from '../pages/account/SaleHistory'
+import Finance from '../pages/account/Finance'
+import SalesHistory from '../pages/account/SalesHistory'
 import UserProfile from '../pages/account/UserProfile'
 
 
@@ -20,8 +21,9 @@ const AccountRouter = ({isMobile}) => {
                 <Route path="profile" element={<UserProfile/>}/>
                 <Route path="ads" element={<MyAds/>}/>
                 <Route path="ads/new" element={<PostAd/>}/>
-                <Route path="history" element={<History/>}/>
-                <Route path="sales" element={<SaleHistory/>}/>
+                <Route path="purchase-history" element={<PurchaseHistory/>}/>
+                <Route path="sales" element={<SalesHistory/>}/>
+                <Route path="finance" element={<Finance />}/>
             </Route>
         </Routes>
     );

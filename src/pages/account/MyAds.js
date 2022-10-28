@@ -4,6 +4,7 @@ import Col from 'react-bootstrap/Col'
 import Table from 'react-bootstrap/Table'
 import AdsTr from '../../components/AdsTr'
 import { Link } from 'react-router-dom'
+import Pagination from '../../components/Pagination'
 
 const MyAds = () => {
     return (
@@ -65,12 +66,7 @@ const MyAds = () => {
                     <AdsTr date={'24.08.2022'} order={'#CTWVZGG6'} level={'4738'} description={'ProjectSuperEssence.net Top Rang Step - Season 3, l8k-2568, Прочее, Без ранга, 150 шт., Avatar'} price={3000}/>
                 </tbody>
             </Table>
-            <nav className='pagination'>
-                <ul>
-                    <li><a href='/' className='active'>1</a></li>
-                    <li><button>2</button></li>
-                </ul>
-            </nav>
+            <Pagination />
         </div>
     );
 };

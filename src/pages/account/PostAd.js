@@ -3,6 +3,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Select from 'react-select'
 import Table from 'react-bootstrap/Table'
+import AdsTr2 from '../../components/AdsTr2'
 
 const optionsPlatform = [
     { value: '1', label: 'Платформа 1' },
@@ -66,7 +67,7 @@ const PostAd = () => {
                     </Col>
                     <Col md={2}>Цена:</Col>
                     <Col md={4} className='d-flex align-items-center'>
-                        <input type='number' placeholder='0'/>
+                        <input type='number' placeholder='0' className='flex-1'/>
                         <span className='ms-3'>руб.</span>
                     </Col>
                     <Col xs={12}>
@@ -92,12 +93,10 @@ const PostAd = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr></tr>
-                                <tr></tr>
-                                <tr></tr>
-                                <tr></tr>
-                                <tr></tr>
-                                <tr></tr>
+                                <AdsTr2 />
+                                <AdsTr2 />
+                                <AdsTr2 />
+                                <AdsTr2 />
                             </tbody>
                         </Table>
                     </Col>
