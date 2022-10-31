@@ -72,6 +72,7 @@ const Finance = () => {
                                         <span className='mx-2'>/</span>
                                         <input type='number' placeholder='ГГ'/>
                                     </div>
+                                    <img src='imgs/bank/visa.png' alt='visa' className='bank-type'/>
                                 </div>
                                 <div className='back'>
                                     <div className='mb-2'>CVV/CVC:</div>
@@ -84,7 +85,7 @@ const Finance = () => {
 
                     <label className='mt-5'>
                         <input type='checkbox'/>
-                        <span>Запомнить карту. Сохраняя карту, вы соглашаетесь с <a href='/'>условиями привязки карты</a></span>
+                        <span>Запомнить карту. Сохраняя карту, вы соглашаетесь с <a href='/' className='color-4 text-decoration-underline'>условиями привязки карты</a></span>
                     </label>
                     <button type='button' disabled={true} className='btn-5 mt-5'>Оплатить {sum} руб.</button>
                 </form>

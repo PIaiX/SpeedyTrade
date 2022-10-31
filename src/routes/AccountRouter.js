@@ -8,6 +8,9 @@ import PostAd from '../pages/account/PostAd'
 import Finance from '../pages/account/Finance'
 import SalesHistory from '../pages/account/SalesHistory'
 import UserProfile from '../pages/account/UserProfile'
+import Messages from '../pages/account/Messages'
+import MessageWindow from '../pages/account/MessageWindow'
+import Help from '../pages/account/Help'
 
 
 const AccountRouter = ({isMobile}) => {
@@ -24,6 +27,9 @@ const AccountRouter = ({isMobile}) => {
                 <Route path="purchase-history" element={<PurchaseHistory/>}/>
                 <Route path="sales" element={<SalesHistory/>}/>
                 <Route path="finance" element={<Finance />}/>
+                <Route path="messages" element={<Messages />}/>
+                <Route path="messages/chat" element={<MessageWindow />}/>
+                <Route path="help" element={<Help/>}/>
             </Route>
         </Routes>
     );

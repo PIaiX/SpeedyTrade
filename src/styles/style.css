@@ -413,6 +413,52 @@ fieldset legend {
   margin-bottom: 1em;
 }
 
+.input-file {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 3em;
+  height: 3em;
+  color: var(--achromat-2);
+  transition: var(--transition);
+  cursor: pointer;
+}
+.input-file:hover {
+  color: var(--color-1);
+}
+.input-file input {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  top: 0px;
+  left: 0px;
+  padding: 0px;
+}
+.input-file svg {
+  font-size: 1.5em;
+}
+.input-file .ind {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  background-color: var(--color-1);
+  color: var(--total);
+  font-size: 0.8em;
+  width: 1.4em;
+  height: 1.4em;
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+.input-file .ind:empty {
+  display: none;
+}
+
 button {
   background: none;
   border: none;
@@ -634,6 +680,18 @@ h6 {
   color: var(--color-2);
 }
 
+.color-3 {
+  color: var(--color-3);
+}
+
+.color-4 {
+  color: var(--color-4);
+}
+
+.color-5 {
+  color: var(--color-5);
+}
+
 .achromat-1 {
   color: var(--achromat-1);
 }
@@ -784,6 +842,7 @@ hr.horizontal {
   display: flex;
   justify-content: center;
   align-items: center;
+  justify-content: flex-start;
   background-color: transparent;
   transition: var(--transition);
   padding: 0.5em 1em;
@@ -1499,6 +1558,7 @@ main {
   background-color: var(--total);
   border: 1px solid var(--achromat-4);
   border-radius: 1.3em;
+  overflow: hidden;
 }
 .account .user-photo {
   display: block;
@@ -1614,6 +1674,15 @@ main {
   position: relative;
   z-index: 1;
 }
+.account .card-imitation .front img {
+  position: absolute;
+  bottom: 20%;
+  right: 2em;
+  max-width: 70px;
+  max-height: 25px;
+  -o-object-fit: contain;
+     object-fit: contain;
+}
 .account .card-imitation .back {
   position: absolute;
   bottom: 0px;
@@ -1634,6 +1703,185 @@ main {
   position: absolute;
   top: 30px;
   left: 0px;
+}
+.account .messages-list {
+  list-style: none;
+  padding-left: 0px;
+}
+.account .messages-list-preview {
+  --bg: var(--total);
+  background-color: var(--bg);
+  width: 100%;
+  display: grid;
+  grid-template-columns: 140px auto 180px;
+  grid-template-rows: 1fr 1fr;
+  border-top: 1px solid var(--achromat-4);
+  border-bottom: 1px solid var(--achromat-4);
+  gap: 0 1.5em;
+  padding: 1em 2em;
+  transition: var(--transition);
+}
+.account .messages-list-preview:hover {
+  --bg: var(--achromat-0);
+}
+.account .messages-list-preview:hover .controls {
+  opacity: 1;
+}
+.account .messages-list-preview .img {
+  grid-column: 1/2;
+  grid-row: 1/3;
+  position: relative;
+}
+.account .messages-list-preview .img img {
+  width: 100%;
+  height: 140px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 50%;
+}
+.account .messages-list-preview .img .indicator {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  width: 2em;
+  height: 2em;
+  border-radius: 50%;
+  background-color: var(--achromat-4);
+  border: 4px solid var(--bg);
+}
+.account .messages-list-preview .img .indicator.online {
+  background-color: var(--green);
+}
+.account .messages-list-preview .img .indicator.unread {
+  background-color: var(--color-2);
+}
+.account .messages-list-preview .header {
+  grid-column: 2/3;
+  grid-row: 1/2;
+  min-width: 0;
+}
+.account .messages-list-preview .message {
+  grid-column: 2/3;
+  grid-row: 2/3;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+.account .messages-list-preview .message img {
+  width: 40px;
+  height: 40px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 50%;
+}
+.account .messages-list-preview .message div {
+  margin-left: 1em;
+  flex: 1;
+  display: flex;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.account .messages-list-preview .date {
+  grid-column: 3/4;
+  grid-row: 1/2;
+}
+.account .messages-list-preview .count {
+  grid-column: 3/4;
+  grid-row: 2/3;
+  display: flex;
+  align-items: center;
+}
+.account .messages-list-preview .count span {
+  background-color: var(--color-2);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 700;
+  width: 1.5em;
+  height: 1.5em;
+  border-radius: 50%;
+}
+.account .messages-list-preview .controls {
+  background-color: var(--bg);
+  grid-column: 3/4;
+  grid-row: 2/3;
+  opacity: 0;
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+.account .messages-list-preview .controls button {
+  display: flex;
+  align-items: center;
+  transition: var(--transition);
+}
+.account .messages-list-preview .controls button:hover {
+  color: var(--color-1);
+}
+.account .message-window {
+  height: 630px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.account .message-window .top {
+  background-color: var(--achromat-0);
+  height: 100px;
+  padding: 1em 2em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
+}
+.account .message-window .top .img {
+  width: 60px;
+  height: 60px;
+  position: relative;
+}
+.account .message-window .top .img img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 50%;
+}
+.account .message-window .top .img .indicator {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  background-color: var(--achromat-4);
+  border: 2px solid var(--total);
+}
+.account .message-window .top .img .indicator.online {
+  background-color: var(--green);
+}
+.account .message-window .top .img .indicator.unread {
+  background-color: var(--color-2);
+}
+.account .message-window .middle {
+  flex: 1;
+  overflow-y: scroll;
+}
+.account .message-window form {
+  background-color: var(--achromat-0);
+  height: 75px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1em 2em;
+  border-top: 1px solid var(--achromat-4);
+}
+.account .message-window form button {
+  font-size: 1.5em;
+  margin-left: 0.75em;
 }
 
 footer {
