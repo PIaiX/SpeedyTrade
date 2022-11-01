@@ -21,14 +21,14 @@ const MessageWindow = () => {
                 <div className='top'>
                     <Link to='/account/messages'>
                         <FiChevronLeft className='fs-13'/>
-                        <span className='ms-2'>Назад</span>
+                        <span className='d-none d-sm-inline ms-2'>Назад</span>
                     </Link>
                     <div className='text-center'>
-                        <h4 className='color-1 mb-2'>Иванченко Дарья</h4>
+                        <h4 className='color-1 mb-0 mb-sm-2'>Иванченко Дарья</h4>
                         <div className='fs-09'>Был(а) онлайн 15 минут назад</div>
                     </div>
                     <div className='d-flex align-items-center'>
-                        <div className='img me-4'>
+                        <div className='img me-2 me-sm-4'>
                             <img src='imgs/user2.png' alt='Иванченко Дарья'/>
                             <div className='indicator'></div>
                         </div>

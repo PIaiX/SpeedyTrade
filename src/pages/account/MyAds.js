@@ -5,14 +5,18 @@ import Table from 'react-bootstrap/Table'
 import AdsTr from '../../components/AdsTr'
 import { Link } from 'react-router-dom'
 import Pagination from '../../components/Pagination'
+import { FiArrowLeft } from "react-icons/fi"
 
 const MyAds = () => {
     return (
         <div className='main'>
-            <h4 className='color-1'>Мои объявления</h4>
+            <div className='d-flex align-items-center mb-4'>
+                <Link to='/account' className='btn-1 p-2 me-4 d-lg-none'><FiArrowLeft className='fs-15'/></Link>
+                <h4 className='color-1 mb-0'>Мои объявления</h4>
+            </div>
             <Link to='new' className='btn-5'>+ Разместить новое объявление</Link>
-            <Row md={3} className='mt-4'>
-                <Col className='d-flex align-items-center'>
+            <Row xs={1} sm={3} className='gy-3 gy-sm-0 gx-3 gx-md-4 mt-4'>
+                <Col className='d-xl-flex align-items-center'>
                     <span className='me-3'>Игра:</span>
                     <select defaultValue={3}>
                         <option disabled>Игра</option>
@@ -23,7 +27,7 @@ const MyAds = () => {
                         <option value={5}>Игра 5</option>
                     </select>
                 </Col>
-                <Col className='d-flex align-items-center'>
+                <Col className='d-xl-flex align-items-center'>
                     <span className='me-3'>Сервер:</span>
                     <select defaultValue={3}>
                         <option disabled>Сервер</option>
@@ -34,7 +38,7 @@ const MyAds = () => {
                         <option value={5}>Сервер 5</option>
                     </select>
                 </Col>
-                <Col className='d-flex align-items-center'>
+                <Col className='d-xl-flex align-items-center'>
                     <span className='me-3'>Платформа:</span>
                     <select defaultValue={3}>
                         <option disabled>Платформа</option>
@@ -47,7 +51,7 @@ const MyAds = () => {
                 </Col>
             </Row>
 
-            <Table borderless className='my-4'>
+            <Table borderless responsive className='my-4'>
                 <thead>
                     <tr>
                         <th>Дата</th>

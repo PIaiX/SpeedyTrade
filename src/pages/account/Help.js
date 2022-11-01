@@ -4,16 +4,20 @@ import Accordion from 'react-bootstrap/Accordion'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import InputFile from '../../components/utils/InputFile'
-import { FiHelpCircle, FiChevronDown} from "react-icons/fi"
+import { FiHelpCircle, FiChevronDown, FiArrowLeft} from "react-icons/fi"
 import AdsTr4 from '../../components/AdsTr4'
+import { Link } from 'react-router-dom'
 
 const Help = () => {
     const [tab, setTab] = useState(0)
 
     return (
         <div className='main'>
-            <h4 className='color-1'>Помощь</h4>
-            <div className='tabs-group mb-5'>
+            <div className='d-flex align-items-center mb-4'>
+                <Link to='/account' className='btn-1 p-2 me-4 d-lg-none'><FiArrowLeft className='fs-15'/></Link>
+                <h4 className='color-1 mb-0'>Помощь</h4>
+            </div>
+            <div className='tabs-group mb-4 mb-sm-5'>
                 <button type="button" className={(tab===0)?'active':''} onClick={()=>setTab(0)}>Тикеты</button>
                 <button type="button" className={(tab===1)?'active':''} onClick={()=>setTab(1)}>Центр помощи</button>
                 <button type="button" className={(tab===2)?'active':''} onClick={()=>setTab(2)}>Правила</button>
@@ -27,8 +31,8 @@ const Help = () => {
                         <FiHelpCircle className='fs-13'/>
                         <p className='flex-1 ms-3'>Если ваш вопрос технического плана, то желательно предоставить как можно более подробную информацию о проблеме. Пожалуйста, опишите, какие действия совершались до возникновения вопроса, а также, по возможности, приложите необходимые скриншоты. Данная информация значительно ускорит время ответа и избавит от лишних вопросов. Спасибо!</p>
                     </div>
-                    <form className='mt-5'>
-                        <Row className='g-4'>
+                    <form className='mt-4 mt-sm-5'>
+                        <Row className='g-3 g-sm-4'>
                             <Col md={2}>
                                 <div>Тема:</div>
                             </Col>
@@ -120,7 +124,7 @@ const Help = () => {
                         </Accordion.Item>
                     </Accordion>
 
-                    <h5 className='fw-4 mt-5'>Покупка</h5>
+                    <h5 className='fw-4 mt-4 mt-sm-5'>Покупка</h5>
                     <Accordion defaultActiveKey="0">
                         <Accordion.Item eventKey="0">
                             <Accordion.Header>
@@ -200,7 +204,7 @@ const Help = () => {
                         </tbody>
                     </Table>
 
-                    <h5 className='color-1 mt-5'>Правила для продавцов и покупателей</h5>
+                    <h5 className='color-1 mt-4 mt-sm-5'>Правила для продавцов и покупателей</h5>
                     <Table striped borderless>
                         <thead>
                             <tr>
@@ -231,7 +235,7 @@ const Help = () => {
                         </tbody>
                     </Table>
 
-                    <h5 className='color-1 mt-5'>Ответственность продавцов</h5>
+                    <h5 className='color-1 mt-4 mt-sm-5'>Ответственность продавцов</h5>
                     <Table striped borderless>
                         <thead>
                             <tr>
@@ -255,7 +259,7 @@ const Help = () => {
                         </tbody>
                     </Table>
 
-                    <Table striped borderless className='mt-4'>
+                    <Table striped borderless className='mt-4 mt-sm-4'>
                         <thead>
                             <tr>
                                 <th>Аккаунты</th>
@@ -278,7 +282,7 @@ const Help = () => {
                         </tbody>
                     </Table>
 
-                    <Table striped borderless className='mt-4'>
+                    <Table striped borderless className='mt-4 mt-sm-4'>
                         <thead>
                             <tr>
                                 <th>Услуги</th>
@@ -308,7 +312,7 @@ const Help = () => {
                         </tbody>
                     </Table>
 
-                    <button type='button' className='btn-5 fs-11 mt-5'>Принять условия</button>
+                    <button type='button' className='btn-5 fs-11 mt-4 mt-sm-5'>Принять условия</button>
                 </div>
             }
         </div>

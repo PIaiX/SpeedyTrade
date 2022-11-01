@@ -1,5 +1,7 @@
 import React, {useState} from 'react'
 import Table from 'react-bootstrap/Table'
+import { Link } from 'react-router-dom'
+import { FiArrowLeft } from "react-icons/fi"
 
 const Finance = () => {
     const [tab, setTab] = useState(0)
@@ -9,8 +11,11 @@ const Finance = () => {
     
     return (
         <div className='main'>
-            <h4 className='color-1'>Финансы</h4>
-            <div className='tabs-group mb-5'>
+            <div className='d-flex align-items-center mb-4'>
+                <Link to='/account' className='btn-1 p-2 me-4 d-lg-none'><FiArrowLeft className='fs-15'/></Link>
+                <h4 className='color-1 mb-0'>Финансы</h4>
+            </div>
+            <div className='tabs-group mb-4 mb-sm-5'>
                 <button type="button" className={(tab===0)?'active':''} onClick={()=>setTab(0)}>Пополнить баланс</button>
                 <button type="button" className={(tab===1)?'active':''} onClick={()=>setTab(1)}>История списаний и пополнений</button>
             </div>
@@ -25,48 +30,48 @@ const Finance = () => {
                             <input type='number' placeholder='0' value={sum} onChange={(e)=>setSum(e.target.value)}/>
                             <div className='ms-3'>руб.</div>
                         </div>
-                        <div className='d-flex mt-4 mb-5'>
-                            <button type='button' onClick={()=>setSum(500)} className='btn-6 py-2 me-3'>500</button>
-                            <button type='button' onClick={()=>setSum(1000)} className='btn-6 py-2 me-3'>1 000</button>
-                            <button type='button' onClick={()=>setSum(1500)} className='btn-6 py-2 me-3'>1 500</button>
-                            <button type='button' onClick={()=>setSum(2000)} className='btn-6 py-2 me-3'>2 000</button>
-                            <button type='button' onClick={()=>setSum(3000)} className='btn-6 py-2 me-3'>3 000</button>
-                            <button type='button' onClick={()=>setSum(5000)} className='btn-6 py-2 me-3'>5 000</button>
-                            <button type='button' onClick={()=>setSum(10000)} className='btn-6 py-2 me-3'>10 000</button>
-                            <button type='button' onClick={()=>setSum(15000)} className='btn-6 py-2 me-3'>15 000</button>
-                            <button type='button' onClick={()=>setSum(20000)} className='btn-6 py-2 me-3'>20 000</button>
+                        <div className='d-flex flex-wrap mt-3 mt-sm-4 mb-4 mb-sm-5'>
+                            <button type='button' onClick={()=>setSum(500)} className='btn-6 py-2 me-2 me-sm-3 mb-2'>500</button>
+                            <button type='button' onClick={()=>setSum(1000)} className='btn-6 py-2 me-2 me-sm-3 mb-2'>1 000</button>
+                            <button type='button' onClick={()=>setSum(1500)} className='btn-6 py-2 me-2 me-sm-3 mb-2'>1 500</button>
+                            <button type='button' onClick={()=>setSum(2000)} className='btn-6 py-2 me-2 me-sm-3 mb-2'>2 000</button>
+                            <button type='button' onClick={()=>setSum(3000)} className='btn-6 py-2 me-2 me-sm-3 mb-2'>3 000</button>
+                            <button type='button' onClick={()=>setSum(5000)} className='btn-6 py-2 me-2 me-sm-3 mb-2'>5 000</button>
+                            <button type='button' onClick={()=>setSum(10000)} className='btn-6 py-2 me-2 me-sm-3 mb-2'>10 000</button>
+                            <button type='button' onClick={()=>setSum(15000)} className='btn-6 py-2 me-2 me-sm-3 mb-2'>15 000</button>
+                            <button type='button' onClick={()=>setSum(20000)} className='btn-6 py-2 me-2 me-sm-3 mb-2'>20 000</button>
                         </div>
                     </fieldset>
 
                     <fieldset>
                         <legend>Способ оплаты:</legend>
-                        <div className='d-flex'>
-                            <div className={(card===0)?'bank-card active':'bank-card'} onClick={() => setCard(0)}>
+                        <ul className='cards-list'>
+                            <li className={(card===0)?'bank-card active':'bank-card'} onClick={() => setCard(0)}>
                                 <img src='imgs/bank/тинькофф.png' alt='тинькофф' className='bank-img'/>
                                 <div className='info'>
                                     <img src='imgs/bank/mastercard.png' alt='mastercard' className='bank-type'/>
                                     <div className='number'>** 8765</div>
                                 </div>
-                            </div>
-                            <div className={(card===1)?'bank-card active':'bank-card'} onClick={() => setCard(1)}>
+                            </li>
+                            <li className={(card===1)?'bank-card active':'bank-card'} onClick={() => setCard(1)}>
                                 <img src='imgs/bank/sber.png' alt='sber' className='bank-img'/>
                                 <div className='info'>
                                     <img src='imgs/bank/visa.png' alt='visa' className='bank-type'/>
                                     <div className='number'>** 8765</div>
                                 </div>
-                            </div>
-                            <div className='add-card' onClick={()=>setShowAdd((showAdd)?false:true)}>
+                            </li>
+                            <li className='add-card' onClick={()=>setShowAdd((showAdd)?false:true)}>
                                 <img src='imgs/bank/card-replacement.png' alt='card'/>
                                 <div>Добавить новую карту</div>
-                            </div>
-                        </div>
+                            </li>
+                        </ul>
                         {
                             (showAdd) && 
                             <div className='card-imitation'>
                                 <div className='front'>
-                                    <div className='mb-2'>Номер карты:</div>
-                                    <input type='number' placeholder='0000 0000 0000 0000' className='w-100 mb-4'/>
-                                    <div className='mb-2'>Действует до:</div>
+                                    <div className='mb-1 mb-md-2'>Номер карты:</div>
+                                    <input type='number' placeholder='0000 0000 0000 0000' className='w-100 mb-3 mb-md-4'/>
+                                    <div className='mb-1 mb-md-2'>Действует до:</div>
                                     <div className='d-flex align-items-center'>
                                         <input type='number' placeholder='ММ'/>
                                         <span className='mx-2'>/</span>
@@ -83,15 +88,15 @@ const Finance = () => {
                         }
                     </fieldset>
 
-                    <label className='mt-5'>
+                    <label className='mt-4 mt-sm-5'>
                         <input type='checkbox'/>
                         <span>Запомнить карту. Сохраняя карту, вы соглашаетесь с <a href='/' className='color-4 text-decoration-underline'>условиями привязки карты</a></span>
                     </label>
-                    <button type='button' disabled={true} className='btn-5 mt-5'>Оплатить {sum} руб.</button>
+                    <button type='button' disabled={true} className='btn-5 mt-4 mt-sm-5'>Оплатить {sum} руб.</button>
                 </form>
                 : <div>
                     <h6>Ваши списания и пополнения:</h6>
-                    <Table striped borderless className='my-4'>
+                    <Table striped borderless className='my-3 my-sm-4'>
                         <tbody>
                             <tr>
                                 <td>Списание 28.09.2022 г.</td>

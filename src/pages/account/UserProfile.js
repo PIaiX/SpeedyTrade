@@ -2,17 +2,31 @@ import React from 'react'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import StarRating from '../../components/utils/StarRating'
-
 import UserPhoto from '../../components/utils/UserPhoto'
+import { Link } from 'react-router-dom'
+import { FiArrowLeft } from "react-icons/fi"
 
 export default function UserProfile() {
     return (
         <div className='main'>
-            <h4 className='color-1'>Профиль</h4>
-            <Row>
-                <Col lg={8}>
+            <div className='d-flex align-items-center mb-4'>
+                <Link to='/account' className='btn-1 p-2 me-4 d-lg-none'><FiArrowLeft className='fs-15'/></Link>
+                <h4 className='color-1 mb-0'>Профиль</h4>
+            </div>
+            <Row className='flex-lg-row-reverse'>
+                <Col xs={12} xl={4}>
+                    <div className='d-flex flex-column flex-sm-row flex-xl-column align-items-center mb-4 mb-xl-0'>
+                        <UserPhoto imgUrl={'imgs/user.png'} name={'Колесникова Ирина'} />
+                        <div className='d-flex flex-column align-items-center align-items-sm-start align-items-xl-center justify-content-center'>
+                            <h4 className='color-1 mt-3 mt-sm-0 mb-2 mb-sm-4'>Колесникова Ирина</h4>
+                            <StarRating className='justify-content-start justify-content-xl-center' rate={4.35} />
+                            <div className='mt-2 mt-sm-4'>На сайте с сентября 2019 г.</div>
+                        </div>
+                    </div>
+                </Col>
+                <Col xs={12} xl={8}>
                     <form>
-                        <Row className='g-4 align-items-center'>
+                        <Row className='g-3 g-xl-4 align-items-center'>
                             <Col md={3}>
                                 <div>Имя:</div>
                             </Col>
@@ -47,7 +61,7 @@ export default function UserProfile() {
                             <Col md={3}>
                                 <div>Дата рождения:</div>
                             </Col>
-                            <Col md={9} className='d-flex'>
+                            <Col md={9} className='d-sm-flex'>
                                 <select defaultValue={3}>
                                     <option disabled>день</option>
                                     <option value={1}>1</option>
@@ -56,7 +70,7 @@ export default function UserProfile() {
                                     <option value={4}>4</option>
                                     <option value={5}>5</option>
                                 </select>
-                                <select className='ms-3' defaultValue={3}>
+                                <select className='ms-sm-3 mt-2 ms-sm-0' defaultValue={3}>
                                     <option disabled>месяц</option>
                                     <option value={1}>января</option>
                                     <option value={2}>февраля</option>
@@ -71,7 +85,7 @@ export default function UserProfile() {
                                     <option value={11}>ноября</option>
                                     <option value={12}>декабря</option>
                                 </select>
-                                <select className='ms-3' defaultValue={3}>
+                                <select className='ms-sm-3 mt-2 ms-sm-0' defaultValue={3}>
                                     <option disabled>год</option>
                                     <option value={1}>1990</option>
                                     <option value={2}>1991</option>
@@ -102,15 +116,9 @@ export default function UserProfile() {
                         </Row>
                         <div className='d-flex mt-4'>
                             <button type='button' className='btn-5'>Сохранить изменения</button>
-                            <button type='button' className='btn-1 ms-4'>Отмена</button>
+                            <button type='button' className='btn-1 ms-2 ms-sm-4'>Отмена</button>
                         </div>
                     </form>
-                </Col>
-                <Col lg={4}>
-                    <UserPhoto imgUrl={'imgs/user.png'} name={'Колесникова Ирина'} />
-                    <h4 className='text-center color-1'>Колесникова Ирина</h4>
-                    <StarRating rate={4.35} />
-                    <div className='text-center mt-4'>На сайте с сентября 2019 г.</div>
                 </Col>
             </Row>
         </div>

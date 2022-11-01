@@ -775,6 +775,11 @@ hr.horizontal {
   font-size: 1.5em;
   color: var(--color-2);
 }
+@media (max-width: 1199px) {
+  .star-rating {
+    font-size: 1.35em;
+  }
+}
 .star-rating svg:not(:first-child) {
   margin-left: 0.25em;
 }
@@ -821,6 +826,11 @@ hr.horizontal {
 
 .table {
   --bs-table-striped-bg: var(--achromat-0);
+}
+@media (max-width: 1199px) {
+  .table {
+    font-size: 13px;
+  }
 }
 .table tr.centered td {
   vertical-align: middle;
@@ -892,6 +902,9 @@ hr.horizontal {
 .accordion-button svg {
   font-size: 1.35em;
 }
+.accordion-button span {
+  flex: 1;
+}
 .accordion-button .chevron {
   margin-left: auto;
   transform: rotate(0deg);
@@ -917,6 +930,26 @@ hr.horizontal {
   color: var(--achromat-3);
   border-bottom: 4px solid transparent;
   margin-bottom: -2px;
+}
+@media (max-width: 1199px) {
+  .tabs-group button {
+    font-size: 1.2em;
+  }
+}
+@media (max-width: 991px) {
+  .tabs-group button {
+    font-size: 1.1em;
+  }
+}
+@media (max-width: 767px) {
+  .tabs-group button {
+    font-size: 1em;
+  }
+}
+@media (max-width: 575px) {
+  .tabs-group button {
+    font-size: 0.8em;
+  }
 }
 .tabs-group button:not(:first-child) {
   margin-left: 2em;
@@ -1568,11 +1601,50 @@ main {
   font-size: 0.95em;
 }
 
+.account {
+  --width-1: 140px;
+  --width-2: 180px;
+}
+@media (max-width: 1199px) {
+  .account {
+    --width-1: 110px;
+    --width-2: 150px;
+  }
+}
+@media (max-width: 991px) {
+  .account {
+    padding: 2em 0;
+  }
+}
+@media (max-width: 767px) {
+  .account {
+    --width-1: 70px;
+    --width-2: 50px;
+  }
+}
+@media (max-width: 575px) {
+  .account {
+    --width-1: 50px;
+    --width-2: 30px;
+  }
+}
 .account nav.menu {
   padding: 2em;
   background-color: var(--total);
   border: 1px solid var(--achromat-4);
   border-radius: 1.3em;
+}
+@media (max-width: 1199px) {
+  .account nav.menu {
+    padding: 1em;
+  }
+}
+@media (max-width: 991px) {
+  .account nav.menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 .account nav.menu ul {
   list-style: none;
@@ -1584,14 +1656,35 @@ main {
   align-items: center;
   justify-content: flex-start;
 }
+@media (max-width: 1199px) {
+  .account nav.menu ul li a, .account nav.menu ul li button {
+    padding: 0.75em 0;
+  }
+}
+@media (max-width: 991px) {
+  .account nav.menu ul li a, .account nav.menu ul li button {
+    font-size: 1.3em;
+  }
+}
 .account nav.menu ul li a span, .account nav.menu ul li button span {
   font-size: 1.1em;
   margin-left: 1em;
   color: var(--achromat-1);
 }
+@media (max-width: 1199px) {
+  .account nav.menu ul li a span, .account nav.menu ul li button span {
+    margin-left: 0.5em;
+    font-size: 1em;
+  }
+}
 .account nav.menu ul li a svg, .account nav.menu ul li button svg {
   font-size: 1.6em;
   color: var(--color-2);
+}
+@media (max-width: 1199px) {
+  .account nav.menu ul li a svg, .account nav.menu ul li button svg {
+    font-size: 1.4em;
+  }
 }
 .account nav.menu ul li a.active span, .account nav.menu ul li button.active span {
   font-weight: 700;
@@ -1608,6 +1701,11 @@ main {
   overflow: hidden;
   min-height: 100%;
 }
+@media (max-width: 1199px) {
+  .account .main {
+    padding: 1em;
+  }
+}
 .account .user-photo {
   display: block;
   margin: 0 auto 1.5em;
@@ -1617,6 +1715,17 @@ main {
   background-color: var(--achromat-4);
   overflow: hidden;
   position: relative;
+}
+@media (max-width: 1199px) {
+  .account .user-photo {
+    margin: 0 1em 0 0;
+  }
+}
+@media (max-width: 991px) {
+  .account .user-photo {
+    width: 160px;
+    height: 160px;
+  }
 }
 .account .user-photo:hover .btns, .account .user-photo:focus .btns {
   opacity: 1;
@@ -1659,7 +1768,13 @@ main {
   align-items: center;
   color: #fff;
 }
-.account .bank-card, .account .add-card {
+.account .cards-list {
+  padding-left: 0px;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+}
+.account .cards-list .bank-card, .account .cards-list .add-card {
   border: 1px solid var(--color-5);
   border-radius: 20px;
   padding: 1em;
@@ -1670,38 +1785,71 @@ main {
   justify-content: space-between;
   margin-right: 1.6em;
   transition: var(--transition);
+  margin-bottom: 1em;
 }
-.account .bank-card:hover, .account .add-card:hover, .account .bank-card:focus, .account .add-card:focus {
+@media (max-width: 767px) {
+  .account .cards-list .bank-card, .account .cards-list .add-card {
+    width: 160px;
+    height: 115px;
+  }
+}
+@media (max-width: 575px) {
+  .account .cards-list .bank-card, .account .cards-list .add-card {
+    margin-right: 1em;
+    width: 150px;
+    height: 110px;
+  }
+}
+.account .cards-list .bank-card:hover, .account .cards-list .add-card:hover, .account .cards-list .bank-card:focus, .account .cards-list .add-card:focus {
   border: 1px solid var(--color-2);
   cursor: pointer;
 }
-.account .bank-card.active, .account .active.add-card {
+.account .cards-list .bank-card.active, .account .cards-list .active.add-card {
   border: 1px solid var(--color-1);
 }
-.account .bank-card .info, .account .add-card .info {
+.account .cards-list .bank-card .info, .account .cards-list .add-card .info {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.account .bank-card .info .bank-img, .account .add-card .info .bank-img {
+.account .cards-list .bank-card .info .bank-img, .account .cards-list .add-card .info .bank-img {
   width: 100%;
   height: 45%;
   -o-object-fit: contain;
      object-fit: contain;
 }
-.account .bank-card .info .bank-type, .account .add-card .info .bank-type {
+.account .cards-list .bank-card .info .bank-type, .account .cards-list .add-card .info .bank-type {
   height: 28px;
 }
-.account .bank-card .info .number, .account .add-card .info .number {
+@media (max-width: 767px) {
+  .account .cards-list .bank-card .info .bank-type, .account .cards-list .add-card .info .bank-type {
+    height: 20px;
+  }
+}
+.account .cards-list .bank-card .info .number, .account .cards-list .add-card .info .number {
   color: var(--achromat-1);
   font-size: 1.3em;
 }
-.account .add-card {
+@media (max-width: 767px) {
+  .account .cards-list .bank-card .info .number, .account .cards-list .add-card .info .number {
+    font-size: 1em;
+  }
+}
+.account .cards-list .add-card {
   align-items: center;
   text-align: center;
+  margin-bottom: 1em;
 }
-.account .add-card div {
+.account .cards-list .add-card img {
+  max-width: 50%;
+}
+.account .cards-list .add-card div {
   color: var(--achromat-1);
+}
+@media (max-width: 767px) {
+  .account .cards-list .add-card div {
+    font-size: 0.8em;
+  }
 }
 .account .card-imitation {
   margin-top: 1.75em;
@@ -1711,16 +1859,38 @@ main {
   width: fit-content;
   padding-right: 200px;
   padding-bottom: 4em;
+  --width: 424px;
+  --height: 268px;
+}
+@media (max-width: 767px) {
+  .account .card-imitation {
+    --width: 320px;
+    --height: 225px;
+    padding-right: 180px;
+  }
+}
+@media (max-width: 575px) {
+  .account .card-imitation {
+    --width: 300px;
+    --height: 210px;
+    padding-right: 0px;
+    padding-bottom: 0px;
+  }
 }
 .account .card-imitation .front {
   background-color: var(--achromat-0);
   border: 1px solid var(--color-1);
   border-radius: 20px;
   padding: 2em;
-  width: 424px;
-  height: 268px;
+  width: var(--width);
+  height: var(--height);
   position: relative;
   z-index: 1;
+}
+@media (max-width: 767px) {
+  .account .card-imitation .front {
+    padding: 1em;
+  }
 }
 .account .card-imitation .front img {
   position: absolute;
@@ -1731,6 +1901,14 @@ main {
   -o-object-fit: contain;
      object-fit: contain;
 }
+@media (max-width: 767px) {
+  .account .card-imitation .front img {
+    bottom: 1em;
+    right: 1em;
+    max-width: 50px;
+    max-height: 20px;
+  }
+}
 .account .card-imitation .back {
   position: absolute;
   bottom: 0px;
@@ -1740,8 +1918,22 @@ main {
   border: 1px solid var(--achromat-3);
   border-radius: 20px;
   padding: 100px 2em 2em 240px;
-  width: 424px;
-  height: 268px;
+  width: var(--width);
+  height: var(--height);
+}
+@media (max-width: 767px) {
+  .account .card-imitation .back {
+    padding: 90px 1em 1em 150px;
+  }
+}
+@media (max-width: 575px) {
+  .account .card-imitation .back {
+    position: relative;
+    bottom: unset;
+    right: unset;
+    margin-top: 1em;
+    padding: 75px 1em 1em 130px;
+  }
 }
 .account .card-imitation .back::after {
   content: "";
@@ -1752,6 +1944,12 @@ main {
   top: 30px;
   left: 0px;
 }
+@media (max-width: 767px) {
+  .account .card-imitation .back::after {
+    top: 20px;
+    height: 40px;
+  }
+}
 .account .messages-list {
   list-style: none;
   padding-left: 0px;
@@ -1761,13 +1959,24 @@ main {
   background-color: var(--bg);
   width: 100%;
   display: grid;
-  grid-template-columns: 140px auto 180px;
+  grid-template-columns: var(--width-1) auto var(--width-2);
   grid-template-rows: 1fr 1fr;
   border-top: 1px solid var(--achromat-4);
   border-bottom: 1px solid var(--achromat-4);
   gap: 0 1.5em;
   padding: 1em 2em;
   transition: var(--transition);
+}
+@media (max-width: 1199px) {
+  .account .messages-list-preview {
+    padding: 1em;
+    gap: 0 1em;
+  }
+}
+@media (max-width: 575px) {
+  .account .messages-list-preview {
+    gap: 0 0.5em;
+  }
 }
 .account .messages-list-preview:hover {
   --bg: var(--achromat-0);
@@ -1782,7 +1991,7 @@ main {
 }
 .account .messages-list-preview .img img {
   width: 100%;
-  height: 140px;
+  height: var(--width-1);
   -o-object-fit: cover;
      object-fit: cover;
   border-radius: 50%;
@@ -1797,6 +2006,13 @@ main {
   background-color: var(--achromat-4);
   border: 4px solid var(--bg);
 }
+@media (max-width: 767px) {
+  .account .messages-list-preview .img .indicator {
+    width: 1.25em;
+    height: 1.25em;
+    border: 2px solid var(--bg);
+  }
+}
 .account .messages-list-preview .img .indicator.online {
   background-color: var(--green);
 }
@@ -1807,6 +2023,11 @@ main {
   grid-column: 2/3;
   grid-row: 1/2;
   min-width: 0;
+}
+@media (max-width: 575px) {
+  .account .messages-list-preview .header h4 {
+    font-size: 1.25em;
+  }
 }
 .account .messages-list-preview .message {
   grid-column: 2/3;
@@ -1822,9 +2043,22 @@ main {
   -o-object-fit: cover;
      object-fit: cover;
   border-radius: 50%;
+  margin-right: 1em;
+}
+@media (max-width: 767px) {
+  .account .messages-list-preview .message img {
+    width: 30px;
+    height: 30px;
+  }
+}
+@media (max-width: 575px) {
+  .account .messages-list-preview .message img {
+    width: 20px;
+    height: 20px;
+    margin-right: 0.5em;
+  }
 }
 .account .messages-list-preview .message div {
-  margin-left: 1em;
   flex: 1;
   display: flex;
   white-space: nowrap;
@@ -1834,6 +2068,11 @@ main {
 .account .messages-list-preview .date {
   grid-column: 3/4;
   grid-row: 1/2;
+}
+@media (max-width: 767px) {
+  .account .messages-list-preview .date {
+    display: none;
+  }
 }
 .account .messages-list-preview .count {
   grid-column: 3/4;
@@ -1853,6 +2092,11 @@ main {
   height: 1.5em;
   border-radius: 50%;
 }
+@media (max-width: 767px) {
+  .account .messages-list-preview .count span {
+    font-size: 13px;
+  }
+}
 .account .messages-list-preview .controls {
   background-color: var(--bg);
   grid-column: 3/4;
@@ -1863,6 +2107,16 @@ main {
   flex-direction: column;
   justify-content: space-around;
 }
+@media (max-width: 1199px) {
+  .account .messages-list-preview .controls {
+    font-size: 13px;
+  }
+}
+@media (max-width: 767px) {
+  .account .messages-list-preview .controls {
+    display: none;
+  }
+}
 .account .messages-list-preview .controls button {
   display: flex;
   align-items: center;
@@ -1870,6 +2124,10 @@ main {
 }
 .account .messages-list-preview .controls button:hover {
   color: var(--color-1);
+}
+.account .messages-list-preview .drop {
+  grid-column: 3/4;
+  grid-row: 1/2;
 }
 .account .message-window {
   height: 630px;
@@ -1886,10 +2144,29 @@ main {
   align-items: center;
   justify-content: space-between;
 }
+@media (max-width: 767px) {
+  .account .message-window .top {
+    padding: 1em;
+    height: 80px;
+  }
+}
+@media (max-width: 575px) {
+  .account .message-window .top {
+    padding: 0.75em;
+    height: 60px;
+    font-size: 12px;
+  }
+}
 .account .message-window .top .img {
   width: 60px;
   height: 60px;
   position: relative;
+}
+@media (max-width: 767px) {
+  .account .message-window .top .img {
+    width: 40px;
+    height: 40px;
+  }
 }
 .account .message-window .top .img img {
   width: 100%;
@@ -1907,6 +2184,13 @@ main {
   border-radius: 50%;
   background-color: var(--achromat-4);
   border: 2px solid var(--total);
+}
+@media (max-width: 767px) {
+  .account .message-window .top .img .indicator {
+    width: 0.75em;
+    height: 0.75em;
+    border: 1px solid var(--total);
+  }
 }
 .account .message-window .top .img .indicator.online {
   background-color: var(--green);
@@ -1937,52 +2221,138 @@ main {
   padding: 1em 2em;
   border-top: 1px solid var(--achromat-4);
 }
+@media (max-width: 575px) {
+  .account .message-window form {
+    padding: 0.75em;
+    height: auto;
+  }
+}
 .account .message-window form button {
   font-size: 1.5em;
   margin-left: 0.75em;
 }
 .account .user-review {
   display: grid;
-  grid-template-columns: 140px auto 180px;
+  grid-template-columns: var(--width-1) auto var(--width-2);
   grid-template-rows: 2em 2em auto;
   gap: 10px 20px;
   border-top: 1px solid var(--achromat-4);
   padding: 1.6em 0px;
 }
+@media (max-width: 767px) {
+  .account .user-review {
+    grid-template-columns: 120px 1fr;
+    grid-template-rows: 2em 2em auto auto;
+  }
+}
+@media (max-width: 767px) {
+  .account .user-review {
+    grid-template-columns: var(--width-1) 1fr;
+    grid-template-rows: 2em 2em 2em auto auto;
+  }
+}
 .account .user-review .img {
   grid-column: 1/2;
   grid-row: 1/4;
 }
+@media (max-width: 767px) {
+  .account .user-review .img {
+    grid-row: 1/3;
+  }
+}
 .account .user-review .img img {
   width: 100%;
-  height: 140px;
+  height: var(--width-1);
   border-radius: 50%;
   -o-object-fit: cover;
      object-fit: cover;
+}
+@media (max-width: 767px) {
+  .account .user-review .img img {
+    width: var(--width-1);
+  }
 }
 .account .user-review .grid-1 {
   grid-column: 2/3;
   grid-row: 1/2;
 }
+@media (max-width: 767px) {
+  .account .user-review .grid-1 {
+    grid-column: 2/4;
+  }
+}
 .account .user-review .grid-2 {
   grid-column: 2/3;
   grid-row: 2/3;
+}
+@media (max-width: 767px) {
+  .account .user-review .grid-2 {
+    grid-column: 2/4;
+  }
 }
 .account .user-review .grid-3 {
   grid-column: 3/4;
   grid-row: 1/2;
 }
+@media (max-width: 767px) {
+  .account .user-review .grid-3 {
+    grid-column: 1/2;
+    grid-row: 3/4;
+  }
+}
+@media (max-width: 575px) {
+  .account .user-review .grid-3 {
+    grid-column: 1/3;
+  }
+}
 .account .user-review .grid-4 {
   grid-column: 3/4;
   grid-row: 2/3;
+}
+@media (max-width: 767px) {
+  .account .user-review .grid-4 {
+    grid-column: 2/3;
+    grid-row: 3/4;
+  }
+}
+@media (max-width: 575px) {
+  .account .user-review .grid-4 {
+    grid-column: 1/3;
+    grid-row: 4/5;
+  }
 }
 .account .user-review .grid-5 {
   grid-column: 2/3;
   grid-row: 3/4;
 }
+@media (max-width: 767px) {
+  .account .user-review .grid-5 {
+    grid-column: 1/3;
+    grid-row: 4/5;
+  }
+}
+@media (max-width: 575px) {
+  .account .user-review .grid-5 {
+    grid-row: 5/6;
+  }
+}
 .account .user-review .grid-6 {
   grid-column: 3/4;
   grid-row: 3/4;
+}
+@media (max-width: 767px) {
+  .account .user-review .grid-6 {
+    grid-column: 2/3;
+    grid-row: 3/4;
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+@media (max-width: 575px) {
+  .account .user-review .grid-6 {
+    grid-column: 1/3;
+    grid-row: 4/5;
+  }
 }
 
 footer {

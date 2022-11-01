@@ -1,16 +1,20 @@
 import React, {useState} from 'react'
 import StarRating from '../../components/utils/StarRating'
-import { FiTrash2 } from "react-icons/fi"
-import Review from '../../components/Review';
+import Review from '../../components/Review'
+import { Link } from 'react-router-dom'
+import { FiArrowLeft } from "react-icons/fi"
 
 const Reviews = () => {
     const [tab, setTab] = useState(0)
 
     return (
         <div className='main'>
-            <div className='d-flex align-items-center justify-content-between mb-4'>
-                <h4 className='color-1 mb-0'>Отзывы</h4>
+            <div className='d-sm-flex align-items-center justify-content-between mb-4'>
                 <div className='d-flex align-items-center'>
+                    <Link to='/account' className='btn-1 p-2 me-4 d-lg-none'><FiArrowLeft className='fs-15'/></Link>
+                    <h4 className='color-1 mb-0'>Отзывы</h4>
+                </div>
+                <div className='d-flex align-items-center mt-3 mt-sm-0'>
                     <span className='me-4'>Ваш рейтинг:</span>
                     <StarRating rate={3.7} />
                 </div>

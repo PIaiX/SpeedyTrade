@@ -15,10 +15,10 @@ const AccountLayout = ({isMobile}) => {
                     <div>Баланс: <span className='fw-5'>15 638 руб.</span></div>
                 </div>
                 <Row>
-                    <Col md={4} xxl={3}>
+                    <Col md={4} lg={3}>
                         <AccountMenu/>
                     </Col>
-                    <Col md={8} xxl={9}>
+                    <Col md={8} lg={9}>
                         <Outlet/>
                     </Col>
                 </Row>
