@@ -11,6 +11,10 @@ import UserProfile from '../pages/account/UserProfile'
 import Messages from '../pages/account/Messages'
 import MessageWindow from '../pages/account/MessageWindow'
 import Help from '../pages/account/Help'
+import Reviews from '../pages/account/Reviews'
+import Settings from '../pages/account/Settings'
+import Exit from '../pages/account/Exit'
+import Ticket from '../pages/account/Ticket'
 
 
 const AccountRouter = ({isMobile}) => {
@@ -30,6 +34,10 @@ const AccountRouter = ({isMobile}) => {
                 <Route path="messages" element={<Messages />}/>
                 <Route path="messages/chat" element={<MessageWindow />}/>
                 <Route path="help" element={<Help/>}/>
+                <Route path="help/ticket" element={<Ticket/>}/>
+                <Route path="reviews" element={<Reviews/>}/>
+                <Route path="settings" element={<Settings />}/>
+                <Route path="exit" element={<Exit />}/>
             </Route>
         </Routes>
     );

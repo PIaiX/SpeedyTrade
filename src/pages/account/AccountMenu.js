@@ -61,10 +61,10 @@ export default function AccountMenu() {
                     </NavLink>
                 </li>
                 <li>
-                    <button type='button'>
+                    <NavLink to='exit'>
                         <BiLogOut/>
                         <span>Выйти</span>
-                    </button>
+                    </NavLink>
                 </li>
             </ul>
         </nav>

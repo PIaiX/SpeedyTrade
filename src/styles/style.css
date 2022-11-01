@@ -418,7 +418,7 @@ fieldset legend {
   justify-content: center;
   align-items: center;
   position: relative;
-  width: 3em;
+  min-width: 3em;
   height: 3em;
   color: var(--achromat-2);
   transition: var(--transition);
@@ -696,6 +696,14 @@ h6 {
   color: var(--achromat-1);
 }
 
+.achromat-2 {
+  color: var(--achromat-2);
+}
+
+.achromat-3 {
+  color: var(--achromat-3);
+}
+
 .accent {
   color: var(--accent-br);
 }
@@ -858,6 +866,45 @@ hr.horizontal {
 .dropdown-item svg {
   font-size: 1.3em;
   margin-right: 0.2em;
+}
+
+.accordion {
+  --bs-accordion-color: var(--achromat-2);
+  --bs-accordion-bg: var(--achromat-5);
+  --bs-accordion-border-color: var(--achromat-4);
+  --bs-accordion-border-radius: 0px;
+  --bs-accordion-inner-border-radius: 0px;
+  --bs-accordion-active-color: var(--color-1);
+  --bs-accordion-active-bg: var(--color-5);
+  --bs-accordion-btn-color: var(--achromat-1);
+  --bs-accordion-btn-focus-border-color: var(--color-2);
+  --bs-accordion-btn-focus-box-shadow: unset;
+  --bs-accordion-btn-icon: unset;
+  --bs-accordion-btn-active-icon: unset;
+}
+.accordion-header {
+  font-size: 1em;
+}
+.accordion-button {
+  font-size: 1em;
+  font-weight: 400;
+}
+.accordion-button svg {
+  font-size: 1.35em;
+}
+.accordion-button .chevron {
+  margin-left: auto;
+  transform: rotate(0deg);
+  transition: var(--transition);
+}
+.accordion-button:not(.collapsed) {
+  font-weight: 700;
+}
+.accordion-button:not(.collapsed) .chevron {
+  transform: rotate(180deg);
+}
+.accordion-button::after {
+  content: unset;
 }
 
 .tabs-group {
@@ -1559,6 +1606,7 @@ main {
   border: 1px solid var(--achromat-4);
   border-radius: 1.3em;
   overflow: hidden;
+  min-height: 100%;
 }
 .account .user-photo {
   display: block;
@@ -1869,6 +1917,16 @@ main {
 .account .message-window .middle {
   flex: 1;
   overflow-y: scroll;
+  padding: 2em;
+}
+.account .message-window .middle time {
+  display: block;
+  text-align: center;
+  margin: 2em 0;
+  color: var(--achromat-3);
+}
+.account .message-window .middle .chat-box-messages .bubble {
+  background-color: var(--achromat-0);
 }
 .account .message-window form {
   background-color: var(--achromat-0);
@@ -1882,6 +1940,49 @@ main {
 .account .message-window form button {
   font-size: 1.5em;
   margin-left: 0.75em;
+}
+.account .user-review {
+  display: grid;
+  grid-template-columns: 140px auto 180px;
+  grid-template-rows: 2em 2em auto;
+  gap: 10px 20px;
+  border-top: 1px solid var(--achromat-4);
+  padding: 1.6em 0px;
+}
+.account .user-review .img {
+  grid-column: 1/2;
+  grid-row: 1/4;
+}
+.account .user-review .img img {
+  width: 100%;
+  height: 140px;
+  border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.account .user-review .grid-1 {
+  grid-column: 2/3;
+  grid-row: 1/2;
+}
+.account .user-review .grid-2 {
+  grid-column: 2/3;
+  grid-row: 2/3;
+}
+.account .user-review .grid-3 {
+  grid-column: 3/4;
+  grid-row: 1/2;
+}
+.account .user-review .grid-4 {
+  grid-column: 3/4;
+  grid-row: 2/3;
+}
+.account .user-review .grid-5 {
+  grid-column: 2/3;
+  grid-row: 3/4;
+}
+.account .user-review .grid-6 {
+  grid-column: 3/4;
+  grid-row: 3/4;
 }
 
 footer {

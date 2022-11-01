@@ -1,6 +1,11 @@
 import React, {useState} from 'react'
 import Table from 'react-bootstrap/Table'
 import Accordion from 'react-bootstrap/Accordion'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import InputFile from '../../components/utils/InputFile'
+import { FiHelpCircle, FiChevronDown} from "react-icons/fi"
+import AdsTr4 from '../../components/AdsTr4'
 
 const Help = () => {
     const [tab, setTab] = useState(0)
@@ -18,6 +23,46 @@ const Help = () => {
                 (tab === 0) &&
                 <div>
                     <h6>Создать новый тикет</h6>
+                    <div className='achromat-3 d-flex align-items-start'>
+                        <FiHelpCircle className='fs-13'/>
+                        <p className='flex-1 ms-3'>Если ваш вопрос технического плана, то желательно предоставить как можно более подробную информацию о проблеме. Пожалуйста, опишите, какие действия совершались до возникновения вопроса, а также, по возможности, приложите необходимые скриншоты. Данная информация значительно ускорит время ответа и избавит от лишних вопросов. Спасибо!</p>
+                    </div>
+                    <form className='mt-5'>
+                        <Row className='g-4'>
+                            <Col md={2}>
+                                <div>Тема:</div>
+                            </Col>
+                            <Col md={10}>
+                                <input type='text' placeholder='Тема тикета'/>
+                            </Col>
+                            <Col md={2}>
+                                <div>Сообщение:</div>
+                            </Col>
+                            <Col md={10}>
+                                <textarea rows={5} placeholder='Сообщение'></textarea>
+                                <InputFile withText={true} />
+                            </Col>
+                        </Row>
+                        <buttob type='button' className='btn-5 mt-4'>Отправить тикет</buttob>
+                    </form>
+
+                    <h6 className='mt-5'>Ваши тикеты</h6>
+                    <Table borderless>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Тема</th>
+                                <th>Последнее сообщение</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <AdsTr4 />
+                            <AdsTr4 />
+                            <AdsTr4 />
+                            <AdsTr4 />
+                        </tbody>
+                    </Table>
                 </div>
             }
             {
@@ -26,7 +71,11 @@ const Help = () => {
                     <h5 className='fw-4'>Продажа</h5>
                     <Accordion defaultActiveKey="0">
                         <Accordion.Item eventKey="0">
-                            <Accordion.Header>Как продать?</Accordion.Header>
+                            <Accordion.Header>
+                                <FiHelpCircle className='me-4'/> 
+                                <span>Как продать?</span>
+                                <FiChevronDown className='chevron'/>
+                            </Accordion.Header>
                             <Accordion.Body>
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
@@ -38,7 +87,11 @@ const Help = () => {
                             </Accordion.Body>
                         </Accordion.Item>
                         <Accordion.Item eventKey="1">
-                            <Accordion.Header>Что делать, если не удалось продать?</Accordion.Header>
+                            <Accordion.Header>
+                                <FiHelpCircle className='me-4'/> 
+                                <span>Что делать, если не удалось продать?</span>
+                                <FiChevronDown className='chevron'/>
+                            </Accordion.Header>
                             <Accordion.Body>
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
@@ -50,7 +103,11 @@ const Help = () => {
                             </Accordion.Body>
                         </Accordion.Item>
                         <Accordion.Item eventKey="2">
-                            <Accordion.Header>Самые популярные вопросы, возникающие во время продажи</Accordion.Header>
+                            <Accordion.Header>
+                                <FiHelpCircle className='me-4'/> 
+                                <span>Самые популярные вопросы, возникающие во время продажи</span>
+                                <FiChevronDown className='chevron'/>
+                            </Accordion.Header>
                             <Accordion.Body>
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
@@ -66,7 +123,11 @@ const Help = () => {
                     <h5 className='fw-4 mt-5'>Покупка</h5>
                     <Accordion defaultActiveKey="0">
                         <Accordion.Item eventKey="0">
-                            <Accordion.Header>Как купить?</Accordion.Header>
+                            <Accordion.Header>
+                                <FiHelpCircle className='me-4'/> 
+                                <span>Как купить?</span>
+                                <FiChevronDown className='chevron'/>
+                            </Accordion.Header>
                             <Accordion.Body>
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
@@ -78,7 +139,11 @@ const Help = () => {
                             </Accordion.Body>
                         </Accordion.Item>
                         <Accordion.Item eventKey="1">
-                            <Accordion.Header>Что делать, если не удалось купить?</Accordion.Header>
+                            <Accordion.Header>
+                                <FiHelpCircle className='me-4'/> 
+                                <span>Что делать, если не удалось купить?</span>
+                                <FiChevronDown className='chevron'/>
+                            </Accordion.Header>
                             <Accordion.Body>
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
@@ -90,7 +155,11 @@ const Help = () => {
                             </Accordion.Body>
                         </Accordion.Item>
                         <Accordion.Item eventKey="2">
-                            <Accordion.Header>Самые популярные вопросы, возникающие во время покупки</Accordion.Header>
+                            <Accordion.Header>
+                                <FiHelpCircle className='me-4'/> 
+                                <span>Самые популярные вопросы, возникающие во время покупки</span>
+                                <FiChevronDown className='chevron'/>
+                            </Accordion.Header>
                             <Accordion.Body>
                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
                             eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad

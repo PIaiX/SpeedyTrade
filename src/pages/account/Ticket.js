@@ -1,13 +1,13 @@
 import React, {useEffect} from 'react'
-import { Link } from 'react-router-dom'
 import InputFile from '../../components/utils/InputFile'
 import ChatBox from '../../components/ChatBox'
 import Dropdown from 'react-bootstrap/Dropdown'
+import { Link } from 'react-router-dom'
 import { IoEllipsisHorizontal } from "react-icons/io5"
-import { BiTrash, BiBlock } from "react-icons/bi"
+import { BiTrash } from "react-icons/bi"
 import { FiSend, FiChevronLeft } from "react-icons/fi"
 
-const MessageWindow = () => {
+const Ticket = () => {
     useEffect(() => {
         const chatBody = document.getElementById('chatBody')
         return () => {
@@ -19,7 +19,7 @@ const MessageWindow = () => {
         <div className='main p-0'>
             <div className='message-window'>
                 <div className='top'>
-                    <Link to='/account/messages'>
+                    <Link to='/account/help'>
                         <FiChevronLeft className='fs-13'/>
                         <span className='ms-2'>Назад</span>
                     </Link>
@@ -39,11 +39,7 @@ const MessageWindow = () => {
                             <Dropdown.Menu>
                                 <Dropdown.Item as="button">
                                     <BiTrash className='fs-13'/>
-                                    <span className='ms-2'>Удалить диалог</span>
-                                </Dropdown.Item>
-                                <Dropdown.Item as="button">
-                                    <BiBlock className='fs-13'/>
-                                    <span className='ms-2'>Заблокировать</span>
+                                    <span className='ms-2'>Удалить тикет</span>
                                 </Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
@@ -67,4 +63,4 @@ const MessageWindow = () => {
     );
 };
 
-export default MessageWindow;
+export default Ticket;

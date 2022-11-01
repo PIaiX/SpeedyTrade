@@ -6,7 +6,7 @@ export default function StarRating(props) {
     const num = Number(props.rate);
     const numRound = Math.round(Number(props.rate));
     return (
-        <div className="star-rating">
+        <div className={"star-rating " + props.className}>
             {
                 arr.map( item => {
                     if(item <= num){

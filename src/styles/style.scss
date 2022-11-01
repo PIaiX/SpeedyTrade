@@ -405,7 +405,7 @@ fieldset {
 .input-file {
     @include flex-center();
     position: relative;
-    width: 3em;
+    min-width: 3em;
     height: 3em;
     color: var(--achromat-2);
     transition: var(--transition);
@@ -609,6 +609,8 @@ h6 {
 .color-4 {color: var(--color-4);}
 .color-5 {color: var(--color-5);}
 .achromat-1 {color: var(--achromat-1);}
+.achromat-2 {color: var(--achromat-2);}
+.achromat-3 {color: var(--achromat-3);}
 .accent {color: var(--accent-br);}
 
 hr {
@@ -747,6 +749,38 @@ hr {
             font-size: 1.3em;
             margin-right: .2em;
         }
+    }
+}
+.accordion {
+    --bs-accordion-color: var(--achromat-2);
+    --bs-accordion-bg: var(--achromat-5);
+    --bs-accordion-border-color: var(--achromat-4);
+    --bs-accordion-border-radius: 0px;
+    --bs-accordion-inner-border-radius: 0px;
+    --bs-accordion-active-color: var(--color-1);
+    --bs-accordion-active-bg: var(--color-5);
+    --bs-accordion-btn-color: var(--achromat-1);
+    --bs-accordion-btn-focus-border-color: var(--color-2);
+    --bs-accordion-btn-focus-box-shadow: unset;
+    --bs-accordion-btn-icon: unset;
+    --bs-accordion-btn-active-icon: unset;
+    &-header {
+        font-size: 1em;
+    }
+    &-button {
+        font-size: 1em;
+        font-weight: 400;
+        svg {font-size: 1.35em;}
+        .chevron {
+            margin-left: auto;
+            transform: rotate(0deg);
+            transition: var(--transition);
+        }
+        &:not(.collapsed) {
+            font-weight: 700;
+            .chevron {transform: rotate(180deg);}
+        }
+        &::after {content: unset;}
     }
 }
 .tabs-group {
@@ -1306,6 +1340,7 @@ main {
     }
 }
 
+
 .news {
     display: flex;
     align-items: flex-start;
@@ -1376,6 +1411,7 @@ main {
     .main {
         @include box();
         overflow: hidden;
+        min-height: 100%;
     }
     .user-photo {
         display: block;
@@ -1658,6 +1694,16 @@ main {
         .middle {
             flex: 1;
             overflow-y: scroll;
+            padding: 2em;
+            time {
+                display: block;
+                text-align: center;
+                margin: 2em 0;
+                color: var(--achromat-3);
+            }
+            .chat-box-messages .bubble {
+                background-color: var(--achromat-0);
+            }
         }
         form {
             background-color: var(--achromat-0);
@@ -1669,6 +1715,48 @@ main {
                 font-size: 1.5em;
                 margin-left: .75em;
             }
+        }
+    }
+    .user-review {
+        display: grid;
+        grid-template-columns: 140px auto 180px;
+        grid-template-rows: 2em 2em auto;
+        gap: 10px 20px;
+        border-top: 1px solid var(--achromat-4);
+        padding: 1.6em 0px;
+        .img {
+            grid-column: 1/2;
+            grid-row: 1/4;
+            img {
+                width: 100%;
+                height: 140px;
+                border-radius: 50%;
+                object-fit: cover;
+            }
+        }
+        .grid-1 {
+            grid-column: 2/3;
+            grid-row: 1/2;
+        }
+        .grid-2 {
+            grid-column: 2/3;
+            grid-row: 2/3;
+        }
+        .grid-3 {
+            grid-column: 3/4;
+            grid-row: 1/2;
+        }
+        .grid-4 {
+            grid-column: 3/4;
+            grid-row: 2/3;
+        }
+        .grid-5 {
+            grid-column: 2/3;
+            grid-row: 3/4;
+        }
+        .grid-6 {
+            grid-column: 3/4;
+            grid-row: 3/4;
         }
     }
 }

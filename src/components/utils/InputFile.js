@@ -12,6 +12,10 @@ export default function InputFile(props) {
                 : <input type="file" onChange={(e) => setFiles(e.target.files.length)}/>
             }
             <FiPaperclip />
+            {
+                (props.withText) &&
+                <span>Прикрепить файлы</span>
+            }
             <div className="ind">{ (files>0) && files }</div>
         </label>
     )
