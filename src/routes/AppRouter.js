@@ -6,6 +6,7 @@ import Home from '../pages/Home'
 import Account from '../pages/account/Account'
 import UserPage from '../pages/UserPage'
 import Game from '../pages/Game'
+import Lot from '../pages/Lot'
 
 export const routeList = [
     {
@@ -16,6 +17,7 @@ export const routeList = [
         {path: 'account/*', element: <Account/>},
         {path: 'user', element: <UserPage/>},
         {path: 'game', element: <Game/>},
+        {path: 'game/lot', element: <Lot/>},
       ],
     },
   ];

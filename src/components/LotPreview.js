@@ -6,7 +6,7 @@ const LotPreview = () => {
     return (
         <tr className='lot-preview'>
             <td>Android</td>
-            <td><Link to='/'>ProjectSuperEssence.net Top Rang Step - Season 3, l8k-2568, Прочее, Без ранга, 150 шт., Avatar</Link></td>
+            <td><Link to='lot'>ProjectSuperEssence.net Top Rang Step - Season 3, l8k-2568, Прочее, Без ранга, 150 шт., Avatar</Link></td>
             <td>
                 <Link to='/user' className='lot-preview-user'>
                     <div className='img'>
