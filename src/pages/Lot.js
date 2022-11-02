@@ -9,7 +9,6 @@ import ChatBox from '../components/ChatBox'
 import Dropdown from 'react-bootstrap/Dropdown'
 import { FiSend, FiBell, FiAlertTriangle, FiTrash2, FiMoreHorizontal } from "react-icons/fi"
 import StarRating from '../components/utils/StarRating'
-import { Link } from 'react-router-dom'
 import ReviewBlock from '../components/ReviewBlock'
 
 const optionsPayment = [
