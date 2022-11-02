@@ -19,7 +19,7 @@ function GameMidi(props) {
                 <div className='mt-3 d-flex flex-wrap align-items-center'>
                     {
                         props.servers.map(obj => {
-                            return <button key={obj} type='button' className='btn-4 px-2 fs-08 me-1 mb-2 text-uppercase'>{obj}</button>
+                            return <button key={obj} type='button' className='btn-4 p-2 fs-08 me-1 mb-2 text-uppercase'>{obj}</button>
                         })
                     }
                 </div>
@@ -27,7 +27,7 @@ function GameMidi(props) {
             <div className='mt-3 d-flex flex-wrap align-items-center'>
                 {
                     props.subLinksArr.map(obj => {
-                        return <Link key={obj.anchor} to={obj.link} className='fs-09 me-3 mb-2'>{obj.anchor}</Link>
+                        return <Link key={obj.anchor} to='/game' className='fs-09 me-3 mb-2'>{obj.anchor}</Link>
                     })
                 }
             </div>
