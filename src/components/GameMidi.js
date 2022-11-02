@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 function GameMidi(props) {
     return (
         <>
+            <Link to='/game'>
             <figure className='game-midi'>
                 <img src={props.imgLink} alt={props.title}/>
                 <figcaption>
@@ -14,6 +15,7 @@ function GameMidi(props) {
                     }
                 </figcaption>
             </figure>
+            </Link>
             {
                 (props.servers) &&
                 <div className='mt-3 d-flex flex-wrap align-items-center'>

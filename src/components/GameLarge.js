@@ -10,7 +10,7 @@ function GameLarge(props) {
             <figcaption>
                 <Row>
                     <Col md={9} xl={7} xxl={6}>
-                        <h2><Link to='/'>{props.title}</Link></h2>
+                        <h2><Link to='/game'>{props.title}</Link></h2>
                         <p className='mb-4'>{props.description}</p>
                     </Col>
                     <Col md={10}>
