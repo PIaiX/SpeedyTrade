@@ -16,7 +16,7 @@ const MessagePreview = () => {
             </div>
             <Link to='chat' className='message'>
                 <img src='imgs/user.png' alt='Имя'/>
-                <div><a>Да, конечно, давай! Ты уточняла вчера по поводу запасов алмазов, мне кажется т</a></div>
+                <div>Да, конечно, давай! Ты уточняла вчера по поводу запасов алмазов, мне кажется т</div>
             </Link>
             <div className='date'>10.10.2022 в 14:45</div>
             <div className='count'>

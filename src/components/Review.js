@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import { FiTrash2 } from "react-icons/fi"
 import StarRating from './utils/StarRating'
 
@@ -6,10 +7,12 @@ const Review = (props) => {
     return (
         <div className='user-review'>
             <div className='img'>
-                <img src='imgs/user2.png' alt=''/>
+                <Link to='/user'>
+                <img src='imgs/user2.png' alt='Владимирская Елена'/>
+                </Link>
             </div>
             <div className='grid-1'>
-                <h4 className='color-1'>Владимирская Елена</h4>
+                <h4 className='color-1'><Link to='/user'>Владимирская Елена</Link></h4>
             </div>
             <div className='grid-2'>
                 <h5>@lenok420</h5>

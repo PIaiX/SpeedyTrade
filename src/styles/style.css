@@ -1601,6 +1601,43 @@ main {
   font-size: 0.95em;
 }
 
+.user-page .img {
+  width: 100%;
+  height: 280px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 1.5em;
+  margin-bottom: 1em;
+}
+@media (max-width: 1399px) {
+  .user-page .img {
+    height: 260px;
+  }
+}
+@media (max-width: 1199px) {
+  .user-page .img {
+    height: 215px;
+  }
+}
+@media (max-width: 767px) {
+  .user-page .img {
+    height: 200px;
+  }
+}
+@media (max-width: 575px) {
+  .user-page .img {
+    height: 95vw;
+  }
+}
+.user-page .info {
+  font-size: 1.2em;
+}
+@media (max-width: 575px) {
+  .user-page .info {
+    font-size: 1em;
+  }
+}
+
 .account {
   --width-1: 140px;
   --width-2: 180px;

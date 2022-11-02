@@ -60,7 +60,6 @@
     --accent: #5736DB;
     --accent-br: #5736DB;
     --hr-color: #2B2831;
-    
     --search-btn: var(--font-color);
     --btn-1-bg: #5736DB;
     --btn-1-color: #FAF2FF;
@@ -71,7 +70,6 @@
     --btn-3-color: #FAF2FF;
     --btn-3-bg-active: var(--accent);
     --btn-3-color-active: #FAF2FF;
-
     --bubble: #25232A;
     --chat-border: #303030;
     --scroll-rgb: 255 255 255;
@@ -1393,6 +1391,34 @@ main {
         line-height: 1.3em;
         height: 3.9em;
         font-size: .95em;
+    }
+}
+
+.user-page {
+    .img {
+        width: 100%;
+        height: 280px;
+        object-fit: cover;
+        border-radius: 1.5em;
+        margin-bottom: 1em;
+        @media (max-width: 1399px){
+            height: 260px;
+        }
+        @media (max-width: 1199px){
+            height: 215px;
+        }
+        @media (max-width: 767px){
+            height: 200px;
+        }
+        @media (max-width: 575px){
+            height: 95vw;
+        }
+    }
+    .info {
+        font-size: 1.2em;
+        @media (max-width: 575px){
+            font-size: 1em;
+        }
     }
 }
 
