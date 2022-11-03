@@ -5,17 +5,16 @@ function getFaviconEl() {
     return document.getElementById("favicon");
 }
 
-function ThemeToggler(props) {
-
+function ThemeToggler() {
     const changeToDark = () => {
         const favicon = getFaviconEl();
         favicon.href = "favicon-dark.svg";
-    };
+    }
     
     const changeToLight = () => {
         const favicon = getFaviconEl();
         favicon.href = "favicon-light.svg";
-    };
+    }
 
     return (
         <ThemeContext.Consumer>
@@ -31,7 +30,7 @@ function ThemeToggler(props) {
                             changeToLight()
                         }
                     }}
-                    value={theme === themes.dark} defaultChecked={true}/>
+                    value={theme === themes.dark} checked={theme === themes.dark}/>
                 </label>
             )}
         </ThemeContext.Consumer>
