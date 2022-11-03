@@ -254,7 +254,7 @@ input::-webkit-inner-spin-button {
         button {
             display: flex;
             color: var(--color-5);
-            &:not(:last-child){margin-left: .1em;}
+            &:not(:last-child){margin-left: .25em;}
             svg {transition:var(--transition);}
             &:hover, &.active, &.active ~ button, &:hover, &:hover ~ button  {
                 color: var(--color-2);
@@ -262,6 +262,29 @@ input::-webkit-inner-spin-button {
         }
     }
 }
+.password {
+    position: relative;
+    input {
+      position: relative;
+      z-index: 1;
+    }
+    button {
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      height: 100%;
+      z-index: 2;
+      width: 2.5em;
+      font-size: 1.5em;
+      color: var(--achromat-3);
+      &:hover, &:focus {
+        color: var(--color-2)
+      }
+      &:active {
+        color: var(--color-1)
+      }
+    }
+  }
 select {
     @include no-appearance();
     padding: 1em 1.5em 1em .5em;
@@ -2236,6 +2259,19 @@ footer {
     }
 }
 
+.modal {
+    &-content {
+        background-color: var(--achromat-0);
+        border-radius: 1.5em;
+        border: 1px solid var(--achromat-4);
+    }
+    &-body {
+        padding: 2em;
+        @media (max-width: 575px){
+            padding: 1em;
+        }
+    }
+}
 .offcanvas {
     background-color: var(--bg-3);    
     &.offcanvas-top {

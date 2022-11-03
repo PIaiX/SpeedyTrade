@@ -7,6 +7,9 @@ import Account from '../pages/account/Account'
 import UserPage from '../pages/UserPage'
 import Game from '../pages/Game'
 import Lot from '../pages/Lot'
+import Login from '../pages/Login'
+import Registration from '../pages/Registration'
+import ResetPassword from '../pages/ResetPassword'
 
 export const routeList = [
     {
@@ -18,6 +21,9 @@ export const routeList = [
         {path: 'user', element: <UserPage/>},
         {path: 'game', element: <Game/>},
         {path: 'game/lot', element: <Lot/>},
+        {path: 'login', element: <Login />},
+        {path: 'registration', element: <Registration />},
+        {path: 'reset-password', element: <ResetPassword/>},
       ],
     },
   ];

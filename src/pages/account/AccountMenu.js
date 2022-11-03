@@ -1,6 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
-import { BiUserCircle, BiNews, BiHistory, BiBookOpen, BiEnvelope, BiWallet, BiCog, BiConversation, BiLogOut, BiLike } from "react-icons/bi"
+import { BiUserCircle, BiNews, BiHistory, BiBookOpen, BiEnvelope, BiWallet, BiConversation, BiLogOut, BiLike } from "react-icons/bi"
 
 export default function AccountMenu() {
     return (
@@ -40,12 +40,6 @@ export default function AccountMenu() {
                     <NavLink to='messages'>
                         <BiEnvelope/>
                         <span>Сообщения</span>
-                    </NavLink>
-                </li>
-                <li>
-                    <NavLink to='settings'>
-                        <BiCog/>
-                        <span>Настройки</span>
                     </NavLink>
                 </li>
                 <li>

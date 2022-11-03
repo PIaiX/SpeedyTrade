@@ -261,13 +261,37 @@ input::-webkit-inner-spin-button {
   color: var(--color-5);
 }
 .input-rating .stars button:not(:last-child) {
-  margin-left: 0.1em;
+  margin-left: 0.25em;
 }
 .input-rating .stars button svg {
   transition: var(--transition);
 }
 .input-rating .stars button:hover, .input-rating .stars button.active, .input-rating .stars button.active ~ button, .input-rating .stars button:hover, .input-rating .stars button:hover ~ button {
   color: var(--color-2);
+}
+
+.password {
+  position: relative;
+}
+.password input {
+  position: relative;
+  z-index: 1;
+}
+.password button {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  height: 100%;
+  z-index: 2;
+  width: 2.5em;
+  font-size: 1.5em;
+  color: var(--achromat-3);
+}
+.password button:hover, .password button:focus {
+  color: var(--color-2);
+}
+.password button:active {
+  color: var(--color-1);
 }
 
 select {
@@ -2628,6 +2652,20 @@ footer nav.mobile a.active, footer nav.mobile button.active {
 .dev .color {
   color: #59FFE1;
   font-size: 1.1em;
+}
+
+.modal-content {
+  background-color: var(--achromat-0);
+  border-radius: 1.5em;
+  border: 1px solid var(--achromat-4);
+}
+.modal-body {
+  padding: 2em;
+}
+@media (max-width: 575px) {
+  .modal-body {
+    padding: 1em;
+  }
 }
 
 .offcanvas {

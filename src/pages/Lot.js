@@ -145,7 +145,6 @@ const Lot = () => {
                             <ReviewBlock />
                         </Col>
                     </Row>
-                    
                 </section>
             </Container>
         </main>

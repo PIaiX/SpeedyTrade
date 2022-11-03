@@ -31,8 +31,8 @@ function Header(props) {
                 <div className='d-flex align-items-center'>
                     <ThemeToggler />
                     <hr className='vertical d-none d-xl-block mx-3 mx-xl-4' />
-                    <a href='/' className='d-none d-xl-block'>Регистрация</a>
-                    <Link to='account' className='d-none d-md-block btn-1 ms-4'>Войти</Link>
+                    <Link to='/registration' className='d-none d-xl-block'>Регистрация</Link>
+                    <Link to='/account' className='d-none d-md-block btn-1 ms-4'>Войти</Link>
                 </div>
             </Container>
         </header>
