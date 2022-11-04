@@ -10,12 +10,16 @@ import { FiArrowLeft } from "react-icons/fi"
 const optionsPlatform = [
     { value: '1', label: 'Платформа 1' },
     { value: '2', label: 'Платформа 2' },
-    { value: '3', label: 'Платформа 3' }
+    { value: '3', label: 'Платформа 3' },
 ]
 const optionsGames = [
     { value: '1', label: 'Игра 1' },
     { value: '2', label: 'Игра 2' },
-    { value: '3', label: 'Игра 3' }
+    { value: '3', label: 'Игра 3' },
+]
+const optionsLotType= [
+    { value: '1', label: 'Предмет' },
+    { value: '2', label: 'Услуга' },
 ]
 
 const PostAd = () => {
@@ -28,17 +32,21 @@ const PostAd = () => {
             <p className='mb-4'>Добавление нового объявления</p>
             <form>
                 <Row className='g-3 g-lg-4 align-items-center'>
-                    <Col xs={12} sm={3} md={2}>Платформа:</Col>
-                    <Col xs={12} sm={9} md={10}>
-                        <Select name="platform" placeholder='Выбрать' classNamePrefix="react-select" options={optionsPlatform} isClearable={true} isSearchable={true} />
-                    </Col>
                     <Col xs={12} sm={3} md={2}>Игра:</Col>
                     <Col xs={12} sm={9} md={10}>
                         <Select name="game" placeholder='Выбрать' classNamePrefix="react-select" options={optionsGames} isClearable={true} isSearchable={true} />
                     </Col>
+                    <Col xs={12} sm={3} md={2}>Платформа:</Col>
+                    <Col xs={12} sm={9} md={10}>
+                        <Select name="platform" placeholder='Выбрать' classNamePrefix="react-select" options={optionsPlatform} isClearable={true} isSearchable={true} />
+                    </Col>
                     <Col xs={12} sm={3} md={2}>Сервер:</Col>
                     <Col xs={12} sm={9} md={10}>
                         <Select name="game" placeholder='Выбрать' classNamePrefix="react-select" options={optionsGames} isClearable={true} isSearchable={true} />
+                    </Col>
+                    <Col xs={12} sm={3} md={2}>Категория лота:</Col>
+                    <Col xs={12} sm={9} md={10}>
+                        <Select name="game" placeholder='Выбрать' classNamePrefix="react-select" options={optionsLotType} isClearable={true} isSearchable={true} />
                     </Col>
                     <Col xs={12} sm={3} md={2}>Предмет:</Col>
                     <Col xs={12} sm={9} md={10}>
@@ -61,11 +69,11 @@ const PostAd = () => {
                     </Col>
                     <Col xs={12} sm={3} md={2}>Профессия:</Col>
                     <Col xs={12} sm={9} md={10}>
-                        <Select name="platform" placeholder='Выбрать' classNamePrefix="react-select" options={optionsPlatform} isClearable={true} isSearchable={true} />
+                        <input type='text' placeholder='Профессия'/>
                     </Col>
                     <Col xs={12} sm={3} md={2}>Описание:</Col>
                     <Col xs={12} sm={9} md={10}>
-                        <Select name="platform" placeholder='Выбрать' classNamePrefix="react-select" options={optionsPlatform} isClearable={true} isSearchable={true} />
+                        <input type='text' placeholder='Описание'/>
                     </Col>
                     <Col xs={12}>
                         <hr className='horizontal' />

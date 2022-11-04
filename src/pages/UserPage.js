@@ -36,6 +36,7 @@ const UserPage = () => {
                             <h4>Колесникова Ирина</h4>
                             <StarRating rate={4.1} className='justify-content-start'/>
                             <p className='mt-4'>На сайте с сентября 2019 г.</p>
+                            <p className='mt-2'>Завершено сделок: <strong>100</strong></p>
                             <button type='button' onClick={handleShowReview} className='btn-6 mt-4'>Оставить отзыв</button>
                         </Col>
                         <Col xs={12} lg={5} xl={6}>

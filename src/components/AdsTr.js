@@ -6,9 +6,8 @@ import { BiTrash, BiEdit } from "react-icons/bi"
 const AdsTr = (props) => {
     return (
         <tr>
-            <td>{props.date}</td>
-            <td>{props.order}</td>
-            <td>{props.level}</td>
+            <td>{props.game}</td>
+            <td>{props.platform}</td>
             <td>{props.description}</td>
             <td>{props.price}&nbsp;руб.</td>
             <td>

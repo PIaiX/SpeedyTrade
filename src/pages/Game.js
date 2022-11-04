@@ -5,13 +5,17 @@ import Col from 'react-bootstrap/Col'
 import Table from 'react-bootstrap/Table'
 import { FiSearch } from "react-icons/fi"
 import LotPreview from '../components/LotPreview'
+import BtnAddFav from '../components/utils/BtnAddFav'
 
 const Game = () => {
     return (
         <main>
             <Container>
                 <section className='game-page pt-4 pt-sm-5 mb-6'>
-                    <h1>Аккаунты Genshin Impact</h1>
+                    <div className='d-md-flex align-items-center justify-content-between mb-4 mb-sm-5'>
+                        <h1 className='mb-md-0'>Аккаунты Genshin Impact</h1>
+                        <BtnAddFav add={false} />
+                    </div>
                     <Row>
                         <Col xs={12} lg={7} xl={8}>
                             <img src='imgs/slider-main/genshin.jpg' alt='genshin' className='main-img mb-4 mb-lg-0'/>

@@ -1299,6 +1299,7 @@ main {
   z-index: 1;
   transform: scale(1);
   transition: 600ms ease;
+  border-radius: 1.25em;
 }
 .game-large:hover img {
   transform: scale(1.025);
@@ -1313,6 +1314,7 @@ main {
   align-items: flex-end;
   justify-content: stretch;
   padding: 3em;
+  border-radius: 1.25em;
 }
 @media (max-width: 1199px) {
   .game-large figcaption {
@@ -1704,6 +1706,17 @@ main {
 }
 .game-page p {
   margin-bottom: 1em;
+}
+.game-page .add-fav {
+  text-align: right;
+  color: var(--achromat-3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: var(--transition);
+}
+.game-page .add-fav.active {
+  color: var(--color-1);
 }
 
 .lot-preview {

@@ -40,6 +40,12 @@ const Registration = () => {
                                         <input type='email' placeholder='Email' />
                                     </Col>
                                     <Col md={4}>
+                                        <div>Код с почты:</div>
+                                    </Col>
+                                    <Col md={8}>
+                                        <input type='text' placeholder='Код' />
+                                    </Col>
+                                    <Col md={4}>
                                         <h6 className='mb-0'>Пароль:</h6>
                                     </Col>
                                     <Col md={8}>

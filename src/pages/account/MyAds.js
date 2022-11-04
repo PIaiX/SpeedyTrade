@@ -54,20 +54,19 @@ const MyAds = () => {
             <Table borderless responsive className='my-4'>
                 <thead>
                     <tr>
-                        <th>Дата</th>
-                        <th>Заказ</th>
-                        <th>Уровень</th>
+                        <th>Название&nbsp;игры</th>
+                        <th>Платформа</th>
                         <th>Описание</th>
                         <th>Цена</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <AdsTr date={'24.08.2022'} order={'#CTWVZGG6'} level={'4738'} description={'ProjectSuperEssence.net Top Rang Step - Season 3, l8k-2568, Прочее, Без ранга, 150 шт., Avatar'} price={3000}/>
-                    <AdsTr date={'24.08.2022'} order={'#CTWVZGG6'} level={'4738'} description={'ProjectSuperEssence.net Top Rang Step - Season 3, l8k-2568, Прочее, Без ранга, 150 шт., Avatar'} price={3000}/>
-                    <AdsTr date={'24.08.2022'} order={'#CTWVZGG6'} level={'4738'} description={'ProjectSuperEssence.net Top Rang Step - Season 3, l8k-2568, Прочее, Без ранга, 150 шт., Avatar'} price={3000}/>
-                    <AdsTr date={'24.08.2022'} order={'#CTWVZGG6'} level={'4738'} description={'ProjectSuperEssence.net Top Rang Step - Season 3, l8k-2568, Прочее, Без ранга, 150 шт., Avatar'} price={3000}/>
-                    <AdsTr date={'24.08.2022'} order={'#CTWVZGG6'} level={'4738'} description={'ProjectSuperEssence.net Top Rang Step - Season 3, l8k-2568, Прочее, Без ранга, 150 шт., Avatar'} price={3000}/>
+                    <AdsTr game={'Genshin Impact'} platform={'Android'} description={'ProjectSuperEssence.net Top Rang Step - Season 3, l8k-2568, Прочее, Без ранга, 150 шт., Avatar'} price={3000}/>
+                    <AdsTr game={'Genshin Impact'} platform={'Android'} description={'ProjectSuperEssence.net Top Rang Step - Season 3, l8k-2568, Прочее, Без ранга, 150 шт., Avatar'} price={3000}/>
+                    <AdsTr game={'Genshin Impact'} platform={'Android'} description={'ProjectSuperEssence.net Top Rang Step - Season 3, l8k-2568, Прочее, Без ранга, 150 шт., Avatar'} price={3000}/>
+                    <AdsTr game={'Genshin Impact'} platform={'Android'} description={'ProjectSuperEssence.net Top Rang Step - Season 3, l8k-2568, Прочее, Без ранга, 150 шт., Avatar'} price={3000}/>
+                    <AdsTr game={'Genshin Impact'} platform={'Android'} description={'ProjectSuperEssence.net Top Rang Step - Season 3, l8k-2568, Прочее, Без ранга, 150 шт., Avatar'} price={3000}/>
                 </tbody>
             </Table>
             <Pagination />
