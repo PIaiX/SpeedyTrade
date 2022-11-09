@@ -1104,6 +1104,10 @@ main {
     position: relative;
     border-radius: 1.25em;
     overflow: hidden;
+    z-index: 1;
+    -webkit-mask-image: -webkit-radial-gradient(white, black);
+    isolation: isolate;
+    transform: translateZ(0);
     @media (max-width: 1399px){
         height: 550px;
     }
@@ -1124,7 +1128,7 @@ main {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        z-index: 1;
+        z-index: 2;
         transform: scale(1);
         transition: 600ms ease;
         border-radius: 1.25em;
