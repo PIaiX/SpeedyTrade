@@ -88,7 +88,7 @@
     --color-5: #1A103F;
     --green: #27AE60;
 }
-
+// "homepage": "https://ngf93.github.io/games",
 /* mixins */
 @mixin flex-center {
     display: flex;
@@ -283,7 +283,7 @@ input::-webkit-inner-spin-button {
         color: var(--color-1)
       }
     }
-  }
+}
 select {
     @include no-appearance();
     padding: 1em 1.5em 1em .5em;
@@ -459,7 +459,10 @@ fieldset {
         margin-bottom: 1em;
     }
 }
-
+.input-group {
+    display: flex;
+    flex-wrap: nowrap
+}
 .input-file {
     @include flex-center();
     position: relative;

@@ -37,13 +37,16 @@ const Registration = () => {
                                         <h6 className='mb-0'>Email:</h6>
                                     </Col>
                                     <Col md={8}>
-                                        <input type='email' placeholder='Email' />
+                                        <div className='input-group'>
+                                            <input type='email' placeholder='Email' />
+                                            <button type='button' className='btn-4 px-3 flex-1'>Выслать&nbsp;код</button>
+                                        </div>
                                     </Col>
                                     <Col md={4}>
                                         <div>Код с почты:</div>
                                     </Col>
                                     <Col md={8}>
-                                        <input type='text' placeholder='Код' />
+                                        <input type='number' placeholder='Код' className='w-100'/>
                                     </Col>
                                     <Col md={4}>
                                         <h6 className='mb-0'>Пароль:</h6>

@@ -478,6 +478,11 @@ fieldset legend {
   margin-bottom: 1em;
 }
 
+.input-group {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
 .input-file {
   display: flex;
   justify-content: center;
