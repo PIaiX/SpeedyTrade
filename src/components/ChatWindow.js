@@ -1,23 +1,23 @@
-import React, {useEffect} from 'react';
-import { FiSend } from "react-icons/fi";
-import ChatBox from './ChatBox';
+import React, {useEffect} from 'react'
+import {FiSend} from 'react-icons/fi'
+import ChatBox from './ChatBox'
 
 function ChatWindow(props) {
     useEffect(() => {
         const chatBody = document.getElementById('chatBody')
         return () => {
             chatBody.scrollTop = chatBody.scrollHeight
-        };
-    });
+        }
+    })
 
     return (
-        <section className='chat'>
-            <div className='chat-title'>
-                <h2 className='mb-0'>Онлайн-чат</h2>
-                <p className='d-none d-sm-block ms-4'>Продажа в чате запрещена</p>
+        <section className="chat">
+            <div className="chat-title">
+                <h2 className="mb-0">Онлайн-чат</h2>
+                <p className="d-none d-sm-block ms-4">Продажа в чате запрещена</p>
             </div>
-            <div className='chat-window'>
-                <div className='chat-space' id='chatBody'>
+            <div className="chat-window">
+                <div className="chat-space" id="chatBody">
                     <ChatBox />
                     <ChatBox />
                     <ChatBox />
@@ -28,13 +28,15 @@ function ChatWindow(props) {
                     <ChatBox />
                 </div>
                 <form>
-                    <input placeholder='Начните общаться'/>
-                    <hr className='vertical mx-2 mx-sm-3'/>
-                    <button type='submit'><FiSend /></button>
+                    <input placeholder="Начните общаться" />
+                    <hr className="vertical mx-2 mx-sm-3" />
+                    <button type="submit">
+                        <FiSend />
+                    </button>
                 </form>
             </div>
         </section>
-    );
+    )
 }
 
-export default ChatWindow;
+export default ChatWindow

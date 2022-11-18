@@ -1,62 +1,72 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
-import { BiUserCircle, BiNews, BiHistory, BiBookOpen, BiEnvelope, BiWallet, BiConversation, BiLogOut, BiLike } from "react-icons/bi"
+import {NavLink} from 'react-router-dom'
+import {
+    BiUserCircle,
+    BiNews,
+    BiHistory,
+    BiBookOpen,
+    BiEnvelope,
+    BiWallet,
+    BiConversation,
+    BiLogOut,
+    BiLike,
+} from 'react-icons/bi'
 
 export default function AccountMenu() {
     return (
-        <nav className='menu'>
+        <nav className="menu">
             <ul>
                 <li>
-                    <NavLink to='profile'>
-                        <BiUserCircle/>
+                    <NavLink to="profile">
+                        <BiUserCircle />
                         <span>Профиль</span>
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to='ads'>
-                        <BiNews/>
+                    <NavLink to="ads">
+                        <BiNews />
                         <span>Мои объявления</span>
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to='purchase-history'>
-                        <BiHistory/>
+                    <NavLink to="purchase-history">
+                        <BiHistory />
                         <span>История покупок</span>
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to='sales'>
-                        <BiBookOpen/>
+                    <NavLink to="sales">
+                        <BiBookOpen />
                         <span>История продаж</span>
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to='finance'>
-                        <BiWallet/>
+                    <NavLink to="finance">
+                        <BiWallet />
                         <span>Финансы</span>
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to='messages'>
-                        <BiEnvelope/>
+                    <NavLink to="messages">
+                        <BiEnvelope />
                         <span>Сообщения</span>
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to='help'>
-                        <BiConversation/>
+                    <NavLink to="help">
+                        <BiConversation />
                         <span>Помощь</span>
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to='reviews'>
-                        <BiLike/>
+                    <NavLink to="reviews">
+                        <BiLike />
                         <span>Отзывы</span>
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to='exit'>
-                        <BiLogOut/>
+                    <NavLink to="exit">
+                        <BiLogOut />
                         <span>Выйти</span>
                     </NavLink>
                 </li>

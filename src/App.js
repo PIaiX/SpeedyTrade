@@ -1,12 +1,9 @@
-import React from 'react';
-import { HashRouter } from "react-router-dom";
-import AppRouter from './routes/AppRouter';
+import React from 'react'
+import AppRouter from './routes/AppRouter'
 
 function App() {
-  return (
-    <HashRouter>
-      <AppRouter />
-    </HashRouter>
-  );
+    return (
+        <AppRouter />
+    )
 }
-export default App;
+export default App

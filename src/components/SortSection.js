@@ -7,7 +7,7 @@ const SortSection = () => {
     useEffect(() => {
         function updateSort() {
             let box = document.getElementById('sort').getBoundingClientRect()
-            let offsetElem=box.top + window.pageYOffset
+            let offsetElem = box.top + window.pageYOffset
             let scrollTop = window.pageYOffset
             if (scrollTop > offsetElem) {
                 setSortVisible(true)
@@ -16,18 +16,18 @@ const SortSection = () => {
             }
         }
 
-        window.addEventListener('scroll', updateSort);
-        updateSort();
-        return () => window.removeEventListener('scroll', updateSort);
+        window.addEventListener('scroll', updateSort)
+        updateSort()
+        return () => window.removeEventListener('scroll', updateSort)
     }, [])
-    
+
     return (
-        <section className={(sortVisible)?'fixed-sort show':'fixed-sort'}>
+        <section className={sortVisible ? 'fixed-sort show' : 'fixed-sort'}>
             <Container>
                 <Sort />
             </Container>
         </section>
-    );
-};
+    )
+}
 
-export default SortSection;
+export default SortSection

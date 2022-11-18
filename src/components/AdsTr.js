@@ -1,7 +1,7 @@
 import React from 'react'
 import Dropdown from 'react-bootstrap/Dropdown'
-import { IoEllipsisHorizontal } from "react-icons/io5"
-import { BiTrash, BiEdit } from "react-icons/bi"
+import {IoEllipsisHorizontal} from 'react-icons/io5'
+import {BiTrash, BiEdit} from 'react-icons/bi'
 
 const AdsTr = (props) => {
     return (
@@ -13,22 +13,22 @@ const AdsTr = (props) => {
             <td>
                 <Dropdown align="end">
                     <Dropdown.Toggle variant="simple">
-                        <IoEllipsisHorizontal/>
+                        <IoEllipsisHorizontal />
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
                         <Dropdown.Item as="button">
-                            <BiEdit/>
+                            <BiEdit />
                             <span>Редактировать</span>
                         </Dropdown.Item>
                         <Dropdown.Item as="button">
-                            <BiTrash/>
+                            <BiTrash />
                             <span>Удалить запись</span>
                         </Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
             </td>
         </tr>
-    );
-};
+    )
+}
 
-export default AdsTr;
+export default AdsTr

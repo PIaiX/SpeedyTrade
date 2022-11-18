@@ -1,6 +1,5 @@
 import React from 'react'
-import { useRoutes, useLocation } from "react-router-dom"
-import { useLayoutEffect } from "react"
+import {useRoutes, useLocation, createBrowserRouter, createRoutesFromElements, Route, RouterProvider} from 'react-router-dom'
 import Layout from '../components/Layout'
 import Home from '../pages/Home'
 import Account from '../pages/account/Account'
@@ -11,35 +10,25 @@ import Login from '../pages/Login'
 import Registration from '../pages/Registration'
 import ResetPassword from '../pages/ResetPassword'
 
-export const routeList = [
-    {
-      path: '/',
-      element: <Layout/>,
-      children: [
-        {index: true, element: <Home />},
-        {path: 'account/*', element: <Account/>},
-        {path: 'user', element: <UserPage/>},
-        {path: 'game', element: <Game/>},
-        {path: 'game/lot', element: <Lot/>},
-        {path: 'login', element: <Login />},
-        {path: 'registration', element: <Registration />},
-        {path: 'reset-password', element: <ResetPassword/>},
-      ],
-    },
-  ];
+const router = createBrowserRouter(
+    createRoutesFromElements(
+        <Route path='/' element={<Layout/>}>
+            <Route index element={<Home/>}/>
+            <Route path='account/*' element={<Account/>}/>
+            <Route path='user' element={<UserPage/>}/>
+            <Route path='game' element={<Game/>}/>
+            <Route path='game/lot' element={<Lot/>}>
+                <Route path='lot' element={<Lot/>}/>
+            </Route>
+            <Route path='login' element={<Login/>}/>
+            <Route path='registration' element={<Registration/>}/>
+            <Route path='reset-password' element={<ResetPassword/>}/>
+        </Route>
+    )
+)
 
 export default function AppRouter() {
-    const Wrapper = ({ children }) => {
-      const {pathname} = useLocation();
-      useLayoutEffect(() => document.documentElement.scrollTo(0, 0), [pathname])
-      return children
-    }
-  
-    const element = useRoutes(routeList)
-  
-    return (
-      <Wrapper>
-        {element}
-      </Wrapper>
-    );
-  }
+    return <RouterProvider router={router}/>
+}
+
+
