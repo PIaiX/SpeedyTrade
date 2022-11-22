@@ -82,7 +82,7 @@ function Sort(props) {
 
     const [sortSwiper, setSortSwiper] = useState(null)
     const updateSlider = (i) => {
-        sortSwiper.slideTo(i)
+        sortSwiper?.slideTo(i)
     }
 
     return (
