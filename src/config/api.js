@@ -9,6 +9,13 @@ const apiRoutes = {
     CONFIRM_FORGOT_PASSWORD: 'auth/forgotPassword',
     REGISTRATION: 'auth/register',
     REGISTRATION_EMAIL_VERIFY: 'auth/register/emailVerify',
+
+    //catalog
+    GET_GAMES_CATEGORIES: 'game/category',
+    GET_PARAMS_CATEGORIES: 'game/category/parameter',
+    ACTIONS_GAMES: 'game',
+    GET_GAMES_PLATFORM: 'game/platform',
+    GET_GAMES_SERVERS: 'game/server',
 }
 
 const apiResponseMessages = {}
