@@ -2,27 +2,21 @@ import React, {useState} from 'react'
 import {FiEye, FiEyeOff} from 'react-icons/fi'
 
 export default function InputPassword(props) {
-    const [visible, setVisibility] = useState(props.visible)
-    const handleClick = () => {
-        visible ? setVisibility(false) : setVisibility(true)
-    }
+    const [visible, setVisible] = useState(props.visible)
 
     return (
         <div className={'password ' + props.className}>
             <input
                 type={visible ? 'text' : 'password'}
                 name={props.name}
-                autoComplete="current-password"
-                minLength="8"
-                maxLength="20"
-                size="8"
-                required
-                value={props.value}
-                onChange={props.onChange}
+                className={props?.forInputClassName}
+                autoComplete="new-password"
+                {...props.register}
             />
-            <button type="button" onClick={() => handleClick()}>
+            <button type="button" onClick={() => setVisible(!visible)}>
                 {visible ? <FiEye /> : <FiEyeOff />}
             </button>
+            {props?.errorMessage && <span className="validate-error">{props?.errorMessage}</span>}
         </div>
     )
 }

@@ -6,8 +6,11 @@ import UserPhoto from '../../components/utils/UserPhoto'
 import {Link} from 'react-router-dom'
 import {FiArrowLeft} from 'react-icons/fi'
 import InputPassword from '../../components/utils/InputPassword'
+import {useSelector} from 'react-redux'
 
-export default function UserProfile() {
+const UserProfile = () => {
+    const user = useSelector((state) => state?.user?.user)
+
     return (
         <div className="main">
             <div className="d-flex align-items-center mb-4">
@@ -19,11 +22,11 @@ export default function UserProfile() {
             <Row className="flex-lg-row-reverse">
                 <Col xs={12} xl={4}>
                     <div className="d-flex flex-column flex-sm-row flex-xl-column align-items-center mb-4 mb-xl-0">
-                        <UserPhoto imgUrl={'imgs/user.png'} name={'Колесникова Ирина'} />
+                        <UserPhoto imgUrl={'/imgs/user.png'} name={'Колесникова Ирина'} />
                         <div className="d-flex flex-column align-items-center align-items-sm-start align-items-xl-center justify-content-center">
-                            <h4 className="color-1 mt-3 mt-sm-0 mb-2 mb-sm-4">Колесникова Ирина</h4>
+                            <h4 className="color-1 mt-3 mt-sm-0 mb-2 mb-sm-4">{user?.fullName}</h4>
                             <StarRating className="justify-content-start justify-content-xl-center" rate={4.35} />
-                            <div className="mt-2 mt-sm-4">На сайте с сентября 2019 г.</div>
+                            <div className="mt-2 mt-sm-4">На сайте с {user?.createdAtForUser}</div>
                         </div>
                     </div>
                 </Col>
@@ -34,19 +37,19 @@ export default function UserProfile() {
                                 <div>Имя:</div>
                             </Col>
                             <Col md={9}>
-                                <input type="text" placeholder="Имя" defaultValue={'Ирина'} />
+                                <input type="text" placeholder="Имя" defaultValue={user?.firstName} />
                             </Col>
                             <Col md={3}>
                                 <div>Фамилия:</div>
                             </Col>
                             <Col md={9}>
-                                <input type="text" placeholder="Фамилия" defaultValue={'Колесникова'} />
+                                <input type="text" placeholder="Фамилия" defaultValue={user?.lastName} />
                             </Col>
                             <Col md={3}>
                                 <div>Ник:</div>
                             </Col>
                             <Col md={9}>
-                                <input type="text" placeholder="Ник" defaultValue={'Irishka1911'} />
+                                <input type="text" placeholder="Ник" defaultValue={user?.nickname} />
                             </Col>
                             <Col md={3}>
                                 <div>Пол:</div>
@@ -112,11 +115,7 @@ export default function UserProfile() {
                                 <div>Email:</div>
                             </Col>
                             <Col md={9}>
-                                <input
-                                    type="email"
-                                    placeholder="email@email.com"
-                                    defaultValue={'kolesnikovairina@mail.com'}
-                                />
+                                <input type="email" placeholder="email@email.com" defaultValue={user?.email} />
                             </Col>
                             <Col md={9} offset={3}>
                                 <label>
@@ -168,3 +167,5 @@ export default function UserProfile() {
         </div>
     )
 }
+
+export default UserProfile

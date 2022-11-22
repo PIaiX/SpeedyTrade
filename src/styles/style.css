@@ -848,6 +848,10 @@ hr.horizontal {
   flex: 1;
 }
 
+.ws-no {
+  white-space: nowrap;
+}
+
 .mt-6 {
   margin-top: 6em;
 }
@@ -2747,6 +2751,23 @@ footer nav.mobile button.active {
 .offcanvas .scrollable-area {
   overflow-y: auto;
   overflow-x: hidden;
+}
+
+.validator {
+  position: relative;
+}
+
+.validate-input {
+  border-color: red;
+}
+
+.validate-error {
+  font-size: 0.8em;
+  z-index: 1000;
+  color: red;
+  position: absolute;
+  right: 50px;
+  top: 15px;
 }
 
 /*# sourceMappingURL=style.css.map */
