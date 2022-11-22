@@ -12,7 +12,7 @@ function Header(props) {
             <Container>
                 <div className="d-flex align-items-center">
                     <Link to="/" className="me-4">
-                        <img src="imgs/logo.svg" alt="Games.ru" />
+                        <img src="/imgs/logo.svg" alt="Games.ru" />
                     </Link>
                     <form className="form-search d-none d-md-flex">
                         <input type="search" placeholder="Поиск по играм" />
@@ -38,7 +38,7 @@ function Header(props) {
                     <Link to="/registration" className="d-none d-xl-block">
                         Регистрация
                     </Link>
-                    <Link to="/account" className="d-none d-md-block btn-1 ms-4">
+                    <Link to="/login" className="d-none d-md-block btn-1 ms-4">
                         Войти
                     </Link>
                 </div>
