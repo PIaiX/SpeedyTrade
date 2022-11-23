@@ -333,7 +333,8 @@ export default function Home(props) {
                                     <Col key={i.id}>
                                         <GameMidi
                                             title={i.name}
-                                            imgLink={loadPhoto(i.logo)}
+                                            slug={i.slug}
+                                            imgLink={loadPhoto(i?.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
                                         />
@@ -365,6 +366,7 @@ export default function Home(props) {
                                         <GameMidi
                                             title={i.name}
                                             imgLink={loadPhoto(i.logo)}
+                                            slug={i.slug}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
                                         />
@@ -389,6 +391,7 @@ export default function Home(props) {
                                     <Col key={i.id}>
                                         <GameMidi
                                             title={i.name}
+                                            slug={i.slug}
                                             imgLink={loadPhoto(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
@@ -414,6 +417,7 @@ export default function Home(props) {
                                     <Col key={i.id}>
                                         <GameMidi
                                             title={i.name}
+                                            slug={i.slug}
                                             imgLink={loadPhoto(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
@@ -439,6 +443,7 @@ export default function Home(props) {
                                     <Col key={i.id}>
                                         <GameMidi
                                             title={i.name}
+                                            slug={i.slug}
                                             imgLink={loadPhoto(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
@@ -463,6 +468,7 @@ export default function Home(props) {
                                     <Col key={i.id}>
                                         <GameMidi
                                             title={i.name}
+                                            slug={i.slug}
                                             imgLink={loadPhoto(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
@@ -487,6 +493,7 @@ export default function Home(props) {
                                     <Col key={i.id}>
                                         <GameMidi
                                             title={i.name}
+                                            slug={i.slug}
                                             imgLink={loadPhoto(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
@@ -511,6 +518,7 @@ export default function Home(props) {
                                     <Col key={i.id}>
                                         <GameMidi
                                             title={i.name}
+                                            slug={i.slug}
                                             imgLink={loadPhoto(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
@@ -535,6 +543,7 @@ export default function Home(props) {
                                     <Col key={i.id}>
                                         <GameMidi
                                             title={i.name}
+                                            slug={i.slug}
                                             imgLink={loadPhoto(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
@@ -559,6 +568,7 @@ export default function Home(props) {
                                     <Col key={i.id}>
                                         <GameMidi
                                             title={i.name}
+                                            slug={i.slug}
                                             imgLink={loadPhoto(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
@@ -583,6 +593,7 @@ export default function Home(props) {
                                     <Col key={i.id}>
                                         <GameMidi
                                             title={i.name}
+                                            slug={i.slug}
                                             imgLink={loadPhoto(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
@@ -607,6 +618,7 @@ export default function Home(props) {
                                     <Col key={i.id}>
                                         <GameMidi
                                             title={i.name}
+                                            slug={i.slug}
                                             imgLink={loadPhoto(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
@@ -631,6 +643,7 @@ export default function Home(props) {
                                     <Col key={i.id}>
                                         <GameMidi
                                             title={i.name}
+                                            slug={i.slug}
                                             imgLink={loadPhoto(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
@@ -655,6 +668,7 @@ export default function Home(props) {
                                     <Col key={i.id}>
                                         <GameMidi
                                             title={i.name}
+                                            slug={i.slug}
                                             imgLink={loadPhoto(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
@@ -679,6 +693,7 @@ export default function Home(props) {
                                     <Col key={i.id}>
                                         <GameMidi
                                             title={i.name}
+                                            slug={i.slug}
                                             imgLink={loadPhoto(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
@@ -703,6 +718,7 @@ export default function Home(props) {
                                     <Col key={i.id}>
                                         <GameMidi
                                             title={i.name}
+                                            slug={i.slug}
                                             imgLink={loadPhoto(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
@@ -727,6 +743,7 @@ export default function Home(props) {
                                     <Col key={i.id}>
                                         <GameMidi
                                             title={i.name}
+                                            slug={i.slug}
                                             imgLink={loadPhoto(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
@@ -751,6 +768,7 @@ export default function Home(props) {
                                     <Col key={i.id}>
                                         <GameMidi
                                             title={i.name}
+                                            slug={i.slug}
                                             imgLink={loadPhoto(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
@@ -775,6 +793,7 @@ export default function Home(props) {
                                     <Col key={i.id}>
                                         <GameMidi
                                             title={i.name}
+                                            slug={i.slug}
                                             imgLink={loadPhoto(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
@@ -799,6 +818,7 @@ export default function Home(props) {
                                     <Col key={i.id}>
                                         <GameMidi
                                             title={i.name}
+                                            slug={i.slug}
                                             imgLink={loadPhoto(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
@@ -823,6 +843,7 @@ export default function Home(props) {
                                     <Col key={i.id}>
                                         <GameMidi
                                             title={i.name}
+                                            slug={i.slug}
                                             imgLink={loadPhoto(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
@@ -847,6 +868,7 @@ export default function Home(props) {
                                     <Col key={i.id}>
                                         <GameMidi
                                             title={i.name}
+                                            slug={i.slug}
                                             imgLink={loadPhoto(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
@@ -871,6 +893,7 @@ export default function Home(props) {
                                     <Col key={i.id}>
                                         <GameMidi
                                             title={i.name}
+                                            slug={i.slug}
                                             imgLink={loadPhoto(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
@@ -895,6 +918,7 @@ export default function Home(props) {
                                     <Col key={i.id}>
                                         <GameMidi
                                             title={i.name}
+                                            slug={i.slug}
                                             imgLink={loadPhoto(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
@@ -919,6 +943,7 @@ export default function Home(props) {
                                     <Col key={i.id}>
                                         <GameMidi
                                             title={i.name}
+                                            slug={i.slug}
                                             imgLink={loadPhoto(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
@@ -943,6 +968,7 @@ export default function Home(props) {
                                     <Col key={i.id}>
                                         <GameMidi
                                             title={i.name}
+                                            slug={i.slug}
                                             imgLink={loadPhoto(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
@@ -967,6 +993,7 @@ export default function Home(props) {
                                     <Col key={i.id}>
                                         <GameMidi
                                             title={i.name}
+                                            slug={i.slug}
                                             imgLink={loadPhoto(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
@@ -991,6 +1018,7 @@ export default function Home(props) {
                                     <Col key={i.id}>
                                         <GameMidi
                                             title={i.name}
+                                            slug={i.slug}
                                             imgLink={loadPhoto(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}

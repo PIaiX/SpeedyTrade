@@ -1,4 +1,3 @@
-/*
 import axios from 'axios'
 import {apiRoutes, BASE_URL} from '../config/api'
 
@@ -14,7 +13,7 @@ const apiBody = {
 }
 
 const $api = axios.create(apiBody)
-const $authApi = axios.create(apiBody)
+/*const $authApi = axios.create(apiBody)
 
 $api.interceptors.request.use((config) => {
     config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
@@ -44,6 +43,5 @@ $authApi.interceptors.response.use(
         return Promise.reject(error)
     }
 )
-
-export {$api, $authApi}
 */
+export {$api}

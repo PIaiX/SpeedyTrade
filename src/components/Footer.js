@@ -22,7 +22,7 @@ function Footer(props) {
             <footer>
                 <Container className="d-none d-md-flex">
                     <Link to="/">
-                        <img src="imgs/logo.svg" alt="Games.ru" />
+                        <img src="/imgs/logo.svg" alt="Games.ru" />
                     </Link>
                     <div className="d-flex flex-column flex-xl-row-reverse align-item-center justify-content-center">
                         <ul className="list-unstyled d-flex">

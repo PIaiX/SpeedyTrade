@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -6,38 +6,69 @@ import Table from 'react-bootstrap/Table'
 import {FiSearch} from 'react-icons/fi'
 import LotPreview from '../components/LotPreview'
 import BtnAddFav from '../components/utils/BtnAddFav'
+import {useParams} from 'react-router-dom'
+import {getOneGame} from '../services/games'
+import {loadPhoto} from '../helpers/loadPhoto'
+import Skeleton from 'react-loading-skeleton'
+import 'react-loading-skeleton/dist/skeleton.css'
 
 const Game = () => {
+    const {slug} = useParams()
+    const [game, setGame] = useState({
+        isLoaded: false,
+    })
+
+    useEffect(() => {
+        getOneGame(slug)
+            .then((res) => res && setGame({isLoaded: true, ...res}))
+            .catch(() => console.log())
+    }, [slug])
+
     return (
         <main>
             <Container>
                 <section className="game-page pt-4 pt-sm-5 mb-6">
                     <div className="d-md-flex align-items-center justify-content-between mb-4 mb-sm-5">
-                        <h1 className="mb-md-0">Аккаунты Genshin Impact</h1>
+                        <h1 className="mb-md-0">
+                            {game?.name || (
+                                <Skeleton
+                                    count={1}
+                                    baseColor={`#322054`}
+                                    highlightColor={`#5736db`}
+                                    width={'200px'}
+                                />
+                            )}
+                        </h1>
                         <BtnAddFav add={false} />
                     </div>
                     <Row>
                         <Col xs={12} lg={7} xl={8}>
-                            <img
-                                src="imgs/slider-main/genshin.jpg"
-                                alt="genshin"
-                                className="main-img mb-4 mb-lg-0"
-                            />
+                            {game?.image ? (
+                                <img
+                                    src={loadPhoto(game?.image)}
+                                    alt={game?.name}
+                                    className="main-img mb-4 mb-lg-0"
+                                />
+                            ) : (
+                                <Skeleton baseColor={`#322054`} height={'100%'} width={'100%'} />
+                            )}
                         </Col>
                         <Col xs={12} lg={5} xl={4} className="achromat-1 fs-11">
                             <p>
-                                На бирже Games.ru вы можете купить аккаунт <strong>Genshin Impact</strong> по его
-                                реальной рыночной цене.
+                                {game?.topDescription || (
+                                    <Skeleton count={6} baseColor={`#322054`} highlightColor={`#5736db`} />
+                                )}
                             </p>
-                            <p>
-                                Продавцами являются другие игроки, а честность сделок обеспечивает система
-                                безопасности (продавец не может получить деньги до выполнения своих обязательств).
-                            </p>
-                            <p>Пользователям разрешено продавать аккаунты, полученные только легальным путем.</p>
                         </Col>
                     </Row>
 
                     <div className="d-flex flex-wrap mt-4 mt-sm-5">
+                        {game?.categories?.map((i) => (
+                            <button key={i?.id} type="button" className="btn-7 flex-column mb-2 me-2 me-lg-4">
+                                <span className="fw-5">{i?.name}</span>
+                                <span>DODELAT</span>
+                            </button>
+                        ))}
                         <button type="button" className="active btn-7 flex-column mb-2 me-2 me-lg-4">
                             <span className="fw-5">Аккаунты</span>
                             <span>473</span>
@@ -75,12 +106,12 @@ const Game = () => {
                         <div className="d-sm-flex align-items-center flex-1">
                             <select defaultValue={2} className="flex-1">
                                 <option disabled>Сортировать по</option>
-                                <option value={1}>Сортировка 1 </option>
+                                <option value={1}>Сортировка 1</option>
                                 <option value={2}>Сортировка 2</option>
                             </select>
                             <select defaultValue={1} className="flex-1 ms-sm-3 ms-md-4 mt-3 mt-sm-0">
                                 <option disabled>Платформа</option>
-                                <option value={1}>Платформа 1 </option>
+                                <option value={1}>Платформа 1</option>
                                 <option value={2}>Платформа 2</option>
                             </select>
                             <div className="d-flex align-items-center ms-sm-3 ms-md-4 mt-3 mt-sm-0">
@@ -116,31 +147,7 @@ const Game = () => {
                         </tbody>
                     </Table>
 
-                    <p>
-                        Когда в конце сентября 2020 года была запущена RPG Genshin Impact, многие игроки отнеслись к
-                        ней скептически из-за визуального стиля и геймплея. Загвоздка была в том, что этот проект
-                        сильно напомнил геймерам шедевральную The Legend of Zelda: Breath of the Wild, которая
-                        считается одной из самых высокооценённых игр. И да, сперва этот факт разгневал многих фанатов
-                        Зельды, но когда шумиха о плагиате понемногу начала сходить на нет, игроки осознали свою
-                        ошибку. Они увидели, что Genshin Impact не только умело эксплуатирует полюбившуюся всем
-                        стилистику, но и сопровождает ее отличной боевой системой.
-                    </p>
-                    <p>
-                        Игра распространяется по модели free-to-play, в ней присутствуют некоторые методы
-                        монетизации. При желании насладиться игровым процессом без серьезных временных затрат
-                        вы сможете, купив аккаунт Genshin Impact, и если переплачивать за игровые скины, шмотки и
-                        экипировку вам не хочется, присмотритесь к нашей бирже.
-                    </p>
-                    <p>
-                        В получении сильнейших героев вам поможем Games.ru — крупнейшая биржа игровых ценностей, где
-                        можно купить все необходимое напрямую у игрока и не бояться обмана. Заплаченные покупателем
-                        средства изначально замораживаются на сайте и поступают продавцу, когда покупающая сторона
-                        получила все необходимые данные от аккаунта и убедилась в его качестве. Но это не
-                        единственное достоинство нашей торговой площадки! Преимуществ много, попробуем перечислить их
-                        все: свободный рынок, большое количество предложений, множество различных способов оплаты,
-                        интуитивно понятный интерфейс, быстрое выполнение заказов, регулярно пополняемый ассортимент
-                        и конечно, упомянутая выше, система безопасности сделок.
-                    </p>
+                    <p>{game?.bottomDescription}</p>
                 </section>
             </Container>
         </main>

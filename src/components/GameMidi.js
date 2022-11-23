@@ -1,10 +1,10 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
+import {Link, useParams} from 'react-router-dom'
 
-function GameMidi(props) {
+const GameMidi = (props) => {
     return (
         <>
-            <Link to="/game">
+            <Link to={`/game/${props.slug}`}>
                 <figure className="game-midi">
                     <img src={props.imgLink} alt={props.title} />
                     <figcaption>
@@ -32,7 +32,7 @@ function GameMidi(props) {
             <div className="mt-3 d-flex flex-wrap align-items-center">
                 {props.subLinksArr.map((obj) => {
                     return (
-                        <Link key={obj.anchor} to="/game" className="fs-09 me-3 mb-2">
+                        <Link key={obj.anchor} to={`/game/${props.slug}?=`} className="fs-09 me-3 mb-2">
                             {obj.anchor}
                         </Link>
                     )
