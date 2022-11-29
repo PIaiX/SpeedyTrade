@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {apiRoutes, BASE_URL} from '../config/api'
+import BASE_URL, {apiRoutes} from '../config/api'
 
 const apiBody = {
     baseURL: BASE_URL,
@@ -13,12 +13,7 @@ const apiBody = {
 }
 
 const $api = axios.create(apiBody)
-/*const $authApi = axios.create(apiBody)
-
-$api.interceptors.request.use((config) => {
-    config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
-    return config
-})
+const $authApi = axios.create(apiBody)
 
 $authApi.interceptors.request.use((config) => {
     config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
@@ -43,5 +38,5 @@ $authApi.interceptors.response.use(
         return Promise.reject(error)
     }
 )
-*/
-export {$api}
+export default $api
+export {$authApi}

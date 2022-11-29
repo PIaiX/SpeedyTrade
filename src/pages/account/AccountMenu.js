@@ -1,15 +1,15 @@
 import React from 'react'
 import {NavLink} from 'react-router-dom'
 import {
-    BiUserCircle,
-    BiNews,
-    BiHistory,
     BiBookOpen,
-    BiEnvelope,
-    BiWallet,
     BiConversation,
-    BiLogOut,
+    BiEnvelope,
+    BiHistory,
     BiLike,
+    BiLogOut,
+    BiNews,
+    BiUserCircle,
+    BiWallet,
 } from 'react-icons/bi'
 
 export default function AccountMenu() {

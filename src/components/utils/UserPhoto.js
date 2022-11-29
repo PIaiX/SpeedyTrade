@@ -1,6 +1,6 @@
 import React from 'react'
 import {IoPersonCircle} from 'react-icons/io5'
-import {BiTrash, BiImageAdd} from 'react-icons/bi'
+import {BiImageAdd, BiTrash} from 'react-icons/bi'
 
 const UserPhoto = (props) => {
     return (

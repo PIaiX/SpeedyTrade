@@ -5,7 +5,7 @@ import Dropdown from 'react-bootstrap/Dropdown'
 import {Link} from 'react-router-dom'
 import {IoEllipsisHorizontal} from 'react-icons/io5'
 import {BiTrash} from 'react-icons/bi'
-import {FiSend, FiChevronLeft} from 'react-icons/fi'
+import {FiChevronLeft, FiSend} from 'react-icons/fi'
 
 const Ticket = () => {
     useEffect(() => {
@@ -29,7 +29,7 @@ const Ticket = () => {
                     </div>
                     <div className="d-flex align-items-center">
                         <div className="img me-2 me-sm-4">
-                            <img src="imgs/user2.png" alt="Иванченко Дарья" />
+                            <img src="images/user2.png" alt="Иванченко Дарья" />
                             <div className="indicator"></div>
                         </div>
                         <Dropdown align="end">

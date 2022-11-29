@@ -1,53 +1,44 @@
-import React, {useEffect, useState} from 'react'
+import React, {useCallback, useState} from 'react'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import InputPassword from '../utils/InputPassword'
 import {Link, useNavigate} from 'react-router-dom'
 import {Form} from 'react-bootstrap'
 import {useForm} from 'react-hook-form'
-import {setUser} from '../../store/reducers/authSlice'
-import {confirmRegistration, emailVerify} from '../../services/registration'
-
 import {useDispatch} from 'react-redux'
+import {login} from '../../store/actions/auth'
+import {authRegistration, authRegistrationEmailVerify} from '../../services/auth'
+import LoaderButton from '../UI/LoaderButton'
 
 const RegistrationForm = () => {
+    const dispatch = useDispatch()
+    const [isLoadingEmailVerify, setIsLoadingEmailVerify] = useState(false)
+
     const {
         register,
-        formState: {errors, isValid, isValidating},
+        formState: {errors},
         handleSubmit,
         getValues,
         setError,
         clearErrors,
-        resetField,
-        reset,
+        watch,
     } = useForm({
         mode: 'onSubmit',
         reValidateMode: 'onChange',
     })
-    const navigate = useNavigate()
-    const dispatch = useDispatch()
-    const [timeoutForButton, setTimeoutForButton] = useState(false)
-    const onSubmitRegistration = (data) => {
-        confirmRegistration(data).then((res) => {
-            dispatch(setUser(res))
-            localStorage.setItem('token', res?.token)
-            navigate('/account/profile')
-        })
-    }
 
-    const onSubmitConfirmEmail = (email) => {
-        emailVerify(email)
-            .then(() => {
-                setTimeoutForButton(true)
-                setTimeout(() => setTimeoutForButton(false), 5000)
-            })
-            .catch((error) => {
-                error?.response?.data?.errors?.errors?.forEach((i) => {
-                    i?.message?.includes('Значение уже занято') &&
-                        setError('email', {type: 'custom', message: 'Значение уже занято!'})
-                })
-            })
-    }
+    const onSubmitRegistration = useCallback((data) => {
+        authRegistration(data)
+            .then((res) => res && console.log('res', res))
+            .catch((error) => error && console.log('error', error))
+    }, [])
+
+    const onSubmitEmailVerify = useCallback((email) => {
+        setIsLoadingEmailVerify(true)
+        authRegistrationEmailVerify({email})
+            .then((res) => res && setIsLoadingEmailVerify(false))
+            .catch((error) => error && setIsLoadingEmailVerify(false))
+    }, [])
 
     return (
         <Form onSubmit={handleSubmit(onSubmitRegistration)}>
@@ -62,7 +53,7 @@ const RegistrationForm = () => {
                             className={`${errors?.firstName ? 'validate-input' : ''}`}
                             placeholder="Имя"
                             {...register('firstName', {
-                                required: 'Введите имя',
+                                required: 'Заполните поле',
                                 minLength: {value: 2, message: 'Минимум 2 символа'},
                             })}
                         />
@@ -79,7 +70,7 @@ const RegistrationForm = () => {
                             placeholder="Фамилия"
                             className={`${errors?.lastName ? 'validate-input' : ''}`}
                             {...register('lastName', {
-                                required: 'Введите фамилию',
+                                required: 'Заполните поле',
                                 minLength: {value: 2, message: 'Минимум 2 символа'},
                             })}
                         />
@@ -96,7 +87,7 @@ const RegistrationForm = () => {
                             placeholder="Ник"
                             className={`${errors?.nickname ? 'validate-input' : ''}`}
                             {...register('nickname', {
-                                required: 'Введите ник',
+                                required: 'Заполните поле',
                                 minLength: {value: 2, message: 'Минимум 2 символа'},
                             })}
                         />
@@ -113,7 +104,7 @@ const RegistrationForm = () => {
                             placeholder="Email"
                             className={`${errors?.email ? 'validate-input' : ''}`}
                             {...register('email', {
-                                required: 'Введите Email',
+                                required: 'Заполните поле',
                                 onChange: () => clearErrors('email'),
                                 pattern: {
                                     value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
@@ -121,24 +112,14 @@ const RegistrationForm = () => {
                                 },
                             })}
                         />
-                        <button
-                            type="button"
-                            className={`btn-4 ws-no px-3 flex-1 ${timeoutForButton ? 'active' : ''}`}
-                            disabled={timeoutForButton}
-                            onClick={() => {
-                                if (getValues('email')) {
-                                    onSubmitConfirmEmail(getValues('email'))
-                                } else {
-                                    setError('email', {type: 'custom', message: 'Введите Email'})
-                                }
-                            }}
+                        <LoaderButton
+                            loaderProps={{size: 20}}
+                            className={`btn-4 ws-no px-3 flex-1 active`}
+                            disabled={!watch('email')}
+                            onClick={() => onSubmitEmailVerify(getValues('email'))}
                         >
-                            {errors?.email?.message
-                                ? errors?.email?.message
-                                : timeoutForButton
-                                ? 'Проверьте почту'
-                                : 'Выслать код'}
-                        </button>
+                            {!isLoadingEmailVerify ? 'Выслать код' : null}
+                        </LoaderButton>
                     </div>
                 </Col>
                 <Col md={4}>
@@ -150,7 +131,7 @@ const RegistrationForm = () => {
                             type="text"
                             placeholder="Код"
                             className={`w-100 ${errors?.verifyCode ? 'validate-input' : ''}`}
-                            {...register('verifyCode', {required: 'Введите код с почты!'})}
+                            {...register('verifyCode', {required: 'Заполните поле'})}
                         />
                         <span className="validate-error">{errors?.verifyCode?.message}</span>
                     </div>
@@ -164,7 +145,7 @@ const RegistrationForm = () => {
                         forInputClassName={errors?.password ? 'validate-input' : ''}
                         errorMessage={errors?.password?.message}
                         register={register('password', {
-                            required: 'Введите пароль',
+                            required: 'Заполните поле',
                             minLength: {
                                 value: 8,
                                 message: 'Минимум 8 символов',
@@ -189,13 +170,14 @@ const RegistrationForm = () => {
                         forInputClassName={errors?.passwordConfirm ? 'validate-input' : ''}
                         errorMessage={errors?.passwordConfirm?.message}
                         register={register('passwordConfirm', {
-                            required: 'Введите пароль',
+                            required: 'Заполните поле',
                             validate: (value) => getValues('password') === value || 'Пароли не совпадают',
                         })}
                     />
                 </Col>
             </Row>
-            <button type="submit" className="btn-5 fs-13 mt-4 mx-auto">
+            {/* todo: add disabled styles for button */}
+            <button type="submit" className="btn-5 fs-13 mt-4 mx-auto" disabled>
                 Зарегистрироваться
             </button>
             <p className="text-center achromat-3 fs-08 mt-3">

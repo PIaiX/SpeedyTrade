@@ -328,7 +328,7 @@ select {
   -ms-appearance: none;
   outline: none;
   padding: 1em 1.5em 1em 0.5em;
-  background: url(imgs/chevron-down.svg) no-repeat;
+  background: url(../images/icons/chevron-down.svg) no-repeat;
   background-position: calc(100% - 1em) 50%;
   background-size: 0.5em;
 }
@@ -1178,7 +1178,7 @@ header .container .menu {
   transition: all var(--transition);
   border: none !important;
   left: 0%;
-  background-image: url(imgs/moon.svg);
+  background-image: url(../images/icons/moon.svg);
   transform: scale(1.5) translateX(-25%);
 }
 .themes-switcher input:checked {
@@ -1186,7 +1186,7 @@ header .container .menu {
 }
 .themes-switcher input:checked::before {
   left: 100%;
-  background-image: url(imgs/sun.svg);
+  background-image: url(../images/icons/sun.svg);
   transform: scale(1.5) translateX(-50%);
 }
 
@@ -2768,6 +2768,20 @@ footer nav.mobile button.active {
   position: absolute;
   right: 50px;
   top: 15px;
+}
+
+.loader {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 99;
+  text-align: center;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  background-color: #121212;
 }
 
 /*# sourceMappingURL=style.css.map */

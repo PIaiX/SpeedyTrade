@@ -1,12 +1,5 @@
 import React from 'react'
-import {
-    useRoutes,
-    useLocation,
-    createBrowserRouter,
-    createRoutesFromElements,
-    Route,
-    RouterProvider,
-} from 'react-router-dom'
+import {createBrowserRouter, createRoutesFromElements, Route, RouterProvider} from 'react-router-dom'
 import Home from '../pages/Home'
 import Account from '../pages/account/Account'
 import UserPage from '../pages/UserPage'

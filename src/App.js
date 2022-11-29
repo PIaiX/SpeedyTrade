@@ -1,7 +1,8 @@
 import React, {useEffect} from 'react'
 import AppRouter from './routes/AppRouter'
 import fingerprint from '@fingerprintjs/fingerprintjs'
-import {useDispatch, useSelector} from 'react-redux'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import './assets/styles/style.min.css'
 
 function App() {
     useEffect(() => {

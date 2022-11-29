@@ -7,7 +7,7 @@ import Select from 'react-select'
 import InputFile from '../components/utils/InputFile'
 import ChatBox from '../components/ChatBox'
 import Dropdown from 'react-bootstrap/Dropdown'
-import {FiSend, FiBell, FiAlertTriangle, FiTrash2, FiMoreHorizontal} from 'react-icons/fi'
+import {FiAlertTriangle, FiBell, FiMoreHorizontal, FiSend, FiTrash2} from 'react-icons/fi'
 import StarRating from '../components/utils/StarRating'
 import ReviewBlock from '../components/ReviewBlock'
 
@@ -113,7 +113,7 @@ const Lot = () => {
                                 <div className="top">
                                     <div className="d-flex align-items-center">
                                         <div className="img me-2 me-sm-3">
-                                            <img src="imgs/user2.png" alt="Иванченко Дарья" />
+                                            <img src="images/user2.png" alt="Иванченко Дарья" />
                                             <div className="indicator online"></div>
                                         </div>
                                         <div>

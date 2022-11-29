@@ -4,8 +4,8 @@ import InputFile from '../../components/utils/InputFile'
 import ChatBox from '../../components/ChatBox'
 import Dropdown from 'react-bootstrap/Dropdown'
 import {IoEllipsisHorizontal} from 'react-icons/io5'
-import {BiTrash, BiBlock} from 'react-icons/bi'
-import {FiSend, FiChevronLeft} from 'react-icons/fi'
+import {BiBlock, BiTrash} from 'react-icons/bi'
+import {FiChevronLeft, FiSend} from 'react-icons/fi'
 
 const MessageWindow = () => {
     useEffect(() => {
@@ -29,7 +29,7 @@ const MessageWindow = () => {
                     </div>
                     <div className="d-flex align-items-center">
                         <div className="img me-2 me-sm-4">
-                            <img src="imgs/user2.png" alt="Иванченко Дарья" />
+                            <img src="images/user2.png" alt="Иванченко Дарья" />
                             <div className="indicator"></div>
                         </div>
                         <Dropdown align="end">

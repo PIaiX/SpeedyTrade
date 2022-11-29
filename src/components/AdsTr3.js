@@ -1,7 +1,7 @@
 import React from 'react'
 import Dropdown from 'react-bootstrap/Dropdown'
 import {IoEllipsisHorizontal} from 'react-icons/io5'
-import {BiTrash, BiEdit} from 'react-icons/bi'
+import {BiEdit, BiTrash} from 'react-icons/bi'
 import InputRating from './utils/InputRating'
 
 const AdsTr3 = () => {

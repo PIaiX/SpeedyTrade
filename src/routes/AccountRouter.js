@@ -1,5 +1,5 @@
 import React from 'react'
-import {Route, Routes, Navigate} from 'react-router-dom'
+import {Navigate, Route, Routes} from 'react-router-dom'
 import AccountLayout from '../pages/account/AccountLayout'
 import AccountMenu from '../pages/account/AccountMenu'
 import PurchaseHistory from '../pages/account/PurchaseHistory'

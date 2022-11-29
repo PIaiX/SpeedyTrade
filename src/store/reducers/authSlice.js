@@ -1,84 +1,81 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
+import {createSlice} from '@reduxjs/toolkit'
+import {login, logout, refreshAuth} from '../actions/auth'
 
 const initialState = {
     isLoadingRefresh: true,
     isLoadingLogin: false,
+    loginError: null,
     isAuth: false,
-    user: null,
+    user: {},
 }
-/*
-export const login = createAsyncThunk('auth/login', async (payloads, thunkAPI) => {
-    try {
-        const response = await $api.post(apiRoutes.LOGIN, payloads)
-        return response?.data?.body
-    } catch (error) {
-        return thunkAPI.rejectWithValue(error.message)
-    }
-})
 
-const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
-    try {
-        const response = await $authApi.delete(apiRoutes.LOGOUT)
-        return response
-    } catch (error) {
-        return thunkAPI.rejectWithValue(error.message)
-    }
-})
-
-export const refreshToken = createAsyncThunk('auth/refresh', async (_, thunkAPI) => {
-    try {
-        const response = await $api.get(apiRoutes.REFRESH_TOKEN)
-        if (response && response.status === 200) {
-            return response.data
-        }
-    } catch (error) {
-        return thunkAPI.rejectWithValue(error)
-    }
-})*/
-
-export const authSlice = createSlice({
+const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
         setUser: (state, action) => {
-            state.user = action.payload.user
+            state.user = action.payload
+        },
+        setAuth: (state, action) => {
+            state.isAuth = action.payload
+        },
+        setLoadingRefresh: (state, action) => {
+            state.isLoadingRefresh = action.payload
+        },
+        setLoadingLogin: (state, action) => {
+            state.isLoadingLogin = action.payload
+        },
+        setLoginError: (state, action) => {
+            state.loginError = action.payload
         },
     },
-    /*extraReducers: (builder) => {
-        builder
-            .addCase(login?.fulfilled, (state, action) => {
-                localStorage.setItem('token', action.payload.token)
-                state.isLoadingLogin = false
-                state.isAuth = true
-                state.user = action.payload.user
-            })
-            .addCase(login?.rejected, (state) => {
-                state.isLoadingLogin = false
-            })
-            .addCase(login?.pending, (state) => {
-                state.isLoadingLogin = true
-            })
-            .addCase(logout?.fulfilled, (state) => {
+    extraReducers: {
+        // ! LOGIN
+        [login.pending]: (state) => {
+            state.isLoadingLogin = true
+            state.loginError = null
+        },
+        [login.fulfilled]: (state, action) => {
+            localStorage.setItem('token', action?.payload?.token)
+            state.isLoadingLogin = false
+            state.isAuth = true
+            state.user = action?.payload?.user
+            state.loginError = null
+        },
+        [login.rejected]: (state, action) => {
+            state.isLoadingLogin = false
+            state.loginError = action?.payload
+        },
+
+        // ! LOGOUT
+        [logout.fulfilled]: (state) => {
+            localStorage.removeItem('token')
+            state.isAuth = false
+            state.user = {}
+        },
+        [logout.rejected]: (state, action) => {
+            localStorage.removeItem('token')
+            state.isAuth = false
+            state.user = {}
+        },
+        // ! REFRESH AUTH
+        [refreshAuth.fulfilled]: (state, action) => {
+            localStorage.setItem('token', action?.payload?.token)
+            state.isLoadingRefresh = false
+            state.isAuth = true
+            state.user = action?.payload?.user
+        },
+        [refreshAuth.rejected]: (state, action) => {
+            if (action?.payload?.response?.data?.message?.type == 'ACCESS_TOKEN_EXPIRED') {
                 localStorage.removeItem('token')
-                state.isAuth = false
-                state.user = null
-            })
-            .addCase(logout?.rejected, (state) => {
-                localStorage.removeItem('token')
-                state.isAuth = false
-                state.user = null
-            })
-            .addCase(refreshToken?.fulfilled, (state, action) => {
-                localStorage.setItem('token', action.payload.token)
-                state.isLoadingRefresh = false
-                state.isAuth = true
-                state.user = action.payload.user
-            })
-            .addCase(refreshToken?.rejected, (state) => {
-                localStorage.removeItem('token')
-                state.isLoadingRefresh = false
-            })
-    },*/
+            }
+
+            state.isLoadingRefresh = false
+            console.error('Refresh rejected', action.payload)
+        },
+    },
 })
 
-export const {setUser, setLoadingRefresh} = authSlice.actions
+export const {setLoadingLogin, setLoadingRefresh, setUser, setAuth, setLoginError} = authSlice.actions
+
+export default authSlice.reducer

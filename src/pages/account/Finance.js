@@ -111,21 +111,21 @@ const Finance = () => {
                         <legend>Способ оплаты:</legend>
                         <ul className="cards-list">
                             <li className={card === 0 ? 'bank-card active' : 'bank-card'} onClick={() => setCard(0)}>
-                                <img src="imgs/bank/тинькофф.png" alt="тинькофф" className="bank-img" />
+                                <img src="images/bank/тинькофф.png" alt="тинькофф" className="bank-img" />
                                 <div className="info">
-                                    <img src="imgs/bank/mastercard.png" alt="mastercard" className="bank-type" />
+                                    <img src="images/bank/mastercard.png" alt="mastercard" className="bank-type" />
                                     <div className="number">** 8765</div>
                                 </div>
                             </li>
                             <li className={card === 1 ? 'bank-card active' : 'bank-card'} onClick={() => setCard(1)}>
-                                <img src="imgs/bank/sber.png" alt="sber" className="bank-img" />
+                                <img src="images/bank/sber.png" alt="sber" className="bank-img" />
                                 <div className="info">
-                                    <img src="imgs/bank/visa.png" alt="visa" className="bank-type" />
+                                    <img src="images/bank/visa.png" alt="visa" className="bank-type" />
                                     <div className="number">** 8765</div>
                                 </div>
                             </li>
                             <li className="add-card" onClick={() => setShowAdd(showAdd ? false : true)}>
-                                <img src="imgs/bank/card-replacement.png" alt="card" />
+                                <img src="images/bank/card-replacement.png" alt="card" />
                                 <div>Добавить новую карту</div>
                             </li>
                         </ul>
@@ -144,7 +144,7 @@ const Finance = () => {
                                         <span className="mx-2">/</span>
                                         <input type="number" placeholder="ГГ" />
                                     </div>
-                                    <img src="imgs/bank/visa.png" alt="visa" className="bank-type" />
+                                    <img src="images/bank/visa.png" alt="visa" className="bank-type" />
                                 </div>
                                 <div className="back">
                                     <div className="mb-2">CVV/CVC:</div>

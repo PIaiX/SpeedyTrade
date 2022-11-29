@@ -3,6 +3,6 @@ const loadPhoto = (path = '') =>
         ? path.includes('http')
             ? path
             : `https://api.speedytrade.ru/uploads/${path}`
-        : '/imgs/photo-replacer.jpg'
+        : '/images/photo-replacer.jpg'
 
 export {loadPhoto}

@@ -1,9 +1,9 @@
-import axios from 'axios'
-import {apiRoutes, BASE_URL} from '../config/api'
+import {apiRoutes} from '../config/api'
+import $api from './index'
 
 export const getCatalogAllGames = async () => {
     try {
-        const response = await axios.get(`${BASE_URL}${apiRoutes.ACTIONS_GAMES}`)
+        const response = await $api(apiRoutes.ACTIONS_GAMES)
         return response?.data?.body
     } catch (error) {
         console.log(error)

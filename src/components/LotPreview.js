@@ -14,7 +14,7 @@ const LotPreview = () => {
             <td>
                 <Link to="/user" className="lot-preview-user">
                     <div className="img">
-                        <img src="imgs/user2.png" alt="Колесникова Ирина" />
+                        <img src="images/user2.png" alt="Колесникова Ирина" />
                         <div className="indicator online"></div>
                     </div>
                     <div>

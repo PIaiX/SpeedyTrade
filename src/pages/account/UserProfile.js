@@ -22,7 +22,7 @@ const UserProfile = () => {
             <Row className="flex-lg-row-reverse">
                 <Col xs={12} xl={4}>
                     <div className="d-flex flex-column flex-sm-row flex-xl-column align-items-center mb-4 mb-xl-0">
-                        <UserPhoto imgUrl={'/imgs/user.png'} name={'Колесникова Ирина'} />
+                        <UserPhoto imgUrl={'/images/user.png'} name={'Колесникова Ирина'} />
                         <div className="d-flex flex-column align-items-center align-items-sm-start align-items-xl-center justify-content-center">
                             <h4 className="color-1 mt-3 mt-sm-0 mb-2 mb-sm-4">{user?.fullName}</h4>
                             <StarRating className="justify-content-start justify-content-xl-center" rate={4.35} />

@@ -2,7 +2,7 @@ import React from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import LoginForm from '../components/forms/loginForm'
+import LoginForm from '../components/forms/LoginForm'
 
 const Login = () => {
     return (

@@ -2,8 +2,8 @@ import React, {useState} from 'react'
 import Container from 'react-bootstrap/Container'
 import Offcanvas from 'react-bootstrap/Offcanvas'
 import {Link} from 'react-router-dom'
-import {IoHomeOutline, IoGridOutline, IoSearchOutline} from 'react-icons/io5'
-import {VscAccount, VscCommentDiscussion, VscChromeClose} from 'react-icons/vsc'
+import {IoGridOutline, IoHomeOutline, IoSearchOutline} from 'react-icons/io5'
+import {VscAccount, VscChromeClose, VscCommentDiscussion} from 'react-icons/vsc'
 import {FiSearch} from 'react-icons/fi'
 import Sign from './utils/Sign'
 import Plaix from './utils/Plaix'
@@ -22,7 +22,7 @@ function Footer(props) {
             <footer>
                 <Container className="d-none d-md-flex">
                     <Link to="/">
-                        <img src="/imgs/logo.svg" alt="Games.ru" />
+                        <img src="/images/logo.svg" alt="Games.ru" />
                     </Link>
                     <div className="d-flex flex-column flex-xl-row-reverse align-item-center justify-content-center">
                         <ul className="list-unstyled d-flex">

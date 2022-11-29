@@ -4,7 +4,7 @@ function ChatBox(props) {
     return (
         <div className="chat-box">
             <div className="chat-box-user">
-                <img src="imgs/avatar.jpg" alt="Vonuchka" />
+                <img src="images/avatar.jpg" alt="Vonuchka" />
             </div>
             <div className="chat-box-messages">
                 <div className="bubble">

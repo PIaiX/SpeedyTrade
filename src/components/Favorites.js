@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom'
 import Container from 'react-bootstrap/Container'
 import Offcanvas from 'react-bootstrap/Offcanvas'
 import {HiBookmark} from 'react-icons/hi'
-import {IoCloseCircleOutline, IoArrowUpCircleOutline} from 'react-icons/io5'
+import {IoArrowUpCircleOutline, IoCloseCircleOutline} from 'react-icons/io5'
 
 function Favorites(props) {
     const [showFav, setShowFav] = useState(false)
@@ -23,14 +23,14 @@ function Favorites(props) {
                         </button>
                         <ul>
                             <li>
-                                <img src="imgs/slider-main/wow2.jpg" alt="World of Warcraft: Shadowlands" />
+                                <img src="images/slider-main/wow2.jpg" alt="World of Warcraft: Shadowlands" />
                                 <Link to="/">World of Warcraft: Shadowlands</Link>
                                 <button type="button" className="d-flex">
                                     <IoCloseCircleOutline />
                                 </button>
                             </li>
                             <li>
-                                <img src="imgs/slider-main/genshin.jpg" alt="Genshin Impact" />
+                                <img src="images/slider-main/genshin.jpg" alt="Genshin Impact" />
                                 <Link to="/">Genshin Impact</Link>
                                 <button type="button" className="d-flex">
                                     <IoCloseCircleOutline />

@@ -1,5 +1,5 @@
 import React from 'react'
-import {ImStarEmpty, ImStarHalf, ImStarFull} from 'react-icons/im'
+import {ImStarEmpty, ImStarFull, ImStarHalf} from 'react-icons/im'
 
 export default function StarRating(props) {
     const arr = [1, 2, 3, 4, 5]

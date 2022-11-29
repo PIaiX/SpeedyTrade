@@ -4,7 +4,7 @@ import Accordion from 'react-bootstrap/Accordion'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import InputFile from '../../components/utils/InputFile'
-import {FiHelpCircle, FiChevronDown, FiArrowLeft} from 'react-icons/fi'
+import {FiArrowLeft, FiChevronDown, FiHelpCircle} from 'react-icons/fi'
 import AdsTr4 from '../../components/AdsTr4'
 import {Link} from 'react-router-dom'
 

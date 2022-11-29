@@ -2,7 +2,7 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import Container from 'react-bootstrap/Container'
 import ThemeToggler from './ThemeToggler'
-import {FiSearch, FiMessageCircle} from 'react-icons/fi'
+import {FiMessageCircle, FiSearch} from 'react-icons/fi'
 import {IoCaretDown} from 'react-icons/io5'
 import Favorites from './Favorites'
 
@@ -12,7 +12,7 @@ function Header(props) {
             <Container>
                 <div className="d-flex align-items-center">
                     <Link to="/" className="me-4">
-                        <img src="/imgs/logo.svg" alt="Games.ru" />
+                        <img src="/images/logo.svg" alt="Games.ru" />
                     </Link>
                     <form className="form-search d-none d-md-flex">
                         <input type="search" placeholder="Поиск по играм" />

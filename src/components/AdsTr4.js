@@ -1,7 +1,7 @@
 import React from 'react'
 import Dropdown from 'react-bootstrap/Dropdown'
 import {Link} from 'react-router-dom'
-import {FiTrash2, FiMoreHorizontal} from 'react-icons/fi'
+import {FiMoreHorizontal, FiTrash2} from 'react-icons/fi'
 
 const AdsTr4 = () => {
     return (
