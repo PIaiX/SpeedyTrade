@@ -2,9 +2,8 @@ const BASE_URL = process.env.REACT_APP_BASE_URL
 
 const apiRoutes = {
     //auth
-    AUTH_REGISTRATION: '/auth/login',
-    AUTH_REGISTRATION_EMAIL_VERIFY: '/auth/forgotPassword/emailVerify',
-    AUTH_REGISTRATION_CODE_VERIFY: '/auth/forgotPassword/codeVerify',
+    AUTH_REGISTRATION: '/auth/register',
+    AUTH_REGISTRATION_EMAIL_VERIFY: '/auth/register/emailVerify',
     AUTH_LOGIN: '/auth/login',
     AUTH_LOGOUT: '/auth/logout',
     AUTH_REFRESH: '/auth/refresh',
@@ -19,7 +18,9 @@ const apiRoutes = {
 
 const apiResponseMessages = {}
 
-const apiRejectMessages = {}
+const apiRejectMessages = {
+    DEFAULT: 'Что-то пошло не так, повторите попытку позже',
+}
 
 const apiErrors = {}
 

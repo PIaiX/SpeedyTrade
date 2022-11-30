@@ -3,9 +3,15 @@ import AppRouter from './routes/AppRouter'
 import fingerprint from '@fingerprintjs/fingerprintjs'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './assets/styles/style.min.css'
+import {useDispatch} from 'react-redux'
+import {initTheme} from './store/reducers/themeSlice'
 
-function App() {
+const App = () => {
+    const dispatch = useDispatch()
+
     useEffect(() => {
+        dispatch(initTheme())
+
         fingerprint
             .load()
             .then((fp) => fp.get())

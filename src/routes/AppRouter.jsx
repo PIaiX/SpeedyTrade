@@ -8,11 +8,11 @@ import Lot from '../pages/Lot'
 import Login from '../pages/Login'
 import Registration from '../pages/Registration'
 import ResetPassword from '../pages/ResetPassword'
-import Layout from '../components/Layout'
+import AppLayout from '../layouts/AppLayout'
 
 const router = createBrowserRouter(
     createRoutesFromElements(
-        <Route path="/" element={<Layout />}>
+        <Route path="/" element={<AppLayout />}>
             <Route index element={<Home />} />
             <Route path="account/*" element={<Account />} />
             <Route path="user" element={<UserPage />} />

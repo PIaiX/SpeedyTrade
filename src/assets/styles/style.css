@@ -34,6 +34,7 @@
   --btn-3-color: #fceeee;
   --btn-3-bg-active: var(--bg-main);
   --btn-3-color-active: var(--btn-1-color);
+  --btn-5-disabled: #fac2b9;
   --bubble: #fff;
   --chat-border: #ffdbdb;
   --scroll-rgb: 255 149 156;
@@ -72,6 +73,7 @@
   --btn-3-color: #faf2ff;
   --btn-3-bg-active: var(--accent);
   --btn-3-color-active: #faf2ff;
+  --btn-5-disabled: #261f40;
   --bubble: #25232a;
   --chat-border: #303030;
   --scroll-rgb: 255 255 255;
@@ -629,6 +631,9 @@ button {
   background-color: var(--color-1);
   color: var(--bg-main);
 }
+.btn-5:disabled {
+  background-color: var(--btn-5-disabled);
+}
 .btn-6 {
   color: var(--color-1);
   background-color: var(--color-5);
@@ -1163,19 +1168,18 @@ header .container .menu {
   height: 1em;
   border-radius: 1em;
   border: none !important;
-  padding: 0px;
+  padding: 0;
   cursor: pointer;
   background-color: rgba(0, 0, 0, 0.15);
 }
 .themes-switcher input::before {
   content: "";
   position: absolute;
-  top: 0%;
+  top: 0;
   height: 100%;
   width: 50%;
   background-repeat: no-repeat;
   background-size: 1em;
-  transition: all var(--transition);
   border: none !important;
   left: 0%;
   background-image: url(../images/icons/moon.svg);
@@ -2760,6 +2764,9 @@ footer nav.mobile button.active {
 .validate-input {
   border-color: red;
 }
+.validate-input::placeholder {
+  color: red;
+}
 
 .validate-error {
   font-size: 0.8em;
@@ -2782,6 +2789,69 @@ footer nav.mobile button.active {
   display: flex;
   align-items: center;
   background-color: #121212;
+}
+
+.email-verify-wrapper {
+  width: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+}
+.email-verify-wrapper .validator {
+  flex: 1 1 75%;
+}
+.email-verify-wrapper input {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right: none;
+}
+.email-verify-wrapper button {
+  flex: 1 1 25%;
+  border-radius: 0 10px 10px 0;
+  border: 1px solid var(--achromat-4);
+}
+
+.action-alert {
+  position: fixed;
+  right: 2vw;
+  top: 12vh;
+  background-color: var(--bg-2);
+  max-width: 300px;
+  padding: 15px;
+  font-size: 0.8em;
+  z-index: 3000;
+  border-radius: 10px;
+  display: none;
+  align-items: center;
+  gap: 10px;
+  animation: linear;
+  animation-name: run;
+  animation-duration: 0.2s;
+}
+.action-alert span {
+  line-break: anywhere;
+  color: white;
+}
+.action-alert.show {
+  display: flex;
+}
+.action-alert__icon {
+  width: 20px;
+  height: 20px;
+  flex: 1 0 auto;
+}
+.action-alert_success .action-alert__icon {
+  color: #52ff82;
+}
+.action-alert_danger .action-alert__icon {
+  color: #bf3535;
+}
+@keyframes run {
+  0% {
+    right: -300px;
+  }
+  100% {
+    right: 2vw;
+  }
 }
 
 /*# sourceMappingURL=style.css.map */

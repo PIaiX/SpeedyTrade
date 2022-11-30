@@ -6,7 +6,7 @@ const authRegistration = async (payload = {}) => {
         const response = await $api.post(apiRoutes.AUTH_REGISTRATION, payload)
 
         if (response && response.status === 200) {
-            return response.data
+            return response?.data?.body
         }
     } catch (error) {
         throw error
