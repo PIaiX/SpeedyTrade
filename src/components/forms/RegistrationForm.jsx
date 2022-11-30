@@ -2,11 +2,10 @@ import React, {useCallback, useState} from 'react'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import InputPassword from '../utils/InputPassword'
-import {Link, useNavigate} from 'react-router-dom'
+import {Link} from 'react-router-dom'
 import {Form} from 'react-bootstrap'
 import {useForm} from 'react-hook-form'
 import {useDispatch} from 'react-redux'
-import {login} from '../../store/actions/auth'
 import {authRegistration, authRegistrationEmailVerify} from '../../services/auth'
 import LoaderButton from '../UI/LoaderButton'
 
@@ -16,14 +15,14 @@ const RegistrationForm = () => {
 
     const {
         register,
-        formState: {errors},
+        formState: {errors, isValid},
         handleSubmit,
         getValues,
         setError,
         clearErrors,
         watch,
     } = useForm({
-        mode: 'onSubmit',
+        mode: 'onChange',
         reValidateMode: 'onChange',
     })
 
@@ -33,12 +32,16 @@ const RegistrationForm = () => {
             .catch((error) => error && console.log('error', error))
     }, [])
 
-    const onSubmitEmailVerify = useCallback((email) => {
-        setIsLoadingEmailVerify(true)
-        authRegistrationEmailVerify({email})
-            .then((res) => res && setIsLoadingEmailVerify(false))
-            .catch((error) => error && setIsLoadingEmailVerify(false))
-    }, [])
+    const onSubmitEmailVerify = useCallback(() => {
+        const email = watch('email')
+
+        if (email) {
+            setIsLoadingEmailVerify(true)
+            authRegistrationEmailVerify({email})
+                .then((res) => res && setIsLoadingEmailVerify(false))
+                .catch((error) => error && setIsLoadingEmailVerify(false))
+        } else setError('email', {type: 'custom', message: 'Заполните поле'})
+    }, [watch('email')])
 
     return (
         <Form onSubmit={handleSubmit(onSubmitRegistration)}>
@@ -98,25 +101,28 @@ const RegistrationForm = () => {
                     <h6 className="mb-0">Email:</h6>
                 </Col>
                 <Col md={8}>
-                    <div className="input-group">
-                        <input
-                            type="email"
-                            placeholder="Email"
-                            className={`${errors?.email ? 'validate-input' : ''}`}
-                            {...register('email', {
-                                required: 'Заполните поле',
-                                onChange: () => clearErrors('email'),
-                                pattern: {
-                                    value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                                    message: 'Введен некорректный email',
-                                },
-                            })}
-                        />
+                    <div className="email-verify-wrapper">
+                        <div className="validator">
+                            <input
+                                type="email"
+                                placeholder="Email"
+                                className={`${errors?.email ? 'validate-input' : ''}`}
+                                {...register('email', {
+                                    required: 'Заполните поле',
+                                    onChange: () => clearErrors('email'),
+                                    pattern: {
+                                        value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                                        message: 'Введен некорректный email',
+                                    },
+                                })}
+                            />
+                            <span className="validate-error">{errors?.email?.message}</span>
+                        </div>
                         <LoaderButton
-                            loaderProps={{size: 20}}
-                            className={`btn-4 ws-no px-3 flex-1 active`}
-                            disabled={!watch('email')}
-                            onClick={() => onSubmitEmailVerify(getValues('email'))}
+                            loaderProps={{size: 18}}
+                            className={`btn-4 ws-no px-3 ${!errors?.email && watch('email') ? 'active' : ''}`}
+                            onClick={() => onSubmitEmailVerify()}
+                            disabled={isLoadingEmailVerify}
                         >
                             {!isLoadingEmailVerify ? 'Выслать код' : null}
                         </LoaderButton>
@@ -176,8 +182,7 @@ const RegistrationForm = () => {
                     />
                 </Col>
             </Row>
-            {/* todo: add disabled styles for button */}
-            <button type="submit" className="btn-5 fs-13 mt-4 mx-auto" disabled>
+            <button type="submit" className="btn-5 fs-13 mt-4 mx-auto" disabled={!isValid}>
                 Зарегистрироваться
             </button>
             <p className="text-center achromat-3 fs-08 mt-3">

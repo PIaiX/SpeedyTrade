@@ -33,6 +33,7 @@
     --btn-3-color: #fceeee;
     --btn-3-bg-active: var(--bg-main);
     --btn-3-color-active: var(--btn-1-color);
+    --btn-5-disabled: #fac2b9;
     --bubble: #fff;
     --chat-border: #ffdbdb;
     --scroll-rgb: 255 149 156;
@@ -73,6 +74,7 @@
     --btn-3-color: #faf2ff;
     --btn-3-bg-active: var(--accent);
     --btn-3-color-active: #faf2ff;
+    --btn-5-disabled: #261f40;
     --bubble: #25232a;
     --chat-border: #303030;
     --scroll-rgb: 255 255 255;
@@ -91,6 +93,10 @@
     --color-5: #1a103f;
     --green: #27ae60;
 }
+
+// alert colors
+$accent: #bf3535;
+$green: #52ff82;
 
 /* mixins */
 @mixin flex-center {
@@ -643,6 +649,7 @@ button {
     font-weight: 400;
     border-radius: 2em;
 
+    // .btn-1
     &-1 {
         @extend .btn;
         background: var(--btn-1-bg);
@@ -663,6 +670,7 @@ button {
         }
     }
 
+    // .btn-2
     &-2 {
         @extend .btn;
         background: var(--btn-2-bg);
@@ -679,6 +687,7 @@ button {
         }
     }
 
+    // .btn-3
     &-3 {
         @extend .btn;
         background: var(--btn-3-bg);
@@ -693,6 +702,7 @@ button {
         }
     }
 
+    // .btn-4
     &-4 {
         @extend .btn;
         border: 1px solid var(--btn-2-border);
@@ -709,6 +719,7 @@ button {
         }
     }
 
+    // .btn-5
     &-5 {
         @extend .btn;
         color: var(--bg-main);
@@ -721,8 +732,13 @@ button {
             background-color: var(--color-1);
             color: var(--bg-main);
         }
+
+        &:disabled {
+            background-color: var(--btn-5-disabled);
+        }
     }
 
+    // .btn-6
     &-6 {
         @extend .btn;
         color: var(--color-1);
@@ -737,6 +753,7 @@ button {
         }
     }
 
+    // .btn-7
     &-7 {
         @extend .btn;
         color: var(--achromat-2);
@@ -759,6 +776,7 @@ button {
         }
     }
 
+    // .btn-simple
     &-simple {
         border: none;
         padding: 0.25em 0.5em;
@@ -1292,7 +1310,7 @@ header {
         height: 1em;
         border-radius: 1em;
         border: none !important;
-        padding: 0px;
+        padding: 0;
         cursor: pointer;
         //light theme
         background-color: rgba(0, 0, 0, 0.15);
@@ -1300,12 +1318,12 @@ header {
         &::before {
             content: '';
             position: absolute;
-            top: 0%;
+            top: 0;
             height: 100%;
             width: 50%;
             background-repeat: no-repeat;
             background-size: 1em;
-            transition: all var(--transition);
+            //transition: all var(--transition);
             border: none !important;
             //light theme
             left: 0%;
@@ -2862,6 +2880,10 @@ footer {
 
 .validate-input {
     border-color: red;
+
+    &::placeholder {
+        color: red;
+    }
 }
 
 .validate-error {
@@ -2885,4 +2907,82 @@ footer {
     display: flex;
     align-items: center;
     background-color: #121212;
+}
+
+.email-verify-wrapper {
+    width: 100%;
+    display: flex;
+    flex-wrap: nowrap;
+
+    .validator {
+        flex: 1 1 75%;
+    }
+
+    input {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        border-right: none;
+    }
+
+    button {
+        flex: 1 1 25%;
+        border-radius: 0 10px 10px 0;
+        border: 1px solid var(--achromat-4);
+    }
+}
+
+.action-alert {
+    position: fixed;
+    right: 2vw;
+    top: 12vh;
+    background-color: var(--bg-2);
+    max-width: 300px;
+    padding: 15px;
+    font-size: 0.8em;
+    z-index: 3000;
+    border-radius: 10px;
+    display: none;
+    align-items: center;
+    gap: 10px;
+    animation: linear;
+    animation-name: run;
+    animation-duration: 0.2s;
+
+    span {
+        line-break: anywhere;
+        color: white;
+    }
+
+    &.show {
+        display: flex;
+    }
+
+    // .action-alert__icon
+    &__icon {
+        width: 20px;
+        height: 20px;
+        flex: 1 0 auto;
+    }
+
+    // .action-alert_success
+    &_success {
+        .action-alert__icon {
+            color: $green;
+        }
+    }
+
+    // .action-alert_danger
+    &_danger {
+        .action-alert__icon {
+            color: $accent;
+        }
+    }
+    @keyframes run {
+        0% {
+            right: -300px;
+        }
+        100% {
+            right: 2vw;
+        }
+    }
 }
