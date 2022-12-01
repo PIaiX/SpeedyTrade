@@ -2757,24 +2757,22 @@ footer nav.mobile button.active {
   overflow-x: hidden;
 }
 
-.validator {
+.validate-wrapper {
   position: relative;
 }
-
-.validate-input {
+.validate-wrapper_error input {
   border-color: red;
 }
-.validate-input::placeholder {
+.validate-wrapper_error input::placeholder {
   color: red;
 }
-
-.validate-error {
-  font-size: 0.8em;
-  z-index: 1000;
-  color: red;
+.validate-wrapper .validate-error {
   position: absolute;
-  right: 50px;
   top: 15px;
+  right: 50px;
+  font-size: 0.8em;
+  color: red;
+  z-index: 100;
 }
 
 .loader {
@@ -2796,7 +2794,7 @@ footer nav.mobile button.active {
   display: flex;
   flex-wrap: nowrap;
 }
-.email-verify-wrapper .validator {
+.email-verify-wrapper .validate-wrapper {
   flex: 1 1 75%;
 }
 .email-verify-wrapper input {

@@ -5,27 +5,23 @@ import InputPassword from '../utils/InputPassword'
 import {Link, useNavigate} from 'react-router-dom'
 import {setUser} from '../../store/reducers/authSlice'
 import {useForm} from 'react-hook-form'
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import {loginInProfile} from '../../services/login'
+import ValidateWrapper from '../UI/ValidateWrapper'
+import {login} from '../../store/actions/auth'
+import LoaderButton from '../UI/LoaderButton'
 
 const LoginForm = () => {
-    const navigate = useNavigate()
     const dispatch = useDispatch()
+    const isLoadingLogin = useSelector((state) => state?.auth?.isLoadingLogin)
+
     const {
         register,
-        formState: {errors},
+        formState: {errors, isValid},
         handleSubmit,
-    } = useForm({mode: 'onSubmit', reValidateMode: 'onChange'})
+    } = useForm({mode: 'onChange', reValidateMode: 'onChange'})
 
-    const onSubmitLogin = (data) => {
-        loginInProfile(data)
-            .then((res) => {
-                localStorage.setItem('token', res?.token)
-                dispatch(setUser(res))
-                navigate('/account/profile')
-            })
-            .catch()
-    }
+    const onSubmitLogin = (data) => dispatch(login(data))
 
     return (
         <form onSubmit={handleSubmit(onSubmitLogin)}>
@@ -34,17 +30,31 @@ const LoginForm = () => {
                     <h6 className="mb-0">Email:</h6>
                 </Col>
                 <Col md={8}>
-                    <input
-                        type="email"
-                        placeholder="Email"
-                        {...register('email', {required: 'Обязательное поле'})}
-                    />
+                    <ValidateWrapper error={errors?.email}>
+                        <input
+                            type="email"
+                            placeholder="Email"
+                            {...register('email', {
+                                required: 'Заполните поле',
+                                pattern: {
+                                    value: /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                                    message: 'Введен некорректный email',
+                                },
+                            })}
+                        />
+                    </ValidateWrapper>
                 </Col>
                 <Col md={4}>
                     <h6 className="mb-0">Пароль:</h6>
                 </Col>
                 <Col md={8}>
-                    <InputPassword register={register('password', {required: 'Обязательное поле'})} />
+                    <ValidateWrapper error={errors?.password}>
+                        <InputPassword
+                            register={register('password', {
+                                required: 'Заполните поле',
+                            })}
+                        />
+                    </ValidateWrapper>
                 </Col>
             </Row>
             <div className="mt-4 d-flex align-items-center justify-content-between">
@@ -56,9 +66,14 @@ const LoginForm = () => {
                     Забыли пароль?
                 </Link>
             </div>
-            <button type="submit" className="btn-5 fs-13 px-5 mt-4 mx-auto">
-                Войти
-            </button>
+            <LoaderButton
+                type="submit"
+                className="btn-5 fs-13 px-5 mt-4 mx-auto"
+                loaderProps={{size: 22}}
+                disabled={!isValid}
+            >
+                {!isLoadingLogin ? 'Войти' : null}
+            </LoaderButton>
             <h6 className="mt-4 mt-sm-5 text-center">
                 У Вас еще нет аккаунта?{' '}
                 <Link to="/registration" className="color-1">

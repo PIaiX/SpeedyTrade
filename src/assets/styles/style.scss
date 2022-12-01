@@ -2874,25 +2874,28 @@ footer {
     }
 }
 
-.validator {
+.validate-wrapper {
     position: relative;
-}
 
-.validate-input {
-    border-color: red;
+    // .validate-wrapper_error
+    &_error {
+        input {
+            border-color: red;
+        }
 
-    &::placeholder {
-        color: red;
+        input::placeholder {
+            color: red;
+        }
     }
-}
 
-.validate-error {
-    font-size: 0.8em;
-    z-index: 1000;
-    color: red;
-    position: absolute;
-    right: 50px;
-    top: 15px;
+    .validate-error {
+        position: absolute;
+        top: 15px;
+        right: 50px;
+        font-size: 0.8em;
+        color: red;
+        z-index: 100;
+    }
 }
 
 .loader {
@@ -2914,7 +2917,7 @@ footer {
     display: flex;
     flex-wrap: nowrap;
 
-    .validator {
+    .validate-wrapper {
         flex: 1 1 75%;
     }
 

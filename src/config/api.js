@@ -6,7 +6,7 @@ const apiRoutes = {
     AUTH_REGISTRATION_EMAIL_VERIFY: '/auth/register/emailVerify',
     AUTH_LOGIN: '/auth/login',
     AUTH_LOGOUT: '/auth/logout',
-    AUTH_REFRESH: '/auth/refresh',
+    AUTH_REFRESH: '/auth/refreshToken',
 
     //catalog
     GET_GAMES_CATEGORIES: 'game/category',
@@ -24,5 +24,9 @@ const apiRejectMessages = {
 
 const apiErrors = {}
 
+const apiValidationRules = {
+    unique: 'unique',
+}
+
 export default BASE_URL
-export {apiRoutes, apiResponseMessages, apiRejectMessages, apiErrors}
+export {apiRoutes, apiResponseMessages, apiRejectMessages, apiErrors, apiValidationRules}

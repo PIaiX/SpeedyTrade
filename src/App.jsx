@@ -3,10 +3,13 @@ import AppRouter from './routes/AppRouter'
 import fingerprint from '@fingerprintjs/fingerprintjs'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './assets/styles/style.min.css'
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import {initTheme} from './store/reducers/themeSlice'
+import {refreshAuth} from './store/actions/auth'
+import {setLoadingRefresh} from './store/reducers/authSlice'
 
 const App = () => {
+    const isLoadingRefresh = useSelector((state) => state?.auth?.isLoadingRefresh)
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -20,6 +23,13 @@ const App = () => {
             })
     }, [])
 
-    return <AppRouter />
+    useEffect(() => {
+        // initial auth check
+        if (localStorage.getItem('token')) {
+            dispatch(refreshAuth())
+        } else dispatch(setLoadingRefresh(false))
+    }, [])
+
+    return !isLoadingRefresh ? <AppRouter /> : null
 }
 export default App
