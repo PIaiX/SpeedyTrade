@@ -33,9 +33,9 @@ const ProfileForm = ({onSubmit}) => {
         },
     })
 
-    useEffect(() => {
-        console.log('form', watch())
-    }, [watch])
+    // useEffect(() => {
+    //     console.log('form', watch())
+    // }, [watch])
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
