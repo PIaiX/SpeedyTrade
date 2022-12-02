@@ -1,10 +1,19 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import LoginForm from '../components/forms/LoginForm'
+import {useSelector} from 'react-redux'
+import {useNavigate} from 'react-router-dom'
 
 const Login = () => {
+    const navigate = useNavigate()
+    const isAuth = useSelector((state) => state?.auth?.isAuth)
+
+    useEffect(() => {
+        if (isAuth) navigate('/account')
+    }, [isAuth])
+
     return (
         <main>
             <Container>

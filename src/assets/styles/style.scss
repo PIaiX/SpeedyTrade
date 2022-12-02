@@ -198,7 +198,8 @@ li {
 
 input,
 textarea,
-select {
+select,
+.phone-input {
     border: 1px solid var(--achromat-4);
     background-color: var(--total);
     color: var(--achromat-2);
@@ -225,7 +226,8 @@ select {
     }
 }
 
-input {
+input,
+.phone-input {
     &[type='number'] {
         @include no-appearance();
         width: 100px;
@@ -301,8 +303,18 @@ input {
 }
 
 input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
+input::-webkit-inner-spin-button,
+.phone-input::-webkit-outer-spin-button,
+.phone-input::-webkit-inner-spin-button {
     @include no-appearance();
+}
+
+.phone-input:focus,
+.form-control:focus {
+    background: var(--total);
+    color: var(--font-color);
+    border-color: var(--achromat-4);
+    box-shadow: none;
 }
 
 .input-rating {

@@ -7,7 +7,7 @@ import MyAds from '../pages/account/MyAds'
 import PostAd from '../pages/account/PostAd'
 import Finance from '../pages/account/Finance'
 import SalesHistory from '../pages/account/SalesHistory'
-import UserProfile from '../pages/account/UserProfile'
+import Profile from '../pages/account/Profile'
 import Messages from '../pages/account/Messages'
 import MessageWindow from '../pages/account/MessageWindow'
 import Help from '../pages/account/Help'
@@ -27,7 +27,7 @@ const AccountRouter = () => {
                 ) : (
                     <Route index element={<Navigate to="profile" replace={true} />} />
                 )}
-                <Route path="profile" element={<UserProfile />} />
+                <Route path="profile" element={<Profile />} />
                 <Route path="ads" element={<MyAds />} />
                 <Route path="ads/new" element={<PostAd />} />
                 <Route path="purchase-history" element={<PurchaseHistory />} />

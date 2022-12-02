@@ -19,13 +19,13 @@ const login = createAsyncThunk('auth/login', async (payload = {}, thunkAPI) => {
 
 const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
     try {
-        const response = await $authApi.post(apiRoutes.AUTH_LOGOUT)
+        const response = await $authApi.delete(apiRoutes.AUTH_LOGOUT)
 
         if (response && response.status === 200) {
             return response.data
         }
     } catch (error) {
-        return thunkAPI.rejectWithValue(error.message)
+        return thunkAPI.rejectWithValue(error)
     }
 })
 

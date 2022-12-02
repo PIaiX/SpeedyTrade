@@ -39,9 +39,6 @@ const Header = (props) => {
                 <div className="d-flex align-items-center">
                     <ThemeToggler />
                     <hr className="vertical d-none d-xl-block mx-3 mx-xl-4" />
-                    <Link to="/registration" className="d-none d-xl-block">
-                        Регистрация
-                    </Link>
                     {auth?.isAuth ? (
                         <Link to="/account" className="user ms-4">
                             <img
@@ -52,9 +49,14 @@ const Header = (props) => {
                             <span className="user__nickname">{auth?.user?.nickname}</span>
                         </Link>
                     ) : (
-                        <Link to="/login" className="d-none d-md-block btn-1 ms-4">
-                            Войти
-                        </Link>
+                        <>
+                            <Link to="/registration" className="d-none d-xl-block">
+                                Регистрация
+                            </Link>
+                            <Link to="/login" className="d-none d-md-block btn-1 ms-4">
+                                Войти
+                            </Link>
+                        </>
                     )}
                 </div>
             </Container>

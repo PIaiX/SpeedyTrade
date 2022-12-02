@@ -53,7 +53,7 @@ const authSlice = createSlice({
             state.isAuth = false
             state.user = {}
         },
-        [logout.rejected]: (state, action) => {
+        [logout.rejected]: (state) => {
             localStorage.removeItem('token')
             state.isAuth = false
             state.user = {}

@@ -161,7 +161,8 @@ li {
 
 input,
 textarea,
-select {
+select,
+.phone-input {
   border: 1px solid var(--achromat-4);
   background-color: var(--total);
   color: var(--achromat-2);
@@ -183,18 +184,25 @@ select:-moz-placeholder,
 select::-moz-placeholder,
 select::-webkit-input-placeholder,
 select:-ms-input-placeholder,
-select::-ms-input-placeholder {
+select::-ms-input-placeholder,
+.phone-input:-moz-placeholder,
+.phone-input::-moz-placeholder,
+.phone-input::-webkit-input-placeholder,
+.phone-input:-ms-input-placeholder,
+.phone-input::-ms-input-placeholder {
   color: var(--achromat-4);
   font-weight: 400;
 }
 input::placeholder,
 textarea::placeholder,
-select::placeholder {
+select::placeholder,
+.phone-input::placeholder {
   color: var(--achromat-4);
   font-weight: 400;
 }
 
-input[type=number] {
+input[type=number],
+.phone-input[type=number] {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -204,7 +212,8 @@ input[type=number] {
   padding: 1em 0.5em;
   max-width: 100%;
 }
-input[type=radio] {
+input[type=radio],
+.phone-input[type=radio] {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -220,7 +229,8 @@ input[type=radio] {
   transition: border var(--transition);
   position: relative;
 }
-input[type=radio]::before {
+input[type=radio]::before,
+.phone-input[type=radio]::before {
   content: "";
   position: absolute;
   top: 50%;
@@ -232,13 +242,16 @@ input[type=radio]::before {
   transform: translate(-50%, -50%);
   transition: background-color var(--transition);
 }
-input[type=radio]:checked {
+input[type=radio]:checked,
+.phone-input[type=radio]:checked {
   border: 2px solid var(--color-2);
 }
-input[type=radio]:checked::before {
+input[type=radio]:checked::before,
+.phone-input[type=radio]:checked::before {
   background-color: var(--color-2);
 }
-input[type=checkbox] {
+input[type=checkbox],
+.phone-input[type=checkbox] {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -253,7 +266,8 @@ input[type=checkbox] {
   margin: 0px;
   position: relative;
 }
-input[type=checkbox]::before {
+input[type=checkbox]::before,
+.phone-input[type=checkbox]::before {
   content: "";
   position: absolute;
   top: 50%;
@@ -266,17 +280,28 @@ input[type=checkbox]::before {
   transform: translate(-50%, -65%) rotate(-45deg);
   transition: border-color var(--transition);
 }
-input[type=checkbox]:checked::before {
+input[type=checkbox]:checked::before,
+.phone-input[type=checkbox]:checked::before {
   border-color: var(--color-2);
 }
 
 input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
+input::-webkit-inner-spin-button,
+.phone-input::-webkit-outer-spin-button,
+.phone-input::-webkit-inner-spin-button {
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
   -ms-appearance: none;
   outline: none;
+}
+
+.phone-input:focus,
+.form-control:focus {
+  background: var(--total);
+  color: var(--font-color);
+  border-color: var(--achromat-4);
+  box-shadow: none;
 }
 
 .input-rating input {
