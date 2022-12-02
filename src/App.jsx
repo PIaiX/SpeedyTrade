@@ -9,6 +9,7 @@ import {setLoadingRefresh} from './store/reducers/authSlice'
 import {setDefaultLocale} from 'react-datepicker'
 import ru from 'date-fns/locale/ru'
 import {initFingerprint} from './store/actions/fingerprint'
+import {getLocalStorageItem} from './helpers/localStorage'
 
 const App = () => {
     setDefaultLocale(ru)
@@ -22,6 +23,8 @@ const App = () => {
     useEffect(() => {
         // initial auth check
         if (fingerprint) {
+            localStorage.setItem('fingerprint', fingerprint)
+
             if (localStorage.getItem('token')) {
                 dispatch(refreshAuth())
             } else dispatch(setLoadingRefresh(false))
