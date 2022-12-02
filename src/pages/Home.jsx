@@ -23,9 +23,9 @@ import {HiArrowNarrowLeft, HiArrowNarrowRight} from 'react-icons/hi'
 import News from '../components/News'
 import SortSection from '../components/SortSection'
 import {getCatalogAllGames} from '../services/catalog'
-import {loadPhoto} from '../helpers/loadPhoto'
+import {getImageURL} from '../helpers/image'
 
-export default function Home(props) {
+const Home = () => {
     const [thumbsSwiper, setThumbsSwiper] = useState(null)
     const [allGames, setAllGames] = useState({
         isLoaded: false,
@@ -334,7 +334,7 @@ export default function Home(props) {
                                         <GameMidi
                                             title={i.name}
                                             slug={i.slug}
-                                            imgLink={loadPhoto(i?.logo)}
+                                            imgLink={getImageURL(i?.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
                                         />
@@ -365,7 +365,7 @@ export default function Home(props) {
                                     <Col key={i.id}>
                                         <GameMidi
                                             title={i.name}
-                                            imgLink={loadPhoto(i.logo)}
+                                            imgLink={getImageURL(i.logo)}
                                             slug={i.slug}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
@@ -392,7 +392,7 @@ export default function Home(props) {
                                         <GameMidi
                                             title={i.name}
                                             slug={i.slug}
-                                            imgLink={loadPhoto(i.logo)}
+                                            imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
                                         />
@@ -418,7 +418,7 @@ export default function Home(props) {
                                         <GameMidi
                                             title={i.name}
                                             slug={i.slug}
-                                            imgLink={loadPhoto(i.logo)}
+                                            imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
                                         />
@@ -444,7 +444,7 @@ export default function Home(props) {
                                         <GameMidi
                                             title={i.name}
                                             slug={i.slug}
-                                            imgLink={loadPhoto(i.logo)}
+                                            imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
                                         />
@@ -469,7 +469,7 @@ export default function Home(props) {
                                         <GameMidi
                                             title={i.name}
                                             slug={i.slug}
-                                            imgLink={loadPhoto(i.logo)}
+                                            imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
                                         />
@@ -494,7 +494,7 @@ export default function Home(props) {
                                         <GameMidi
                                             title={i.name}
                                             slug={i.slug}
-                                            imgLink={loadPhoto(i.logo)}
+                                            imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
                                         />
@@ -519,7 +519,7 @@ export default function Home(props) {
                                         <GameMidi
                                             title={i.name}
                                             slug={i.slug}
-                                            imgLink={loadPhoto(i.logo)}
+                                            imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
                                         />
@@ -544,7 +544,7 @@ export default function Home(props) {
                                         <GameMidi
                                             title={i.name}
                                             slug={i.slug}
-                                            imgLink={loadPhoto(i.logo)}
+                                            imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
                                         />
@@ -569,7 +569,7 @@ export default function Home(props) {
                                         <GameMidi
                                             title={i.name}
                                             slug={i.slug}
-                                            imgLink={loadPhoto(i.logo)}
+                                            imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
                                         />
@@ -594,7 +594,7 @@ export default function Home(props) {
                                         <GameMidi
                                             title={i.name}
                                             slug={i.slug}
-                                            imgLink={loadPhoto(i.logo)}
+                                            imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
                                         />
@@ -619,7 +619,7 @@ export default function Home(props) {
                                         <GameMidi
                                             title={i.name}
                                             slug={i.slug}
-                                            imgLink={loadPhoto(i.logo)}
+                                            imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
                                         />
@@ -644,7 +644,7 @@ export default function Home(props) {
                                         <GameMidi
                                             title={i.name}
                                             slug={i.slug}
-                                            imgLink={loadPhoto(i.logo)}
+                                            imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
                                         />
@@ -669,7 +669,7 @@ export default function Home(props) {
                                         <GameMidi
                                             title={i.name}
                                             slug={i.slug}
-                                            imgLink={loadPhoto(i.logo)}
+                                            imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
                                         />
@@ -694,7 +694,7 @@ export default function Home(props) {
                                         <GameMidi
                                             title={i.name}
                                             slug={i.slug}
-                                            imgLink={loadPhoto(i.logo)}
+                                            imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
                                         />
@@ -719,7 +719,7 @@ export default function Home(props) {
                                         <GameMidi
                                             title={i.name}
                                             slug={i.slug}
-                                            imgLink={loadPhoto(i.logo)}
+                                            imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
                                         />
@@ -744,7 +744,7 @@ export default function Home(props) {
                                         <GameMidi
                                             title={i.name}
                                             slug={i.slug}
-                                            imgLink={loadPhoto(i.logo)}
+                                            imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
                                         />
@@ -769,7 +769,7 @@ export default function Home(props) {
                                         <GameMidi
                                             title={i.name}
                                             slug={i.slug}
-                                            imgLink={loadPhoto(i.logo)}
+                                            imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
                                         />
@@ -794,7 +794,7 @@ export default function Home(props) {
                                         <GameMidi
                                             title={i.name}
                                             slug={i.slug}
-                                            imgLink={loadPhoto(i.logo)}
+                                            imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
                                         />
@@ -819,7 +819,7 @@ export default function Home(props) {
                                         <GameMidi
                                             title={i.name}
                                             slug={i.slug}
-                                            imgLink={loadPhoto(i.logo)}
+                                            imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
                                         />
@@ -844,7 +844,7 @@ export default function Home(props) {
                                         <GameMidi
                                             title={i.name}
                                             slug={i.slug}
-                                            imgLink={loadPhoto(i.logo)}
+                                            imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
                                         />
@@ -869,7 +869,7 @@ export default function Home(props) {
                                         <GameMidi
                                             title={i.name}
                                             slug={i.slug}
-                                            imgLink={loadPhoto(i.logo)}
+                                            imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
                                         />
@@ -894,7 +894,7 @@ export default function Home(props) {
                                         <GameMidi
                                             title={i.name}
                                             slug={i.slug}
-                                            imgLink={loadPhoto(i.logo)}
+                                            imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
                                         />
@@ -919,7 +919,7 @@ export default function Home(props) {
                                         <GameMidi
                                             title={i.name}
                                             slug={i.slug}
-                                            imgLink={loadPhoto(i.logo)}
+                                            imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
                                         />
@@ -944,7 +944,7 @@ export default function Home(props) {
                                         <GameMidi
                                             title={i.name}
                                             slug={i.slug}
-                                            imgLink={loadPhoto(i.logo)}
+                                            imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
                                         />
@@ -969,7 +969,7 @@ export default function Home(props) {
                                         <GameMidi
                                             title={i.name}
                                             slug={i.slug}
-                                            imgLink={loadPhoto(i.logo)}
+                                            imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
                                         />
@@ -994,7 +994,7 @@ export default function Home(props) {
                                         <GameMidi
                                             title={i.name}
                                             slug={i.slug}
-                                            imgLink={loadPhoto(i.logo)}
+                                            imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
                                         />
@@ -1019,7 +1019,7 @@ export default function Home(props) {
                                         <GameMidi
                                             title={i.name}
                                             slug={i.slug}
-                                            imgLink={loadPhoto(i.logo)}
+                                            imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
                                             servers={i?.servers?.map((j) => j.name)}
                                         />
@@ -1055,3 +1055,5 @@ export default function Home(props) {
         </main>
     )
 }
+
+export default Home

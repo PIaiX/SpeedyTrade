@@ -50,6 +50,7 @@
   --color-4: #c55656;
   --color-5: #fbd9d6;
   --green: #27ae60;
+  --user-nickname: #313033;
 }
 
 :root[data-theme=dark] {
@@ -89,6 +90,7 @@
   --color-4: #745dd2;
   --color-5: #1a103f;
   --green: #27ae60;
+  --user-nickname: #faf2ff;
 }
 
 /* mixins */
@@ -2850,6 +2852,21 @@ footer nav.mobile button.active {
   100% {
     right: 2vw;
   }
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.user__avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+}
+.user__nickname {
+  font-size: 15px;
+  color: var(--user-nickname);
 }
 
 /*# sourceMappingURL=style.css.map */

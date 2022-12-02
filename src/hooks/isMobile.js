@@ -1,23 +1,23 @@
 import {useEffect, useState} from 'react'
 
 const useIsMobile = () => {
-    const [mobile, setMobile] = useState(window.matchMedia('(max-width: 991px)').matches)
+    const [isMobile, setIsMobile] = useState(window.matchMedia('(max-width: 991px)').matches)
 
     useEffect(() => {
         function updateView() {
             if (window.matchMedia('(max-width: 991px)').matches) {
-                setMobile(true)
+                setIsMobile(true)
             } else {
-                setMobile(false)
+                setIsMobile(false)
             }
         }
 
-        window.addEventListener('resize', updateView)
         updateView()
+        window.addEventListener('resize', updateView)
         return () => window.removeEventListener('resize', updateView)
     }, [])
 
-    return {mobile}
+    return {isMobile}
 }
 
 export default useIsMobile

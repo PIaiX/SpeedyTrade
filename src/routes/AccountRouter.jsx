@@ -14,8 +14,11 @@ import Help from '../pages/account/Help'
 import Reviews from '../pages/account/Reviews'
 import Exit from '../pages/account/Exit'
 import Ticket from '../pages/account/Ticket'
+import useIsMobile from '../hooks/isMobile'
 
-const AccountRouter = ({isMobile}) => {
+const AccountRouter = () => {
+    const {isMobile} = useIsMobile()
+
     return (
         <Routes>
             <Route path="/" element={<AccountLayout isMobile={isMobile} />}>

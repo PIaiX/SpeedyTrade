@@ -8,7 +8,7 @@ import LotPreview from '../components/LotPreview'
 import BtnAddFav from '../components/utils/BtnAddFav'
 import {useParams} from 'react-router-dom'
 import {getOneGame} from '../services/games'
-import {loadPhoto} from '../helpers/loadPhoto'
+import {getImageURL} from '../helpers/image'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 
@@ -45,7 +45,7 @@ const Game = () => {
                         <Col xs={12} lg={7} xl={8}>
                             {game?.image ? (
                                 <img
-                                    src={loadPhoto(game?.image)}
+                                    src={getImageURL(game?.image)}
                                     alt={game?.name}
                                     className="main-img mb-4 mb-lg-0"
                                 />

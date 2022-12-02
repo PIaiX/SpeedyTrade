@@ -9,7 +9,6 @@ import {refreshAuth} from './store/actions/auth'
 import {setLoadingRefresh} from './store/reducers/authSlice'
 
 const App = () => {
-    const isLoadingRefresh = useSelector((state) => state?.auth?.isLoadingRefresh)
     const dispatch = useDispatch()
 
     useEffect(() => {
@@ -30,6 +29,6 @@ const App = () => {
         } else dispatch(setLoadingRefresh(false))
     }, [])
 
-    return !isLoadingRefresh ? <AppRouter /> : null
+    return <AppRouter />
 }
 export default App

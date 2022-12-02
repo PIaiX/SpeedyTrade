@@ -51,6 +51,8 @@
     --color-4: #c55656;
     --color-5: #fbd9d6;
     --green: #27ae60;
+
+    --user-nickname: #313033;
 }
 
 :root[data-theme='dark'] {
@@ -92,6 +94,8 @@
     --color-4: #745dd2;
     --color-5: #1a103f;
     --green: #27ae60;
+
+    --user-nickname: #faf2ff;
 }
 
 // alert colors
@@ -2987,5 +2991,25 @@ footer {
         100% {
             right: 2vw;
         }
+    }
+}
+
+.user {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    // .user__avatar
+    &__avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 10px;
+    }
+
+    // .user__nickname
+
+    &__nickname {
+        font-size: 15px;
+        color: var(--user-nickname);
     }
 }
