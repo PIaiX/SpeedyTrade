@@ -29,7 +29,7 @@ $authApi.interceptors.response.use(
         if (error.response.status === 400 && originalRequest && !originalRequest._isRetry) {
             originalRequest._isRetry = true
             try {
-                const response = await $api.get(apiRoutes.REFRESH_TOKEN)
+                const response = await $api.get(apiRoutes.AUTH_REFRESH)
                 localStorage.setItem('token', response?.data?.body?.token)
             } catch (error) {
                 console.log('er')

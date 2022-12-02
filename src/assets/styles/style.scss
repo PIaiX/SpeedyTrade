@@ -51,6 +51,8 @@
     --color-4: #c55656;
     --color-5: #fbd9d6;
     --green: #27ae60;
+
+    --user-nickname: #313033;
 }
 
 :root[data-theme='dark'] {
@@ -92,6 +94,8 @@
     --color-4: #745dd2;
     --color-5: #1a103f;
     --green: #27ae60;
+
+    --user-nickname: #faf2ff;
 }
 
 // alert colors
@@ -194,7 +198,8 @@ li {
 
 input,
 textarea,
-select {
+select,
+.phone-input {
     border: 1px solid var(--achromat-4);
     background-color: var(--total);
     color: var(--achromat-2);
@@ -221,7 +226,8 @@ select {
     }
 }
 
-input {
+input,
+.phone-input {
     &[type='number'] {
         @include no-appearance();
         width: 100px;
@@ -297,8 +303,18 @@ input {
 }
 
 input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
+input::-webkit-inner-spin-button,
+.phone-input::-webkit-outer-spin-button,
+.phone-input::-webkit-inner-spin-button {
     @include no-appearance();
+}
+
+.phone-input:focus,
+.form-control:focus {
+    background: var(--total);
+    color: var(--font-color);
+    border-color: var(--achromat-4);
+    box-shadow: none;
 }
 
 .input-rating {
@@ -2874,25 +2890,28 @@ footer {
     }
 }
 
-.validator {
+.validate-wrapper {
     position: relative;
-}
 
-.validate-input {
-    border-color: red;
+    // .validate-wrapper_error
+    &_error {
+        input {
+            border-color: red;
+        }
 
-    &::placeholder {
-        color: red;
+        input::placeholder {
+            color: red;
+        }
     }
-}
 
-.validate-error {
-    font-size: 0.8em;
-    z-index: 1000;
-    color: red;
-    position: absolute;
-    right: 50px;
-    top: 15px;
+    .validate-error {
+        position: absolute;
+        top: 15px;
+        right: 50px;
+        font-size: 0.8em;
+        color: red;
+        z-index: 100;
+    }
 }
 
 .loader {
@@ -2914,7 +2933,7 @@ footer {
     display: flex;
     flex-wrap: nowrap;
 
-    .validator {
+    .validate-wrapper {
         flex: 1 1 75%;
     }
 
@@ -2984,5 +3003,25 @@ footer {
         100% {
             right: 2vw;
         }
+    }
+}
+
+.user {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    // .user__avatar
+    &__avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 10px;
+    }
+
+    // .user__nickname
+
+    &__nickname {
+        font-size: 15px;
+        color: var(--user-nickname);
     }
 }

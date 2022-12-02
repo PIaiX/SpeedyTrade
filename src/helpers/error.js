@@ -1,14 +1,13 @@
-import {apiErrors, apiRejectMessages} from '../config/api'
+import {apiValidationRules} from '../config/api'
+import {validationErrorMessages} from '../config/validation'
 
-const defineErrorByType = (error) => {
-    const type = error?.response?.data?.message?.type || true
-
-    switch (type) {
-        case apiErrors[type]:
-            return apiRejectMessages[type]
+const defineApiErrorByRule = (rule = true) => {
+    switch (rule) {
+        case apiValidationRules[rule]:
+            return validationErrorMessages[rule]
         default:
-            return apiRejectMessages.DEFAULT
+            return null
     }
 }
 
-export {defineErrorByType}
+export {defineApiErrorByRule}

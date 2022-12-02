@@ -6,8 +6,6 @@ const ThemeToggler = () => {
     const dispatch = useDispatch()
     const theme = useSelector((state) => state?.theme?.mode)
 
-    console.log('render')
-
     return (
         <label className="themes-switcher">
             <input

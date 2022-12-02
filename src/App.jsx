@@ -1,24 +1,32 @@
 import React, {useEffect} from 'react'
 import AppRouter from './routes/AppRouter'
-import fingerprint from '@fingerprintjs/fingerprintjs'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './assets/styles/style.min.css'
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import {initTheme} from './store/reducers/themeSlice'
+import {refreshAuth} from './store/actions/auth'
+import {setLoadingRefresh} from './store/reducers/authSlice'
+import {setDefaultLocale} from 'react-datepicker'
+import ru from 'date-fns/locale/ru'
+import {initFingerprint} from './store/actions/fingerprint'
 
 const App = () => {
+    setDefaultLocale(ru)
     const dispatch = useDispatch()
+    const fingerprint = useSelector((state) => state?.fingerprint?.value)
 
     useEffect(() => {
         dispatch(initTheme())
-
-        fingerprint
-            .load()
-            .then((fp) => fp.get())
-            .then((result) => {
-                localStorage.setItem('fingerprint', result.visitorId)
-            })
     }, [])
+
+    useEffect(() => {
+        // initial auth check
+        if (fingerprint) {
+            if (localStorage.getItem('token')) {
+                dispatch(refreshAuth())
+            } else dispatch(setLoadingRefresh(false))
+        } else dispatch(initFingerprint())
+    }, [fingerprint])
 
     return <AppRouter />
 }
