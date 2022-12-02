@@ -1,6 +1,5 @@
 import axios from 'axios'
 import BASE_URL, {apiRoutes} from '../config/api'
-import {getLocalStorageItem} from '../helpers/localStorage'
 
 const apiBody = {
     baseURL: BASE_URL,

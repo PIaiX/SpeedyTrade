@@ -1,11 +1,10 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import {useForm, Controller} from 'react-hook-form'
+import {Controller, useForm} from 'react-hook-form'
 import PhoneInput from 'react-phone-input-2'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import moment from 'moment'
 import ValidateWrapper from '../UI/ValidateWrapper'
 import {useSelector} from 'react-redux'
 

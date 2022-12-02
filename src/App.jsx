@@ -9,7 +9,6 @@ import {setLoadingRefresh} from './store/reducers/authSlice'
 import {setDefaultLocale} from 'react-datepicker'
 import ru from 'date-fns/locale/ru'
 import {initFingerprint} from './store/actions/fingerprint'
-import {getLocalStorageItem} from './helpers/localStorage'
 
 const App = () => {
     setDefaultLocale(ru)

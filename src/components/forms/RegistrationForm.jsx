@@ -10,6 +10,7 @@ import {authRegistration, authRegistrationEmailVerify} from '../../services/auth
 import LoaderButton from '../UI/LoaderButton'
 import {validateFormFromApi} from '../../helpers/form'
 import ValidateWrapper from '../UI/ValidateWrapper'
+import {login} from '../../store/actions/auth'
 
 const RegistrationForm = () => {
     const dispatch = useDispatch()
@@ -30,7 +31,9 @@ const RegistrationForm = () => {
 
     const onSubmitRegistration = useCallback((data) => {
         authRegistration(data)
-            .then((res) => res && console.log('res', res))
+            .then((res) => {
+                res && dispatch(login({email: data?.email, password: data?.password}))
+            })
             .catch((error) => error && console.log('error', error))
     }, [])
 

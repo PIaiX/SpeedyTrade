@@ -1,5 +1,4 @@
 import {createSlice} from '@reduxjs/toolkit'
-import fingerprint from '@fingerprintjs/fingerprintjs'
 
 const initialState = {
     value: null,
