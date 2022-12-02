@@ -29,7 +29,7 @@ const ProfileForm = ({onSubmit}) => {
             phone: user.phone ?? '',
             sex: user.sex ?? true,
             email: user.email ?? '',
-            birthday: user.birthday ? moment(user.birthday).format('YYYY-MM-DD') : '',
+            birthday: Date.now(),
         },
     })
 
