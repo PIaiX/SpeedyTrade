@@ -59,9 +59,9 @@ const Help = () => {
                                 <InputFile withText={true} />
                             </Col>
                         </Row>
-                        <buttob type="button" className="btn-5 mt-4">
+                        <button type="button" className="btn-5 mt-4">
                             Отправить тикет
-                        </buttob>
+                        </button>
                     </form>
 
                     <h6 className="mt-5">Ваши тикеты</h6>

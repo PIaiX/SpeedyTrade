@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import {Controller, useForm} from 'react-hook-form'
@@ -13,7 +13,7 @@ const ProfileForm = ({onSubmit}) => {
 
     const {
         register,
-        formState: {errors, isValid, isDirty},
+        formState: {errors},
         handleSubmit,
         control,
         getValues,
@@ -26,15 +26,16 @@ const ProfileForm = ({onSubmit}) => {
             lastName: user.lastName ?? '',
             nickname: user.nickname ?? '',
             phone: user.phone ?? '',
-            sex: user.sex ?? true,
+            sex: user.sex ?? 'true',
             email: user.email ?? '',
-            birthday: Date.now(),
+            birthday: new Date(user?.birthday) || '',
+            isSubscribed: user.isSubscribed || false,
         },
     })
 
-    // useEffect(() => {
-    //     console.log('form', watch())
-    // }, [watch])
+    useEffect(() => {
+        console.log('form', watch())
+    }, [watch])
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -62,11 +63,11 @@ const ProfileForm = ({onSubmit}) => {
                 </Col>
                 <Col md={9} className="d-flex">
                     <label>
-                        <input type="radio" name="sex" defaultChecked={true} />
+                        <input type="radio" value="true" {...register('sex')} />
                         <span>Женский</span>
                     </label>
                     <label className="ms-4">
-                        <input type="radio" name="sex" />
+                        <input type="radio" value="false" {...register('sex')} />
                         <span>Мужской</span>
                     </label>
                 </Col>
@@ -134,7 +135,7 @@ const ProfileForm = ({onSubmit}) => {
                 </Col>
                 <Col md={9} offset={3}>
                     <label>
-                        <input type="checkbox" {...register('sex')} />
+                        <input type="checkbox" {...register('isSubscribed')} />
                         <span>Получать уведомления на почту</span>
                     </label>
                 </Col>

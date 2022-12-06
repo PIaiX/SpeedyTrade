@@ -8,27 +8,28 @@ import {refreshAuth} from './store/actions/auth'
 import {setLoadingRefresh} from './store/reducers/authSlice'
 import {setDefaultLocale} from 'react-datepicker'
 import ru from 'date-fns/locale/ru'
-import {initFingerprint} from './store/actions/fingerprint'
+import FingerprintJS from '@fingerprintjs/fingerprintjs'
+
+const fpPromise = FingerprintJS.load()
 
 const App = () => {
     setDefaultLocale(ru)
     const dispatch = useDispatch()
-    const fingerprint = useSelector((state) => state?.fingerprint?.value)
 
     useEffect(() => {
         dispatch(initTheme())
+        ;(async () => {
+            // Get the visitor identifier when you need it.
+            const fp = await fpPromise
+            const result = await fp.get()
+
+            localStorage.setItem('fingerprint', result.visitorId)
+        })()
+
+        if (localStorage.getItem('token')) {
+            dispatch(refreshAuth())
+        } else dispatch(setLoadingRefresh(false))
     }, [])
-
-    useEffect(() => {
-        // initial auth check
-        if (fingerprint) {
-            localStorage.setItem('fingerprint', fingerprint)
-
-            if (localStorage.getItem('token')) {
-                dispatch(refreshAuth())
-            } else dispatch(setLoadingRefresh(false))
-        } else dispatch(initFingerprint())
-    }, [fingerprint])
 
     return <AppRouter />
 }

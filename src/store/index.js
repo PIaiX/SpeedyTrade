@@ -4,19 +4,17 @@ import storage from 'redux-persist/lib/storage'
 import authReducer from '../store/reducers/authSlice'
 import alertReducer from '../store/reducers/alertSlice'
 import themeReducer from '../store/reducers/themeSlice'
-import fingerprintReducer from '../store/reducers/fingerprintSlice'
 
 const rootReducer = combineReducers({
     auth: authReducer,
     alert: alertReducer,
     theme: themeReducer,
-    fingerprint: fingerprintReducer,
 })
 
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['theme', 'fingerprint'],
+    whitelist: ['theme'],
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
