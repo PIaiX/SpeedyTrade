@@ -22,6 +22,9 @@ const apiRoutes = {
     ACTIONS_GAMES: 'game',
     GET_GAMES_PLATFORM: 'game/platform',
     GET_GAMES_SERVERS: 'game/server',
+
+    //news
+    NEWS_ACTION: 'news',
 }
 
 const apiResponseMessages = {}

@@ -1,19 +1,26 @@
 import React from 'react'
+import {getImageURL} from '../helpers/image'
+import Moment from 'react-moment'
+import 'moment/locale/ru'
+import {NavLink} from 'react-router-dom'
 
-function News(props) {
+const News = (props) => {
     return (
         <article className="news">
-            <img src="/images/avatar.jpg" alt="Релиз Valkyrie Profile" />
+            <NavLink to={`/news/${props?.slug}`}>
+                <img src={getImageURL(props?.image)} alt={props?.title || ''} />
+            </NavLink>
             <div>
-                <h5>Релиз Valkyrie Profile: Lenneth отложили в последнюю минуту</h5>
-                <p>
-                    Последние новости из мира компьютерных, консольных и мобильных игр, фильмов и сериалов, высоких
-                    технологий и киберспорта
-                </p>
+                <NavLink to={`/news/${props?.slug}`}>
+                    <h5>{props?.title}</h5>
+                </NavLink>
+                <p>{props?.suptitle}</p>
                 <div className="d-flex align-items-center mt-3">
-                    <span>24 сен. 22</span>
+                    <span>
+                        <Moment locale="ru" format="DD MMMM" date={props?.createdAt} />
+                    </span>
                     <span className="px-3 accent">&#8226;</span>
-                    <span>5 мин. чтения</span>
+                    <span>{props?.readingTimeFrom} мин. чтения</span>
                 </div>
             </div>
         </article>

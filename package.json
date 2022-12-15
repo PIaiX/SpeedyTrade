@@ -19,6 +19,7 @@
         "react-hook-form": "^7.39.4",
         "react-icons": "^4.4.0",
         "react-loading-skeleton": "^3.1.0",
+        "react-moment": "^1.1.2",
         "react-phone-input-2": "^2.15.1",
         "react-redux": "^8.0.5",
         "react-router-dom": "^6.4.2",

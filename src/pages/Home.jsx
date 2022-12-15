@@ -24,6 +24,8 @@ import News from '../components/News'
 import SortSection from '../components/SortSection'
 import {getCatalogAllGames} from '../services/catalog'
 import {getImageURL} from '../helpers/image'
+import {getAllNews} from '../services/news'
+import Skeleton from 'react-loading-skeleton'
 
 const Home = () => {
     const [thumbsSwiper, setThumbsSwiper] = useState(null)
@@ -31,12 +33,28 @@ const Home = () => {
         isLoaded: false,
         items: null,
     })
+    const [news, setNews] = useState({
+        isLoaded: true,
+        items: null,
+        meta: null,
+    })
+
     useEffect(() => {
         getCatalogAllGames()
             .then((res) => {
                 setAllGames({isLoaded: true, items: res})
             })
             .catch()
+    }, [])
+
+    useEffect(() => {
+        getAllNews({page: 1, limit: 4, orderBy: 'desc'})
+            .then((res) => {
+                setNews({isLoaded: true, items: res?.data, meta: res?.meta})
+            })
+            .catch((error) => {
+                setNews({isLoaded: true, items: null, meta: null})
+            })
     }, [])
 
     return (
@@ -1038,13 +1056,33 @@ const Home = () => {
                         <Col lg={5} xxl={4} className="d-none d-md-block mb-5">
                             <div className="d-flex justify-content-between align-items-baseline">
                                 <h2 className="mb-0">Новости</h2>
-                                <div>24 сентября</div>
                                 <a href="/">все новости</a>
                             </div>
-                            <News />
-                            <News />
-                            <News />
-                            <News />
+                            {news?.isLoaded ? (
+                                news?.meta?.total > 0 ? (
+                                    news?.items?.map((i) => (
+                                        <News
+                                            createdAt={i.createdAt}
+                                            suptitle={i.suptitle}
+                                            slug={i.slug}
+                                            image={i.image}
+                                            title={i.title}
+                                            key={i.id}
+                                            readingTimeFrom={i.readingTimeFrom}
+                                        />
+                                    ))
+                                ) : (
+                                    <h6>Ничего нет</h6>
+                                )
+                            ) : (
+                                <Skeleton
+                                    count={5}
+                                    baseColor={`#322054`}
+                                    highlightColor={`#5736db`}
+                                    width={'100%'}
+                                    height={'50px'}
+                                />
+                            )}
                         </Col>
                         <Col lg={7} xxl={8} className="pe-xxl-5">
                             <ChatWindow />
