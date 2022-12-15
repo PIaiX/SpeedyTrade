@@ -19,8 +19,8 @@ const GameMidi = (props) => {
                 </figure>
             </Link>
             <div className="mt-3 d-flex flex-wrap align-items-center">
-                {props?.servers?.length &&
-                    props.servers.map((obj) => {
+                {props?.regions?.length &&
+                    props.regions.map((obj) => {
                         return (
                             <button key={obj} type="button" className="btn-4 p-2 fs-08 me-1 mb-2 text-uppercase">
                                 {obj}
@@ -32,7 +32,7 @@ const GameMidi = (props) => {
                 {props?.subLinksArr?.length &&
                     props.subLinksArr.map((obj) => {
                         return (
-                            <Link key={obj.anchor} to={`/game/${props.slug}?=`} className="fs-09 me-3 mb-2">
+                            <Link key={obj.anchor} to={`/game/${props.slug}`} className="fs-09 me-3 mb-2">
                                 {obj.anchor}
                             </Link>
                         )

@@ -69,7 +69,7 @@ const Home = () => {
                         <SwiperSlide>
                             <GameLarge
                                 title={'Genshin Impact'}
-                                imgLink={'images/slider-main/genshin.jpg'}
+                                imgLink={'/images/slider-main/genshin.jpg'}
                                 description={
                                     'Игра абсолютно бесплатная и вас никто не ограничивает по времени пребывания в этом мире. Во-вторых, абсолютно все предметы, необходимые для ваших героев, можно добыть стандартным путём'
                                 }
@@ -87,7 +87,7 @@ const Home = () => {
                         <SwiperSlide>
                             <GameLarge
                                 title={'World of Tanks: Blitz'}
-                                imgLink={'images/slider-main/wot.jpg'}
+                                imgLink={'/images/slider-main/wot.jpg'}
                                 description={
                                     'Игра абсолютно бесплатная и вас никто не ограничивает по времени пребывания в этом мире. Во-вторых, абсолютно все предметы, необходимые для ваших героев, можно добыть стандартным путём'
                                 }
@@ -105,7 +105,7 @@ const Home = () => {
                         <SwiperSlide>
                             <GameLarge
                                 title={'World of Warcraft: Shadowlands'}
-                                imgLink={'images/slider-main/wow.jpg'}
+                                imgLink={'/images/slider-main/wow.jpg'}
                                 description={
                                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
                                 }
@@ -123,7 +123,7 @@ const Home = () => {
                         <SwiperSlide>
                             <GameLarge
                                 title={'World of Warcraft: WotLK Classic'}
-                                imgLink={'images/slider-main/wow2.jpg'}
+                                imgLink={'/images/slider-main/wow2.jpg'}
                                 description={
                                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
                                 }
@@ -141,7 +141,7 @@ const Home = () => {
                         <SwiperSlide>
                             <GameLarge
                                 title={'World of Warcraft'}
-                                imgLink={'images/slider-main/wow3.jpg'}
+                                imgLink={'/images/slider-main/wow3.jpg'}
                                 description={
                                     'Игра абсолютно бесплатная и вас никто не ограничивает по времени пребывания в этом мире. Во-вторых, абсолютно все предметы, необходимые для ваших героев, можно добыть стандартным путём'
                                 }
@@ -159,7 +159,7 @@ const Home = () => {
                         <SwiperSlide>
                             <GameLarge
                                 title={'Genshin Impact'}
-                                imgLink={'images/slider-main/genshin.jpg'}
+                                imgLink={'/images/slider-main/genshin.jpg'}
                                 description={
                                     'Игра абсолютно бесплатная и вас никто не ограничивает по времени пребывания в этом мире. Во-вторых, абсолютно все предметы, необходимые для ваших героев, можно добыть стандартным путём'
                                 }
@@ -177,7 +177,7 @@ const Home = () => {
                         <SwiperSlide>
                             <GameLarge
                                 title={'World of Tanks: Blitz'}
-                                imgLink={'images/slider-main/wot.jpg'}
+                                imgLink={'/images/slider-main/wot.jpg'}
                                 description={
                                     'Игра абсолютно бесплатная и вас никто не ограничивает по времени пребывания в этом мире. Во-вторых, абсолютно все предметы, необходимые для ваших героев, можно добыть стандартным путём'
                                 }
@@ -195,7 +195,7 @@ const Home = () => {
                         <SwiperSlide>
                             <GameLarge
                                 title={'World of Warcraft: Shadowlands'}
-                                imgLink={'images/slider-main/wow.jpg'}
+                                imgLink={'/images/slider-main/wow.jpg'}
                                 description={
                                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
                                 }
@@ -213,7 +213,7 @@ const Home = () => {
                         <SwiperSlide>
                             <GameLarge
                                 title={'World of Warcraft: WotLK Classic'}
-                                imgLink={'images/slider-main/wow2.jpg'}
+                                imgLink={'/images/slider-main/wow2.jpg'}
                                 description={
                                     'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
                                 }
@@ -231,7 +231,7 @@ const Home = () => {
                         <SwiperSlide>
                             <GameLarge
                                 title={'World of Warcraft'}
-                                imgLink={'images/slider-main/wow3.jpg'}
+                                imgLink={'/images/slider-main/wow3.jpg'}
                                 description={
                                     'Игра абсолютно бесплатная и вас никто не ограничивает по времени пребывания в этом мире. Во-вторых, абсолютно все предметы, необходимые для ваших героев, можно добыть стандартным путём'
                                 }
@@ -269,46 +269,46 @@ const Home = () => {
                         }}
                     >
                         <SwiperSlide>
-                            <GameMini title={'Genshin Impact'} imgLink={'images/slider-main/genshin.jpg'} />
+                            <GameMini title={'Genshin Impact'} imgLink={'/images/slider-main/genshin.jpg'} />
                         </SwiperSlide>
                         <SwiperSlide>
-                            <GameMini title={'World of Tanks: Blitz'} imgLink={'images/slider-main/wot.jpg'} />
+                            <GameMini title={'World of Tanks: Blitz'} imgLink={'/images/slider-main/wot.jpg'} />
                         </SwiperSlide>
                         <SwiperSlide>
                             <GameMini
                                 title={'World of Warcraft: Shadowlands'}
-                                imgLink={'images/slider-main/wow.jpg'}
+                                imgLink={'/images/slider-main/wow.jpg'}
                             />
                         </SwiperSlide>
                         <SwiperSlide>
                             <GameMini
                                 title={'World of Warcraft: WotLK Classic'}
-                                imgLink={'images/slider-main/wow2.jpg'}
+                                imgLink={'/images/slider-main/wow2.jpg'}
                             />
                         </SwiperSlide>
                         <SwiperSlide>
-                            <GameMini title={'World of Warcraft'} imgLink={'images/slider-main/wow3.jpg'} />
+                            <GameMini title={'World of Warcraft'} imgLink={'/images/slider-main/wow3.jpg'} />
                         </SwiperSlide>
                         <SwiperSlide>
-                            <GameMini title={'Genshin Impact'} imgLink={'images/slider-main/genshin.jpg'} />
+                            <GameMini title={'Genshin Impact'} imgLink={'/images/slider-main/genshin.jpg'} />
                         </SwiperSlide>
                         <SwiperSlide>
-                            <GameMini title={'World of Tanks: Blitz'} imgLink={'images/slider-main/wot.jpg'} />
+                            <GameMini title={'World of Tanks: Blitz'} imgLink={'/images/slider-main/wot.jpg'} />
                         </SwiperSlide>
                         <SwiperSlide>
                             <GameMini
                                 title={'World of Warcraft: Shadowlands'}
-                                imgLink={'images/slider-main/wow.jpg'}
+                                imgLink={'/images/slider-main/wow.jpg'}
                             />
                         </SwiperSlide>
                         <SwiperSlide>
                             <GameMini
                                 title={'World of Warcraft: WotLK Classic'}
-                                imgLink={'images/slider-main/wow2.jpg'}
+                                imgLink={'/images/slider-main/wow2.jpg'}
                             />
                         </SwiperSlide>
                         <SwiperSlide>
-                            <GameMini title={'World of Warcraft'} imgLink={'images/slider-main/wow3.jpg'} />
+                            <GameMini title={'World of Warcraft'} imgLink={'/images/slider-main/wow3.jpg'} />
                         </SwiperSlide>
                     </Swiper>
                 </section>
@@ -336,7 +336,7 @@ const Home = () => {
                                             slug={i.slug}
                                             imgLink={getImageURL(i?.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
-                                            servers={i?.servers?.map((j) => j.name)}
+                                            regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
                                 ))
@@ -368,7 +368,7 @@ const Home = () => {
                                             imgLink={getImageURL(i.logo)}
                                             slug={i.slug}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
-                                            servers={i?.servers?.map((j) => j.name)}
+                                            regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
                                 ))
@@ -394,7 +394,7 @@ const Home = () => {
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
-                                            servers={i?.servers?.map((j) => j.name)}
+                                            regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
                                 ))
@@ -420,7 +420,7 @@ const Home = () => {
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
-                                            servers={i?.servers?.map((j) => j.name)}
+                                            regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
                                 ))
@@ -446,7 +446,7 @@ const Home = () => {
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
-                                            servers={i?.servers?.map((j) => j.name)}
+                                            regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
                                 ))
@@ -471,7 +471,7 @@ const Home = () => {
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
-                                            servers={i?.servers?.map((j) => j.name)}
+                                            regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
                                 ))
@@ -496,7 +496,7 @@ const Home = () => {
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
-                                            servers={i?.servers?.map((j) => j.name)}
+                                            regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
                                 ))
@@ -521,7 +521,7 @@ const Home = () => {
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
-                                            servers={i?.servers?.map((j) => j.name)}
+                                            regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
                                 ))
@@ -546,7 +546,7 @@ const Home = () => {
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
-                                            servers={i?.servers?.map((j) => j.name)}
+                                            regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
                                 ))
@@ -571,7 +571,7 @@ const Home = () => {
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
-                                            servers={i?.servers?.map((j) => j.name)}
+                                            regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
                                 ))
@@ -596,7 +596,7 @@ const Home = () => {
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
-                                            servers={i?.servers?.map((j) => j.name)}
+                                            regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
                                 ))
@@ -621,7 +621,7 @@ const Home = () => {
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
-                                            servers={i?.servers?.map((j) => j.name)}
+                                            regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
                                 ))
@@ -646,7 +646,7 @@ const Home = () => {
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
-                                            servers={i?.servers?.map((j) => j.name)}
+                                            regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
                                 ))
@@ -671,7 +671,7 @@ const Home = () => {
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
-                                            servers={i?.servers?.map((j) => j.name)}
+                                            regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
                                 ))
@@ -696,7 +696,7 @@ const Home = () => {
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
-                                            servers={i?.servers?.map((j) => j.name)}
+                                            regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
                                 ))
@@ -721,7 +721,7 @@ const Home = () => {
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
-                                            servers={i?.servers?.map((j) => j.name)}
+                                            regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
                                 ))
@@ -746,7 +746,7 @@ const Home = () => {
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
-                                            servers={i?.servers?.map((j) => j.name)}
+                                            regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
                                 ))
@@ -771,7 +771,7 @@ const Home = () => {
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
-                                            servers={i?.servers?.map((j) => j.name)}
+                                            regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
                                 ))
@@ -796,7 +796,7 @@ const Home = () => {
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
-                                            servers={i?.servers?.map((j) => j.name)}
+                                            regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
                                 ))
@@ -821,7 +821,7 @@ const Home = () => {
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
-                                            servers={i?.servers?.map((j) => j.name)}
+                                            regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
                                 ))
@@ -846,7 +846,7 @@ const Home = () => {
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
-                                            servers={i?.servers?.map((j) => j.name)}
+                                            regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
                                 ))
@@ -871,7 +871,7 @@ const Home = () => {
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
-                                            servers={i?.servers?.map((j) => j.name)}
+                                            regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
                                 ))
@@ -896,7 +896,7 @@ const Home = () => {
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
-                                            servers={i?.servers?.map((j) => j.name)}
+                                            regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
                                 ))
@@ -921,7 +921,7 @@ const Home = () => {
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
-                                            servers={i?.servers?.map((j) => j.name)}
+                                            regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
                                 ))
@@ -946,7 +946,7 @@ const Home = () => {
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
-                                            servers={i?.servers?.map((j) => j.name)}
+                                            regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
                                 ))
@@ -971,7 +971,7 @@ const Home = () => {
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
-                                            servers={i?.servers?.map((j) => j.name)}
+                                            regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
                                 ))
@@ -996,7 +996,7 @@ const Home = () => {
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
-                                            servers={i?.servers?.map((j) => j.name)}
+                                            regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
                                 ))
@@ -1021,7 +1021,7 @@ const Home = () => {
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
                                             subLinksArr={i?.categories?.map((k) => ({to: '/', anchor: k.name}))}
-                                            servers={i?.servers?.map((j) => j.name)}
+                                            regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
                                 ))

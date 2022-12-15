@@ -8,6 +8,10 @@ const apiRoutes = {
     AUTH_LOGOUT: '/auth/logout',
     AUTH_REFRESH: '/auth/refreshToken',
 
+    //reset password
+    RESET_PASSWORD_EMAIL_VERIFY: 'auth/forgotPassword/emailVerify',
+    RESET_PASSWORD_CONFIRM: 'auth/forgotPassword',
+
     //catalog
     GET_GAMES_CATEGORIES: 'game/category',
     GET_PARAMS_CATEGORIES: 'game/category/parameter',
@@ -25,6 +29,7 @@ const apiRejectMessages = {
 const apiErrors = {}
 
 const apiValidationRules = {
+    required: 'Заполните поле',
     unique: 'unique',
 }
 

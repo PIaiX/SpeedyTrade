@@ -23,14 +23,14 @@ function Favorites(props) {
                         </button>
                         <ul>
                             <li>
-                                <img src="images/slider-main/wow2.jpg" alt="World of Warcraft: Shadowlands" />
+                                <img src="/images/slider-main/wow2.jpg" alt="World of Warcraft: Shadowlands" />
                                 <Link to="/">World of Warcraft: Shadowlands</Link>
                                 <button type="button" className="d-flex">
                                     <IoCloseCircleOutline />
                                 </button>
                             </li>
                             <li>
-                                <img src="images/slider-main/genshin.jpg" alt="Genshin Impact" />
+                                <img src="/images/slider-main/genshin.jpg" alt="Genshin Impact" />
                                 <Link to="/">Genshin Impact</Link>
                                 <button type="button" className="d-flex">
                                     <IoCloseCircleOutline />

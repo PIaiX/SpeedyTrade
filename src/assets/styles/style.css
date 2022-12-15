@@ -2894,4 +2894,13 @@ footer nav.mobile button.active {
   color: var(--user-nickname);
 }
 
+.reset-password-button {
+  display: flex;
+  height: 150px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+
 /*# sourceMappingURL=style.css.map */

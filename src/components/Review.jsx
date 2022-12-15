@@ -8,7 +8,7 @@ const Review = (props) => {
         <div className="user-review">
             <div className="img">
                 <Link to="/user">
-                    <img src="images/user2.png" alt="Владимирская Елена" />
+                    <img src="/images/user2.png" alt="Владимирская Елена" />
                 </Link>
             </div>
             <div className="grid-1">

@@ -7,7 +7,7 @@ const MessagePreview = () => {
     return (
         <li className="messages-list-preview">
             <div className="img">
-                <img src="images/user2.png" alt="Иванченко Дарья" />
+                <img src="/images/user2.png" alt="Иванченко Дарья" />
                 <div className="indicator unread"></div>
             </div>
             <div className="header">
@@ -15,7 +15,7 @@ const MessagePreview = () => {
                 <div className="fs-11 d-none d-md-block">@yourdashulik</div>
             </div>
             <Link to="chat" className="message">
-                <img src="images/user.png" alt="Имя" />
+                <img src="/images/user.png" alt="Имя" />
                 <div>Да, конечно, давай! Ты уточняла вчера по поводу запасов алмазов, мне кажется т</div>
             </Link>
             <div className="date">10.10.2022 в 14:45</div>

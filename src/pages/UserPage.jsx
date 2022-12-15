@@ -30,7 +30,7 @@ const UserPage = () => {
                     <section className="user-page pt-5 mb-6">
                         <Row className="gy-4 gy-sm-5 gx-4 gx-xxl-5">
                             <Col sm={5} md={4} lg={3}>
-                                <img src="images/user.png" alt="" className="img" />
+                                <img src="/images/user.png" alt="" className="img" />
                             </Col>
                             <Col sm={7} md={8} lg={4} xl={3}>
                                 <h4>Колесникова Ирина</h4>

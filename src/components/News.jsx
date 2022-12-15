@@ -3,7 +3,7 @@ import React from 'react'
 function News(props) {
     return (
         <article className="news">
-            <img src="images/avatar.jpg" alt="Релиз Valkyrie Profile" />
+            <img src="/images/avatar.jpg" alt="Релиз Valkyrie Profile" />
             <div>
                 <h5>Релиз Valkyrie Profile: Lenneth отложили в последнюю минуту</h5>
                 <p>

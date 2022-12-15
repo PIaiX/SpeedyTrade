@@ -113,7 +113,7 @@ const Lot = () => {
                                 <div className="top">
                                     <div className="d-flex align-items-center">
                                         <div className="img me-2 me-sm-3">
-                                            <img src="images/user2.png" alt="Иванченко Дарья" />
+                                            <img src="/images/user2.png" alt="Иванченко Дарья" />
                                             <div className="indicator online"></div>
                                         </div>
                                         <div>

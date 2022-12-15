@@ -6,7 +6,7 @@ const ReviewBlock = () => {
     return (
         <div className="review-block">
             <Link to="/user">
-                <img src="images/user2.png" alt="Владимирская Елена" />
+                <img src="/images/user2.png" alt="Владимирская Елена" />
             </Link>
             <div className="flex-1 ms-2 ms-sm-4">
                 <div className="d-sm-flex align-items-center mb-2">

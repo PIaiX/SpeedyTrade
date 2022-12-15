@@ -29,7 +29,7 @@ const MessageWindow = () => {
                     </div>
                     <div className="d-flex align-items-center">
                         <div className="img me-2 me-sm-4">
-                            <img src="images/user2.png" alt="Иванченко Дарья" />
+                            <img src="/images/user2.png" alt="Иванченко Дарья" />
                             <div className="indicator"></div>
                         </div>
                         <Dropdown align="end">
