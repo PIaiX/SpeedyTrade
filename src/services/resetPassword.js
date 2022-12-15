@@ -1,9 +1,9 @@
 import axios from 'axios'
-import BASE_URL, {apiRoutes} from '../config/api'
+import {apiRoutes} from '../config/api'
 
 export const resetPasswordEmailVerify = async (payloads) => {
     try {
-        await axios.post(`${BASE_URL}${apiRoutes.RESET_PASSWORD_EMAIL_VERIFY}`, payloads)
+        await axios.post(`${apiRoutes.RESET_PASSWORD_EMAIL_VERIFY}`, payloads)
     } catch (error) {
         throw error
     }
@@ -11,7 +11,7 @@ export const resetPasswordEmailVerify = async (payloads) => {
 
 export const resetPasswordConfirm = async (payloads) => {
     try {
-        await axios.post(`${BASE_URL}${apiRoutes.RESET_PASSWORD_CONFIRM}`, payloads)
+        await axios.post(`${apiRoutes.RESET_PASSWORD_CONFIRM}`, payloads)
     } catch (error) {
         throw error
     }

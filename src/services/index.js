@@ -8,15 +8,20 @@ const apiBody = {
         Accept: 'application/json',
         'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',
-        'User-Fingerprint': localStorage.getItem('fingerprint'),
     },
 }
 
 const $api = axios.create(apiBody)
 const $authApi = axios.create(apiBody)
 
+$api.interceptors.request.use((config) => {
+    config.headers['User-Fingerprint'] = localStorage.getItem('fingerprint')
+    return config
+})
+
 $authApi.interceptors.request.use((config) => {
     config.headers.Authorization = `Bearer ${localStorage.getItem('token')}`
+    config.headers['User-Fingerprint'] = localStorage.getItem('fingerprint')
     return config
 })
 
@@ -26,7 +31,7 @@ $authApi.interceptors.response.use(
     },
     async (error) => {
         const originalRequest = error.config
-        if (error.response.status === 400 && originalRequest && !originalRequest._isRetry) {
+        if (error?.response?.status === 400 && originalRequest && !originalRequest._isRetry) {
             originalRequest._isRetry = true
             try {
                 const response = await $api.get(apiRoutes.AUTH_REFRESH)

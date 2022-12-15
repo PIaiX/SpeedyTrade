@@ -12,6 +12,10 @@ const apiRoutes = {
     RESET_PASSWORD_EMAIL_VERIFY: 'auth/forgotPassword/emailVerify',
     RESET_PASSWORD_CONFIRM: 'auth/forgotPassword',
 
+    //user
+
+    USER_UPDATE_PASSWORD: 'user/updatePassword',
+
     //catalog
     GET_GAMES_CATEGORIES: 'game/category',
     GET_PARAMS_CATEGORIES: 'game/category/parameter',
