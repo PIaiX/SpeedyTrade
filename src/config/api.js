@@ -25,6 +25,10 @@ const apiRoutes = {
 
     //news
     NEWS_ACTION: 'news',
+
+    //purchase
+    GET_PURCHASE: 'lot/purchase/purchase',
+    GET_SALE: 'lot/purchase/sale',
 }
 
 const apiResponseMessages = {}
