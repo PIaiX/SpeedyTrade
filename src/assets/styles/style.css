@@ -93,6 +93,10 @@
   --user-nickname: #faf2ff;
 }
 
+.c-pointer {
+  cursor: pointer;
+}
+
 /* mixins */
 html {
   scrollbar-color: rgba(var(--scroll-rgb)/0.75) transparent;
@@ -622,6 +626,11 @@ button {
 .btn-1:active {
   opacity: 0.9;
 }
+.btn-1:disabled {
+  background-color: var(--btn-5-disabled);
+  color: gray;
+  cursor: default;
+}
 .btn-2 {
   background: var(--btn-2-bg);
   color: var(--btn-2-color);
@@ -632,6 +641,11 @@ button {
   border: 1px solid var(--accent-br);
   color: var(--font-light);
 }
+.btn-2:disabled {
+  background-color: var(--btn-5-disabled);
+  color: gray;
+  cursor: default;
+}
 .btn-3 {
   background: var(--btn-3-bg);
   color: var(--btn-3-color);
@@ -639,6 +653,11 @@ button {
 .btn-3:hover, .btn-3:focus, .btn-3:active, .btn-3.active {
   background: var(--btn-3-bg-active);
   color: var(--btn-3-color-active);
+}
+.btn-3:disabled {
+  background-color: var(--btn-5-disabled);
+  color: gray;
+  cursor: default;
 }
 .btn-4 {
   border: 1px solid var(--btn-2-border);
@@ -650,6 +669,11 @@ button {
   color: var(--font-light);
   border: 1px solid var(--accent-br);
 }
+.btn-4:disabled {
+  background-color: var(--btn-5-disabled);
+  color: gray;
+  cursor: default;
+}
 .btn-5 {
   color: var(--bg-main);
   background-color: var(--color-3);
@@ -660,6 +684,8 @@ button {
 }
 .btn-5:disabled {
   background-color: var(--btn-5-disabled);
+  color: gray;
+  cursor: default;
 }
 .btn-6 {
   color: var(--color-1);
@@ -668,6 +694,11 @@ button {
 .btn-6:hover, .btn-6:focus, .btn-6:active, .btn-6.active {
   background-color: var(--color-1);
   color: var(--color-5);
+}
+.btn-6:disabled {
+  background-color: var(--btn-5-disabled);
+  color: gray;
+  cursor: default;
 }
 .btn-7 {
   color: var(--achromat-2);
@@ -2093,6 +2124,18 @@ main {
   justify-content: center;
   align-items: center;
   color: #fff;
+}
+.account .user-photo_upload {
+  position: relative;
+  z-index: inherit;
+}
+.account .user-photo_upload input[type=file] {
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  position: absolute;
+  z-index: 3;
+  cursor: pointer;
 }
 .account .cards-list {
   padding-left: 0px;

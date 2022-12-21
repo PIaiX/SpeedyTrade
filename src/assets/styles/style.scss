@@ -102,6 +102,11 @@
 $accent: #bf3535;
 $green: #52ff82;
 
+// GENERAL
+.c-pointer {
+    cursor: pointer;
+}
+
 /* mixins */
 @mixin flex-center {
     display: flex;
@@ -684,6 +689,12 @@ button {
         &:active {
             opacity: 0.9;
         }
+
+        &:disabled {
+            background-color: var(--btn-5-disabled);
+            color: gray;
+            cursor: default;
+        }
     }
 
     // .btn-2
@@ -701,6 +712,12 @@ button {
             border: 1px solid var(--accent-br);
             color: var(--font-light);
         }
+
+        &:disabled {
+            background-color: var(--btn-5-disabled);
+            color: gray;
+            cursor: default;
+        }
     }
 
     // .btn-3
@@ -715,6 +732,12 @@ button {
         &.active {
             background: var(--btn-3-bg-active);
             color: var(--btn-3-color-active);
+        }
+
+        &:disabled {
+            background-color: var(--btn-5-disabled);
+            color: gray;
+            cursor: default;
         }
     }
 
@@ -732,6 +755,12 @@ button {
             background: var(--accent);
             color: var(--font-light);
             border: 1px solid var(--accent-br);
+        }
+
+        &:disabled {
+            background-color: var(--btn-5-disabled);
+            color: gray;
+            cursor: default;
         }
     }
 
@@ -751,6 +780,8 @@ button {
 
         &:disabled {
             background-color: var(--btn-5-disabled);
+            color: gray;
+            cursor: default;
         }
     }
 
@@ -766,6 +797,12 @@ button {
         &.active {
             background-color: var(--color-1);
             color: var(--color-5);
+        }
+
+        &:disabled {
+            background-color: var(--btn-5-disabled);
+            color: gray;
+            cursor: default;
         }
     }
 
@@ -2218,6 +2255,21 @@ main {
             button {
                 @include flex-center();
                 color: #fff;
+            }
+        }
+
+        // .user-photo_upload
+        &_upload {
+            position: relative;
+            z-index: inherit;
+
+            input[type='file'] {
+                width: 100%;
+                height: 100%;
+                opacity: 0;
+                position: absolute;
+                z-index: 3;
+                cursor: pointer;
             }
         }
     }

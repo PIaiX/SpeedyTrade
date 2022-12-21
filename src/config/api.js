@@ -14,6 +14,7 @@ const apiRoutes = {
 
     //user
 
+    USER_ACTIONS: 'user',
     USER_UPDATE_PASSWORD: 'user/updatePassword',
 
     //catalog

@@ -1,22 +1,26 @@
 import React, {useCallback} from 'react'
 import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
-import StarRating from '../../components/utils/StarRating'
-import UserPhoto from '../../components/utils/UserPhoto'
 import {Link} from 'react-router-dom'
 import {FiArrowLeft} from 'react-icons/fi'
-import InputPassword from '../../components/utils/InputPassword'
 import ProfileForm from '../../components/forms/ProfileForm'
-import {useSelector} from 'react-redux'
-import {getImageURL} from '../../helpers/image'
 import ChangePasswordForm from '../../components/forms/ChangePasswordForm'
+import {userUpdateProfile} from '../../services/user'
+import {useSelector} from 'react-redux'
 
 const Profile = () => {
     const user = useSelector((state) => state?.auth?.user)
 
-    const onSubmit = useCallback((data) => {
-        console.log('submitted', data)
-    }, [])
+    const onSubmit = useCallback(
+        (data) => {
+            const formData = new FormData()
+            for (const key in data) formData.append(key, data[key])
+
+            userUpdateProfile(formData, user?.id)
+                .then(() => console.log('success'))
+                .catch(() => console.log('rejected'))
+        },
+        [user?.id]
+    )
 
     return (
         <div className="main">
@@ -26,22 +30,9 @@ const Profile = () => {
                 </Link>
                 <h4 className="color-1 mb-0">Профиль</h4>
             </div>
-            <Row className="flex-lg-row-reverse">
-                <Col xs={12} xl={4}>
-                    <div className="d-flex flex-column flex-sm-row flex-xl-column align-items-center mb-4 mb-xl-0">
-                        <UserPhoto imgUrl={getImageURL(user?.avatar)} name={user?.fullName} />
-                        <div className="d-flex flex-column align-items-center align-items-sm-start align-items-xl-center justify-content-center">
-                            <h4 className="color-1 mt-3 mt-sm-0 mb-2 mb-sm-4">{user?.fullName}</h4>
-                            <StarRating className="justify-content-start justify-content-xl-center" rate={4.35} />
-                            <div className="mt-2 mt-sm-4">На сайте с {user?.createdAtForUser}</div>
-                        </div>
-                    </div>
-                </Col>
-                <Col xs={12} xl={8}>
-                    <ProfileForm onSubmit={onSubmit} />
-
-                    <ChangePasswordForm />
-                </Col>
+            <Row>
+                <ProfileForm onSubmit={onSubmit} />
+                <ChangePasswordForm />
             </Row>
         </div>
     )
