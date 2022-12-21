@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react'
+import React, {useCallback} from 'react'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import {Controller, useForm} from 'react-hook-form'
@@ -36,13 +36,10 @@ const ProfileForm = ({onSubmit}) => {
             nickname: user.nickname ?? '',
             phone: user.phone ?? '',
             sex: user.sex ?? 'true',
-            birthday: moment().utc(user.birthday) ?? null,
+            birthday: moment(user.birthday, 'YYYY-MM-DD').format('DD.MM.YYYY') ?? null,
             isSubscribed: user.isSubscribed ?? false,
         },
     })
-
-    console.log('dddd', new Date(user.birthday))
-
     const avatarImage = useImageViewer(watch('avatar'))
 
     const onChangeAvatar = useCallback((e) => {
@@ -139,15 +136,13 @@ const ProfileForm = ({onSubmit}) => {
                                     control={control}
                                     render={({field}) => (
                                         <DatePicker
-                                            selected={new Date(watch('birthday'))}
-                                            onChange={(date) => {
-                                                // console.log('dattt', date)
-                                                // field.onChange(moment().format())
-                                            }}
+                                            selected={new Date(moment(watch('birthday'), 'DD.MM.YYYY').format())}
+                                            onChange={(date) => field.onChange(moment(date).format('DD.MM.YYYY'))}
                                             peekNextMonth
                                             showMonthDropdown
                                             showYearDropdown
                                             dropdownMode="select"
+                                            dateFormat="dd-MM-yyyy"
                                         />
                                     )}
                                     rules={{required: 'Заполните поле'}}

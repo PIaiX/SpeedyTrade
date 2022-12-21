@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from 'react'
 import Table from 'react-bootstrap/Table'
 import AdsTr3 from '../../components/AdsTr3'
-import Pagination from '../../components/Pagination'
 import {Link} from 'react-router-dom'
 import {FiArrowLeft} from 'react-icons/fi'
 import {useSelector} from 'react-redux'
 import usePagination from '../../hooks/pagination'
-import {getPurchases, getSale} from '../../services/purchases'
+import {getSale} from '../../services/purchases'
 import Skeleton from 'react-loading-skeleton'
 import Paginate from '../../components/utils/paginate'
 
