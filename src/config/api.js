@@ -1,3 +1,4 @@
+const BASE_API_URL = process.env.REACT_APP_BASE_API_URL
 const BASE_URL = process.env.REACT_APP_BASE_URL
 
 const apiRoutes = {
@@ -29,6 +30,10 @@ const apiRoutes = {
     //purchase
     GET_PURCHASE: 'lot/purchase/purchase',
     GET_SALE: 'lot/purchase/sale',
+
+    //tickets
+    TICKET_ACTIONS: 'ticket',
+    TICKET_MESSAGE_ACTIONS: 'ticket/message',
 }
 
 const apiResponseMessages = {}
@@ -44,5 +49,5 @@ const apiValidationRules = {
     unique: 'unique',
 }
 
-export default BASE_URL
+export {BASE_API_URL, BASE_URL}
 export {apiRoutes, apiResponseMessages, apiRejectMessages, apiErrors, apiValidationRules}

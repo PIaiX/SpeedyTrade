@@ -1,15 +1,39 @@
-import React, {useState} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import Table from 'react-bootstrap/Table'
 import Accordion from 'react-bootstrap/Accordion'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
-import InputFile from '../../components/utils/InputFile'
 import {FiArrowLeft, FiChevronDown, FiHelpCircle} from 'react-icons/fi'
 import AdsTr4 from '../../components/AdsTr4'
 import {Link} from 'react-router-dom'
+import CreateTicketForm from '../../components/forms/CreateTicketForm'
+import {getAllTickets} from '../../services/tickets'
+import {useSelector} from 'react-redux'
+import Skeleton from 'react-loading-skeleton'
 
 const Help = () => {
+    const userId = useSelector((state) => state?.auth?.user?.id)
     const [tab, setTab] = useState(0)
+    const [tickets, setTickets] = useState({
+        isLoaded: false,
+        items: [],
+    })
+    const [refetchFromCreate, setRefetchFromCreate] = useState(true)
+
+    useEffect(() => {
+        refetchFromCreate &&
+            getAllTickets(userId)
+                .then((res) => {
+                    setTickets({isLoaded: true, items: res})
+                    setRefetchFromCreate(false)
+                })
+                .catch(() => {
+                    setTickets({isLoaded: true, items: null})
+                })
+                .finally(() => setRefetchFromCreate(false))
+    }, [userId, refetchFromCreate])
+
+    const seterRefetch = useCallback((value) => {
+        setRefetchFromCreate(value)
+    }, [])
 
     return (
         <div className="main">
@@ -43,44 +67,37 @@ const Help = () => {
                             значительно ускорит время ответа и избавит от лишних вопросов. Спасибо!
                         </p>
                     </div>
-                    <form className="mt-4 mt-sm-5">
-                        <Row className="g-3 g-sm-4">
-                            <Col md={2}>
-                                <div>Тема:</div>
-                            </Col>
-                            <Col md={10}>
-                                <input type="text" placeholder="Тема тикета" />
-                            </Col>
-                            <Col md={2}>
-                                <div>Сообщение:</div>
-                            </Col>
-                            <Col md={10}>
-                                <textarea rows={5} placeholder="Сообщение"></textarea>
-                                <InputFile withText={true} />
-                            </Col>
-                        </Row>
-                        <buttob type="button" className="btn-5 mt-4">
-                            Отправить тикет
-                        </buttob>
-                    </form>
+
+                    <CreateTicketForm setRefetch={seterRefetch} />
 
                     <h6 className="mt-5">Ваши тикеты</h6>
-                    <Table borderless>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Тема</th>
-                                <th>Последнее сообщение</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <AdsTr4 />
-                            <AdsTr4 />
-                            <AdsTr4 />
-                            <AdsTr4 />
-                        </tbody>
-                    </Table>
+                    {tickets.isLoaded ? (
+                        tickets.items?.length > 0 ? (
+                            <Table borderless>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Тема</th>
+                                        <th>Последнее сообщение</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {tickets.items?.map((i) => (
+                                        <AdsTr4
+                                            key={i.id}
+                                            ticketId={i.id}
+                                            topic={i.topic}
+                                            lastMessage={i?.lastMessage?.text}
+                                        />
+                                    ))}
+                                </tbody>
+                            </Table>
+                        ) : (
+                            <h6>Тикетов нет</h6>
+                        )
+                    ) : (
+                        <Skeleton count={7} baseColor={`#322054`} highlightColor={`#5736db`} height={25} />
+                    )}
                 </div>
             )}
             {tab === 1 && (
@@ -212,7 +229,7 @@ const Help = () => {
                                 </td>
                                 <td>
                                     Блокировка всех аккаунтов. Отказ в выплатах. Блокировка всех новых аккаунтов
-                                    нарушителя по мере их обнаружения.
+                                    нарушителя по мере их обнаружения.
                                 </td>
                             </tr>
                             <tr>
@@ -254,7 +271,7 @@ const Help = () => {
                                 </td>
                                 <td>
                                     Блокировка всех аккаунтов. Отказ в выплатах. Блокировка всех новых аккаунтов
-                                    нарушителя по мере их обнаружения.
+                                    нарушителя по мере их обнаружения.
                                 </td>
                             </tr>
                             <tr>
@@ -282,7 +299,7 @@ const Help = () => {
                                     При продаже в некоторых разделах сайта система предлагает участникам заказа
                                     перейти в Discord — для этого нужно просто нажать на ссылку. Однако обмен
                                     контактными данными в чате FunPay или в самом Discord (например, добавление друг
-                                    друга в друзья) по-прежнему является нарушением.
+                                    друга в друзья) по-прежнему является нарушением.
                                 </td>
                             </tr>
                         </tbody>
@@ -314,7 +331,7 @@ const Help = () => {
                                 </td>
                                 <td>
                                     Блокировка всех аккаунтов. Отказ в выплатах. Блокировка всех новых аккаунтов
-                                    нарушителя по мере их обнаружения.
+                                    нарушителя по мере их обнаружения.
                                 </td>
                             </tr>
                             <tr>
@@ -355,7 +372,7 @@ const Help = () => {
                                 </td>
                                 <td>
                                     Блокировка всех аккаунтов. Отказ в выплатах. Блокировка всех новых аккаунтов
-                                    нарушителя по мере их обнаружения.
+                                    нарушителя по мере их обнаружения.
                                 </td>
                             </tr>
                             <tr>
@@ -396,7 +413,7 @@ const Help = () => {
                                 </td>
                                 <td>
                                     Блокировка всех аккаунтов. Отказ в выплатах. Блокировка всех новых аккаунтов
-                                    нарушителя по мере их обнаружения.
+                                    нарушителя по мере их обнаружения.
                                 </td>
                             </tr>
                             <tr>
@@ -424,7 +441,7 @@ const Help = () => {
                                     При продаже в некоторых разделах сайта система предлагает участникам заказа
                                     перейти в Discord — для этого нужно просто нажать на ссылку. Однако обмен
                                     контактными данными в чате FunPay или в самом Discord (например, добавление друг
-                                    друга в друзья) по-прежнему является нарушением.
+                                    друга в друзья) по-прежнему является нарушением.
                                 </td>
                             </tr>
                         </tbody>

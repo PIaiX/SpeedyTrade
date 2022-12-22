@@ -1746,6 +1746,52 @@ main {
   font-weight: 300;
   opacity: 0.8;
 }
+.chat-box-reverse {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+.chat-box-reverse:not(:first-child) {
+  margin-top: 1.6em;
+}
+.chat-box-reverse-user {
+  width: 2.6em;
+  margin-left: 1.6em;
+}
+@media (max-width: 575px) {
+  .chat-box-reverse-user {
+    margin-left: 0.6em;
+  }
+}
+.chat-box-reverse-user img {
+  width: 100%;
+  height: 2.6em;
+  border-radius: 0.5em;
+  object-fit: cover;
+}
+.chat-box-reverse-messages {
+  flex: 1;
+}
+.chat-box-reverse-messages .bubble {
+  background-color: var(--bubble);
+  padding: 1em 1.5em;
+  border-radius: 1em 0 1em 1em;
+  font-size: 1em;
+  font-weight: 300;
+}
+.chat-box-reverse-messages .bubble:not(:first-child) {
+  margin-top: 1em;
+}
+.chat-box-reverse-messages .bubble .name {
+  font-size: 1.1em;
+  font-weight: 500;
+}
+.chat-box-reverse-messages .bubble time {
+  font-size: 0.8em;
+  font-weight: 300;
+  opacity: 0.8;
+}
 
 .news {
   display: flex;
@@ -2026,6 +2072,8 @@ main {
   border: 1px solid var(--achromat-4);
   border-radius: 1.3em;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
   min-height: 100%;
 }
 @media (max-width: 1199px) {
@@ -2573,10 +2621,11 @@ main {
 }
 
 .message-window {
-  height: 630px;
   display: flex;
+  flex: 1;
   flex-direction: column;
   justify-content: space-between;
+  overflow: hidden;
 }
 .message-window .top {
   background-color: var(--achromat-0);
@@ -2641,15 +2690,20 @@ main {
   background-color: var(--color-2);
 }
 .message-window .middle {
-  flex: 1;
-  overflow-y: scroll;
+  max-height: 450px;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
   padding: 2em;
 }
 .message-window .middle time {
   display: block;
   text-align: center;
-  margin: 2em 0;
+  margin: 0 0 2em 0;
   color: var(--achromat-3);
+}
+.message-window .middle time:not(:first-child) {
+  margin: 2em 0 2em 0;
 }
 .message-window .middle .chat-box-messages .bubble {
   background-color: var(--achromat-0);
@@ -2786,6 +2840,7 @@ footer nav.mobile button.active {
 
 .validate-wrapper {
   position: relative;
+  width: 100%;
 }
 .validate-wrapper_error input {
   border-color: red;
@@ -2901,6 +2956,18 @@ footer nav.mobile button.active {
   align-items: center;
   justify-content: center;
   flex-wrap: nowrap;
+}
+
+.images-message {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+}
+.images-message .images-box:not(:first-child) {
+  margin: 0 0 0 1em;
+}
+.images-message img {
+  object-fit: cover;
 }
 
 /*# sourceMappingURL=style.css.map */
