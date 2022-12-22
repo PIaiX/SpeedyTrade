@@ -7,12 +7,13 @@ import {VscAccount, VscChromeClose, VscCommentDiscussion} from 'react-icons/vsc'
 import {FiSearch} from 'react-icons/fi'
 import Sign from './utils/Sign'
 import Plaix from './utils/Plaix'
+import {useSelector} from 'react-redux'
 
 function Footer(props) {
     const [showMenu, setShowMenu] = useState(false)
     const handleCloseMenu = () => setShowMenu(false)
     const handleShowMenu = () => setShowMenu(true)
-
+    const isAuth = useSelector((state) => state?.auth?.isAuth)
     const [showSearch, setShowSearch] = useState(false)
     const handleCloseSearch = () => setShowSearch(false)
     const handleShowSearch = () => setShowSearch(true)
@@ -59,7 +60,7 @@ function Footer(props) {
                                 </button>
                             </li>
                             <li>
-                                <Link to="/account">
+                                <Link to={isAuth ? '/account/profile' : '/login'}>
                                     <VscAccount />
                                 </Link>
                             </li>

@@ -36,7 +36,7 @@ const AccountRouter = () => {
                 <Route path="messages" element={<Messages />} />
                 <Route path="messages/chat" element={<MessageWindow />} />
                 <Route path="help" element={<Help />} />
-                <Route path="help/ticket" element={<Ticket />} />
+                <Route path="help/ticket/:id" element={<Ticket />} />
                 <Route path="reviews" element={<Reviews />} />
                 <Route path="exit" element={<Exit />} />
             </Route>

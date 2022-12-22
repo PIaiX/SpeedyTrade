@@ -1,16 +1,18 @@
 import React from 'react'
 import Dropdown from 'react-bootstrap/Dropdown'
-import {Link} from 'react-router-dom'
+import {Link, NavLink} from 'react-router-dom'
 import {FiMoreHorizontal, FiTrash2} from 'react-icons/fi'
 
-const AdsTr4 = () => {
+const AdsTr4 = ({ticketId, lastMessage, topic}) => {
     return (
         <tr>
-            <td>839503-24</td>
+            <td>{ticketId}</td>
             <td>
-                <Link to="ticket">Не получается совершить покупку</Link>
+                <NavLink to={`ticket/${ticketId}`}>{topic}</NavLink>
             </td>
-            <td>12:24 20.10.2022</td>
+            <td>
+                <NavLink to={`ticket/${ticketId}`}>{lastMessage}</NavLink>
+            </td>
             <td>
                 <Dropdown align="end">
                     <Dropdown.Toggle variant="simple">

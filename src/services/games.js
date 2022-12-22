@@ -1,4 +1,4 @@
-import {apiRoutes, BASE_URL} from '../config/api'
+import {apiRoutes, BASE_API_URL} from '../config/api'
 import $api from './index'
 
 export const getOneGame = async (slug) => {

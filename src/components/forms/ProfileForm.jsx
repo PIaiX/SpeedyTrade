@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react'
+import React, {useCallback, useEffect} from 'react'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import {Controller, useForm} from 'react-hook-form'
@@ -36,11 +36,15 @@ const ProfileForm = ({onSubmit}) => {
             nickname: user.nickname ?? '',
             phone: user.phone ?? '',
             sex: user.sex ?? 'true',
-            birthday: moment(user.birthday, 'YYYY-MM-DD').format('DD.MM.YYYY') ?? null,
+            birthday: user?.birthday ? moment(user?.birthday, 'YYYY-MM-DD').format('DD.MM.YYYY') : new Date(),
             isSubscribed: user.isSubscribed ?? false,
         },
     })
     const avatarImage = useImageViewer(watch('avatar'))
+
+    useEffect(() => {
+        console.log(watch('birthday'))
+    }, [watch()])
 
     const onChangeAvatar = useCallback((e) => {
         const result = onImageHandler(e, (file) => setValue('avatar', file))

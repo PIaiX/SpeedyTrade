@@ -1,8 +1,8 @@
 import axios from 'axios'
-import BASE_URL, {apiRoutes} from '../config/api'
+import {apiRoutes, BASE_API_URL} from '../config/api'
 
 const apiBody = {
-    baseURL: BASE_URL,
+    baseURL: BASE_API_URL,
     withCredentials: true,
     headers: {
         Accept: 'application/json',
