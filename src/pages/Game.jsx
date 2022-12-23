@@ -11,8 +11,10 @@ import {getOneGame} from '../services/games'
 import {getImageURL} from '../helpers/image'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
+import {useSelector} from 'react-redux'
 
 const Game = () => {
+    const theme = useSelector((state) => state?.theme?.mode)
     const {slug} = useParams()
     const [game, setGame] = useState({
         isLoaded: false,
@@ -33,8 +35,8 @@ const Game = () => {
                             {game?.name || (
                                 <Skeleton
                                     count={1}
-                                    baseColor={`#322054`}
-                                    highlightColor={`#5736db`}
+                                    baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
+                                    highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
                                     width={'200px'}
                                 />
                             )}
@@ -50,13 +52,22 @@ const Game = () => {
                                     className="main-img mb-4 mb-lg-0"
                                 />
                             ) : (
-                                <Skeleton baseColor={`#322054`} height={'100%'} width={'100%'} />
+                                <Skeleton
+                                    baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
+                                    highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
+                                    height={'100%'}
+                                    width={'100%'}
+                                />
                             )}
                         </Col>
                         <Col xs={12} lg={5} xl={4} className="achromat-1 fs-11">
                             <p>
                                 {game?.topDescription || (
-                                    <Skeleton count={6} baseColor={`#322054`} highlightColor={`#5736db`} />
+                                    <Skeleton
+                                        count={6}
+                                        baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
+                                        highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
+                                    />
                                 )}
                             </p>
                         </Col>

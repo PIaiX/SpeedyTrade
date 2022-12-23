@@ -2,28 +2,34 @@ import React from 'react'
 import {Link} from 'react-router-dom'
 import {FiTrash2} from 'react-icons/fi'
 import StarRating from './utils/StarRating'
+import {getImageURL} from '../helpers/image'
+import {useSelector} from 'react-redux'
 
 const Review = (props) => {
+    const userId = useSelector((state) => state?.auth?.user?.id)
+
     return (
         <div className="user-review">
             <div className="img">
-                <Link to="/user">
-                    <img src="/images/user2.png" alt="Владимирская Елена" />
+                <Link to={+props?.userId === userId ? '/account/profile' : `/user/${props?.userId}`}>
+                    <img src={getImageURL(props?.avatar)} alt="Владимирская Елена" />
                 </Link>
             </div>
             <div className="grid-1">
                 <h4 className="color-1">
-                    <Link to="/user">Владимирская Елена</Link>
+                    <Link to={+props?.userId === userId ? '/account/profile' : `/user/${props?.userId}`}>
+                        {props?.fullName}
+                    </Link>
                 </h4>
             </div>
             <div className="grid-2">
-                <h5>@lenok420</h5>
+                <h5>@{props?.nickname}</h5>
             </div>
             <div className="grid-3">
-                <StarRating rate={3} className="justify-content-start" />
+                <StarRating rate={props?.rating} className="justify-content-start" />
             </div>
             <div className="grid-4">
-                <time>29.08.2022</time>
+                <time>{props?.created}</time>
             </div>
             <div className="grid-5">
                 <p>{props.text}</p>

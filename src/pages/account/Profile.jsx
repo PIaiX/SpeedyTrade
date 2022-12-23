@@ -6,6 +6,7 @@ import ProfileForm from '../../components/forms/ProfileForm'
 import ChangePasswordForm from '../../components/forms/ChangePasswordForm'
 import {userUpdateProfile} from '../../services/user'
 import {useSelector} from 'react-redux'
+import {dispatchAlert} from '../../helpers/alert'
 
 const Profile = () => {
     const user = useSelector((state) => state?.auth?.user)
@@ -16,8 +17,12 @@ const Profile = () => {
             for (const key in data) formData.append(key, data[key])
 
             userUpdateProfile(formData, user?.id)
-                .then(() => console.log('success'))
-                .catch(() => console.log('rejected'))
+                .then(() => {
+                    dispatchAlert('success', 'Данные успешно сохранены')
+                })
+                .catch(() => {
+                    dispatchAlert('danger', 'Произошла ошибка')
+                })
         },
         [user?.id]
     )

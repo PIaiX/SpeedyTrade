@@ -4,7 +4,7 @@ export const onImageHandler = (e, setFunction, nameProp) => {
 
     const sizeFile = file?.size / 1000000
     if (file) {
-        if (!file.type.match(imageMimeType) || sizeFile > 5) {
+        if (!file.type.match(imageMimeType) || sizeFile > 1) {
             setFunction(null)
             return 0
         } else {
