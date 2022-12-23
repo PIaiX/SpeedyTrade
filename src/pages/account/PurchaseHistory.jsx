@@ -10,6 +10,7 @@ import usePagination from '../../hooks/pagination'
 import Skeleton from 'react-loading-skeleton'
 
 const PurchaseHistory = () => {
+    const theme = useSelector((state) => state?.theme?.mode)
     const userId = useSelector((state) => state?.auth?.user?.id)
     const [purchase, setPurchase] = useState({
         isLoaded: false,
@@ -75,7 +76,12 @@ const PurchaseHistory = () => {
                     <h6>История пуста</h6>
                 )
             ) : (
-                <Skeleton count={7} baseColor={`#322054`} highlightColor={`#5736db`} height={50} />
+                <Skeleton
+                    count={7}
+                    baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
+                    highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
+                    height={50}
+                />
             )}
 
             {purchase.isLoaded && paginationItems?.length > 0 && (

@@ -26,8 +26,10 @@ import {getCatalogAllGames} from '../services/catalog'
 import {getImageURL} from '../helpers/image'
 import {getAllNews} from '../services/news'
 import Skeleton from 'react-loading-skeleton'
+import {useSelector} from 'react-redux'
 
 const Home = () => {
+    const theme = useSelector((state) => state?.theme?.mode)
     const [thumbsSwiper, setThumbsSwiper] = useState(null)
     const [allGames, setAllGames] = useState({
         isLoaded: false,
@@ -1077,8 +1079,8 @@ const Home = () => {
                             ) : (
                                 <Skeleton
                                     count={5}
-                                    baseColor={`#322054`}
-                                    highlightColor={`#5736db`}
+                                    baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
+                                    highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
                                     width={'100%'}
                                     height={'50px'}
                                 />

@@ -35,6 +35,10 @@ const apiRoutes = {
     //tickets
     TICKET_ACTIONS: 'ticket',
     TICKET_MESSAGE_ACTIONS: 'ticket/message',
+
+    //reviews
+    REVIEW_ACTIONS: 'user/review',
+    REVIEW_LOTS: 'user/review/lot',
 }
 
 const apiResponseMessages = {}

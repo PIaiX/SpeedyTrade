@@ -10,6 +10,7 @@ import {useSelector} from 'react-redux'
 import Skeleton from 'react-loading-skeleton'
 
 const Help = () => {
+    const theme = useSelector((state) => state?.theme?.mode)
     const userId = useSelector((state) => state?.auth?.user?.id)
     const [tab, setTab] = useState(0)
     const [tickets, setTickets] = useState({
@@ -98,7 +99,12 @@ const Help = () => {
                             <h6>Тикетов нет</h6>
                         )
                     ) : (
-                        <Skeleton count={7} baseColor={`#322054`} highlightColor={`#5736db`} height={25} />
+                        <Skeleton
+                            count={7}
+                            baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
+                            highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
+                            height={25}
+                        />
                     )}
                 </div>
             )}

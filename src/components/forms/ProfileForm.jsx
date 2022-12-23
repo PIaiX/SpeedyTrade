@@ -35,8 +35,8 @@ const ProfileForm = ({onSubmit}) => {
             lastName: user.lastName ?? '',
             nickname: user.nickname ?? '',
             phone: user.phone ?? '',
-            sex: user.sex ?? 'true',
-            birthday: user?.birthday ? moment(user?.birthday, 'YYYY-MM-DD').format('DD.MM.YYYY') : new Date(),
+            sex: user.sex.toString() ?? 'true',
+            birthday: moment(user.birthday ?? new Date(), 'YYYY-MM-DD').format('DD.MM.YYYY') ?? null,
             isSubscribed: user.isSubscribed ?? false,
         },
     })
@@ -44,7 +44,7 @@ const ProfileForm = ({onSubmit}) => {
 
     const onChangeAvatar = useCallback((e) => {
         const result = onImageHandler(e, (file) => setValue('avatar', file))
-        if (!result) dispatchAlert('danger', 'Фото должно быть в одном из форматов (png, jpg, jpeg) и не более 5Мб')
+        if (!result) dispatchAlert('danger', 'Фото должно быть в одном из форматов (png, jpg, jpeg) и не более 1Мб')
     }, [])
 
     return (
@@ -59,8 +59,13 @@ const ProfileForm = ({onSubmit}) => {
                             onDelete={() => setValue('avatar', null)}
                         />
                         <div className="d-flex flex-column align-items-center align-items-sm-start align-items-xl-center justify-content-center">
-                            <h4 className="color-1 mt-3 mt-sm-0 mb-2 mb-sm-4">{user?.fullName}</h4>
-                            <StarRating className="justify-content-start justify-content-xl-center" rate={4.35} />
+                            <h4 className="color-1 mt-3 mt-sm-0 mb-2 mb-sm-4">
+                                {`${watch('lastName')} ${watch('firstName')}`}
+                            </h4>
+                            <StarRating
+                                className="justify-content-start justify-content-xl-center"
+                                rate={user?.rating}
+                            />
                             <div className="mt-2 mt-sm-4">На сайте с {user?.createdAtForUser}</div>
                         </div>
                     </div>
@@ -164,7 +169,7 @@ const ProfileForm = ({onSubmit}) => {
                                             placeholder="Номер телефона"
                                             specialLabel={null}
                                             value={getValues('phone')}
-                                            onChange={(phone) => field.onChange(phone)}
+                                            onChange={(phone) => field.onChange(`+${phone}`)}
                                         />
                                     )}
                                     rules={{
