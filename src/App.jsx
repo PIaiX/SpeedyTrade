@@ -4,7 +4,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import './assets/styles/style.min.css'
 import {useDispatch, useSelector} from 'react-redux'
 import {initTheme} from './store/reducers/themeSlice'
-import {refreshAuth} from './store/actions/auth'
+import {logout, refreshAuth} from './store/actions/auth'
 import {setLoadingRefresh} from './store/reducers/authSlice'
 import {setDefaultLocale} from 'react-datepicker'
 import ru from 'date-fns/locale/ru'
@@ -20,6 +20,10 @@ const App = () => {
     }, [])
 
     useEffect(() => {
+        window.addEventListener('beforeunload', onUnloadHandler)
+    }, [])
+
+    useEffect(() => {
         // initial auth check
         if (fingerprint) {
             localStorage.setItem('fingerprint', fingerprint)
@@ -29,6 +33,14 @@ const App = () => {
             } else dispatch(setLoadingRefresh(false))
         } else dispatch(initFingerprint())
     }, [fingerprint])
+
+    const onUnloadHandler = () => {
+        const isOtherPC = localStorage.getItem('isOtherPC')
+        if (isOtherPC === 'true') {
+            dispatch(logout())
+            localStorage.removeItem('isOtherPC')
+        }
+    }
 
     return <AppRouter />
 }

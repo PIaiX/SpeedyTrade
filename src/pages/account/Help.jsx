@@ -79,6 +79,7 @@ const Help = () => {
                                         <th>ID</th>
                                         <th>Тема</th>
                                         <th>Последнее сообщение</th>
+                                        <th>Статус</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -88,6 +89,7 @@ const Help = () => {
                                             ticketId={i.id}
                                             topic={i.topic}
                                             lastMessage={i?.lastMessage?.text}
+                                            isCompleted={i?.isCompleted}
                                         />
                                     ))}
                                 </tbody>

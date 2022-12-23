@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import InputPassword from '../utils/InputPassword'
@@ -19,7 +19,10 @@ const LoginForm = () => {
         handleSubmit,
     } = useForm({mode: 'onChange', reValidateMode: 'onChange'})
 
-    const onSubmitLogin = (data) => dispatch(login(data))
+    const onSubmitLogin = (data) => {
+        dispatch(login(data))
+        localStorage.setItem('isOtherPC', data?.isOtherPC)
+    }
 
     return (
         <form onSubmit={handleSubmit(onSubmitLogin)}>
@@ -57,8 +60,8 @@ const LoginForm = () => {
             </Row>
             <div className="mt-4 d-flex align-items-center justify-content-between">
                 <label>
-                    <input type="checkbox" />
-                    <span>Запомнить меня</span>
+                    <input type="checkbox" {...register('isOtherPC')} />
+                    <span>Чужой компьютер</span>
                 </label>
                 <Link to="/reset-password" className="achromat-1 fw-5">
                     Забыли пароль?

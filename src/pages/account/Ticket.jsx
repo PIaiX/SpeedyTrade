@@ -113,7 +113,7 @@ const Ticket = () => {
                         <div className="img me-2 me-sm-4">
                             <img src="/images/user2.png" alt="Иванченко Дарья" />
                         </div>
-                        <Dropdown align="end">
+                        {/*<Dropdown align="end">
                             <Dropdown.Toggle variant="simple">
                                 <IoEllipsisHorizontal className="fs-15" />
                             </Dropdown.Toggle>
@@ -123,7 +123,7 @@ const Ticket = () => {
                                     <span className="ms-2">Удалить тикет</span>
                                 </Dropdown.Item>
                             </Dropdown.Menu>
-                        </Dropdown>
+                        </Dropdown>*/}
                     </div>
                 </div>
                 <div>

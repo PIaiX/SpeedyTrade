@@ -42,10 +42,6 @@ const ProfileForm = ({onSubmit}) => {
     })
     const avatarImage = useImageViewer(watch('avatar'))
 
-    useEffect(() => {
-        console.log(watch('birthday'))
-    }, [watch()])
-
     const onChangeAvatar = useCallback((e) => {
         const result = onImageHandler(e, (file) => setValue('avatar', file))
         if (!result) dispatchAlert('danger', 'Фото должно быть в одном из форматов (png, jpg, jpeg) и не более 5Мб')

@@ -3,7 +3,7 @@ import Dropdown from 'react-bootstrap/Dropdown'
 import {Link, NavLink} from 'react-router-dom'
 import {FiMoreHorizontal, FiTrash2} from 'react-icons/fi'
 
-const AdsTr4 = ({ticketId, lastMessage, topic}) => {
+const AdsTr4 = ({ticketId, lastMessage, topic, isCompleted}) => {
     return (
         <tr>
             <td>{ticketId}</td>
@@ -13,7 +13,8 @@ const AdsTr4 = ({ticketId, lastMessage, topic}) => {
             <td>
                 <NavLink to={`ticket/${ticketId}`}>{lastMessage}</NavLink>
             </td>
-            <td>
+            <td>{isCompleted ? 'Закрыт' : 'Открыт'}</td>
+            {/*<td>
                 <Dropdown align="end">
                     <Dropdown.Toggle variant="simple">
                         <FiMoreHorizontal />
@@ -25,7 +26,7 @@ const AdsTr4 = ({ticketId, lastMessage, topic}) => {
                         </Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
-            </td>
+            </td>*/}
         </tr>
     )
 }
