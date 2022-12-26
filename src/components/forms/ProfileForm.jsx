@@ -35,7 +35,7 @@ const ProfileForm = ({onSubmit}) => {
             lastName: user.lastName ?? '',
             nickname: user.nickname ?? '',
             phone: user.phone ?? '',
-            sex: user.sex.toString() ?? 'true',
+            sex: user.sex?.toString() ?? 'true',
             birthday: moment(user.birthday ?? new Date(), 'YYYY-MM-DD').format('DD.MM.YYYY') ?? null,
             isSubscribed: user.isSubscribed ?? false,
         },

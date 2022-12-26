@@ -27,6 +27,7 @@ import {getImageURL} from '../helpers/image'
 import {getAllNews} from '../services/news'
 import Skeleton from 'react-loading-skeleton'
 import {useSelector} from 'react-redux'
+import {getBanner} from '../services/banner'
 
 const Home = () => {
     const theme = useSelector((state) => state?.theme?.mode)
@@ -36,9 +37,14 @@ const Home = () => {
         items: null,
     })
     const [news, setNews] = useState({
-        isLoaded: true,
+        isLoaded: false,
         items: null,
         meta: null,
+    })
+
+    const [banner, setBanner] = useState({
+        isLoaded: false,
+        items: null,
     })
 
     useEffect(() => {
@@ -57,6 +63,12 @@ const Home = () => {
             .catch((error) => {
                 setNews({isLoaded: true, items: null, meta: null})
             })
+    }, [])
+
+    useEffect(() => {
+        getBanner()
+            .then((res) => setBanner({isLoaded: true, items: res}))
+            .catch(() => setBanner({isLoaded: true, items: null}))
     }, [])
 
     return (
@@ -86,186 +98,34 @@ const Home = () => {
                             },
                         }}
                     >
-                        <SwiperSlide>
-                            <GameLarge
-                                title={'Genshin Impact'}
-                                imgLink={'/images/slider-main/genshin.jpg'}
-                                description={
-                                    'Игра абсолютно бесплатная и вас никто не ограничивает по времени пребывания в этом мире. Во-вторых, абсолютно все предметы, необходимые для ваших героев, можно добыть стандартным путём'
-                                }
-                                subLinksArr={[
-                                    {link: '/', anchor: 'Золото'},
-                                    {link: '/', anchor: 'Серебро'},
-                                    {link: '/', anchor: 'Аккаунты'},
-                                    {link: '/', anchor: 'Прокачка'},
-                                    {link: '/', anchor: 'Наборы'},
-                                    {link: '/', anchor: 'Донат'},
-                                    {link: '/', anchor: 'Обучение'},
-                                ]}
+                        {banner.isLoaded ? (
+                            banner.items?.length > 0 ? (
+                                banner.items?.map((i) => (
+                                    <SwiperSlide key={i.id}>
+                                        <GameLarge
+                                            title={i.game?.name}
+                                            imgLink={getImageURL(i.image)}
+                                            description={i.description}
+                                            subLinksArr={i.game?.regions?.map((k) =>
+                                                k.categories?.map((j) => {
+                                                    return {link: `game/${i.game?.slug}`, anchor: j?.name}
+                                                })
+                                            )}
+                                        />
+                                    </SwiperSlide>
+                                ))
+                            ) : (
+                                <h6>Игр нет</h6>
+                            )
+                        ) : (
+                            <Skeleton
+                                count={1}
+                                baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
+                                highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
+                                width={'100%'}
+                                height={'50px'}
                             />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <GameLarge
-                                title={'World of Tanks: Blitz'}
-                                imgLink={'/images/slider-main/wot.jpg'}
-                                description={
-                                    'Игра абсолютно бесплатная и вас никто не ограничивает по времени пребывания в этом мире. Во-вторых, абсолютно все предметы, необходимые для ваших героев, можно добыть стандартным путём'
-                                }
-                                subLinksArr={[
-                                    {link: '/', anchor: 'Золото'},
-                                    {link: '/', anchor: 'Серебро'},
-                                    {link: '/', anchor: 'Аккаунты'},
-                                    {link: '/', anchor: 'Прокачка'},
-                                    {link: '/', anchor: 'Наборы'},
-                                    {link: '/', anchor: 'Донат'},
-                                    {link: '/', anchor: 'Обучение'},
-                                ]}
-                            />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <GameLarge
-                                title={'World of Warcraft: Shadowlands'}
-                                imgLink={'/images/slider-main/wow.jpg'}
-                                description={
-                                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-                                }
-                                subLinksArr={[
-                                    {link: '/', anchor: 'Золото'},
-                                    {link: '/', anchor: 'Серебро'},
-                                    {link: '/', anchor: 'Аккаунты'},
-                                    {link: '/', anchor: 'Прокачка'},
-                                    {link: '/', anchor: 'Наборы'},
-                                    {link: '/', anchor: 'Донат'},
-                                    {link: '/', anchor: 'Обучение'},
-                                ]}
-                            />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <GameLarge
-                                title={'World of Warcraft: WotLK Classic'}
-                                imgLink={'/images/slider-main/wow2.jpg'}
-                                description={
-                                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-                                }
-                                subLinksArr={[
-                                    {link: '/', anchor: 'Золото'},
-                                    {link: '/', anchor: 'Серебро'},
-                                    {link: '/', anchor: 'Аккаунты'},
-                                    {link: '/', anchor: 'Прокачка'},
-                                    {link: '/', anchor: 'Наборы'},
-                                    {link: '/', anchor: 'Донат'},
-                                    {link: '/', anchor: 'Обучение'},
-                                ]}
-                            />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <GameLarge
-                                title={'World of Warcraft'}
-                                imgLink={'/images/slider-main/wow3.jpg'}
-                                description={
-                                    'Игра абсолютно бесплатная и вас никто не ограничивает по времени пребывания в этом мире. Во-вторых, абсолютно все предметы, необходимые для ваших героев, можно добыть стандартным путём'
-                                }
-                                subLinksArr={[
-                                    {link: '/', anchor: 'Золото'},
-                                    {link: '/', anchor: 'Серебро'},
-                                    {link: '/', anchor: 'Аккаунты'},
-                                    {link: '/', anchor: 'Прокачка'},
-                                    {link: '/', anchor: 'Наборы'},
-                                    {link: '/', anchor: 'Донат'},
-                                    {link: '/', anchor: 'Обучение'},
-                                ]}
-                            />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <GameLarge
-                                title={'Genshin Impact'}
-                                imgLink={'/images/slider-main/genshin.jpg'}
-                                description={
-                                    'Игра абсолютно бесплатная и вас никто не ограничивает по времени пребывания в этом мире. Во-вторых, абсолютно все предметы, необходимые для ваших героев, можно добыть стандартным путём'
-                                }
-                                subLinksArr={[
-                                    {link: '/', anchor: 'Золото'},
-                                    {link: '/', anchor: 'Серебро'},
-                                    {link: '/', anchor: 'Аккаунты'},
-                                    {link: '/', anchor: 'Прокачка'},
-                                    {link: '/', anchor: 'Наборы'},
-                                    {link: '/', anchor: 'Донат'},
-                                    {link: '/', anchor: 'Обучение'},
-                                ]}
-                            />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <GameLarge
-                                title={'World of Tanks: Blitz'}
-                                imgLink={'/images/slider-main/wot.jpg'}
-                                description={
-                                    'Игра абсолютно бесплатная и вас никто не ограничивает по времени пребывания в этом мире. Во-вторых, абсолютно все предметы, необходимые для ваших героев, можно добыть стандартным путём'
-                                }
-                                subLinksArr={[
-                                    {link: '/', anchor: 'Золото'},
-                                    {link: '/', anchor: 'Серебро'},
-                                    {link: '/', anchor: 'Аккаунты'},
-                                    {link: '/', anchor: 'Прокачка'},
-                                    {link: '/', anchor: 'Наборы'},
-                                    {link: '/', anchor: 'Донат'},
-                                    {link: '/', anchor: 'Обучение'},
-                                ]}
-                            />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <GameLarge
-                                title={'World of Warcraft: Shadowlands'}
-                                imgLink={'/images/slider-main/wow.jpg'}
-                                description={
-                                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-                                }
-                                subLinksArr={[
-                                    {link: '/', anchor: 'Золото'},
-                                    {link: '/', anchor: 'Серебро'},
-                                    {link: '/', anchor: 'Аккаунты'},
-                                    {link: '/', anchor: 'Прокачка'},
-                                    {link: '/', anchor: 'Наборы'},
-                                    {link: '/', anchor: 'Донат'},
-                                    {link: '/', anchor: 'Обучение'},
-                                ]}
-                            />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <GameLarge
-                                title={'World of Warcraft: WotLK Classic'}
-                                imgLink={'/images/slider-main/wow2.jpg'}
-                                description={
-                                    'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
-                                }
-                                subLinksArr={[
-                                    {link: '/', anchor: 'Золото'},
-                                    {link: '/', anchor: 'Серебро'},
-                                    {link: '/', anchor: 'Аккаунты'},
-                                    {link: '/', anchor: 'Прокачка'},
-                                    {link: '/', anchor: 'Наборы'},
-                                    {link: '/', anchor: 'Донат'},
-                                    {link: '/', anchor: 'Обучение'},
-                                ]}
-                            />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <GameLarge
-                                title={'World of Warcraft'}
-                                imgLink={'/images/slider-main/wow3.jpg'}
-                                description={
-                                    'Игра абсолютно бесплатная и вас никто не ограничивает по времени пребывания в этом мире. Во-вторых, абсолютно все предметы, необходимые для ваших героев, можно добыть стандартным путём'
-                                }
-                                subLinksArr={[
-                                    {link: '/', anchor: 'Золото'},
-                                    {link: '/', anchor: 'Серебро'},
-                                    {link: '/', anchor: 'Аккаунты'},
-                                    {link: '/', anchor: 'Прокачка'},
-                                    {link: '/', anchor: 'Наборы'},
-                                    {link: '/', anchor: 'Донат'},
-                                    {link: '/', anchor: 'Обучение'},
-                                ]}
-                            />
-                        </SwiperSlide>
+                        )}
                         <div className="swiper-button-prev btn-2">
                             <HiArrowNarrowLeft />
                         </div>
@@ -288,48 +148,25 @@ const Home = () => {
                             disableOnInteraction: false,
                         }}
                     >
-                        <SwiperSlide>
-                            <GameMini title={'Genshin Impact'} imgLink={'/images/slider-main/genshin.jpg'} />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <GameMini title={'World of Tanks: Blitz'} imgLink={'/images/slider-main/wot.jpg'} />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <GameMini
-                                title={'World of Warcraft: Shadowlands'}
-                                imgLink={'/images/slider-main/wow.jpg'}
+                        {banner.isLoaded ? (
+                            banner.items?.length > 0 ? (
+                                banner.items?.map((i) => (
+                                    <SwiperSlide key={i.id}>
+                                        <GameMini title={i.game?.name} imgLink={getImageURL(i.image)} />
+                                    </SwiperSlide>
+                                ))
+                            ) : (
+                                <h6>Игр нет</h6>
+                            )
+                        ) : (
+                            <Skeleton
+                                count={1}
+                                baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
+                                highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
+                                width={'100%'}
+                                height={'50px'}
                             />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <GameMini
-                                title={'World of Warcraft: WotLK Classic'}
-                                imgLink={'/images/slider-main/wow2.jpg'}
-                            />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <GameMini title={'World of Warcraft'} imgLink={'/images/slider-main/wow3.jpg'} />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <GameMini title={'Genshin Impact'} imgLink={'/images/slider-main/genshin.jpg'} />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <GameMini title={'World of Tanks: Blitz'} imgLink={'/images/slider-main/wot.jpg'} />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <GameMini
-                                title={'World of Warcraft: Shadowlands'}
-                                imgLink={'/images/slider-main/wow.jpg'}
-                            />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <GameMini
-                                title={'World of Warcraft: WotLK Classic'}
-                                imgLink={'/images/slider-main/wow2.jpg'}
-                            />
-                        </SwiperSlide>
-                        <SwiperSlide>
-                            <GameMini title={'World of Warcraft'} imgLink={'/images/slider-main/wow3.jpg'} />
-                        </SwiperSlide>
+                        )}
                     </Swiper>
                 </section>
             </Container>

@@ -3,11 +3,11 @@ const BASE_URL = process.env.REACT_APP_BASE_URL
 
 const apiRoutes = {
     //auth
-    AUTH_REGISTRATION: '/auth/register',
-    AUTH_REGISTRATION_EMAIL_VERIFY: '/auth/register/emailVerify',
-    AUTH_LOGIN: '/auth/login',
-    AUTH_LOGOUT: '/auth/logout',
-    AUTH_REFRESH: '/auth/refreshToken',
+    AUTH_REGISTRATION: 'auth/register',
+    AUTH_REGISTRATION_EMAIL_VERIFY: 'auth/register/emailVerify',
+    AUTH_LOGIN: 'auth/login',
+    AUTH_LOGOUT: 'auth/logout',
+    AUTH_REFRESH: 'auth/refreshToken',
 
     //reset password
     RESET_PASSWORD_EMAIL_VERIFY: 'auth/forgotPassword/emailVerify',
@@ -24,6 +24,9 @@ const apiRoutes = {
     ACTIONS_GAMES: 'game',
     GET_GAMES_PLATFORM: 'game/platform',
     GET_GAMES_SERVERS: 'game/server',
+
+    //banner
+    GET_BANNER: 'banner',
 
     //news
     NEWS_ACTION: 'news',

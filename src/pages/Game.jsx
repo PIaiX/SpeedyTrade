@@ -104,9 +104,6 @@ const Game = () => {
 
                     <div className="d-xl-flex flex-row-reverse align-items-center mt-4 mt-sm-5 mb-4">
                         <div className="d-sm-flex flex-row-reverse align-items-center mb-3 mb-xl-0">
-                            <button type="button" className="btn-5 ms-sm-4 mb-3 mb-sm-0">
-                                Продать аккаунты
-                            </button>
                             <form className="form-search-2 ms-xl-4">
                                 <input type="search" placeholder="Поиск по описанию" />
                                 <button type="submit">
