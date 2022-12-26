@@ -123,7 +123,7 @@ const Home = () => {
                                 baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
                                 highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
                                 width={'100%'}
-                                height={'50px'}
+                                height={'30em'}
                             />
                         )}
                         <div className="swiper-button-prev btn-2">

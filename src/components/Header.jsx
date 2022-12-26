@@ -1,14 +1,13 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
+import {Link, NavLink} from 'react-router-dom'
 import Container from 'react-bootstrap/Container'
 import ThemeToggler from './ThemeToggler'
 import {FiMessageCircle, FiSearch} from 'react-icons/fi'
-import {IoCaretDown} from 'react-icons/io5'
 import Favorites from './Favorites'
 import {useSelector} from 'react-redux'
 import {getImageURL} from '../helpers/image'
 
-const Header = (props) => {
+const Header = () => {
     const auth = useSelector((state) => state?.auth)
 
     return (
@@ -28,9 +27,7 @@ const Header = (props) => {
                     <Favorites />
                 </div>
                 <div className="d-none d-md-flex align-items-center">
-                    <button type="button">
-                        Помощь <IoCaretDown className="fs-08" />
-                    </button>
+                    <NavLink to="/account/help">Помощь</NavLink>
                     <button type="button" className="ms-5 d-none d-lg-flex align-items-center">
                         <FiMessageCircle className="fs-12 me-1" />
                         <span>Онлайн-чат</span>

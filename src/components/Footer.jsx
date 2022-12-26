@@ -9,7 +9,7 @@ import Sign from './utils/Sign'
 import Plaix from './utils/Plaix'
 import {useSelector} from 'react-redux'
 
-function Footer(props) {
+function Footer() {
     const [showMenu, setShowMenu] = useState(false)
     const handleCloseMenu = () => setShowMenu(false)
     const handleShowMenu = () => setShowMenu(true)

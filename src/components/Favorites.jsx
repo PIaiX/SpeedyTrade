@@ -5,20 +5,18 @@ import Offcanvas from 'react-bootstrap/Offcanvas'
 import {HiBookmark} from 'react-icons/hi'
 import {IoArrowUpCircleOutline, IoCloseCircleOutline} from 'react-icons/io5'
 
-function Favorites(props) {
+function Favorites() {
     const [showFav, setShowFav] = useState(false)
-    const handleCloseFav = () => setShowFav(false)
-    const handleShowFav = () => setShowFav(true)
 
     return (
         <>
-            <button type="button" className="fav-btn" onClick={showFav ? handleCloseFav : handleShowFav}>
+            <button type="button" className="fav-btn" onClick={() => setShowFav(!showFav)}>
                 <HiBookmark />
             </button>
-            <Offcanvas show={showFav} placement={'top'} onHide={handleCloseFav}>
+            <Offcanvas show={showFav} placement={'top'} onHide={() => setShowFav(!showFav)}>
                 <Offcanvas.Body>
                     <Container className="fav-box">
-                        <button type="button" className="d-flex me-4 mt-1" onClick={handleCloseFav}>
+                        <button type="button" className="d-flex me-4 mt-1" onClick={() => setShowFav(!showFav)}>
                             <IoArrowUpCircleOutline />
                         </button>
                         <ul>
