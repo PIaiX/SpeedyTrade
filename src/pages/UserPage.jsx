@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -7,7 +7,6 @@ import StarRating from '../components/utils/StarRating'
 import InputRating from '../components/utils/InputRating'
 import ReviewBlock from '../components/ReviewBlock'
 import {VscChromeClose} from 'react-icons/vsc'
-import Select from 'react-select'
 import useGetUserInfo from '../hooks/getUserInfo'
 import {useParams} from 'react-router-dom'
 import {useSelector} from 'react-redux'
@@ -15,15 +14,11 @@ import {getImageURL} from '../helpers/image'
 import Moment from 'react-moment'
 import useGetReview from '../hooks/getReview'
 import Skeleton from 'react-loading-skeleton'
-
-const optionsLots = [
-    {value: '1', label: 'Лот 1'},
-    {value: '2', label: 'Лот 2'},
-    {value: '3', label: 'Лот 3'},
-    {value: '4', label: 'Лот 4'},
-    {value: '5', label: 'Лот 5'},
-    {value: '6', label: 'Лот 6'},
-]
+import {useForm} from 'react-hook-form'
+import {getSellerLots} from '../services/lots'
+import {createReview} from '../services/reviews'
+import {dispatchAlert} from '../helpers/alert'
+import ValidateWrapper from '../components/UI/ValidateWrapper'
 
 const UserPage = () => {
     const theme = useSelector((state) => state?.theme?.mode)
@@ -31,8 +26,37 @@ const UserPage = () => {
     const [showReview, setShowReview] = useState(false)
     const currentUser = useSelector((state) => state?.auth?.user)
     const [filterParam, setFilterParam] = useState('init')
+    const [refatch, setRefatch] = useState(true)
     const {user} = useGetUserInfo(id)
-    const {reviews} = useGetReview(id)
+    const {reviews} = useGetReview(id, refatch)
+    const {
+        register,
+        formState: {errors},
+        handleSubmit,
+        reset,
+    } = useForm({mode: 'onSubmit', reValidateMode: 'onChange'})
+    const [sellerLots, setSellerLots] = useState({
+        isLoaded: false,
+        items: [],
+    })
+    const [rating, setRating] = useState(null)
+    useEffect(() => {
+        getSellerLots(id)
+            .then((res) => {
+                setSellerLots({isLoaded: true, items: res?.data})
+            })
+            .catch(() => {})
+    }, [id])
+
+    useEffect(() => {
+        if (refatch) {
+            setRefatch(false)
+        }
+    }, [refatch])
+
+    const seterRating = useCallback((value) => {
+        setRating(value)
+    }, [])
 
     const filtredReviews = () => {
         if (filterParam === 'init') {
@@ -40,6 +64,18 @@ const UserPage = () => {
         } else {
             return reviews.items?.filter((i) => i.rating === +filterParam)
         }
+    }
+
+    const onSubmitCreateReview = (data) => {
+        const req = {...data, rating}
+        createReview(req)
+            .then(() => {
+                setRefatch(true)
+                setShowReview(false)
+                dispatchAlert('success', 'Отзыв успешно отправлен')
+                reset()
+            })
+            .catch(() => dispatchAlert('danger', 'Произошла ошибка'))
     }
 
     return (
@@ -98,9 +134,19 @@ const UserPage = () => {
                                         height={'25px'}
                                     />
                                 )}
-                                <p className="mt-2">
-                                    Завершено сделок: <strong>100</strong>
-                                </p>
+                                {user.isLoaded ? (
+                                    <p className="mt-2">
+                                        Завершено сделок: <strong>{user.item?.salesCount}</strong>
+                                    </p>
+                                ) : (
+                                    <Skeleton
+                                        count={1}
+                                        baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
+                                        highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
+                                        width={'100%'}
+                                        height={'25px'}
+                                    />
+                                )}
                                 <button
                                     type="button"
                                     onClick={() => setShowReview(true)}
@@ -235,20 +281,31 @@ const UserPage = () => {
                         </button>
                     </div>
 
-                    <form>
+                    <form onSubmit={handleSubmit(onSubmitCreateReview)}>
                         <div className="mb-2">Приобретенный лот:</div>
-                        <Select
-                            name="lot"
-                            placeholder="Выбрать"
-                            classNamePrefix="react-select"
-                            options={optionsLots}
-                            isClearable={true}
-                            isSearchable={true}
-                        />
+
+                        <select {...register('lotId', {required: 'Выберите значение'})}>
+                            {sellerLots.items?.length > 0 ? (
+                                sellerLots.items?.map((i) => (
+                                    <option key={i.id} value={i.lotId}>
+                                        {i.id}
+                                    </option>
+                                ))
+                            ) : (
+                                <span>Нет лотов</span>
+                            )}
+                        </select>
+
                         <div className="mt-4 mb-2">Ваша оценка:</div>
-                        <InputRating className="fs-15" />
+                        <InputRating className="fs-15" seterRating={seterRating} />
                         <div className="mt-4 mb-2">Текст отзыва:</div>
-                        <textarea rows={5} placeholder="Отзыв"></textarea>
+                        <ValidateWrapper error={errors?.text}>
+                            <textarea
+                                rows={5}
+                                placeholder="Отзыв"
+                                {...register('text', {required: 'Заполните поле'})}
+                            />
+                        </ValidateWrapper>
                         <button type="submit" className="btn-5 w-100 mt-4">
                             Отправить
                         </button>

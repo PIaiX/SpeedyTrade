@@ -3,7 +3,7 @@ import {apiRoutes} from '../config/api'
 
 export const getAllTickets = async (userId) => {
     try {
-        const response = await $authApi.get(`${apiRoutes.TICKET_ACTIONS}/${userId}`)
+        const response = await $authApi.get(`${apiRoutes.TICKET_ACTIONS}/${userId}?order=desc`)
         return response.data?.body
     } catch (error) {
         throw error

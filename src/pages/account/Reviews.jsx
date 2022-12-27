@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import StarRating from '../../components/utils/StarRating'
 import Review from '../../components/Review'
 import {Link} from 'react-router-dom'
@@ -6,14 +6,29 @@ import {FiArrowLeft} from 'react-icons/fi'
 import useGetReview from '../../hooks/getReview'
 import {useSelector} from 'react-redux'
 import Skeleton from 'react-loading-skeleton'
-import useGetMyReview from '../../hooks/getMyReview'
+import {getMyReviews} from '../../services/reviews'
 
 const Reviews = () => {
     const user = useSelector((state) => state?.auth?.user)
     const [tab, setTab] = useState(0)
     const theme = useSelector((state) => state?.theme?.mode)
     const {reviews} = useGetReview(user?.id)
-    const {myReviews} = useGetMyReview(user?.id)
+    const [myReviews, setMyReviews] = useState({
+        isLoaded: false,
+        items: [],
+    })
+
+    useEffect(() => {
+        getMyReviews(user?.id)
+            .then((res) => setMyReviews({isLoaded: true, items: res}))
+            .catch(() => setMyReviews({isLoaded: true, items: []}))
+    }, [user?.id])
+
+    const refetch = useCallback(() => {
+        getMyReviews(user?.id)
+            .then((res) => setMyReviews({isLoaded: true, items: res}))
+            .catch(() => setMyReviews({isLoaded: true, items: []}))
+    }, [])
 
     return (
         <div className="main">
@@ -75,6 +90,7 @@ const Reviews = () => {
                         myReviews.items?.length > 0 ? (
                             myReviews.items?.map((i) => (
                                 <Review
+                                    reviewId={i.id}
                                     key={i.id}
                                     myReview={true}
                                     text={i.text}
@@ -84,6 +100,7 @@ const Reviews = () => {
                                     rating={i.rating}
                                     created={i.createdAtForUser}
                                     userId={i.userId}
+                                    seterRefetch={refetch}
                                 />
                             ))
                         ) : (

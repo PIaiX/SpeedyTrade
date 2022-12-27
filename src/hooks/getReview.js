@@ -1,27 +1,28 @@
 import {useEffect, useState} from 'react'
 import {getUserReviews} from '../services/reviews'
 
-const useGetReview = (userId) => {
+const useGetReview = (userId, refatch = true) => {
     const [reviews, setReviews] = useState({
         isLoaded: false,
         items: [],
     })
 
     useEffect(() => {
-        getUserReviews(userId)
-            .then((res) => {
-                setReviews({
-                    isLoaded: true,
-                    items: res,
+        refatch &&
+            getUserReviews(userId)
+                .then((res) => {
+                    setReviews({
+                        isLoaded: true,
+                        items: res,
+                    })
                 })
-            })
-            .catch((err) => {
-                setReviews({
-                    isLoaded: false,
-                    items: [],
+                .catch((err) => {
+                    setReviews({
+                        isLoaded: false,
+                        items: [],
+                    })
                 })
-            })
-    }, [userId])
+    }, [userId, refatch])
     return {reviews}
 }
 

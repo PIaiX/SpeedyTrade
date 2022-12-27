@@ -4,9 +4,23 @@ import Container from 'react-bootstrap/Container'
 import Offcanvas from 'react-bootstrap/Offcanvas'
 import {HiBookmark} from 'react-icons/hi'
 import {IoArrowUpCircleOutline, IoCloseCircleOutline} from 'react-icons/io5'
+import {useDeleteFavoriteMutation, useGetFavoritesQuery} from '../services/RTK/favoritesApi'
+import {useSelector} from 'react-redux'
+import Skeleton from 'react-loading-skeleton'
+import {getImageURL} from '../helpers/image'
 
 function Favorites() {
     const [showFav, setShowFav] = useState(false)
+    const userId = useSelector((state) => state?.auth?.user?.id)
+    const theme = useSelector((state) => state?.theme?.mode)
+    const {data, isLoading} = useGetFavoritesQuery(userId)
+    const [deleteFavorite] = useDeleteFavoriteMutation()
+
+    const deleteFav = async (gameId) => {
+        if (gameId) {
+            await deleteFavorite({userId, gameId})
+        }
+    }
 
     return (
         <>
@@ -16,24 +30,32 @@ function Favorites() {
             <Offcanvas show={showFav} placement={'top'} onHide={() => setShowFav(!showFav)}>
                 <Offcanvas.Body>
                     <Container className="fav-box">
-                        <button type="button" className="d-flex me-4 mt-1" onClick={() => setShowFav(!showFav)}>
+                        <button type="button" className="d-flex me-4" onClick={() => setShowFav(!showFav)}>
                             <IoArrowUpCircleOutline />
                         </button>
                         <ul>
-                            <li>
-                                <img src="/images/slider-main/wow2.jpg" alt="World of Warcraft: Shadowlands" />
-                                <Link to="/">World of Warcraft: Shadowlands</Link>
-                                <button type="button" className="d-flex">
-                                    <IoCloseCircleOutline />
-                                </button>
-                            </li>
-                            <li>
-                                <img src="/images/slider-main/genshin.jpg" alt="Genshin Impact" />
-                                <Link to="/">Genshin Impact</Link>
-                                <button type="button" className="d-flex">
-                                    <IoCloseCircleOutline />
-                                </button>
-                            </li>
+                            {!isLoading ? (
+                                data.body?.length > 0 ? (
+                                    data.body?.map((i) => (
+                                        <li key={i.id}>
+                                            <img src={getImageURL(i.logo)} alt={i.name} />
+                                            <Link to={`/game/${i.slug}`}>{i.name}</Link>
+                                            <button type="button" className="d-flex" onClick={() => deleteFav(i.id)}>
+                                                <IoCloseCircleOutline />
+                                            </button>
+                                        </li>
+                                    ))
+                                ) : (
+                                    <h6>Список избранных пуст</h6>
+                                )
+                            ) : (
+                                <Skeleton
+                                    baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
+                                    highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
+                                    height={'100%'}
+                                    width={'15em'}
+                                />
+                            )}
                         </ul>
                     </Container>
                 </Offcanvas.Body>

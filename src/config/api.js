@@ -42,6 +42,12 @@ const apiRoutes = {
     //reviews
     REVIEW_ACTIONS: 'user/review',
     REVIEW_LOTS: 'user/review/lot',
+
+    //favorites
+    FAVORITES_ACTIONS: 'user/favorite',
+
+    //lots
+    LOTS_SELLER: 'lot/purchase/purchase/mypurchases',
 }
 
 const apiResponseMessages = {}

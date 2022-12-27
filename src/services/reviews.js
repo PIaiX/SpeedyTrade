@@ -18,3 +18,19 @@ export const getUserReviews = async (userId) => {
         throw error
     }
 }
+
+export const deleteMyReview = async (reviewId) => {
+    try {
+        return await $authApi.delete(`${apiRoutes.REVIEW_ACTIONS}/${reviewId}`)
+    } catch (error) {
+        throw error
+    }
+}
+
+export const createReview = async (payloads) => {
+    try {
+        return await $authApi.post(apiRoutes.REVIEW_ACTIONS, payloads)
+    } catch (error) {
+        throw error
+    }
+}

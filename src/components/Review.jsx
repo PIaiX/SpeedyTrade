@@ -1,12 +1,23 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {Link} from 'react-router-dom'
 import {FiTrash2} from 'react-icons/fi'
 import StarRating from './utils/StarRating'
 import {getImageURL} from '../helpers/image'
 import {useSelector} from 'react-redux'
+import {deleteMyReview} from '../services/reviews'
+import {dispatchAlert} from '../helpers/alert'
 
 const Review = (props) => {
     const userId = useSelector((state) => state?.auth?.user?.id)
+
+    const deleteReview = (reviewId) => {
+        deleteMyReview(reviewId)
+            .then(() => {
+                dispatchAlert('success', 'Отзыв успешно удален')
+                props.seterRefetch()
+            })
+            .catch(() => dispatchAlert('danger', 'Произошла ошибка'))
+    }
 
     return (
         <div className="user-review">
@@ -36,7 +47,7 @@ const Review = (props) => {
             </div>
             {props.myReview && (
                 <div className="grid-6">
-                    <button type="button">
+                    <button type="button" onClick={() => deleteReview(props.reviewId)}>
                         <FiTrash2 className="fs-13" />
                         <span className="ms-2">Удалить</span>
                     </button>

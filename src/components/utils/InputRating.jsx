@@ -1,11 +1,15 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {ImStarFull} from 'react-icons/im'
 
 export default function InputRating(props) {
-    const [ratingValue, setRatingValue] = useState()
+    const [ratingValue, setRatingValue] = useState(1)
+
+    useEffect(() => {
+        ratingValue && props.seterRating && props.seterRating(ratingValue)
+    }, [props.seterRating, ratingValue])
+
     return (
         <div className={'input-rating ' + props.className}>
-            <input type="number" name="ratingValue" value={ratingValue} hidden />
             <div className="stars">
                 <button
                     type="button"

@@ -5,12 +5,14 @@ import authReducer from '../store/reducers/authSlice'
 import alertReducer from '../store/reducers/alertSlice'
 import themeReducer from '../store/reducers/themeSlice'
 import fingerprintReducer from '../store/reducers/fingerprintSlice'
+import {favoritesApi} from '../services/RTK/favoritesApi'
 
 const rootReducer = combineReducers({
     auth: authReducer,
     alert: alertReducer,
     theme: themeReducer,
     fingerprint: fingerprintReducer,
+    [favoritesApi.reducerPath]: favoritesApi.reducer,
 })
 
 const persistConfig = {
@@ -28,7 +30,7 @@ const index = configureStore({
             serializableCheck: {
                 ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
             },
-        }),
+        }).concat(favoritesApi.middleware),
 })
 const persistor = persistStore(index)
 

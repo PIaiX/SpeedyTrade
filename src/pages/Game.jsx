@@ -15,6 +15,7 @@ import {useSelector} from 'react-redux'
 
 const Game = () => {
     const theme = useSelector((state) => state?.theme?.mode)
+    const userId = useSelector((state) => state?.auth?.user?.id)
     const {slug} = useParams()
     const [game, setGame] = useState({
         isLoaded: false,
@@ -41,7 +42,7 @@ const Game = () => {
                                 />
                             )}
                         </h1>
-                        <BtnAddFav add={false} />
+                        <BtnAddFav favoriteStatus={false} gameId={game.id} userId={userId} />
                     </div>
                     <Row>
                         <Col xs={12} lg={7} xl={8}>
