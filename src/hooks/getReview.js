@@ -8,7 +8,7 @@ const useGetReview = (userId, refatch = true) => {
     })
 
     useEffect(() => {
-        refatch &&
+        userId &&
             getUserReviews(userId)
                 .then((res) => {
                     setReviews({

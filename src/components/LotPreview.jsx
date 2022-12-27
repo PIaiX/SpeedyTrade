@@ -1,32 +1,33 @@
 import React from 'react'
 import StarRating from './utils/StarRating'
 import {Link} from 'react-router-dom'
+import Moment from 'react-moment'
 
-const LotPreview = () => {
+const LotPreview = (props) => {
     return (
         <tr className="lot-preview">
-            <td>Android</td>
+            <td>{props.platform}</td>
             <td>
-                <Link to="lot">
-                    ProjectSuperEssence.net Top Rang Step - Season 3, l8k-2568, Прочее, Без ранга, 150 шт., Avatar
-                </Link>
+                <Link to={`/lot/${props.lotId}`}>{props.description}</Link>
             </td>
             <td>
-                <Link to="/user" className="lot-preview-user">
+                <Link to={`/user/${props.userId}`} className="lot-preview-user">
                     <div className="img">
-                        <img src="/images/user2.png" alt="Колесникова Ирина" />
-                        <div className="indicator online"></div>
+                        <img src={props.avatar} alt="Колесникова Ирина" />
+                        <div className="indicator online" />
                     </div>
                     <div>
-                        <h5 className="achromat-2 mb-1">Колесникова Ирина</h5>
-                        <div className="achromat-3 mb-1">@Irishka1911</div>
+                        <h5 className="achromat-2 mb-1">{props.fullName}</h5>
+                        <div className="achromat-3 mb-1">{`@${props.nickname}`}</div>
                         <StarRating rate={5} className="justify-content-start fs-08" />
-                        <div>На&nbsp;сайте с&nbsp;сентября 2019&nbsp;г.</div>
+                        <div>
+                            На&nbsp;сайте с <Moment format={'LL'} date={props.createdAt} />
+                        </div>
                     </div>
                 </Link>
             </td>
             <td>
-                <div className="color-1 fw-7">3000&nbsp;руб.</div>
+                <div className="color-1 fw-7">{props.price}&nbsp;руб.</div>
             </td>
         </tr>
     )

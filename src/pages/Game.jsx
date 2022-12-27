@@ -12,6 +12,7 @@ import {getImageURL} from '../helpers/image'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import {useSelector} from 'react-redux'
+import useGetLotsByCategory from '../hooks/getLotsByCategory'
 
 const Game = () => {
     const theme = useSelector((state) => state?.theme?.mode)
@@ -20,12 +21,30 @@ const Game = () => {
     const [game, setGame] = useState({
         isLoaded: false,
     })
+    const [currentCategoryId, setCurrentCategoryId] = useState(null)
+
+    const {lots} = useGetLotsByCategory(currentCategoryId)
 
     useEffect(() => {
         getOneGame(slug)
             .then((res) => res && setGame({isLoaded: true, ...res}))
             .catch(() => console.log())
     }, [slug])
+
+    useEffect(() => {
+        // eslint-disable-next-line no-prototype-builtins
+        if (game?.hasOwnProperty('regions')) {
+            setCurrentCategoryId(
+                game?.regions
+                    ?.map((i) =>
+                        i.categories?.map((k) => {
+                            return {name: k.name, id: k.id}
+                        })
+                    )
+                    .flat()[0]?.id
+            )
+        }
+    }, [game])
 
     return (
         <main>
@@ -75,32 +94,26 @@ const Game = () => {
                     </Row>
 
                     <div className="d-flex flex-wrap mt-4 mt-sm-5">
-                        {game?.categories?.map((i) => (
-                            <button key={i?.id} type="button" className="btn-7 flex-column mb-2 me-2 me-lg-4">
-                                <span className="fw-5">{i?.name}</span>
-                                <span>DODELAT</span>
-                            </button>
-                        ))}
-                        <button type="button" className="active btn-7 flex-column mb-2 me-2 me-lg-4">
-                            <span className="fw-5">Аккаунты</span>
-                            <span>473</span>
-                        </button>
-                        <button type="button" className="btn-7 flex-column mb-2 me-2 me-lg-4">
-                            <span className="fw-5">Услуги</span>
-                            <span>46</span>
-                        </button>
-                        <button type="button" className="btn-7 flex-column mb-2 me-2 me-lg-4">
-                            <span className="fw-5">Алмазы</span>
-                            <span>272</span>
-                        </button>
-                        <button type="button" className="btn-7 flex-column mb-2 me-2 me-lg-4">
-                            <span className="fw-5">Донат</span>
-                            <span>92</span>
-                        </button>
-                        <button type="button" className="btn-7 flex-column mb-2 me-2 me-lg-4">
-                            <span className="fw-5">Прочее</span>
-                            <span>958</span>
-                        </button>
+                        {game?.regions
+                            ?.map((i) =>
+                                i.categories?.map((k) => {
+                                    return {name: k.name, id: k.id}
+                                })
+                            )
+                            .flat()
+                            .map((i) => (
+                                <button
+                                    key={i.id}
+                                    type="button"
+                                    className={`${
+                                        i.id === currentCategoryId ? 'active' : ''
+                                    } btn-7 flex-column mb-2 me-2 me-lg-4`}
+                                    onClick={() => setCurrentCategoryId(i.id)}
+                                >
+                                    <span className="fw-5">{i.name}</span>
+                                    {/*<span>473</span>*/}
+                                </button>
+                            ))}
                     </div>
 
                     <div className="d-xl-flex flex-row-reverse align-items-center mt-4 mt-sm-5 mb-4">
@@ -135,26 +148,46 @@ const Game = () => {
                         </div>
                     </div>
 
-                    <Table borderless responsive className="mb-5">
-                        <thead>
-                            <tr>
-                                <th>Платформа</th>
-                                <th>Описание</th>
-                                <th>Продавец</th>
-                                <th>Цена</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <LotPreview />
-                            <LotPreview />
-                            <LotPreview />
-                            <LotPreview />
-                            <LotPreview />
-                            <LotPreview />
-                            <LotPreview />
-                            <LotPreview />
-                        </tbody>
-                    </Table>
+                    {lots.isLoaded ? (
+                        lots.items?.length > 0 ? (
+                            <Table borderless responsive className="mb-5">
+                                <thead>
+                                    <tr>
+                                        <th>Платформа</th>
+                                        <th>Описание</th>
+                                        <th>Продавец</th>
+                                        <th>Цена</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {lots.items?.map((i) => (
+                                        <LotPreview
+                                            key={i.id}
+                                            lotId={i.id}
+                                            platform={i.platform?.name}
+                                            description={i.description}
+                                            userId={i.userId}
+                                            avatar={getImageURL(i.user?.avatar)}
+                                            fullName={i.user?.fullName}
+                                            nickname={i.user?.nickname}
+                                            rating={i.user?.rating}
+                                            createdAt={i.user?.createdAt}
+                                            price={i.price}
+                                        />
+                                    ))}
+                                </tbody>
+                            </Table>
+                        ) : (
+                            <h6>Лоты отсутствуют</h6>
+                        )
+                    ) : (
+                        <Skeleton
+                            baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
+                            highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
+                            height={'10em'}
+                            width={'100%'}
+                        />
+                    )}
 
                     <p>{game?.bottomDescription}</p>
                 </section>

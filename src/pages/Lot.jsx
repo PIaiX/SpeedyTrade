@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useState} from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -10,6 +10,11 @@ import Dropdown from 'react-bootstrap/Dropdown'
 import {FiAlertTriangle, FiBell, FiMoreHorizontal, FiSend, FiTrash2} from 'react-icons/fi'
 import StarRating from '../components/utils/StarRating'
 import ReviewBlock from '../components/ReviewBlock'
+import Skeleton from 'react-loading-skeleton'
+import useGetReview from '../hooks/getReview'
+import {useParams} from 'react-router-dom'
+import {useSelector} from 'react-redux'
+import useGetOneLot from '../hooks/getOneLot'
 
 const optionsPayment = [
     {value: '1', label: 'Тип оплаты 1'},
@@ -18,12 +23,20 @@ const optionsPayment = [
 ]
 
 const Lot = () => {
-    useEffect(() => {
-        const chatBody = document.getElementById('chatBody')
-        return () => {
-            chatBody.scrollTop = chatBody.scrollHeight
+    const theme = useSelector((state) => state?.theme?.mode)
+    const {id} = useParams()
+    const {lot} = useGetOneLot(id)
+    const {reviews} = useGetReview(lot.item?.userId)
+
+    const [filterParam, setFilterParam] = useState('init')
+
+    const filtredReviews = () => {
+        if (filterParam === 'init') {
+            return reviews.items
+        } else {
+            return reviews.items?.filter((i) => i.rating === +filterParam)
         }
-    })
+    }
 
     return (
         <main>
@@ -35,54 +48,33 @@ const Lot = () => {
                             <Row className="g-3 g-sm-4">
                                 <Col md={3}>Платформа:</Col>
                                 <Col md={9}>
-                                    <div className="box">
-                                        <p>Android</p>
-                                    </div>
+                                    {lot.isLoaded ? (
+                                        <div className="box">
+                                            <p>{lot.item?.platform?.name}</p>
+                                        </div>
+                                    ) : (
+                                        <Skeleton
+                                            baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
+                                            highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
+                                            height={'100%'}
+                                            width={'100%'}
+                                        />
+                                    )}
                                 </Col>
-                                <Col md={3}>Краткое описание:</Col>
+                                <Col md={3}>Описание:</Col>
                                 <Col md={9}>
-                                    <div className="box">
-                                        <p>
-                                            ProjectSuperEssence.net Top Rang Step - Season 3, l8k-2568, Прочее, Без
-                                            ранга, 150 шт., Avatar
-                                        </p>
-                                    </div>
-                                </Col>
-                                <Col md={3}>Подробное описание: </Col>
-                                <Col md={9}>
-                                    <div className="box">
-                                        <p>
-                                            ProjectSuperEssence.net Top Rang Step - Season 3, l8k-2568, Прочее, Без
-                                            ранга, 150 шт., Avatar
-                                        </p>
-                                        <p>
-                                            366M - силы
-                                            <br />
-                                            383 - уровень героев
-                                            <br />
-                                            34 - возвышенных героев
-                                            <br />6 - героев иномирцев(Мерлин,Артур,Да Винчи,Баба Яга,Жанна
-                                            д&apos;Арк,Аинз )
-                                            <br />
-                                            Можно приобрести Геральта и Йенифер
-                                            <br />
-                                            Глава 37-4
-                                            <br />
-                                            Уровень аккаунта 199
-                                            <br />
-                                            70 Уровень Старейшего Древа
-                                        </p>
-                                        <p>
-                                            8 Героев 30/30 SI
-                                            <br />8 Героев 9/9 Мебель и еще несколько на подходе
-                                            <br />6 Героев 4/4 T4
-                                            <br />6 Героев 4/4 T3
-                                            <br />
-                                            Все герои, у которых разблокирован SI, имеют легендарный SI +
-                                            <br />
-                                            VIP 10
-                                        </p>
-                                    </div>
+                                    {lot.isLoaded ? (
+                                        <div className="box">
+                                            <p>{lot.item?.description}</p>
+                                        </div>
+                                    ) : (
+                                        <Skeleton
+                                            baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
+                                            highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
+                                            height={'100%'}
+                                            width={'100%'}
+                                        />
+                                    )}
                                 </Col>
                                 <Col md={3}>Способ оплаты:</Col>
                                 <Col md={9}>
@@ -103,7 +95,7 @@ const Lot = () => {
                                 <Col md={9}>
                                     <p className="achromat-3">
                                         * Продавец не сможет получить оплату до тех пор, пока вы не подтвердите
-                                        выполнение всех его обязательств
+                                        выполнение всех его обязательств
                                     </p>
                                 </Col>
                             </Row>
@@ -161,23 +153,43 @@ const Lot = () => {
                         <Col xs={12} lg={7}>
                             <div className="d-flex align-items-center mb-4">
                                 <h3 className="me-4">Рейтинг продавца</h3>
-                                <StarRating rate={2.8} />
+                                <StarRating rate={lot.item?.user?.rating} />
                             </div>
                             <div className="d-flex align-items-center mb-4">
                                 <span>Показать:</span>
-                                <select className="w-50 ms-4">
-                                    <option>Все отзывы</option>
-                                    <option>5 звезд</option>
-                                    <option>4 звезды</option>
-                                    <option>3 звезды</option>
-                                    <option>2 звезды</option>
-                                    <option>1 звезда</option>
+                                <select className="w-50 ms-4" onChange={(e) => setFilterParam(e.target.value)}>
+                                    <option value="init">Все отзывы</option>
+                                    <option value="5">5 звезд</option>
+                                    <option value="4">4 звезды</option>
+                                    <option value="3">3 звезды</option>
+                                    <option value="2">2 звезды</option>
+                                    <option value="1">1 звезда</option>
                                 </select>
                             </div>
-
-                            <ReviewBlock />
-                            <ReviewBlock />
-                            <ReviewBlock />
+                            {reviews.isLoaded ? (
+                                filtredReviews().length > 0 ? (
+                                    filtredReviews().map((i) => (
+                                        <ReviewBlock
+                                            key={i.id}
+                                            fullName={i.user?.fullName}
+                                            avatar={i.user?.avatar}
+                                            rating={i.rating}
+                                            description={i.text}
+                                            nickname={i.user?.nickname}
+                                        />
+                                    ))
+                                ) : (
+                                    <h6>Отзывов нет</h6>
+                                )
+                            ) : (
+                                <Skeleton
+                                    count={1}
+                                    baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
+                                    highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
+                                    width={'100%'}
+                                    height={'200px'}
+                                />
+                            )}
                         </Col>
                     </Row>
                 </section>
