@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react'
-import {getOneLot} from '../services/lots'
+import {getOneLot} from '../../services/lots'
 
 const useGetOneLot = (lotId) => {
     const [lot, setLot] = useState({

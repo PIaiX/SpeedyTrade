@@ -12,7 +12,7 @@ import {getImageURL} from '../helpers/image'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import {useSelector} from 'react-redux'
-import useGetLotsByCategory from '../hooks/getLotsByCategory'
+import useGetLotsByCategory from '../hooks/axios/getLotsByCategory'
 
 const Game = () => {
     const theme = useSelector((state) => state?.theme?.mode)
@@ -61,7 +61,7 @@ const Game = () => {
                                 />
                             )}
                         </h1>
-                        <BtnAddFav favoriteStatus={false} gameId={game.id} userId={userId} />
+                        <BtnAddFav favoriteStatus={game?.isFavorite} gameId={game.id} userId={userId} />
                     </div>
                     <Row>
                         <Col xs={12} lg={7} xl={8}>

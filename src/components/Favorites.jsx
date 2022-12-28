@@ -13,7 +13,7 @@ function Favorites() {
     const [showFav, setShowFav] = useState(false)
     const userId = useSelector((state) => state?.auth?.user?.id)
     const theme = useSelector((state) => state?.theme?.mode)
-    const {data, isLoading} = useGetFavoritesQuery(userId)
+    const {data, isLoading} = useGetFavoritesQuery(userId, {skip: !userId})
     const [deleteFavorite] = useDeleteFavoriteMutation()
 
     const deleteFav = async (gameId) => {
@@ -35,8 +35,8 @@ function Favorites() {
                         </button>
                         <ul>
                             {!isLoading ? (
-                                data.body?.length > 0 ? (
-                                    data.body?.map((i) => (
+                                data?.body?.length > 0 ? (
+                                    data?.body?.map((i) => (
                                         <li key={i.id}>
                                             <img src={getImageURL(i.logo)} alt={i.name} />
                                             <Link to={`/game/${i.slug}`}>{i.name}</Link>

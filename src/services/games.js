@@ -1,9 +1,9 @@
 import {apiRoutes, BASE_API_URL} from '../config/api'
-import $api from './index'
+import $api, {$authApi} from './index'
 
 export const getOneGame = async (slug) => {
     try {
-        const response = await $api(`${apiRoutes.ACTIONS_GAMES}/${slug}`)
+        const response = await $authApi.get(`${apiRoutes.ACTIONS_GAMES}/${slug}`)
         return response?.data?.body
     } catch (error) {
         console.log(error)

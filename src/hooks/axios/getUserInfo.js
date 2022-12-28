@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react'
-import {getUserInformation} from '../services/otherUsers'
+import {getUserInformation} from '../../services/otherUsers'
 
 const useGetUserInfo = (id) => {
     const [user, setUser] = useState({

@@ -26,7 +26,7 @@ export const favoritesApi = createApi({
     keepUnusedDataFor: 300,
     endpoints: (build) => ({
         getFavorites: build.query({
-            query: (userId) => ({
+            query: (userId = '') => ({
                 url: `${apiRoutes.FAVORITES_ACTIONS}/${userId}`,
             }),
             providesTags: (result) =>

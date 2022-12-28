@@ -1,13 +1,16 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {HiBookmark} from 'react-icons/hi'
 import {useAddNewFavoriteMutation, useDeleteFavoriteMutation} from '../../services/RTK/favoritesApi'
 import {dispatchAlert} from '../../helpers/alert'
 
 const BtnAddFav = ({favoriteStatus, gameId, userId}) => {
-    const [fav, setFav] = useState(favoriteStatus)
-
+    const [fav, setFav] = useState(null)
     const [addFavorite, state] = useAddNewFavoriteMutation()
     const [deleteFavorite, state2] = useDeleteFavoriteMutation()
+
+    useEffect(() => {
+        favoriteStatus && setFav(favoriteStatus)
+    }, [favoriteStatus])
 
     const createNewFavorite = () => {
         if (gameId && userId) {

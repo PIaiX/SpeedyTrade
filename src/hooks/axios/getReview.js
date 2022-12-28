@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react'
-import {getUserReviews} from '../services/reviews'
+import {getUserReviews} from '../../services/reviews'
 
 const useGetReview = (userId, refatch = true) => {
     const [reviews, setReviews] = useState({

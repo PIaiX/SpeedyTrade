@@ -1,5 +1,5 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
+import {Link, NavLink} from 'react-router-dom'
 
 const GameMidi = (props) => {
     return (
@@ -22,17 +22,21 @@ const GameMidi = (props) => {
                 {props?.regions?.length &&
                     props.regions.map((obj) => {
                         return (
-                            <button key={obj} type="button" className="btn-4 p-2 fs-08 me-1 mb-2 text-uppercase">
+                            <NavLink
+                                key={obj}
+                                to={`/game/${props.slug}`}
+                                className="btn-4 p-2 fs-08 me-1 mb-2 text-uppercase"
+                            >
                                 {obj}
-                            </button>
+                            </NavLink>
                         )
                     })}
             </div>
             <div className="mt-3 d-flex flex-wrap align-items-center">
                 {props?.subLinksArr?.length &&
-                    props.subLinksArr.map((obj) => {
+                    props.subLinksArr?.flat()?.map((obj) => {
                         return (
-                            <Link key={obj.anchor} to={`/game/${props.slug}`} className="fs-09 me-3 mb-2">
+                            <Link key={obj.anchor} to={obj.link} className="fs-09 me-3 mb-2">
                                 {obj.anchor}
                             </Link>
                         )

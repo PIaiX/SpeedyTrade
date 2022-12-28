@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react'
-import {getLotsByCategory} from '../services/lots'
+import {getLotsByCategory} from '../../services/lots'
 
 const useGetLotsByCategory = (currentCategoryId) => {
     const [lots, setLots] = useState({

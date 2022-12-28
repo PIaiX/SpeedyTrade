@@ -11,10 +11,10 @@ import {FiAlertTriangle, FiBell, FiMoreHorizontal, FiSend, FiTrash2} from 'react
 import StarRating from '../components/utils/StarRating'
 import ReviewBlock from '../components/ReviewBlock'
 import Skeleton from 'react-loading-skeleton'
-import useGetReview from '../hooks/getReview'
+import useGetReview from '../hooks/axios/getReview'
 import {useParams} from 'react-router-dom'
 import {useSelector} from 'react-redux'
-import useGetOneLot from '../hooks/getOneLot'
+import useGetOneLot from '../hooks/axios/getOneLot'
 
 const optionsPayment = [
     {value: '1', label: 'Тип оплаты 1'},
