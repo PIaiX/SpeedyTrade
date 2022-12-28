@@ -2891,6 +2891,12 @@ footer nav.mobile button.active {
 .validate-wrapper_error input::placeholder {
   color: red;
 }
+.validate-wrapper_error textarea {
+  border-color: red;
+}
+.validate-wrapper_error textarea::placeholder {
+  color: red;
+}
 .validate-wrapper .validate-error {
   position: absolute;
   top: 15px;

@@ -285,6 +285,7 @@ const UserPage = () => {
                         <div className="mb-2">Приобретенный лот:</div>
 
                         <select {...register('lotId', {required: 'Выберите значение'})}>
+                            <option value="">Нет лотов</option>
                             {sellerLots.items?.length > 0 ? (
                                 sellerLots.items?.map((i) => (
                                     <option key={i.id} value={i.lotId}>

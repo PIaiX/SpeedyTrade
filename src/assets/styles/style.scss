@@ -3015,6 +3015,12 @@ footer {
         input::placeholder {
             color: red;
         }
+        textarea {
+            border-color: red;
+        }
+        textarea::placeholder {
+            color: red;
+        }
     }
 
     .validate-error {
