@@ -96,16 +96,22 @@ const PostAd = () => {
             selectedOptionCategory &&
             description &&
             price &&
+            price <= 10000000 &&
             amount &&
             categoryParameters.length === options.map((o) => o.option).filter(Number).length
         ) {
             console.log(postBody)
             postLot(postBody)
-                .then((res) => console.log(res))
-                .then(() => swal('Успешно', 'Лот размещен', 'success').then(() => navigate('/account/ads')))
+                .then((res) =>
+                    res.status === 500
+                        ? swal('Ошибка', 'Ошибка при отправке запроса', 'error')
+                        : swal('Успешно', 'Лот размещен', 'success').then(() => navigate('/account/ads'))
+                )
                 .catch(() => swal('Ошибка', 'Ошибка при отправке запроса', 'error'))
         } else {
-            swal({text: 'Необходимо заполнить все поля', icon: 'error'})
+            price > 10000000
+                ? swal({text: 'Цена не более 10 000 000', icon: 'error'})
+                : swal({text: 'Необходимо заполнить все поля', icon: 'error'})
         }
     }
 
@@ -172,8 +178,6 @@ const PostAd = () => {
             }
         }
     }, [selectedOptionCategory])
-
-    console.log(categoryParameters)
 
     return (
         <div className="main">

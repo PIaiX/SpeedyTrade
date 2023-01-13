@@ -69,8 +69,8 @@ export const getLotReviews = async (id) => {
 export const postLot = async (payloads) => {
     try {
         const response = await $authApi.post(apiRoutes.GET_LOTS, payloads)
-        return response?.data?.body
+        return response?.data
     } catch (error) {
-        console.log(error)
+        return {status: 500, body: error}
     }
 }
