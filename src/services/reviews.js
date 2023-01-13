@@ -10,9 +10,9 @@ export const getMyReviews = async (userId) => {
     }
 }
 
-export const getUserReviews = async (userId) => {
+export const getUserReviews = async (lotId) => {
     try {
-        const response = await $authApi.get(`${apiRoutes.REVIEW_LOTS}/${userId}`)
+        const response = await $authApi.get(`${apiRoutes.REVIEW_LOTS}/${lotId}`)
         return response.data?.body
     } catch (error) {
         throw error

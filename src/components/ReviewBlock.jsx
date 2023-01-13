@@ -7,7 +7,7 @@ const ReviewBlock = (props) => {
     return (
         <div className="review-block">
             <Link to="/user">
-                <img src={getImageURL(props?.avatar)} alt="Владимирская Елена" />
+                <img src={getImageURL(props?.avatar)} alt={props?.fullName} />
             </Link>
             <div className="flex-1 ms-2 ms-sm-4">
                 <div className="d-sm-flex align-items-center mb-2">

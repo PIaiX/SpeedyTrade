@@ -21,6 +21,7 @@ const Game = () => {
     const [game, setGame] = useState({
         isLoaded: false,
     })
+    const [platforms, setPlatforms] = useState([])
     const [currentCategoryId, setCurrentCategoryId] = useState(null)
 
     const {lots} = useGetLotsByCategory(currentCategoryId)
@@ -30,6 +31,10 @@ const Game = () => {
             .then((res) => res && setGame({isLoaded: true, ...res}))
             .catch(() => console.log())
     }, [slug])
+
+    // useEffect(() => {
+    //     getGamePlatform(filterGame).then((arr) => arr && setPlatforms(arr))
+    // }, [game])
 
     useEffect(() => {
         // eslint-disable-next-line no-prototype-builtins
@@ -160,21 +165,24 @@ const Game = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {lots.items?.map((i) => (
-                                        <LotPreview
-                                            key={i.id}
-                                            lotId={i.id}
-                                            platform={i.platform?.name}
-                                            description={i.description}
-                                            userId={i.userId}
-                                            avatar={getImageURL(i.user?.avatar)}
-                                            fullName={i.user?.fullName}
-                                            nickname={i.user?.nickname}
-                                            rating={i.user?.rating}
-                                            createdAt={i.user?.createdAt}
-                                            price={i.price}
-                                        />
-                                    ))}
+                                    {lots.items?.map(
+                                        (i) =>
+                                            i.isVisible && (
+                                                <LotPreview
+                                                    key={i.id}
+                                                    lotId={i.id}
+                                                    platform={i.platform?.name}
+                                                    description={i.description}
+                                                    userId={i.userId}
+                                                    avatar={getImageURL(i.user?.avatar)}
+                                                    fullName={i.user?.fullName}
+                                                    nickname={i.user?.nickname}
+                                                    rating={i.user?.rating}
+                                                    createdAt={i.user?.createdAt}
+                                                    price={i.priceCommission}
+                                                />
+                                            )
+                                    )}
                                 </tbody>
                             </Table>
                         ) : (

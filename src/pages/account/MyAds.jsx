@@ -3,12 +3,13 @@ import {useSelector} from 'react-redux'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Table from 'react-bootstrap/Table'
-import AdsTr from '../../components/AdsTr'
+import Dropdown from 'react-bootstrap/Dropdown'
+import {IoEllipsisHorizontal} from 'react-icons/io5'
+import {BiEdit, BiTrash} from 'react-icons/bi'
 import {Link} from 'react-router-dom'
-import Pagination from '../../components/Pagination'
 import {FiArrowLeft} from 'react-icons/fi'
 import {getUserLots} from '../../services/lots'
-import {getAllGames, getGamePlatform} from '../../services/games'
+import {getAllGames, getGamePlatform, getGameServersByGameID} from '../../services/games'
 
 const MyAds = () => {
     const [userLots, setUserLots] = useState([])
@@ -35,6 +36,7 @@ const MyAds = () => {
         setCurrentPage(1)
         if (filterGame) {
             getGamePlatform(filterGame).then((arr) => arr && setPlatforms(arr))
+            getGameServersByGameID(filterGame).then((arr) => arr && setServers(arr))
         }
     }, [filterGame])
 
@@ -52,8 +54,6 @@ const MyAds = () => {
         }
         setPagesArr(arr)
     }
-
-    platforms.length > 0 && console.log(platforms)
 
     return (
         <div className="main">
@@ -84,11 +84,11 @@ const MyAds = () => {
                     <span className="me-3">Сервер:</span>
                     <select defaultValue={0} onChange={(e) => setFilterServer(e.target.value)}>
                         <option value={''}></option>
-                        {/* {servers?.map((server) => (
+                        {servers?.map((server) => (
                             <option value={server?.id} key={server?.id}>
                                 {server?.name}
                             </option>
-                        ))} */}
+                        ))}
                     </select>
                 </Col>
                 <Col className="d-xl-flex align-items-center">
@@ -117,17 +117,33 @@ const MyAds = () => {
                 </thead>
                 <tbody>
                     {userLots?.data?.map((lot) => (
-                        <AdsTr
-                            key={lot.id}
-                            game={'Genshin Impact'}
-                            platform={lot?.platform?.name}
-                            description={
-                                lot?.description.length > 150
+                        <tr key={lot.id}>
+                            <td>{lot?.gameInfo?.name}</td>
+                            <td>{lot?.platform?.name}</td>
+                            <td>
+                                {lot?.description.length > 150
                                     ? lot?.description.substring(0, 150) + '...'
-                                    : lot?.description
-                            }
-                            price={3000}
-                        />
+                                    : lot?.description}
+                            </td>
+                            <td>{lot?.price}&nbsp;руб.</td>
+                            <td>
+                                <Dropdown align="end">
+                                    <Dropdown.Toggle variant="simple">
+                                        <IoEllipsisHorizontal />
+                                    </Dropdown.Toggle>
+                                    <Dropdown.Menu>
+                                        <Dropdown.Item as="button">
+                                            <BiEdit />
+                                            <span>Редактировать</span>
+                                        </Dropdown.Item>
+                                        <Dropdown.Item as="button">
+                                            <BiTrash />
+                                            <span>Удалить запись</span>
+                                        </Dropdown.Item>
+                                    </Dropdown.Menu>
+                                </Dropdown>
+                            </td>
+                        </tr>
                     ))}
                 </tbody>
             </Table>
