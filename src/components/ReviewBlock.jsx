@@ -1,12 +1,15 @@
 import React from 'react'
 import StarRating from './utils/StarRating'
+import {useSelector} from 'react-redux'
 import {Link} from 'react-router-dom'
 import {getImageURL} from '../helpers/image'
 
 const ReviewBlock = (props) => {
+    const currentUserId = useSelector((state) => state.auth.user.id)
+
     return (
         <div className="review-block">
-            <Link to="/user">
+            <Link to={props.userId === currentUserId ? '/account/profile' : `/user/${props.userId}`}>
                 <img src={getImageURL(props?.avatar)} alt={props?.fullName} />
             </Link>
             <div className="flex-1 ms-2 ms-sm-4">

@@ -1,4 +1,5 @@
 import React from 'react'
+import {useSelector} from 'react-redux'
 import StarRating from './utils/StarRating'
 import {Link} from 'react-router-dom'
 
@@ -16,6 +17,8 @@ const timeOnSite = (timeDate) => {
 }
 
 const LotPreview = (props) => {
+    const currentUserId = useSelector((state) => state.auth.user.id)
+
     return (
         <tr className="lot-preview">
             <td>{props.platform}</td>
@@ -27,7 +30,10 @@ const LotPreview = (props) => {
                 </Link>
             </td>
             <td>
-                <Link to={`/user/${props.userId}`} className="lot-preview-user">
+                <Link
+                    to={props.userId === currentUserId ? '/account/profile' : `/user/${props.userId}`}
+                    className="lot-preview-user"
+                >
                     <div className="img">
                         <img src={props.avatar ?? '/images/user2.png'} alt={props.fullName} />
                         <div className="indicator online"></div>
