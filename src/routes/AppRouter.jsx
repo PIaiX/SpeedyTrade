@@ -18,7 +18,6 @@ const router = createBrowserRouter(
             <Route path="user/:id" element={<UserPage />} />
             <Route path="game/:slug" element={<Game />} />
             <Route path="lot/:id" element={<Lot />} />
-
             <Route path="login" element={<Login />} />
             <Route path="registration" element={<Registration />} />
             <Route path="reset-password" element={<ResetPassword />} />

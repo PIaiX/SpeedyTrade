@@ -11,7 +11,7 @@ import {FiAlertTriangle, FiBell, FiMoreHorizontal, FiSend, FiTrash2} from 'react
 import StarRating from '../components/utils/StarRating'
 import ReviewBlock from '../components/ReviewBlock'
 import Skeleton from 'react-loading-skeleton'
-import useGetReview from '../hooks/axios/getReview'
+import useGetLotReviews from '../hooks/axios/getReview'
 import {useParams} from 'react-router-dom'
 import {useSelector} from 'react-redux'
 import useGetOneLot from '../hooks/axios/getOneLot'
@@ -26,7 +26,7 @@ const Lot = () => {
     const theme = useSelector((state) => state?.theme?.mode)
     const {id} = useParams()
     const {lot} = useGetOneLot(id)
-    const {reviews} = useGetReview(lot.item?.userId)
+    const {reviews} = useGetLotReviews(lot?.item?.id)
 
     const [filterParam, setFilterParam] = useState('init')
 
@@ -105,11 +105,14 @@ const Lot = () => {
                                 <div className="top">
                                     <div className="d-flex align-items-center">
                                         <div className="img me-2 me-sm-3">
-                                            <img src="/images/user2.png" alt="Иванченко Дарья" />
+                                            <img
+                                                src={lot?.user?.avatar ?? '/images/user2.png'}
+                                                alt={lot?.user?.fullName}
+                                            />
                                             <div className="indicator online"></div>
                                         </div>
                                         <div>
-                                            <h5 className="achromat-2 mb-0 mb-sm-1">Иванченко Дарья</h5>
+                                            <h5 className="achromat-2 mb-0 mb-sm-1">{lot?.user?.fullName}</h5>
                                             <div className="achromat-3 fs-09">Был(а) онлайн 15 минут назад</div>
                                         </div>
                                     </div>

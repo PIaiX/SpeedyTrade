@@ -1,5 +1,25 @@
+import {apiRoutes, BASE_API_URL} from '../config/api'
 import $api, {$authApi} from './index'
-import {apiRoutes} from '../config/api'
+
+export const getGameLots = async (gameId) => {
+    try {
+        const response = await $api(`${apiRoutes.GET_LOTS}/?gameId=${gameId}&page=1`)
+        return response?.data?.body
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const getUserLots = async (userId, page, perPage, gameId, serverId, platformId) => {
+    try {
+        const response = await $api(
+            `${apiRoutes.GET_LOTS}/?userId=${userId}&page=${page}&limit=${perPage}&gameId=${gameId}&serverId=${serverId}&platformId=${platformId}`
+        )
+        return response?.data?.body
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 export const getSellerLots = async (sellerId) => {
     try {
@@ -25,5 +45,32 @@ export const getOneLot = async (lotId) => {
         return response.data?.body
     } catch (error) {
         console.log(error)
+    }
+}
+
+export const getLot = async (id) => {
+    try {
+        const response = await $api(`${apiRoutes.GET_LOTS}/${id}`)
+        return response?.data?.body
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const getLotReviews = async (id) => {
+    try {
+        const response = await $api(`${apiRoutes.GET_LOT_REVIEWS}/${id}`)
+        return response?.data?.body
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const postLot = async (payloads) => {
+    try {
+        const response = await $authApi.post(apiRoutes.GET_LOTS, payloads)
+        return response?.data
+    } catch (error) {
+        return {status: 500, body: error}
     }
 }

@@ -1,13 +1,60 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
+import {useSelector} from 'react-redux'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Table from 'react-bootstrap/Table'
-import AdsTr from '../../components/AdsTr'
+import Dropdown from 'react-bootstrap/Dropdown'
+import {IoEllipsisHorizontal} from 'react-icons/io5'
+import {BiEdit, BiTrash} from 'react-icons/bi'
 import {Link} from 'react-router-dom'
-import Pagination from '../../components/Pagination'
 import {FiArrowLeft} from 'react-icons/fi'
+import {getUserLots} from '../../services/lots'
+import {getAllGames, getGamePlatform, getGameServersByGameID} from '../../services/games'
 
 const MyAds = () => {
+    const [userLots, setUserLots] = useState([])
+    const [currentPage, setCurrentPage] = useState(1)
+    const [perPage, setPerPage] = useState(5)
+    const [pagesArr, setPagesArr] = useState([])
+    const [games, setGames] = useState([])
+    const [servers, setServers] = useState([])
+    const [platforms, setPlatforms] = useState([])
+    const [filterGame, setFilterGame] = useState('')
+    const [filterServer, setFilterServer] = useState('')
+    const [filterPlatform, setFilterPlatform] = useState('')
+    const userId = useSelector((state) => state.auth.user.id)
+
+    useEffect(() => {
+        getAllGames().then((arr) => arr && setGames(arr))
+    }, [])
+
+    useEffect(() => {
+        setFilterPlatform('')
+        setFilterServer('')
+        setPlatforms([])
+        setServers([])
+        setCurrentPage(1)
+        if (filterGame) {
+            getGamePlatform(filterGame).then((arr) => arr && setPlatforms(arr))
+            getGameServersByGameID(filterGame).then((arr) => arr && setServers(arr))
+        }
+    }, [filterGame])
+
+    useEffect(() => {
+        getUserLots(userId, currentPage, perPage, filterGame, filterServer, filterPlatform).then((arr) => {
+            setUserLots(arr)
+            createPagesArr(arr.meta.lastPage)
+        })
+    }, [currentPage, filterGame, filterServer, filterPlatform])
+
+    const createPagesArr = (lastPage) => {
+        let arr = []
+        for (let i = 1; i <= lastPage; i++) {
+            arr.push(i)
+        }
+        setPagesArr(arr)
+    }
+
     return (
         <div className="main">
             <div className="d-flex align-items-center mb-4">
@@ -19,42 +66,45 @@ const MyAds = () => {
             <Link to="new" className="btn-5">
                 + Разместить новое объявление
             </Link>
+
+            {/* ---------------- Filters --------------------------------------------------------------------------- */}
             <Row xs={1} sm={3} className="gy-3 gy-sm-0 gx-3 gx-md-4 mt-4">
                 <Col className="d-xl-flex align-items-center">
                     <span className="me-3">Игра:</span>
-                    <select defaultValue={3}>
-                        <option disabled>Игра</option>
-                        <option value={1}>Игра 1</option>
-                        <option value={2}>Игра 2</option>
-                        <option value={3}>Игра 3</option>
-                        <option value={4}>Игра 4</option>
-                        <option value={5}>Игра 5</option>
+                    <select defaultValue={0} onChange={(e) => setFilterGame(e.target.value)}>
+                        <option value={''}></option>
+                        {games?.map((game) => (
+                            <option value={game?.id} key={game?.id}>
+                                {game?.name}
+                            </option>
+                        ))}
                     </select>
                 </Col>
                 <Col className="d-xl-flex align-items-center">
                     <span className="me-3">Сервер:</span>
-                    <select defaultValue={3}>
-                        <option disabled>Сервер</option>
-                        <option value={1}>Сервер 1</option>
-                        <option value={2}>Сервер 2</option>
-                        <option value={3}>Сервер 3</option>
-                        <option value={4}>Сервер 4</option>
-                        <option value={5}>Сервер 5</option>
+                    <select defaultValue={0} onChange={(e) => setFilterServer(e.target.value)}>
+                        <option value={''}></option>
+                        {servers?.map((server) => (
+                            <option value={server?.id} key={server?.id}>
+                                {server?.name}
+                            </option>
+                        ))}
                     </select>
                 </Col>
                 <Col className="d-xl-flex align-items-center">
                     <span className="me-3">Платформа:</span>
-                    <select defaultValue={3}>
-                        <option disabled>Платформа</option>
-                        <option value={1}>Платформа 1</option>
-                        <option value={2}>Платформа 2</option>
-                        <option value={3}>Платформа 3</option>
-                        <option value={4}>Платформа 4</option>
-                        <option value={5}>Платформа 5</option>
+                    <select defaultValue={0} onChange={(e) => setFilterPlatform(e.target.value)}>
+                        <option value={''}></option>
+                        {platforms?.map((platform) => (
+                            <option value={platform?.id} key={platform?.id}>
+                                {platform?.name}
+                            </option>
+                        ))}
                     </select>
                 </Col>
             </Row>
 
+            {/* ---------------- Lots ------------------------------------------------------------------------------ */}
             <Table borderless responsive className="my-4">
                 <thead>
                     <tr>
@@ -66,49 +116,57 @@ const MyAds = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    <AdsTr
-                        game={'Genshin Impact'}
-                        platform={'Android'}
-                        description={
-                            'ProjectSuperEssence.net Top Rang Step - Season 3, l8k-2568, Прочее, Без ранга, 150 шт., Avatar'
-                        }
-                        price={3000}
-                    />
-                    <AdsTr
-                        game={'Genshin Impact'}
-                        platform={'Android'}
-                        description={
-                            'ProjectSuperEssence.net Top Rang Step - Season 3, l8k-2568, Прочее, Без ранга, 150 шт., Avatar'
-                        }
-                        price={3000}
-                    />
-                    <AdsTr
-                        game={'Genshin Impact'}
-                        platform={'Android'}
-                        description={
-                            'ProjectSuperEssence.net Top Rang Step - Season 3, l8k-2568, Прочее, Без ранга, 150 шт., Avatar'
-                        }
-                        price={3000}
-                    />
-                    <AdsTr
-                        game={'Genshin Impact'}
-                        platform={'Android'}
-                        description={
-                            'ProjectSuperEssence.net Top Rang Step - Season 3, l8k-2568, Прочее, Без ранга, 150 шт., Avatar'
-                        }
-                        price={3000}
-                    />
-                    <AdsTr
-                        game={'Genshin Impact'}
-                        platform={'Android'}
-                        description={
-                            'ProjectSuperEssence.net Top Rang Step - Season 3, l8k-2568, Прочее, Без ранга, 150 шт., Avatar'
-                        }
-                        price={3000}
-                    />
+                    {userLots?.data?.map((lot) => (
+                        <tr key={lot.id}>
+                            <td>{lot?.gameInfo?.name}</td>
+                            <td>{lot?.platform?.name}</td>
+                            <td>
+                                {lot?.description.length > 150
+                                    ? lot?.description.substring(0, 150) + '...'
+                                    : lot?.description}
+                            </td>
+                            <td>{lot?.price}&nbsp;руб.</td>
+                            <td>
+                                <Dropdown align="end">
+                                    <Dropdown.Toggle variant="simple">
+                                        <IoEllipsisHorizontal />
+                                    </Dropdown.Toggle>
+                                    <Dropdown.Menu>
+                                        <Dropdown.Item as="button">
+                                            <BiEdit />
+                                            <span>Редактировать</span>
+                                        </Dropdown.Item>
+                                        <Dropdown.Item as="button">
+                                            <BiTrash />
+                                            <span>Удалить запись</span>
+                                        </Dropdown.Item>
+                                    </Dropdown.Menu>
+                                </Dropdown>
+                            </td>
+                        </tr>
+                    ))}
                 </tbody>
             </Table>
-            <Pagination />
+
+            {/* ---------------- Pagination ------------------------------------------------------------------------ */}
+            <nav className="pagination">
+                <ul>
+                    {pagesArr?.map((page) => (
+                        <li key={'page' + page}>
+                            <button
+                                type="button"
+                                onClick={() => setCurrentPage(page)}
+                                className={page === currentPage ? 'active' : undefined}
+                            >
+                                {page}
+                            </button>
+                        </li>
+                    ))}
+                    {/* <li className="ellipsis">
+                        <IoEllipsisHorizontal />
+                    </li> */}
+                </ul>
+            </nav>
         </div>
     )
 }

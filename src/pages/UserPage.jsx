@@ -67,7 +67,9 @@ const UserPage = () => {
     }
 
     const onSubmitCreateReview = (data) => {
-        const req = {...data, rating}
+        const userId = currentUser.id
+        const req = {...data, rating, userId}
+        console.log(req)
         createReview(req)
             .then(() => {
                 setRefatch(true)
@@ -284,18 +286,25 @@ const UserPage = () => {
                     <form onSubmit={handleSubmit(onSubmitCreateReview)}>
                         <div className="mb-2">Приобретенный лот:</div>
 
-                        <select {...register('lotId', {required: 'Выберите значение'})}>
-                            <option value="">Нет лотов</option>
-                            {sellerLots.items?.length > 0 ? (
+                        <select
+                            style={errors.lotId ? {borderColor: 'red'} : undefined}
+                            {...register('lotId', {
+                                setValueAs: (v) => parseInt(v),
+                                min: {
+                                    value: 1,
+                                    message: 'Выберите значение',
+                                },
+                            })}
+                        >
+                            <option value={'0'}>Нет лотов</option>
+                            {sellerLots.items?.length > 0 ??
                                 sellerLots.items?.map((i) => (
                                     <option key={i.id} value={i.lotId}>
                                         {i.id}
                                     </option>
-                                ))
-                            ) : (
-                                <span>Нет лотов</span>
-                            )}
+                                ))}
                         </select>
+                        {errors.lotId && <p style={{fontSize: '0.8em', color: 'red'}}>{errors.lotId.message}</p>}
 
                         <div className="mt-4 mb-2">Ваша оценка:</div>
                         <InputRating className="fs-15" seterRating={seterRating} />
