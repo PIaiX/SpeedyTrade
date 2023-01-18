@@ -34,7 +34,7 @@ const AccountRouter = () => {
                 <Route path="sales" element={<SalesHistory />} />
                 <Route path="finance" element={<Finance />} />
                 <Route path="messages" element={<Messages />} />
-                <Route path="messages/chat" element={<MessageWindow />} />
+                <Route path="messages/chat/:id" element={<MessageWindow />} />
                 <Route path="help" element={<Help />} />
                 <Route path="help/ticket/:id" element={<Ticket />} />
                 <Route path="reviews" element={<Reviews />} />
