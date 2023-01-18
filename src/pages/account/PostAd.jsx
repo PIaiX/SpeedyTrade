@@ -6,7 +6,7 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Select from 'react-select'
 import Table from 'react-bootstrap/Table'
-import AdsTr2 from '../../components/AdsTr2'
+// import AdsTr2 from '../../components/AdsTr2'
 import {Link} from 'react-router-dom'
 import {FiArrowLeft} from 'react-icons/fi'
 import {
@@ -59,7 +59,7 @@ const PostAd = () => {
     const getOptions = (res) => {
         let arr = []
         res?.map((el) => {
-            arr.push({value: el.id, label: el.name, currency: el.isCurrency})
+            return arr.push({value: el.id, label: el.name, currency: el.isCurrency})
         })
         return arr
     }
@@ -100,7 +100,6 @@ const PostAd = () => {
             amount &&
             categoryParameters.length === options.map((o) => o.option).filter(Number).length
         ) {
-            console.log(postBody)
             postLot(postBody)
                 .then((res) =>
                     res.status === 500
