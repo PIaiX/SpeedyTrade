@@ -1,6 +1,5 @@
 import React, {useEffect} from 'react'
 import {FiSend} from 'react-icons/fi'
-import ChatBox from './ChatBox'
 
 function ChatWindow(props) {
     useEffect(() => {
@@ -18,14 +17,7 @@ function ChatWindow(props) {
             </div>
             <div className="chat-window">
                 <div className="chat-space" id="chatBody">
-                    <ChatBox />
-                    <ChatBox />
-                    <ChatBox />
-                    <ChatBox />
-                    <ChatBox />
-                    <ChatBox />
-                    <ChatBox />
-                    <ChatBox />
+                    {/* chat */}
                 </div>
                 <form>
                     <input placeholder="Начните общаться" />
