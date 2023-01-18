@@ -78,13 +78,7 @@ const LotChat = () => {
             }
         }
         setConvId()
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [lotUser])
-
-    // useEffect(() => {
-    //     setValue('conversationId', conversationId)
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [conversationId])
 
     useEffect(() => {
         if (isConnected && socketInstance) {
@@ -118,7 +112,12 @@ const LotChat = () => {
                         ...prevState,
                         items: prevState.items ? [...prevState.items, res.body] : [res.body],
                     }))
-                reset()
+                reset({
+                    conversationId: conversationId,
+                    text: '',
+                    fromId: user?.id,
+                    sendFromLot: id,
+                })
             })
             .catch((e) => console.log(e))
     }
