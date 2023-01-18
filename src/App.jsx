@@ -10,15 +10,20 @@ import {setDefaultLocale} from 'react-datepicker'
 import ru from 'date-fns/locale/ru'
 import {initFingerprint} from './store/actions/fingerprint'
 import Loader from './components/UI/Loader'
+import {setSocketConnection} from '../src/services/sockets/socketInstance'
+import useSocketConnect from '../src/hooks/socketConnect'
 
 const App = () => {
     setDefaultLocale(ru)
     const dispatch = useDispatch()
     const fingerprint = useSelector((state) => state?.fingerprint?.value)
     const isLoadingRefresh = useSelector((state) => state?.auth?.isLoadingRefresh)
+    const user = useSelector((state) => state?.auth?.user)
+    const {isConnected} = useSocketConnect()
 
     useEffect(() => {
         dispatch(initTheme())
+        setSocketConnection()
     }, [])
 
     useEffect(() => {
@@ -30,11 +35,19 @@ const App = () => {
         if (fingerprint) {
             localStorage.setItem('fingerprint', fingerprint)
 
-            if (localStorage.getItem('token')) {
-                dispatch(refreshAuth())
-            } else dispatch(setLoadingRefresh(false))
+            // if (localStorage.getItem('token')) {
+            //     dispatch(refreshAuth())
+            // } else dispatch(setLoadingRefresh(false))
         } else dispatch(initFingerprint())
     }, [fingerprint])
+
+    useEffect(() => {
+        if (localStorage.getItem('token')) {
+            dispatch(refreshAuth())
+        } else {
+            dispatch(refreshAuth())
+        }
+    }, [])
 
     const onUnloadHandler = () => {
         const isOtherPC = localStorage.getItem('isOtherPC')
