@@ -66,7 +66,7 @@ const authSlice = createSlice({
             state.user = action?.payload?.user
         },
         [refreshAuth.rejected]: (state, action) => {
-            if (action?.payload?.response?.data?.message?.type == 'ACCESS_TOKEN_EXPIRED') {
+            if (action?.payload?.response?.data?.message?.type === 'ACCESS_TOKEN_EXPIRED') {
                 localStorage.removeItem('token')
             }
 
