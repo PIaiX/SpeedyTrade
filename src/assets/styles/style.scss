@@ -133,7 +133,7 @@ $green: #52ff82;
 }
 
 html {
-    scrollbar-color: rgba(var(--scroll-rgb) / 0.75) transparent;
+    scrollbar-color: rgba(var(--scroll-rgb) , 0.75);
     scrollbar-width: thin;
 }
 
@@ -149,16 +149,16 @@ html {
 }
 
 ::-webkit-scrollbar-thumb {
-    background-color: rgba(var(--scroll-rgb) / 0.5);
+    background-color: rgba(var(--scroll-rgb), 0.5);
     border-radius: 3px;
     transition: var(--transition);
 
     &:hover {
-        background-color: rgba(var(--scroll-rgb) / 0.75);
+        background-color: rgba(var(--scroll-rgb), 0.75);
     }
 
     &:active {
-        background-color: rgba(var(--scroll-rgb) / 1);
+        background-color: rgba(var(--scroll-rgb), 1);
     }
 }
 
@@ -473,6 +473,10 @@ label {
         position: relative;
         z-index: 1;
         padding-right: 3em;
+
+        &::placeholder {
+            color: var(--bg-2) !important;
+        }
     }
 
     button {
@@ -487,6 +491,7 @@ label {
         @include flex-center();
         transition: var(--transition);
     }
+
 }
 
 .form-search-2 {

@@ -436,6 +436,9 @@ label.switch input:checked::after {
   z-index: 1;
   padding-right: 3em;
 }
+.form-search input::placeholder {
+  color: var(--bg-2) !important;
+}
 .form-search button {
   position: absolute;
   top: 0%;
