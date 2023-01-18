@@ -10,6 +10,8 @@ const MessagePreview = ({conversation}) => {
     const user = useSelector((state) => state?.auth?.user)
     return (
         <li className="messages-list-preview">
+            {console.log(conversation)}
+            {console.log(user)}
             <div className="img">
                 <img src={getImageURL(conversation?.user?.avatar)} alt="Avatar" />
                 {conversation?.user?.isOnline && <div className="indicator unread"></div>}

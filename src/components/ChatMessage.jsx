@@ -49,22 +49,24 @@ const ChatMessage = ({avatarUser, keyArr, arr}) => {
                         </div>
 
                         <div className={`chat-box${user?.id === i?.userId ? '-reverse' : ''}-messages`}>
-                            <div className="bubble" style={!i.isViewed ? {border: 'thin solid red'} : undefined}>
+                            <div
+                                className="bubble"
+                                style={!i.isViewed ? {border: 'thin solid var(--bg-2)'} : undefined}
+                            >
                                 <p>{i?.text}</p>
                                 <div className="images-message">
-                                    {i.medias?.length > 0
-                                        ? i.medias.map((k, index) => (
-                                              <div
-                                                  key={k.id}
-                                                  className="images-box"
-                                                  onClick={() => {
-                                                      openImageViewer(index)
-                                                  }}
-                                              >
-                                                  <img src={getImageURL(k.media)} height={'100%'} width={'100%'} />
-                                              </div>
-                                          ))
-                                        : ''}
+                                    {i.attachedfile ? (
+                                        <div
+                                            className="images-box"
+                                            onClick={() => {
+                                                openImageViewer(0)
+                                            }}
+                                        >
+                                            <img src={getImageURL(i.attachedfile)} height={'100%'} width={'100%'} />
+                                        </div>
+                                    ) : (
+                                        ''
+                                    )}
                                 </div>
                                 {isViewerOpen && (
                                     <ImageViewer

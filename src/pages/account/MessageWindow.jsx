@@ -39,6 +39,7 @@ const MessageWindow = () => {
             conversationId: id,
             text: '',
             fromId: user?.id,
+            attachedfile: '',
         },
     })
 
@@ -83,6 +84,9 @@ const MessageWindow = () => {
     }, [])
 
     const createMessage = (payload) => {
+        const formData = new FormData()
+        formData.append('attachedfile', payload.attachedfile[0])
+        console.log(payload)
         emitCreateMessage(payload)
             .then((res) => {
                 res &&
@@ -90,7 +94,12 @@ const MessageWindow = () => {
                         ...prevState,
                         items: prevState.items ? [...prevState.items, res.body] : [res.body],
                     }))
-                reset()
+                reset({
+                    conversationId: id,
+                    text: '',
+                    fromId: user?.id,
+                    attachedfile: '',
+                })
             })
             .catch((e) => console.log(e))
     }
@@ -107,6 +116,7 @@ const MessageWindow = () => {
                             meta: res?.body?.meta,
                         })
                     setCurrentPage(currentPage + 1)
+                    console.log(res.body.data)
                 })
                 .catch(() => setMessages({isLoaded: true, items: null, meta: null}))
             // .finally(() => setIsFetching(false))
@@ -114,6 +124,7 @@ const MessageWindow = () => {
     }
 
     const groupBy = (arr, key) => {
+        console.log(arr)
         const initialValue = {}
         return arr?.reduce((acc, cval) => {
             const myAttribute = cval[key] && convertToLocaleDate(cval[key])
@@ -179,7 +190,7 @@ const MessageWindow = () => {
                     </InfiniteScroll>
                 </div>
                 <form onSubmit={handleSubmit(createMessage)}>
-                    <InputFile multiple={true} />
+                    <InputFile multiple={true} register={register('attachedfile')} />
 
                     <ValidateWrapper error={errors?.text}>
                         <input
