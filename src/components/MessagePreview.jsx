@@ -10,8 +10,6 @@ const MessagePreview = ({conversation}) => {
     const user = useSelector((state) => state?.auth?.user)
     return (
         <li className="messages-list-preview">
-            {console.log(conversation)}
-            {console.log(user)}
             <div className="img">
                 <img src={getImageURL(conversation?.user?.avatar)} alt="Avatar" />
                 {conversation?.user?.isOnline && <div className="indicator unread"></div>}
@@ -20,29 +18,32 @@ const MessagePreview = ({conversation}) => {
                 <h4 className="color-1 mb-0 mb-md-2">{conversation?.user?.fullName}</h4>
                 <div className="fs-11 d-none d-md-block">@{conversation?.user?.nickname}</div>
             </div>
-            <Link to={`chat/${conversation.id}`} className="message">
-                <img
-                    src={getImageURL(
-                        conversation.lastMessage.userId === conversation.user.id
-                            ? conversation.user.avatar
-                            : user.avatar
-                    )}
-                    alt="Имя"
-                />
-                <div>
-                    {conversation.lastMessage.text.length > 100
-                        ? conversation.lastMessage.text.substring(0, 100) + '...'
-                        : conversation.lastMessage.text}
+            {conversation.lastMessage && (
+                <div className="message">
+                    <img
+                        src={getImageURL(
+                            conversation.lastMessage.userId === conversation.user.id
+                                ? conversation.user.avatar
+                                : user.avatar
+                        )}
+                        alt="Имя"
+                    />
+                    <div>
+                        {conversation.lastMessage.text.length > 100
+                            ? conversation.lastMessage.text.substring(0, 100) + '...'
+                            : conversation.lastMessage.text}
+                    </div>
                 </div>
-            </Link>
+            )}
             <div className="date">
                 <Moment locale="ru" format="DD.MM.YYYY" date={conversation.updatedAt} />
                 {' в '}
                 <Moment locale="ru" format="hh:mm" date={conversation.updatedAt} />
             </div>{' '}
             <div className="count">
-                <span>2</span>
+                {conversation.newMessagesCount && <span>{conversation.newMessagesCount}</span>}
             </div>
+            <Link to={`chat/${conversation.id}`} aria-label="link to chat" className="link-to-chat" />
             <div className="controls">
                 <button type="button">
                     <BiTrash className="fs-13" />
