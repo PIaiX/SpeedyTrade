@@ -21,7 +21,6 @@ const LotPreview = (props) => {
 
     return (
         <tr className="lot-preview">
-            <td>{props.platform}</td>
             <td>
                 <Link to={`/lot/${props.lotId}`}>
                     {props.description.length > 150
