@@ -19,12 +19,14 @@ const App = () => {
     const fingerprint = useSelector((state) => state?.fingerprint?.value)
     const isLoadingRefresh = useSelector((state) => state?.auth?.isLoadingRefresh)
     const user = useSelector((state) => state?.auth?.user)
-    const {isConnected} = useSocketConnect()
 
     useEffect(() => {
         dispatch(initTheme())
-        setSocketConnection()
     }, [])
+
+    useEffect(() => {
+        user.id && setSocketConnection()
+    }, [user])
 
     useEffect(() => {
         window.addEventListener('beforeunload', onUnloadHandler)
@@ -35,19 +37,19 @@ const App = () => {
         if (fingerprint) {
             localStorage.setItem('fingerprint', fingerprint)
 
-            // if (localStorage.getItem('token')) {
-            //     dispatch(refreshAuth())
-            // } else dispatch(setLoadingRefresh(false))
+            if (localStorage.getItem('token')) {
+                dispatch(refreshAuth())
+            } else dispatch(setLoadingRefresh(false))
         } else dispatch(initFingerprint())
     }, [fingerprint])
 
-    useEffect(() => {
-        if (localStorage.getItem('token')) {
-            dispatch(refreshAuth())
-        } else {
-            dispatch(refreshAuth())
-        }
-    }, [])
+    // useEffect(() => {
+    //     if (localStorage.getItem('token')) {
+    //         dispatch(refreshAuth())
+    //     } else {
+    //         dispatch(refreshAuth())
+    //     }
+    // }, [])
 
     const onUnloadHandler = () => {
         const isOtherPC = localStorage.getItem('isOtherPC')
