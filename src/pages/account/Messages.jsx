@@ -4,20 +4,37 @@ import MessagePreview from '../../components/MessagePreview'
 import {Link} from 'react-router-dom'
 import {FiArrowLeft} from 'react-icons/fi'
 
-// import useSocketConnect from '../../hooks/socketConnect'
+import useSocketConnect from '../../hooks/socketConnect'
 import {emitPaginateConversation} from '../../services/sockets/conversations'
-// import {setSocketConnection} from '../../services/sockets/socketInstance'
+import {socketInstance} from '../../services/sockets/socketInstance'
 
 const Messages = () => {
     // const user = useSelector((state) => state?.auth?.user)
-    // const {isConnected} = useSocketConnect()
-    // const [currentPage, setCurrentPage] = useState(1)
+    const {isConnected} = useSocketConnect()
+    const [currentPage, setCurrentPage] = useState(1)
     const [conversations, setConversations] = useState()
 
     useEffect(() => {
-        emitPaginateConversation({page: 1})
-            .then((res) => (res.status === 200 ? setConversations(res.body.data) : console.log(res)))
-            .catch((e) => console.log(e))
+        if (isConnected && socketInstance) {
+            socketInstance?.on('message:create', (newMessage) => {
+                console.log(newMessage)
+                emitPaginateConversation({page: currentPage})
+                    .then((res) => (res.status === 200 ? setConversations(res.body.data) : console.log(res)))
+                    .catch((e) => console.log(e))
+            })
+        }
+        return () => {
+            socketInstance?.removeAllListeners()
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [conversations])
+
+    useEffect(() => {
+        setTimeout(() => {
+            emitPaginateConversation({page: currentPage})
+                .then((res) => (res.status === 200 ? setConversations(res.body.data) : console.log(res)))
+                .catch((e) => console.log(e))
+        }, 10)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
@@ -33,7 +50,6 @@ const Messages = () => {
             <ul className="messages-list">
                 {conversations &&
                     conversations.map((conversation) => {
-                        console.log(conversation)
                         return <MessagePreview key={conversation.id} conversation={conversation} />
                     })}
             </ul>
