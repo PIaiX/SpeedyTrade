@@ -12,9 +12,10 @@ export const emitCreateMessage = async (payloads) => {
     })
 }
 
-export const emitCreateWithoutTopicMessage = async (toUserId, payloads) => {
+export const emitViewedMessage = async (conversationId) => {
+    // conversationId: { conversationId: number , userId: number }
     return await new Promise((resolve, reject) => {
-        socketInstance?.emit('message:createWithoutTopic', toUserId, payloads, (response) => {
+        socketInstance?.emit('message:viewed', conversationId, (response) => {
             try {
                 resolve(response)
             } catch (e) {
@@ -24,33 +25,9 @@ export const emitCreateWithoutTopicMessage = async (toUserId, payloads) => {
     })
 }
 
-export const emitCreateWithOfferTopicMessage = async (toUserId, payloads) => {
+export const emitPaginateMessages = async (Id, payloads) => {
     return await new Promise((resolve, reject) => {
-        socketInstance?.emit('message:createWithOfferTopic', toUserId, payloads, (response) => {
-            try {
-                resolve(response)
-            } catch (e) {
-                reject(e)
-            }
-        })
-    })
-}
-
-export const emitViewedMessage = async (conversationId, userId) => {
-    return await new Promise((resolve, reject) => {
-        socketInstance?.emit('message:viewed', conversationId, userId, (response) => {
-            try {
-                resolve(response)
-            } catch (e) {
-                reject(e)
-            }
-        })
-    })
-}
-
-export const emitPaginateMessages = async (conversationId, payloads) => {
-    return await new Promise((resolve, reject) => {
-        socketInstance?.emit('message:paginate', conversationId, payloads, (response) => {
+        socketInstance?.emit('message:paginate', Id, payloads, (response) => {
             try {
                 resolve(response)
             } catch (e) {
@@ -63,6 +40,44 @@ export const emitPaginateMessages = async (conversationId, payloads) => {
 export const emitGetConversationWithUserId = async (userId) => {
     return await new Promise((resolve, reject) => {
         socketInstance?.emit('conversation:getByUserId', userId, (response) => {
+            try {
+                resolve(response)
+            } catch (e) {
+                reject(e)
+            }
+        })
+    })
+}
+
+// ------------------ Public Chat ---------------------------------------------
+
+// interface CreatePublicMessage {
+//     text: text,
+//     attachedfile: file,
+// }
+
+export const emitCreatePublicMessage = async (payloads) => {
+    //
+    return await new Promise((resolve, reject) => {
+        socketInstance?.emit('pcmessage:create', payloads, (response) => {
+            try {
+                resolve(response)
+            } catch (e) {
+                reject(e)
+            }
+        })
+    })
+}
+
+// interface PaginatePublicMessages {
+//     limit: number,
+//     page : number,
+//     orderBy: 'asc' | 'desc'
+// }
+
+export const emitPaginatePublicMessages = async (payloads) => {
+    return await new Promise((resolve, reject) => {
+        socketInstance?.emit('pcmessage:paginate', payloads, (response) => {
             try {
                 resolve(response)
             } catch (e) {
