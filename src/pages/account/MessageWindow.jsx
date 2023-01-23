@@ -24,7 +24,6 @@ const MessageWindow = () => {
     const {id} = useParams()
     const {isConnected} = useSocketConnect()
     const [currentPage, setCurrentPage] = useState(1)
-    // const [isFetching, setIsFetching] = useState(true)
     const [conversation, setConversation] = useState()
 
     const {
@@ -57,7 +56,9 @@ const MessageWindow = () => {
     })
 
     useEffect(() => {
-        id && emitGetConversation(id).then((res) => setConversation(res))
+        setTimeout(() => {
+            id && emitGetConversation(id).then((res) => setConversation(res))
+        }, 10)
     }, [id])
 
     useEffect(() => {
@@ -68,25 +69,25 @@ const MessageWindow = () => {
                         ...prevState,
                         items: prevState.items ? [...prevState.items, newMessage] : [newMessage],
                     }))
+                console.log(newMessage)
             })
-            id && user?.id && emitViewedMessage(id, user?.id)
             socketInstance?.on('message:viewed', () => {
                 setMessages((prevState) => ({
                     ...prevState,
                     items: prevState.items && prevState.items.map((i) => ({...i, isViewed: true})),
                 }))
             })
+            id && user?.id && emitViewedMessage({conversationId: id})
         }
         return () => {
             socketInstance?.removeAllListeners()
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [conversation])
 
     const createMessage = (payload) => {
         const formData = new FormData()
         formData.append('attachedfile', payload.attachedfile[0])
-        console.log(payload)
         emitCreateMessage(payload)
             .then((res) => {
                 res &&
@@ -106,7 +107,7 @@ const MessageWindow = () => {
 
     const getMessages = () => {
         if (id) {
-            emitPaginateMessages(id, {page: currentPage, limit: 10, orderBy: 'desc'})
+            emitPaginateMessages({conversationId: id}, {page: currentPage, limit: 10, orderBy: 'desc'})
                 .then((res) => {
                     res &&
                         messages.items &&
@@ -116,15 +117,12 @@ const MessageWindow = () => {
                             meta: res?.body?.meta,
                         })
                     setCurrentPage(currentPage + 1)
-                    console.log(res.body.data)
                 })
                 .catch(() => setMessages({isLoaded: true, items: null, meta: null}))
-            // .finally(() => setIsFetching(false))
         }
     }
 
     const groupBy = (arr, key) => {
-        console.log(arr)
         const initialValue = {}
         return arr?.reduce((acc, cval) => {
             const myAttribute = cval[key] && convertToLocaleDate(cval[key])
@@ -144,7 +142,9 @@ const MessageWindow = () => {
                     <div className="text-center">
                         <h4 className="color-1 mb-0 mb-sm-2">{conversation?.user?.fullName}</h4>
                         <div className="fs-09">
-                            {conversation?.user?.isOnline ? 'Онлайн' : 'Был(а) онлайн 15 минут назад'}
+                            {conversation?.user?.isOnline
+                                ? 'Онлайн'
+                                : 'Был(а) онлайн ' + conversation?.user?.lastSeenForUser}
                         </div>
                     </div>
                     <div className="d-flex align-items-center">
@@ -180,12 +180,7 @@ const MessageWindow = () => {
                         useWindow={false}
                     >
                         {Object.entries(groupBy(messages?.items, 'createdAt')).map((key, index) => (
-                            <ChatMessage
-                                key={key}
-                                keyArr={key[0]}
-                                arr={key[1]}
-                                avatarUser={conversation?.user?.avatar}
-                            />
+                            <ChatMessage key={key} keyArr={key[0]} arr={key[1]} />
                         ))}
                     </InfiniteScroll>
                 </div>
