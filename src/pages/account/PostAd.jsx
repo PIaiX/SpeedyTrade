@@ -24,15 +24,9 @@ const PostAd = () => {
     // Games
     const [selectedOptionGame, setSelectedOptionGame] = useState(null)
     const [optionsGames, setOptionsGames] = useState([])
-    // Platforms
-    const [selectedOptionPlatform, setSelectedOptionPlatform] = useState(null)
-    const [optionsPlatform, setOptionsPlatform] = useState([])
     // Regions
     const [selectedOptionRegion, setSelectedOptionRegion] = useState(null)
     const [optionsRegion, setOptionsRegion] = useState([])
-    // Severs
-    const [selectedOptionServer, setSelectedOptionServer] = useState(null)
-    const [optionsServers, setOptionsServers] = useState([])
     // Lot category
     const [selectedOptionCategory, setSelectedOptionCategory] = useState(null)
     const [optionsCategory, setOptionsCategory] = useState([])
@@ -82,8 +76,6 @@ const PostAd = () => {
         price: price,
         amount: amount,
         userId: userId,
-        serverId: selectedOptionServer ? selectedOptionServer.value : null,
-        platformId: selectedOptionPlatform ? selectedOptionPlatform.value : null,
         categoryId: selectedOptionCategory ? selectedOptionCategory.value : null,
         minPrice: minPrice,
         options: options.map((o) => o.option).filter(Number),
@@ -92,7 +84,6 @@ const PostAd = () => {
     const addLot = () => {
         if (
             selectedOptionGame &&
-            selectedOptionPlatform &&
             selectedOptionCategory &&
             description &&
             price &&
@@ -108,6 +99,7 @@ const PostAd = () => {
                 )
                 .catch(() => swal('Ошибка', 'Ошибка при отправке запроса', 'error'))
         } else {
+            console.log(postBody)
             price > 10000000
                 ? swal({text: 'Цена не более 10 000 000', icon: 'error'})
                 : swal({text: 'Необходимо заполнить все поля', icon: 'error'})
@@ -124,20 +116,13 @@ const PostAd = () => {
     //fetch platform & regions
     useEffect(() => {
         if (selectedOptionGame) {
-            setSelectedOptionPlatform(null)
             setSelectedOptionRegion(null)
-            setOptionsPlatform([])
             setOptionsRegion([])
-            getGamePlatform(selectedOptionGame.value)
-                .then((res) => getOptions(res))
-                .then((arr) => arr && setOptionsPlatform(arr))
             getGameRegions(selectedOptionGame.value)
                 .then((res) => getOptions(res))
                 .then((arr) => arr && setOptionsRegion(arr))
         } else {
-            setSelectedOptionPlatform(null)
             setSelectedOptionRegion(null)
-            setOptionsPlatform([])
             setOptionsRegion([])
         }
     }, [selectedOptionGame])
@@ -145,20 +130,13 @@ const PostAd = () => {
     //fetch servers & categories
     useEffect(() => {
         if (selectedOptionRegion) {
-            setSelectedOptionServer(null)
             setSelectedOptionCategory(null)
-            setOptionsServers([])
             setOptionsCategory([])
-            getGameServers(selectedOptionRegion.value)
-                .then((res) => getOptions(res))
-                .then((arr) => arr && setOptionsServers(arr))
             getCategories(selectedOptionRegion.value)
                 .then((res) => getOptions(res))
                 .then((arr) => arr && setOptionsCategory(arr))
         } else {
-            setSelectedOptionServer(null)
             setSelectedOptionCategory(null)
-            setOptionsServers([])
             setOptionsCategory([])
         }
     }, [selectedOptionRegion])
@@ -205,23 +183,6 @@ const PostAd = () => {
                             onChange={setSelectedOptionGame}
                         />
                     </Col>
-                    {/* ---------------------- Platform ----------------------------------------------------------- */}
-                    <Col xs={12} sm={3} md={2}>
-                        Платформа:
-                    </Col>
-                    <Col xs={12} sm={9} md={10}>
-                        <Select
-                            name="platform"
-                            placeholder="Выбрать"
-                            classNamePrefix="react-select"
-                            options={optionsPlatform}
-                            isClearable={true}
-                            isSearchable={true}
-                            value={selectedOptionPlatform}
-                            onChange={setSelectedOptionPlatform}
-                            isDisabled={optionsPlatform.length === 0 ? true : false}
-                        />
-                    </Col>
                     {/* ---------------------- Region ------------------------------------------------------------- */}
                     <Col xs={12} sm={3} md={2}>
                         Регион:
@@ -237,23 +198,6 @@ const PostAd = () => {
                             value={selectedOptionRegion}
                             onChange={setSelectedOptionRegion}
                             isDisabled={optionsRegion.length === 0 ? true : false}
-                        />
-                    </Col>
-                    {/* ---------------------- Server ------------------------------------------------------------- */}
-                    <Col xs={12} sm={3} md={2}>
-                        Сервер:
-                    </Col>
-                    <Col xs={12} sm={9} md={10}>
-                        <Select
-                            name="server"
-                            placeholder="Выбрать"
-                            classNamePrefix="react-select"
-                            options={optionsServers}
-                            isClearable={true}
-                            isSearchable={true}
-                            value={selectedOptionServer}
-                            onChange={setSelectedOptionServer}
-                            isDisabled={optionsServers.length === 0 ? true : false}
                         />
                     </Col>
                     {/* ---------------------- Lot Category ------------------------------------------------------- */}
