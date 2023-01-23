@@ -21,8 +21,13 @@ const Game = () => {
     const [game, setGame] = useState({
         isLoaded: false,
     })
-    const [platforms, setPlatforms] = useState([])
     const [currentCategoryId, setCurrentCategoryId] = useState(null)
+
+    // useEffect(() => {
+    //     fetch('https://api.speedytrade.ru/api/lot/?categoryId=72&page=1')
+    //         .then((response) => response.json())
+    //         .then((res) => console.log(res))
+    // }, [])
 
     const {lots} = useGetLotsByCategory(currentCategoryId)
 
@@ -31,10 +36,6 @@ const Game = () => {
             .then((res) => res && setGame({isLoaded: true, ...res}))
             .catch(() => console.log())
     }, [slug])
-
-    // useEffect(() => {
-    //     getGamePlatform(filterGame).then((arr) => arr && setPlatforms(arr))
-    // }, [game])
 
     useEffect(() => {
         // eslint-disable-next-line no-prototype-builtins
@@ -116,7 +117,6 @@ const Game = () => {
                                     onClick={() => setCurrentCategoryId(i.id)}
                                 >
                                     <span className="fw-5">{i.name}</span>
-                                    {/*<span>473</span>*/}
                                 </button>
                             ))}
                     </div>
@@ -136,11 +136,6 @@ const Game = () => {
                                 <option value={1}>Сортировка 1</option>
                                 <option value={2}>Сортировка 2</option>
                             </select>
-                            <select defaultValue={1} className="flex-1 ms-sm-3 ms-md-4 mt-3 mt-sm-0">
-                                <option disabled>Платформа</option>
-                                <option value={1}>Платформа 1</option>
-                                <option value={2}>Платформа 2</option>
-                            </select>
                             <div className="d-flex align-items-center ms-sm-3 ms-md-4 mt-3 mt-sm-0">
                                 <span>
                                     Только продавцы
@@ -158,7 +153,6 @@ const Game = () => {
                             <Table borderless responsive className="mb-5">
                                 <thead>
                                     <tr>
-                                        <th>Платформа</th>
                                         <th>Описание</th>
                                         <th>Продавец</th>
                                         <th>Цена</th>
@@ -171,7 +165,6 @@ const Game = () => {
                                                 <LotPreview
                                                     key={i.id}
                                                     lotId={i.id}
-                                                    platform={i.platform?.name}
                                                     description={i.description}
                                                     userId={i.userId}
                                                     avatar={getImageURL(i.user?.avatar)}
