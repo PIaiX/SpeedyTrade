@@ -1,11 +1,9 @@
 import React, {useEffect, useState} from 'react'
 import {useSelector} from 'react-redux'
 import {getImageURL} from '../helpers/image'
-// import Moment from 'react-moment'
 import {convertToLocaleDate} from '../helpers/convertToLocaleDate'
 import {useParams} from 'react-router-dom'
 import {useForm} from 'react-hook-form'
-import {getOneLot} from '../services/lots'
 
 import useSocketConnect from '../hooks/socketConnect'
 import {socketInstance} from '../services/sockets/socketInstance'
@@ -15,7 +13,6 @@ import {
     emitViewedMessage,
     emitGetConversationWithUserId,
 } from '../services/sockets/messages'
-// import {emitGetConversation} from '../services/sockets/conversations'
 
 import InputFile from '../components/utils/InputFile'
 import Dropdown from 'react-bootstrap/Dropdown'
@@ -24,14 +21,11 @@ import InfiniteScroll from 'react-infinite-scroller'
 import ValidateWrapper from '../components/UI/ValidateWrapper'
 import ChatMessage from './ChatMessage'
 
-const LotChat = () => {
+const LotChat = ({lotUser}) => {
     const user = useSelector((state) => state?.auth?.user)
     const {isConnected} = useSocketConnect()
     const {id} = useParams()
     const [currentPage, setCurrentPage] = useState(1)
-    // const [isFetching, setIsFetching] = useState(true)
-
-    const [lotUser, setLotUser] = useState()
     const [conversationId, setConversationId] = useState()
 
     const {
@@ -44,10 +38,11 @@ const LotChat = () => {
         mode: 'onSubmit',
         reValidateMode: 'onChange',
         defaultValues: {
-            conversationId: conversationId,
+            userId: lotUser.id,
             text: '',
             fromId: user?.id,
-            sendFromLot: id,
+            lotId: id,
+            attachedfile: '',
         },
     })
 
@@ -65,16 +60,11 @@ const LotChat = () => {
     })
 
     useEffect(() => {
-        id && getOneLot(id).then((res) => setLotUser(res.user))
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-
-    useEffect(() => {
         let setConvId = async () => {
             if (lotUser) {
                 let res = await emitGetConversationWithUserId(lotUser.id)
                 res.status === 200 ? setConversationId(res.body.id) : console.log(res)
-                setValue('conversationId', res.body.id)
+                conversationId && setValue('conversationId', res.body.id)
             }
         }
         setConvId()
@@ -89,54 +79,50 @@ const LotChat = () => {
                         items: prevState.items ? [...prevState.items, newMessage] : [newMessage],
                     }))
             })
-            conversationId && user?.id && emitViewedMessage(conversationId, user?.id)
             socketInstance?.on('message:viewed', () => {
                 setMessages((prevState) => ({
                     ...prevState,
                     items: prevState.items && prevState.items.map((i) => ({...i, isViewed: true})),
                 }))
             })
+            lotUser.id && emitViewedMessage({userId: lotUser.id})
         }
         return () => {
             socketInstance?.removeAllListeners()
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [isConnected])
 
     const createMessage = (payload) => {
-        console.log(payload)
+        const formData = new FormData()
+        formData.append('attachedfile', payload.attachedfile[0])
         emitCreateMessage(payload)
             .then((res) => {
                 res &&
+                    messages.items &&
                     setMessages((prevState) => ({
                         ...prevState,
                         items: prevState.items ? [...prevState.items, res.body] : [res.body],
                     }))
-                reset({
-                    conversationId: conversationId,
-                    text: '',
-                    fromId: user?.id,
-                    sendFromLot: id,
-                })
+                reset()
             })
             .catch((e) => console.log(e))
     }
 
     const getMessages = () => {
-        if (conversationId) {
-            emitPaginateMessages(conversationId, {page: currentPage, limit: 10, orderBy: 'desc'})
+        if (lotUser.id) {
+            emitPaginateMessages({userId: lotUser.id}, {page: currentPage, limit: 10, orderBy: 'desc'})
                 .then((res) => {
-                    res &&
-                        messages.items &&
+                    if (res.status === 200) {
                         setMessages({
                             isLoaded: true,
                             items: [...res.body.data.reverse(), ...messages.items],
                             meta: res?.body?.meta,
                         })
-                    setCurrentPage(currentPage + 1)
+                        setCurrentPage(currentPage + 1)
+                    }
                 })
                 .catch(() => setMessages({isLoaded: true, items: null, meta: null}))
-            // .finally(() => setIsFetching(false))
         }
     }
 
@@ -154,12 +140,14 @@ const LotChat = () => {
             <div className="top">
                 <div className="d-flex align-items-center">
                     <div className="img me-2 me-sm-3">
-                        <img src={getImageURL(lotUser?.avatar)} alt={lotUser?.fullName} />
-                        <div className="indicator online"></div>
+                        <img src={getImageURL(lotUser.avatar)} alt={lotUser.fullName} />
+                        <div className={lotUser.isOnline ? 'indicator unread' : 'indicator'}></div>
                     </div>
                     <div>
-                        <h5 className="achromat-2 mb-0 mb-sm-1">{lotUser?.fullName}</h5>
-                        <div className="achromat-3 fs-09">Был(а) онлайн 15 минут назад</div>
+                        <h5 className="achromat-2 mb-0 mb-sm-1">{lotUser.fullName}</h5>
+                        <div className="achromat-3 fs-09">
+                            {lotUser.isOnline ? 'Онлайн' : 'Был(а) онлайн ' + lotUser.lastSeenForUser}
+                        </div>
                     </div>
                 </div>
                 <Dropdown align="end">
@@ -183,20 +171,26 @@ const LotChat = () => {
                 </Dropdown>
             </div>
             <div className="middle" id="chatBody">
-                <InfiniteScroll
-                    loadMore={getMessages}
-                    isReverse={true}
-                    hasMore={messages?.items && messages.meta ? messages.meta.total > messages.items.length : true}
-                    threshold={100}
-                    useWindow={false}
-                >
-                    {Object.entries(groupBy(messages?.items, 'createdAt')).map((key, index) => (
-                        <ChatMessage key={key} keyArr={key[0]} arr={key[1]} avatarUser={lotUser?.avatar} />
-                    ))}
-                </InfiniteScroll>
+                {user.id ? (
+                    <InfiniteScroll
+                        loadMore={getMessages}
+                        isReverse={true}
+                        hasMore={
+                            messages?.items && messages.meta ? messages.meta.total > messages.items.length : true
+                        }
+                        threshold={100}
+                        useWindow={false}
+                    >
+                        {Object.entries(groupBy(messages?.items, 'createdAt')).map((key, index) => (
+                            <ChatMessage key={key} keyArr={key[0]} arr={key[1]} avatarUser={lotUser.avatar} />
+                        ))}
+                    </InfiniteScroll>
+                ) : (
+                    <div>Чат доступен только авторизованным пользователям</div>
+                )}
             </div>
             <form onSubmit={handleSubmit(createMessage)}>
-                <InputFile multiple={true} />
+                <InputFile register={register('attachedfile')} />
 
                 <ValidateWrapper error={errors?.text}>
                     <input
