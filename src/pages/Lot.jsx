@@ -43,21 +43,6 @@ const Lot = () => {
                         <Col xs={12} lg={7}>
                             <h1>Оформление заказа</h1>
                             <Row className="g-3 g-sm-4">
-                                <Col md={3}>Платформа:</Col>
-                                <Col md={9}>
-                                    {lot.isLoaded ? (
-                                        <div className="box">
-                                            <p>{lot.item?.platform?.name}</p>
-                                        </div>
-                                    ) : (
-                                        <Skeleton
-                                            baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
-                                            highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
-                                            height={'100%'}
-                                            width={'100%'}
-                                        />
-                                    )}
-                                </Col>
                                 <Col md={3}>Описание:</Col>
                                 <Col md={9}>
                                     {lot.isLoaded ? (
@@ -96,53 +81,54 @@ const Lot = () => {
                                     </p>
                                 </Col>
                             </Row>
+
+                            <Col xs={12} lg={7}>
+                                <div className="d-flex align-items-center mt-5 mb-4">
+                                    <h3 className="me-4">Рейтинг продавца</h3>
+                                    <StarRating rate={lot.item?.user?.rating} />
+                                </div>
+                                <div className="d-flex align-items-center mb-4">
+                                    <span>Показать:</span>
+                                    <select className="w-50 ms-4" onChange={(e) => setFilterParam(e.target.value)}>
+                                        <option value="init">Все отзывы</option>
+                                        <option value="5">5 звезд</option>
+                                        <option value="4">4 звезды</option>
+                                        <option value="3">3 звезды</option>
+                                        <option value="2">2 звезды</option>
+                                        <option value="1">1 звезда</option>
+                                    </select>
+                                </div>
+                                {reviews.isLoaded ? (
+                                    filtredReviews().length > 0 ? (
+                                        filtredReviews().map((i) => (
+                                            <ReviewBlock
+                                                key={i.id}
+                                                fullName={i.user?.fullName}
+                                                userId={i.user?.id}
+                                                avatar={i.user?.avatar}
+                                                rating={i.rating}
+                                                description={i.text}
+                                                nickname={i.user?.nickname}
+                                            />
+                                        ))
+                                    ) : (
+                                        <h6>Отзывов нет</h6>
+                                    )
+                                ) : (
+                                    <Skeleton
+                                        count={1}
+                                        baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
+                                        highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
+                                        width={'100%'}
+                                        height={'200px'}
+                                    />
+                                )}
+                            </Col>
                         </Col>
                         <Col xs={12} lg={5}>
                             <div className="message-window">
-                                <LotChat />
+                                {lot.item.user && <LotChat lotUser={lot.item.user} />}
                             </div>
-                        </Col>
-                        <Col xs={12} lg={7}>
-                            <div className="d-flex align-items-center mb-4">
-                                <h3 className="me-4">Рейтинг продавца</h3>
-                                <StarRating rate={lot.item?.user?.rating} />
-                            </div>
-                            <div className="d-flex align-items-center mb-4">
-                                <span>Показать:</span>
-                                <select className="w-50 ms-4" onChange={(e) => setFilterParam(e.target.value)}>
-                                    <option value="init">Все отзывы</option>
-                                    <option value="5">5 звезд</option>
-                                    <option value="4">4 звезды</option>
-                                    <option value="3">3 звезды</option>
-                                    <option value="2">2 звезды</option>
-                                    <option value="1">1 звезда</option>
-                                </select>
-                            </div>
-                            {reviews.isLoaded ? (
-                                filtredReviews().length > 0 ? (
-                                    filtredReviews().map((i) => (
-                                        <ReviewBlock
-                                            key={i.id}
-                                            fullName={i.user?.fullName}
-                                            userId={i.user?.id}
-                                            avatar={i.user?.avatar}
-                                            rating={i.rating}
-                                            description={i.text}
-                                            nickname={i.user?.nickname}
-                                        />
-                                    ))
-                                ) : (
-                                    <h6>Отзывов нет</h6>
-                                )
-                            ) : (
-                                <Skeleton
-                                    count={1}
-                                    baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
-                                    highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
-                                    width={'100%'}
-                                    height={'200px'}
-                                />
-                            )}
                         </Col>
                     </Row>
                 </section>
