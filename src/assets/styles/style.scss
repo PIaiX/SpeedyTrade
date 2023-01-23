@@ -2125,6 +2125,10 @@ main {
         .top {
             border-bottom: 1px solid var(--achromat-4);
         }
+
+        .middle {            
+            max-height: unset;
+        }
     }
 }
 
@@ -3170,5 +3174,22 @@ footer {
     }
     img {
         object-fit: cover;
+        max-width: 250px;
+        border-radius: 8px;
+    }
+}
+
+.link-to-chat {
+    grid-column: 1 / 3;
+    grid-row: 1 / 3;
+}
+
+.chat-box-messages,
+.chat-box-reverse-messages {
+    flex: inherit;
+
+    .bubble {
+        background-color: var(--achromat-0);
+        max-width: max-content;
     }
 }
