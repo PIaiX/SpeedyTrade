@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {useSelector} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
 import {useParams} from 'react-router-dom'
 import {Link} from 'react-router-dom'
 import InputFile from '../../components/utils/InputFile'
@@ -18,9 +18,11 @@ import ValidateWrapper from '../../components/UI/ValidateWrapper'
 import {convertToLocaleDate} from '../../helpers/convertToLocaleDate'
 import ChatMessage from '../../components/ChatMessage'
 import InfiniteScroll from 'react-infinite-scroller'
+import {setNotification} from '../../store/reducers/notificationSlice'
 
 const MessageWindow = () => {
     const user = useSelector((state) => state?.auth?.user)
+    const dispatch = useDispatch()
     const {id} = useParams()
     const {isConnected} = useSocketConnect()
     const [currentPage, setCurrentPage] = useState(1)
@@ -63,6 +65,7 @@ const MessageWindow = () => {
 
     useEffect(() => {
         if (isConnected && socketInstance) {
+            console.log(`Chat ${id} listener activated`)
             socketInstance?.on('message:create', (newMessage) => {
                 newMessage &&
                     setMessages((prevState) => ({
@@ -71,7 +74,7 @@ const MessageWindow = () => {
                     }))
                 console.log(newMessage)
             })
-            socketInstance?.on('message:viewed', () => {
+            socketInstance?.on('message:viewed', (data) => {
                 setMessages((prevState) => ({
                     ...prevState,
                     items: prevState.items && prevState.items.map((i) => ({...i, isViewed: true})),
@@ -80,10 +83,12 @@ const MessageWindow = () => {
             id && user?.id && emitViewedMessage({conversationId: id})
         }
         return () => {
-            socketInstance?.removeAllListeners()
+            console.log(`Chat ${id} listener deactivated`)
+            socketInstance?.off('message:create')
+            socketInstance?.off('message:viewed')
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [conversation])
+    }, [isConnected])
 
     const createMessage = (payload) => {
         const formData = new FormData()
