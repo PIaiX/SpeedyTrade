@@ -43,14 +43,6 @@ const App = () => {
         } else dispatch(initFingerprint())
     }, [fingerprint])
 
-    // useEffect(() => {
-    //     if (localStorage.getItem('token')) {
-    //         dispatch(refreshAuth())
-    //     } else {
-    //         dispatch(refreshAuth())
-    //     }
-    // }, [])
-
     const onUnloadHandler = () => {
         const isOtherPC = localStorage.getItem('isOtherPC')
         if (isOtherPC === 'true') {
