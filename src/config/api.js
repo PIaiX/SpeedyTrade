@@ -1,5 +1,6 @@
 const BASE_API_URL = process.env.REACT_APP_BASE_API_URL
 const BASE_URL = process.env.REACT_APP_BASE_URL
+const BASE_URL_SOCKET = process.env.REACT_APP_BASE_URL_FOR_SOCKET
 
 const apiRoutes = {
     //auth
@@ -69,5 +70,5 @@ const apiValidationRules = {
     unique: 'unique',
 }
 
-export {BASE_API_URL, BASE_URL}
+export {BASE_API_URL, BASE_URL, BASE_URL_SOCKET}
 export {apiRoutes, apiResponseMessages, apiRejectMessages, apiErrors, apiValidationRules}

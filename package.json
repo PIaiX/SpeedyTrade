@@ -13,6 +13,7 @@
         "date-fns": "^2.29.3",
         "gh-pages": "^4.0.0",
         "moment": "^2.29.4",
+        "node-sass": "^8.0.0",
         "react": "^18.2.0",
         "react-bootstrap": "^2.5.0",
         "react-datepicker": "^4.8.0",
@@ -32,6 +33,7 @@
         "react-select": "^5.5.7",
         "react-simple-image-viewer": "^1.2.2",
         "redux-persist": "^6.0.0",
+        "socket.io-client": "^4.5.4",
         "sweetalert": "^2.1.2",
         "swiper": "^8.4.3",
         "web-vitals": "^2.1.4"
@@ -43,7 +45,8 @@
         "eject": "react-scripts eject",
         "predeploy": "npm run build",
         "deploy": "gh-pages -d build",
-        "format": "prettier --write . --config ./.prettierrc"
+        "format": "prettier --write . --config ./.prettierrc",
+        "sass": "node-sass src/assets/styles/style.scss src/assets/styles/style.min.css --output-style compressed"
     },
     "browserslist": {
         "production": [
@@ -61,7 +64,6 @@
         "eslint": "^8.26.0",
         "eslint-config-prettier": "^8.5.0",
         "eslint-plugin-prettier": "^4.2.1",
-        "eslint-plugin-react": "^7.31.10",
-        "prettier": "^2.7.1"
+        "eslint-plugin-react": "^7.31.10"
     }
 }
