@@ -11,7 +11,10 @@ import ru from 'date-fns/locale/ru'
 import {initFingerprint} from './store/actions/fingerprint'
 import Loader from './components/UI/Loader'
 import {setSocketConnection} from '../src/services/sockets/socketInstance'
-import useSocketConnect from '../src/hooks/socketConnect'
+import {setNotification} from './store/reducers/notificationSlice'
+
+import {BASE_URL_SOCKET} from './config/api'
+import {io} from 'socket.io-client'
 
 const App = () => {
     setDefaultLocale(ru)
@@ -50,6 +53,29 @@ const App = () => {
             localStorage.removeItem('isOtherPC')
         }
     }
+
+    // Global notification listener
+    useEffect(() => {
+        let socketNotification = io(`${BASE_URL_SOCKET}`, {
+            auth: {token: `Bearer ${localStorage.getItem('token')}`},
+        })
+
+        if (user && socketNotification) {
+            console.log('Start listen to notification')
+            socketNotification.on('message:create', (newMessage) => {
+                if (newMessage.userId !== user.id) {
+                    dispatch(setNotification(newMessage))
+                }
+            })
+        }
+
+        return () => {
+            console.log('Stop listen to notification')
+            socketNotification?.off('message:create')
+        }
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     return isLoadingRefresh ? <></> : <AppRouter />
 }
