@@ -6,8 +6,8 @@ import Table from 'react-bootstrap/Table'
 import {FiSearch} from 'react-icons/fi'
 import LotPreview from '../components/LotPreview'
 import BtnAddFav from '../components/utils/BtnAddFav'
-import {useParams} from 'react-router-dom'
-import {getOneGame} from '../services/games'
+import {NavLink, useNavigate, useParams} from 'react-router-dom'
+import {getCategories, getOneGame} from '../services/games'
 import {getImageURL} from '../helpers/image'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
@@ -15,43 +15,65 @@ import {useSelector} from 'react-redux'
 import useGetLotsByCategory from '../hooks/axios/getLotsByCategory'
 
 const Game = () => {
-    const theme = useSelector((state) => state?.theme?.mode)
-    const userId = useSelector((state) => state?.auth?.user?.id)
-    const {slug} = useParams()
+    const navigate = useNavigate();
+    const theme = useSelector((state) => state?.theme?.mode);
+    const userId = useSelector((state) => state?.auth?.user?.id);
+    const { slug } = useParams();
+    const { region } = useParams();
     const [game, setGame] = useState({
-        isLoaded: false,
-    })
-    const [currentCategoryId, setCurrentCategoryId] = useState(null)
+        isLoaded: false
+    });
 
-    // useEffect(() => {
-    //     fetch('https://api.speedytrade.ru/api/lot/?categoryId=72&page=1')
-    //         .then((response) => response.json())
-    //         .then((res) => console.log(res))
-    // }, [])
+    const [platforms, setPlatforms] = useState([]);
+    const [currentCategoryId, setCurrentCategoryId] = useState(null);
 
-    const {lots} = useGetLotsByCategory(currentCategoryId)
+    const { lots } = useGetLotsByCategory(currentCategoryId);
 
     useEffect(() => {
         getOneGame(slug)
-            .then((res) => res && setGame({isLoaded: true, ...res}))
-            .catch(() => console.log())
-    }, [slug])
+            .then((res) => res && setGame({ isLoaded: true, ...res }))
+            .catch(() => console.log());
+    }, [slug]);
 
     useEffect(() => {
+            if (game.regions) {
+                let regionId = -1;
+                for (let i = 0; i < game.regions.length; i++) {
+                    if (game.regions[i].name === region) {
+                        regionId = i;
+                        break;
+                    }
+                }
+                if (regionId == -1) {
+                    navigate("/game/" + game.name + "/" + game.regions[0].name);
+                } else {
+                    setCategories(game.regions[regionId].categories);
+                }
+            }
+        }
+        , [game.regions, region]);
+
+    const [categories, setCategories] = useState();
+    useEffect(()=>{
+        let regionId=2  /** должен достать из game **/
+        getCategories(regionId).then((res) => {
+            setCategories(res);
+        })
+    }, [region])
+    useEffect(() => {
         // eslint-disable-next-line no-prototype-builtins
-        if (game?.hasOwnProperty('regions')) {
+        if (game?.hasOwnProperty("regions")) {
             setCurrentCategoryId(
                 game?.regions
                     ?.map((i) =>
                         i.categories?.map((k) => {
-                            return {name: k.name, id: k.id}
+                            return { name: k.name, id: k.id };
                         })
                     )
                     .flat()[0]?.id
-            )
+            );
         }
-    }, [game])
-
+    }, [game]);
     return (
         <main>
             <Container>
@@ -68,6 +90,20 @@ const Game = () => {
                             )}
                         </h1>
                         <BtnAddFav favoriteStatus={game?.isFavorite} gameId={game.id} userId={userId} />
+                    </div>
+                    <div style={{ paddingBottom: "10px" }}>
+                        {game.regions && game.regions.map((val, index) => (
+                                <NavLink key={index} to={"/game/" + slug + "/" + val.name}>
+                                    <div
+                                        className={`btn-4 p-2 fs-08 me-1 mb-2 text-uppercase 
+                    ${region  === val.name ? "active" : ""} `}
+                                        style={{ "display": "inline-block"}}>
+                                        {val.name}
+                                    </div>
+                                </NavLink>
+                            )
+                        )}
+
                     </div>
                     <Row>
                         <Col xs={12} lg={7} xl={8}>
@@ -100,12 +136,9 @@ const Game = () => {
                     </Row>
 
                     <div className="d-flex flex-wrap mt-4 mt-sm-5">
-                        {game?.regions
-                            ?.map((i) =>
-                                i.categories?.map((k) => {
-                                    return {name: k.name, id: k.id}
-                                })
-                            )
+                        {game?.categories?.map((k) => {
+                            return {name: k.name, id: k.id}
+                        })
                             .flat()
                             .map((i) => (
                                 <button

@@ -4,7 +4,7 @@ import {Link, NavLink} from 'react-router-dom'
 const GameMidi = (props) => {
     return (
         <>
-            <Link to={`/game/${props.slug}`}>
+            <Link to={`/game/${props.slug+'/'+props.regions[0]}`}>
                 <figure className="game-midi">
                     <img src={props.imgLink} alt={props.title} />
                     <figcaption>
@@ -24,7 +24,7 @@ const GameMidi = (props) => {
                         return (
                             <NavLink
                                 key={obj}
-                                to={`/game/${props.slug}`}
+                                to={`/game/${props.slug+'/'+obj}`}
                                 className="btn-4 p-2 fs-08 me-1 mb-2 text-uppercase"
                             >
                                 {obj}
