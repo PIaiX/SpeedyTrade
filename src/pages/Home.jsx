@@ -35,9 +35,6 @@ const Home = () => {
     const {banner} = useGetBanner()
     const {allGames} = useGetCatalogAllGame()
     const {news} = useGetAllNews()
-    allGames.items && console.log(
-        allGames.items[0].categories.map(i=>{return {link: `game/${i.id}`, anchor: i?.name}})
-    )
     return (
         <main>
             <SortSection />
