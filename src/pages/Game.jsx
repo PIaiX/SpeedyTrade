@@ -13,6 +13,7 @@ import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import {useSelector} from 'react-redux'
 import useGetLotsByCategory from '../hooks/axios/getLotsByCategory'
+import {getLotsByCategoryAndParams} from "../services/lots";
 
 const Game = () => {
     const navigate = useNavigate();
@@ -23,11 +24,13 @@ const Game = () => {
     const [game, setGame] = useState({
         isLoaded: false
     });
-
-    const [platforms, setPlatforms] = useState([]);
     const [currentCategoryId, setCurrentCategoryId] = useState(null);
+    const [category, setCategory] = useState();
+    const [categoriesId, setCategoriesId] = useState(0);
+    const [values, setValues] = useState();
+    const [lots, setLots] = useState([]);
+    const [categories, setCategories] = useState();
 
-    const { lots } = useGetLotsByCategory(currentCategoryId);
 
     useEffect(() => {
         getOneGame(slug)
@@ -35,31 +38,6 @@ const Game = () => {
             .catch(() => console.log());
     }, [slug]);
 
-    useEffect(() => {
-            if (game.regions) {
-                let regionId = -1;
-                for (let i = 0; i < game.regions.length; i++) {
-                    if (game.regions[i].name === region) {
-                        regionId = i;
-                        break;
-                    }
-                }
-                if (regionId == -1) {
-                    navigate("/game/" + game.name + "/" + game.regions[0].name);
-                } else {
-                    setCategories(game.regions[regionId].categories);
-                }
-            }
-        }
-        , [game.regions, region]);
-
-    const [categories, setCategories] = useState();
-    useEffect(()=>{
-        let regionId=2  /** должен достать из game **/
-        getCategories(regionId).then((res) => {
-            setCategories(res);
-        })
-    }, [region])
     useEffect(() => {
         // eslint-disable-next-line no-prototype-builtins
         if (game?.hasOwnProperty("regions")) {
@@ -72,8 +50,47 @@ const Game = () => {
                     )
                     .flat()[0]?.id
             );
+            setCategories(game.categories);
+        }
+        if (game.regions) {
+            let regionId = -1;
+            for (let i = 0; i < game.regions.length; i++) {
+                if (game.regions[i].name === region) {
+                    regionId = i;
+                    break;
+                }
+            }
+            if (regionId == -1) {
+                navigate("/game/" + game.name + "/" + game.regions[0].name);
+            }
         }
     }, [game]);
+
+    useEffect(() => {
+        categories && setCurrentCategoryId(categories[0].id);
+    }, [categories]);
+
+
+    useEffect(() => {
+        let r = [];
+        if (categories && categories[categoriesId].parameters) {
+            for (let i of categories[categoriesId].parameters)
+                r.push(0);
+        }
+        setValues(r);
+    }, [currentCategoryId]);
+
+
+    useEffect(() => {
+        let r = [];
+        values?.forEach(i => {
+            if (i != 0) r.push(parseInt(i));
+        });
+        if (currentCategoryId) {
+            getLotsByCategoryAndParams(currentCategoryId, r).then((res) => setLots(res.data));
+        }
+    }, [values])
+    console.log(lots)
     return (
         <main>
             <Container>
@@ -140,19 +157,43 @@ const Game = () => {
                             return {name: k.name, id: k.id}
                         })
                             .flat()
-                            .map((i) => (
+                            .map((i, index) => (
                                 <button
                                     key={i.id}
                                     type="button"
                                     className={`${
                                         i.id === currentCategoryId ? 'active' : ''
                                     } btn-7 flex-column mb-2 me-2 me-lg-4`}
-                                    onClick={() => setCurrentCategoryId(i.id)}
+                                    onClick={() => {
+                                        setCurrentCategoryId(i.id)
+                                        setCategoriesId(index);
+                                    }}
                                 >
                                     <span className="fw-5">{i.name}</span>
                                 </button>
                             ))}
                     </div>
+
+                    {categories
+                        && categories[categoriesId]
+                        && categories[categoriesId].parameters
+                        && categories[categoriesId].parameters.map((val, index) =>
+                            <select key={index} id={index}  className="flex-1 ms-sm-3 ms-md-4 mt-3 mt-sm-0"
+                                onChange={(event, index) => {
+                                    let r = [];
+                                    values.forEach((i, index) => r[index] = i);
+                                    r[event.target.id] = event.target.value;
+                                    setValues(r);
+                                }}>
+                                <option value={0}>{val.name}</option>
+                                {val.options.map((j, jndex) =>
+                                    <option key={jndex} value={j.id}>
+                                        {j.name}
+                                    </option>
+                                )}
+                            </select>
+                        )
+                    }
 
                     <div className="d-xl-flex flex-row-reverse align-items-center mt-4 mt-sm-5 mb-4">
                         <div className="d-sm-flex flex-row-reverse align-items-center mb-3 mb-xl-0">
@@ -164,11 +205,8 @@ const Game = () => {
                             </form>
                         </div>
                         <div className="d-sm-flex align-items-center flex-1">
-                            <select defaultValue={2} className="flex-1">
-                                <option disabled>Сортировать по</option>
-                                <option value={1}>Сортировка 1</option>
-                                <option value={2}>Сортировка 2</option>
-                            </select>
+
+
                             <div className="d-flex align-items-center ms-sm-3 ms-md-4 mt-3 mt-sm-0">
                                 <span>
                                     Только продавцы
