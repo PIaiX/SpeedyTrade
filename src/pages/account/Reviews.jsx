@@ -28,7 +28,7 @@ const Reviews = () => {
         getMyReviews(user?.id)
             .then((res) => setMyReviews({isLoaded: true, items: res}))
             .catch(() => setMyReviews({isLoaded: true, items: []}))
-    }, [])
+    }, [user?.id])
 
     return (
         <div className="main">

@@ -1,4 +1,4 @@
-import {apiRoutes, BASE_API_URL} from '../config/api'
+import {apiRoutes} from '../config/api'
 import $api, {$authApi} from './index'
 
 export const getGameLots = async (gameId) => {

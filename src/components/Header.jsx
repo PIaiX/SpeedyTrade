@@ -28,10 +28,14 @@ const Header = () => {
                 </div>
                 <div className="d-none d-md-flex align-items-center">
                     <NavLink to="/account/help">Помощь</NavLink>
-                    <button type="button" className="ms-5 d-none d-lg-flex align-items-center">
-                        <FiMessageCircle className="fs-12 me-1" />
-                        <span>Онлайн-чат</span>
-                    </button>
+                    {auth?.isAuth && (
+                        <button type="button" className="ms-5 d-none d-lg-flex align-items-center">
+                            <FiMessageCircle className="fs-12 me-1" />
+                            <span>
+                                <Link to="/account/messages">Онлайн-чат</Link>
+                            </span>
+                        </button>
+                    )}
                 </div>
                 <div className="d-flex align-items-center">
                     <ThemeToggler />

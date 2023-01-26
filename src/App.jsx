@@ -10,16 +10,23 @@ import {setDefaultLocale} from 'react-datepicker'
 import ru from 'date-fns/locale/ru'
 import {initFingerprint} from './store/actions/fingerprint'
 import Loader from './components/UI/Loader'
+import {setSocketConnection} from '../src/services/sockets/socketInstance'
+import useSocketConnect from '../src/hooks/socketConnect'
 
 const App = () => {
     setDefaultLocale(ru)
     const dispatch = useDispatch()
     const fingerprint = useSelector((state) => state?.fingerprint?.value)
     const isLoadingRefresh = useSelector((state) => state?.auth?.isLoadingRefresh)
+    const user = useSelector((state) => state?.auth?.user)
 
     useEffect(() => {
         dispatch(initTheme())
     }, [])
+
+    useEffect(() => {
+        user.id && setSocketConnection()
+    }, [user])
 
     useEffect(() => {
         window.addEventListener('beforeunload', onUnloadHandler)
@@ -35,6 +42,14 @@ const App = () => {
             } else dispatch(setLoadingRefresh(false))
         } else dispatch(initFingerprint())
     }, [fingerprint])
+
+    // useEffect(() => {
+    //     if (localStorage.getItem('token')) {
+    //         dispatch(refreshAuth())
+    //     } else {
+    //         dispatch(refreshAuth())
+    //     }
+    // }, [])
 
     const onUnloadHandler = () => {
         const isOtherPC = localStorage.getItem('isOtherPC')

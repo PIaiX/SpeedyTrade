@@ -1,10 +1,10 @@
 import {combineReducers, configureStore} from '@reduxjs/toolkit'
 import {FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE} from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
-import authReducer from '../store/reducers/authSlice'
-import alertReducer from '../store/reducers/alertSlice'
-import themeReducer from '../store/reducers/themeSlice'
-import fingerprintReducer from '../store/reducers/fingerprintSlice'
+import authReducer from './reducers/authSlice'
+import alertReducer from './reducers/alertSlice'
+import themeReducer from './reducers/themeSlice'
+import fingerprintReducer from './reducers/fingerprintSlice'
 import {favoritesApi} from '../services/RTK/favoritesApi'
 
 const rootReducer = combineReducers({
@@ -23,7 +23,7 @@ const persistConfig = {
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
 
-const index = configureStore({
+const store = configureStore({
     reducer: persistedReducer,
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
@@ -32,7 +32,7 @@ const index = configureStore({
             },
         }).concat(favoritesApi.middleware),
 })
-const persistor = persistStore(index)
+const persistor = persistStore(store)
 
 export {persistor}
-export default index
+export default store

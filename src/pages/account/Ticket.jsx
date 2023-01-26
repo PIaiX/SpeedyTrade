@@ -1,14 +1,13 @@
 import React, {useEffect, useState} from 'react'
 import InputFile from '../../components/utils/InputFile'
-import ChatBox from '../../components/ChatBox'
-import Dropdown from 'react-bootstrap/Dropdown'
+// import ChatBox from '../../components/ChatBox'
+// import Dropdown from 'react-bootstrap/Dropdown'
 import {Link, useParams} from 'react-router-dom'
-import {IoEllipsisHorizontal} from 'react-icons/io5'
-import {BiTrash} from 'react-icons/bi'
+// import {IoEllipsisHorizontal} from 'react-icons/io5'
+// import {BiTrash} from 'react-icons/bi'
 import {FiChevronLeft, FiSend} from 'react-icons/fi'
 import {createTicketMessage, getAllTicketMessages} from '../../services/tickets'
 import InfiniteScroll from 'react-infinite-scroller'
-import groupBy from '../../helpers/groupBy'
 import {useForm} from 'react-hook-form'
 import {apiValidationRules} from '../../config/api'
 import ValidateWrapper from '../../components/UI/ValidateWrapper'
@@ -31,9 +30,9 @@ const Ticket = () => {
         register,
         formState: {errors},
         handleSubmit,
-        setValue,
+        // setValue,
         reset,
-        resetField,
+        // resetField,
     } = useForm({
         mode: 'onSubmit',
         reValidateMode: 'onChange',
@@ -47,7 +46,8 @@ const Ticket = () => {
 
     useEffect(() => {
         getMessages()
-    }, [])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [id])
 
     useEffect(() => {
         if (isFileSent) {
@@ -144,10 +144,10 @@ const Ticket = () => {
                             threshold={20}
                             useWindow={false}
                         >
-                            {messages.items &&
+                            {/* {messages.items &&
                                 Object.entries(groupBy(messages.items, 'createdAt', true))?.map((i, index) => (
                                     <ChatBox key={i[0]} keyArr={i[0]} arr={i[1]} />
-                                ))}
+                                ))} */}
                         </InfiniteScroll>
                     </div>
                     <form onSubmit={handleSubmit(createMessage)}>

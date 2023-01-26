@@ -8,10 +8,26 @@ import {useDispatch, useSelector} from 'react-redux'
 import ValidateWrapper from '../UI/ValidateWrapper'
 import {login} from '../../store/actions/auth'
 import LoaderButton from '../UI/LoaderButton'
+import {apiRoutes} from '../../config/api'
+import {$authApi} from '../../services'
+import {useState} from 'react'
 
 const LoginForm = () => {
     const dispatch = useDispatch()
     const isLoadingLogin = useSelector((state) => state?.auth?.isLoadingLogin)
+    const [loginError, setLoginError] = useState(false)
+
+    const checkCredential = async (payload) => {
+        try {
+            const response = await $authApi.post(apiRoutes.AUTH_LOGIN, payload)
+
+            if (response && response.status === 200) {
+                return response?.data
+            }
+        } catch (error) {
+            return error?.response?.data
+        }
+    }
 
     const {
         register,
@@ -20,7 +36,13 @@ const LoginForm = () => {
     } = useForm({mode: 'onChange', reValidateMode: 'onChange'})
 
     const onSubmitLogin = (data) => {
-        dispatch(login(data))
+        setLoginError(false)
+        checkCredential(data)
+            .then((res) => {
+                res.status === 200 && dispatch(login(data))
+                res.status === 400 && setLoginError(true)
+            })
+            .catch((error) => console.log('error'))
         localStorage.setItem('isOtherPC', data?.isOtherPC)
     }
 
@@ -63,6 +85,7 @@ const LoginForm = () => {
                     <input type="checkbox" {...register('isOtherPC')} />
                     <span>Чужой компьютер</span>
                 </label>
+                {loginError && <div style={{color: 'red'}}>Неверный логин или пароль</div>}
                 <Link to="/reset-password" className="achromat-1 fw-5">
                     Забыли пароль?
                 </Link>
