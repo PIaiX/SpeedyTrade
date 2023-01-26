@@ -28,13 +28,13 @@ function Footer() {
                     <div className="d-flex flex-column flex-xl-row-reverse align-item-center justify-content-center">
                         <ul className="list-unstyled d-flex">
                             <li>
-                                <a href="/">Политика конфиденциальности</a>
+                                <Link to="/privacy">Политика конфиденциальности</Link>
                             </li>
                             <li>
-                                <a href="/">Политика cookie</a>
+                                <Link to="/cookies">Политика cookie</Link>
                             </li>
                             <li>
-                                <a href="/">Помощь</a>
+                                <Link to="/">Помощь</Link>
                             </li>
                         </ul>
                         <Sign className="text-center fs-09 mt-3 mt-xl-0 me-xl-4" />
@@ -119,12 +119,12 @@ function Footer() {
                                     </Link>
                                 </li>
                                 <li className="mb-3">
-                                    <Link to="/" className="">
+                                    <Link to="/privacy" className="">
                                         Политика конфиденциальности
                                     </Link>
                                 </li>
                                 <li className="mb-3">
-                                    <Link to="/" className="">
+                                    <Link to="/cookies" className="">
                                         Политика cookie
                                     </Link>
                                 </li>
