@@ -7,5 +7,4 @@ export const setSocketConnection = () => {
     socketInstance = io(`${BASE_URL_SOCKET}`, {
         auth: {token: `Bearer ${localStorage.getItem('token')}`},
     })
-    console.log('socket connecting...')
 }

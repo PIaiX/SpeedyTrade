@@ -4,29 +4,8 @@ import {Link} from 'react-router-dom'
 import {FiArrowLeft} from 'react-icons/fi'
 import ProfileForm from '../../components/forms/ProfileForm'
 import ChangePasswordForm from '../../components/forms/ChangePasswordForm'
-import {userUpdateProfile} from '../../services/user'
-import {useSelector} from 'react-redux'
-import {dispatchAlert} from '../../helpers/alert'
 
 const Profile = () => {
-    const user = useSelector((state) => state?.auth?.user)
-
-    const onSubmit = useCallback(
-        (data) => {
-            const formData = new FormData()
-            for (const key in data) formData.append(key, data[key])
-
-            userUpdateProfile(formData, user?.id)
-                .then(() => {
-                    dispatchAlert('success', 'Данные успешно сохранены')
-                })
-                .catch(() => {
-                    dispatchAlert('danger', 'Произошла ошибка')
-                })
-        },
-        [user?.id]
-    )
-
     return (
         <div className="main">
             <div className="d-flex align-items-center mb-4">
@@ -36,7 +15,7 @@ const Profile = () => {
                 <h4 className="color-1 mb-0">Профиль</h4>
             </div>
             <Row>
-                <ProfileForm onSubmit={onSubmit} />
+                <ProfileForm /> {/* onSubmit={onSubmit} */}
                 <ChangePasswordForm />
             </Row>
         </div>

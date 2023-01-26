@@ -10,6 +10,8 @@ import ResetPassword from '../pages/ResetPassword'
 import AppLayout from '../layouts/AppLayout'
 import AuthRoute from '../layouts/AuthRoute'
 import AccountRouter from './AccountRouter'
+import PrivacyPolicy from '../pages/PrivacyPolicy'
+import CookiesPolicy from '../pages/CookiesPolicy'
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -22,6 +24,8 @@ const router = createBrowserRouter(
             <Route path="login" element={<Login />} />
             <Route path="registration" element={<Registration />} />
             <Route path="reset-password" element={<ResetPassword />} />
+            <Route path="privacy" element={<PrivacyPolicy />} />
+            <Route path="cookies" element={<CookiesPolicy />} />
 
             <Route
                 path="account/*"

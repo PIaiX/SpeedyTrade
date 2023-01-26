@@ -6,17 +6,52 @@ import PhoneInput from 'react-phone-input-2'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import ValidateWrapper from '../UI/ValidateWrapper'
-import {useSelector} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
 import UserPhoto from '../utils/UserPhoto'
 import StarRating from '../utils/StarRating'
 import {useImageViewer} from '../../hooks/imageViewer'
 import {onImageHandler} from '../../helpers/formHandlers'
 import {dispatchAlert} from '../../helpers/alert'
 import {getImageURL} from '../../helpers/image'
+import {userUpdateProfile} from '../../services/user'
 import moment from 'moment'
+import {refreshAuth} from '../../store/actions/auth'
 
-const ProfileForm = ({onSubmit}) => {
+const ProfileForm = () => {
     const user = useSelector((state) => state?.auth?.user)
+    const dispatch = useDispatch()
+
+    const onSubmit = useCallback(
+        (data) => {
+            const formData = new FormData()
+            for (const key in data) formData.append(key, data[key])
+
+            userUpdateProfile(formData, user?.id)
+                .then((res) => {
+                    dispatchAlert('success', 'Данные успешно сохранены')
+                    dispatch(refreshAuth())
+                        .then((res) => {
+                            reset({
+                                firstName: res.payload.user.firstName,
+                                lastName: res.payload.user.lastName,
+                                nickname: res.payload.user.nickname,
+                                phone: res.payload.user.phone,
+                                sex: res.payload.user.sex.toString(),
+                                birthday:
+                                    moment(res.payload.user.birthday, 'YYYY-MM-DD').format('DD.MM.YYYY') ?? null,
+                                isSubscribed: res.payload.user.isSubscribed,
+                            })
+                        })
+                        .catch(() => {
+                            dispatchAlert('danger', 'Произошла ошибка, попробуйте еще раз')
+                        })
+                })
+                .catch(() => {
+                    dispatchAlert('danger', 'Произошла ошибка')
+                })
+        },
+        [user?.id]
+    )
 
     const {
         register,
@@ -40,10 +75,11 @@ const ProfileForm = ({onSubmit}) => {
             isSubscribed: user.isSubscribed ?? false,
         },
     })
+
     const avatarImage = useImageViewer(watch('avatar'))
 
     const onChangeAvatar = useCallback((e) => {
-        const result = onImageHandler(e, (file) => setValue('avatar', file))
+        const result = onImageHandler(e, (file) => setValue('avatar', file, {shouldDirty: true}))
         if (!result) dispatchAlert('danger', 'Фото должно быть в одном из форматов (png, jpg, jpeg) и не более 1Мб')
     }, [])
 
