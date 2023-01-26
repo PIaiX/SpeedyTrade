@@ -23,8 +23,8 @@ const LotPreview = (props) => {
         <tr className="lot-preview">
             <td>
                 <Link to={`/lot/${props.lotId}`}>
-                    {props.description.length > 150
-                        ? props.description.substring(0, 150) + '...'
+                    {props.description.length > 300
+                        ? props.description.substring(0, 300) + '...'
                         : props.description}
                 </Link>
             </td>

@@ -35,11 +35,9 @@ const Home = () => {
     const {banner} = useGetBanner()
     const {allGames} = useGetCatalogAllGame()
     const {news} = useGetAllNews()
-
     return (
         <main>
             <SortSection />
-
             <Container fluid="md" className="px-mobile-0">
                 <section className="main-slider mb-6">
                     <Swiper
@@ -71,11 +69,12 @@ const Home = () => {
                                             title={i.game?.name}
                                             imgLink={getImageURL(i.image)}
                                             description={i.description}
-                                            subLinksArr={i.game?.regions?.map((k) =>
-                                                k.categories?.map((j) => {
-                                                    return {link: `game/${i.game?.slug}`, anchor: j?.name}
+                                            subLinksArr={
+                                                i.categories.map(i=>{
+                                                    return {link: `game/${i.id}`, anchor: i?.name}
                                                 })
-                                            )}
+                                            }
+
                                         />
                                     </SwiperSlide>
                                 ))
@@ -156,11 +155,11 @@ const Home = () => {
                                             title={i.name}
                                             slug={i.slug}
                                             imgLink={getImageURL(i?.logo)}
-                                            subLinksArr={i.regions?.map((k) =>
-                                                k.categories?.map((j) => {
-                                                    return {link: `game/${i.slug}`, anchor: j?.name}
+                                            subLinksArr={
+                                                i.categories.map(i=>{
+                                                    return {link: `game/${i.id}`, anchor: i?.name}
                                                 })
-                                            )}
+                                            }
                                             regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
@@ -190,11 +189,11 @@ const Home = () => {
                                             title={i.name}
                                             imgLink={getImageURL(i.logo)}
                                             slug={i.slug}
-                                            subLinksArr={i.regions?.map((k) =>
-                                                k.categories?.map((j) => {
-                                                    return {link: `game/${i.slug}`, anchor: j?.name}
+                                            subLinksArr={
+                                                i.categories.map(i=>{
+                                                    return {link: `game/${i.id}`, anchor: i?.name}
                                                 })
-                                            )}
+                                            }
                                             regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
@@ -217,11 +216,11 @@ const Home = () => {
                                             title={i.name}
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
-                                            subLinksArr={i.regions?.map((k) =>
-                                                k.categories?.map((j) => {
-                                                    return {link: `game/${i.slug}`, anchor: j?.name}
+                                            subLinksArr={
+                                                i.categories.map(i=>{
+                                                    return {link: `game/${i.id}`, anchor: i?.name}
                                                 })
-                                            )}
+                                            }
                                             regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
@@ -244,11 +243,11 @@ const Home = () => {
                                             title={i.name}
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
-                                            subLinksArr={i.regions?.map((k) =>
-                                                k.categories?.map((j) => {
-                                                    return {link: `game/${i.slug}`, anchor: j?.name}
+                                            subLinksArr={
+                                                i.categories.map(i=>{
+                                                    return {link: `game/${i.id}`, anchor: i?.name}
                                                 })
-                                            )}
+                                            }
                                             regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
@@ -271,11 +270,11 @@ const Home = () => {
                                             title={i.name}
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
-                                            subLinksArr={i.regions?.map((k) =>
-                                                k.categories?.map((j) => {
-                                                    return {link: `game/${i.slug}`, anchor: j?.name}
+                                            subLinksArr={
+                                                i.categories.map(i=>{
+                                                    return {link: `game/${i.id}`, anchor: i?.name}
                                                 })
-                                            )}
+                                            }
                                             regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
@@ -298,11 +297,11 @@ const Home = () => {
                                             title={i.name}
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
-                                            subLinksArr={i.regions?.map((k) =>
-                                                k.categories?.map((j) => {
-                                                    return {link: `game/${i.slug}`, anchor: j?.name}
+                                            subLinksArr={
+                                                i.categories.map(i=>{
+                                                    return {link: `game/${i.id}`, anchor: i?.name}
                                                 })
-                                            )}
+                                            }
                                             regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
@@ -325,11 +324,11 @@ const Home = () => {
                                             title={i.name}
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
-                                            subLinksArr={i.regions?.map((k) =>
-                                                k.categories?.map((j) => {
-                                                    return {link: `game/${i.slug}`, anchor: j?.name}
+                                            subLinksArr={
+                                                i.categories.map(i=>{
+                                                    return {link: `game/${i.id}`, anchor: i?.name}
                                                 })
-                                            )}
+                                            }
                                             regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
@@ -352,11 +351,11 @@ const Home = () => {
                                             title={i.name}
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
-                                            subLinksArr={i.regions?.map((k) =>
-                                                k.categories?.map((j) => {
-                                                    return {link: `game/${i.slug}`, anchor: j?.name}
+                                            subLinksArr={
+                                                i.categories.map(i=>{
+                                                    return {link: `game/${i.id}`, anchor: i?.name}
                                                 })
-                                            )}
+                                            }
                                             regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
@@ -379,11 +378,11 @@ const Home = () => {
                                             title={i.name}
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
-                                            subLinksArr={i.regions?.map((k) =>
-                                                k.categories?.map((j) => {
-                                                    return {link: `game/${i.slug}`, anchor: j?.name}
+                                            subLinksArr={
+                                                i.categories.map(i=>{
+                                                    return {link: `game/${i.id}`, anchor: i?.name}
                                                 })
-                                            )}
+                                            }
                                             regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
@@ -406,11 +405,11 @@ const Home = () => {
                                             title={i.name}
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
-                                            subLinksArr={i.regions?.map((k) =>
-                                                k.categories?.map((j) => {
-                                                    return {link: `game/${i.slug}`, anchor: j?.name}
+                                            subLinksArr={
+                                                i.categories.map(i=>{
+                                                    return {link: `game/${i.id}`, anchor: i?.name}
                                                 })
-                                            )}
+                                            }
                                             regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
@@ -433,11 +432,11 @@ const Home = () => {
                                             title={i.name}
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
-                                            subLinksArr={i.regions?.map((k) =>
-                                                k.categories?.map((j) => {
-                                                    return {link: `game/${i.slug}`, anchor: j?.name}
+                                            subLinksArr={
+                                                i.categories.map(i=>{
+                                                    return {link: `game/${i.id}`, anchor: i?.name}
                                                 })
-                                            )}
+                                            }
                                             regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
@@ -460,11 +459,11 @@ const Home = () => {
                                             title={i.name}
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
-                                            subLinksArr={i.regions?.map((k) =>
-                                                k.categories?.map((j) => {
-                                                    return {link: `game/${i.slug}`, anchor: j?.name}
+                                            subLinksArr={
+                                                i.categories.map(i=>{
+                                                    return {link: `game/${i.id}`, anchor: i?.name}
                                                 })
-                                            )}
+                                            }
                                             regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
@@ -487,11 +486,11 @@ const Home = () => {
                                             title={i.name}
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
-                                            subLinksArr={i.regions?.map((k) =>
-                                                k.categories?.map((j) => {
-                                                    return {link: `game/${i.slug}`, anchor: j?.name}
+                                            subLinksArr={
+                                                i.categories.map(i=>{
+                                                    return {link: `game/${i.id}`, anchor: i?.name}
                                                 })
-                                            )}
+                                            }
                                             regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
@@ -514,11 +513,11 @@ const Home = () => {
                                             title={i.name}
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
-                                            subLinksArr={i.regions?.map((k) =>
-                                                k.categories?.map((j) => {
-                                                    return {link: `game/${i.slug}`, anchor: j?.name}
+                                            subLinksArr={
+                                                i.categories.map(i=>{
+                                                    return {link: `game/${i.id}`, anchor: i?.name}
                                                 })
-                                            )}
+                                            }
                                             regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
@@ -541,11 +540,11 @@ const Home = () => {
                                             title={i.name}
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
-                                            subLinksArr={i.regions?.map((k) =>
-                                                k.categories?.map((j) => {
-                                                    return {link: `game/${i.slug}`, anchor: j?.name}
+                                            subLinksArr={
+                                                i.categories.map(i=>{
+                                                    return {link: `game/${i.id}`, anchor: i?.name}
                                                 })
-                                            )}
+                                            }
                                             regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
@@ -568,11 +567,11 @@ const Home = () => {
                                             title={i.name}
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
-                                            subLinksArr={i.regions?.map((k) =>
-                                                k.categories?.map((j) => {
-                                                    return {link: `game/${i.slug}`, anchor: j?.name}
+                                            subLinksArr={
+                                                i.categories.map(i=>{
+                                                    return {link: `game/${i.id}`, anchor: i?.name}
                                                 })
-                                            )}
+                                            }
                                             regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
@@ -595,11 +594,11 @@ const Home = () => {
                                             title={i.name}
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
-                                            subLinksArr={i.regions?.map((k) =>
-                                                k.categories?.map((j) => {
-                                                    return {link: `game/${i.slug}`, anchor: j?.name}
+                                            subLinksArr={
+                                                i.categories.map(i=>{
+                                                    return {link: `game/${i.id}`, anchor: i?.name}
                                                 })
-                                            )}
+                                            }
                                             regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
@@ -622,11 +621,11 @@ const Home = () => {
                                             title={i.name}
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
-                                            subLinksArr={i.regions?.map((k) =>
-                                                k.categories?.map((j) => {
-                                                    return {link: `game/${i.slug}`, anchor: j?.name}
+                                            subLinksArr={
+                                                i.categories.map(i=>{
+                                                    return {link: `game/${i.id}`, anchor: i?.name}
                                                 })
-                                            )}
+                                            }
                                             regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
@@ -649,11 +648,11 @@ const Home = () => {
                                             title={i.name}
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
-                                            subLinksArr={i.regions?.map((k) =>
-                                                k.categories?.map((j) => {
-                                                    return {link: `game/${i.slug}`, anchor: j?.name}
+                                            subLinksArr={
+                                                i.categories.map(i=>{
+                                                    return {link: `game/${i.id}`, anchor: i?.name}
                                                 })
-                                            )}
+                                            }
                                             regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
@@ -676,11 +675,11 @@ const Home = () => {
                                             title={i.name}
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
-                                            subLinksArr={i.regions?.map((k) =>
-                                                k.categories?.map((j) => {
-                                                    return {link: `game/${i.slug}`, anchor: j?.name}
+                                            subLinksArr={
+                                                i.categories.map(i=>{
+                                                    return {link: `game/${i.id}`, anchor: i?.name}
                                                 })
-                                            )}
+                                            }
                                             regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
@@ -703,11 +702,11 @@ const Home = () => {
                                             title={i.name}
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
-                                            subLinksArr={i.regions?.map((k) =>
-                                                k.categories?.map((j) => {
-                                                    return {link: `game/${i.slug}`, anchor: j?.name}
+                                            subLinksArr={
+                                                i.categories.map(i=>{
+                                                    return {link: `game/${i.id}`, anchor: i?.name}
                                                 })
-                                            )}
+                                            }
                                             regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
@@ -730,11 +729,11 @@ const Home = () => {
                                             title={i.name}
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
-                                            subLinksArr={i.regions?.map((k) =>
-                                                k.categories?.map((j) => {
-                                                    return {link: `game/${i.slug}`, anchor: j?.name}
+                                            subLinksArr={
+                                                i.categories.map(i=>{
+                                                    return {link: `game/${i.id}`, anchor: i?.name}
                                                 })
-                                            )}
+                                            }
                                             regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
@@ -757,11 +756,11 @@ const Home = () => {
                                             title={i.name}
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
-                                            subLinksArr={i.regions?.map((k) =>
-                                                k.categories?.map((j) => {
-                                                    return {link: `game/${i.slug}`, anchor: j?.name}
+                                            subLinksArr={
+                                                i.categories.map(i=>{
+                                                    return {link: `game/${i.id}`, anchor: i?.name}
                                                 })
-                                            )}
+                                            }
                                             regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
@@ -784,11 +783,11 @@ const Home = () => {
                                             title={i.name}
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
-                                            subLinksArr={i.regions?.map((k) =>
-                                                k.categories?.map((j) => {
-                                                    return {link: `game/${i.slug}`, anchor: j?.name}
+                                            subLinksArr={
+                                                i.categories.map(i=>{
+                                                    return {link: `game/${i.id}`, anchor: i?.name}
                                                 })
-                                            )}
+                                            }
                                             regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
@@ -811,11 +810,11 @@ const Home = () => {
                                             title={i.name}
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
-                                            subLinksArr={i.regions?.map((k) =>
-                                                k.categories?.map((j) => {
-                                                    return {link: `game/${i.slug}`, anchor: j?.name}
+                                            subLinksArr={
+                                                i.categories.map(i=>{
+                                                    return {link: `game/${i.id}`, anchor: i?.name}
                                                 })
-                                            )}
+                                            }
                                             regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
@@ -838,11 +837,11 @@ const Home = () => {
                                             title={i.name}
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
-                                            subLinksArr={i.regions?.map((k) =>
-                                                k.categories?.map((j) => {
-                                                    return {link: `game/${i.slug}`, anchor: j?.name}
+                                            subLinksArr={
+                                                i.categories.map(i=>{
+                                                    return {link: `game/${i.id}`, anchor: i?.name}
                                                 })
-                                            )}
+                                            }
                                             regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
@@ -865,11 +864,11 @@ const Home = () => {
                                             title={i.name}
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
-                                            subLinksArr={i.regions?.map((k) =>
-                                                k.categories?.map((j) => {
-                                                    return {link: `game/${i.slug}`, anchor: j?.name}
+                                            subLinksArr={
+                                                i.categories.map(i=>{
+                                                    return {link: `game/${i.id}`, anchor: i?.name}
                                                 })
-                                            )}
+                                            }
                                             regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
@@ -892,11 +891,11 @@ const Home = () => {
                                             title={i.name}
                                             slug={i.slug}
                                             imgLink={getImageURL(i.logo)}
-                                            subLinksArr={i.regions?.map((k) =>
-                                                k.categories?.map((j) => {
-                                                    return {link: `game/${i.slug}`, anchor: j?.name}
+                                            subLinksArr={
+                                                i.categories.map(i=>{
+                                                    return {link: `game/${i.id}`, anchor: i?.name}
                                                 })
-                                            )}
+                                            }
                                             regions={i?.regions?.map((j) => j.name)}
                                         />
                                     </Col>
