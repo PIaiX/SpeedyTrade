@@ -1,4 +1,5 @@
 import React from 'react'
+import {useSelector} from 'react-redux'
 import {NavLink} from 'react-router-dom'
 import {
     BiBookOpen,
@@ -13,6 +14,8 @@ import {
 } from 'react-icons/bi'
 
 export default function AccountMenu() {
+    const unreadCount = useSelector((state) => state?.notification?.unreadCount)
+
     return (
         <nav className="menu">
             <ul>
@@ -50,6 +53,7 @@ export default function AccountMenu() {
                     <NavLink to="messages">
                         <BiEnvelope />
                         <span>Сообщения</span>
+                        {unreadCount && <span className="unread-conversations-count">{unreadCount}</span>}
                     </NavLink>
                 </li>
                 <li>

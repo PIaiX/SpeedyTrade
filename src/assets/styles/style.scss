@@ -1544,6 +1544,7 @@ main {
     overflow: hidden;
     z-index: 1;
     -webkit-mask-image: -webkit-radial-gradient(white, black);
+    mask-image: -webkit-radial-gradient(white, black);
     isolation: isolate;
     transform: translateZ(0);
     @media (max-width: 1399px) {
@@ -3242,4 +3243,27 @@ footer {
         background-color: var(--achromat-0);
         max-width: max-content;
     }
+}
+
+.unread-header-conversations-count,
+.unread-conversations-count {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: 700;
+    width: 1.5em;
+    height: 1.5em;
+    border-radius: 50%;
+}
+
+.unread-conversations-count {
+    background-color: var(--color-2);
+    color: #fff !important;
+}
+
+.unread-header-conversations-count {
+    background-color: var(--font-light);
+    color: var(--bg-2);
+    margin-left: 1em;
 }
