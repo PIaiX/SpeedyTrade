@@ -1,14 +1,14 @@
 import React from 'react'
-import {useState, useEffect} from 'react'
-import {useSelector} from 'react-redux'
-import {useNavigate} from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Select from 'react-select'
 import Table from 'react-bootstrap/Table'
 // import AdsTr2 from '../../components/AdsTr2'
-import {Link} from 'react-router-dom'
-import {FiArrowLeft} from 'react-icons/fi'
+import { Link } from 'react-router-dom'
+import { FiArrowLeft } from 'react-icons/fi'
 import {
     getAllGames,
     getGamePlatform,
@@ -17,7 +17,7 @@ import {
     getCategories,
     getCategoryParameters,
 } from '../../services/games'
-import {postLot} from '../../services/lots'
+import { postLot } from '../../services/lots'
 import swal from 'sweetalert'
 
 const PostAd = () => {
@@ -53,7 +53,7 @@ const PostAd = () => {
     const getOptions = (res) => {
         let arr = []
         res?.map((el) => {
-            return arr.push({value: el.id, label: el.name, currency: el.isCurrency})
+            return arr.push({ value: el.id, label: el.name, currency: el.isCurrency })
         })
         return arr
     }
@@ -62,12 +62,12 @@ const PostAd = () => {
         let arr = options.slice()
         let result = arr.find((o, i) => {
             if (o?.propertyId === id) {
-                arr[i] = {propertyId: id, option: value}
+                arr[i] = { propertyId: id, option: value }
                 setOptions(arr)
                 return true
             }
         })
-        if (!result) setOptions((arr) => [...arr, {propertyId: id, option: value}])
+        if (!result) setOptions((arr) => [...arr, { propertyId: id, option: value }])
     }
 
     const postBody = {
@@ -77,6 +77,7 @@ const PostAd = () => {
         amount: amount,
         userId: userId,
         categoryId: selectedOptionCategory ? selectedOptionCategory.value : null,
+        regionId: selectedOptionRegion ? selectedOptionRegion.value : null,
         minPrice: minPrice,
         options: options.map((o) => o.option).filter(Number),
     }
@@ -85,6 +86,7 @@ const PostAd = () => {
         if (
             selectedOptionGame &&
             selectedOptionCategory &&
+            selectedOptionRegion &&
             description &&
             price &&
             price <= 10000000 &&
@@ -101,8 +103,8 @@ const PostAd = () => {
         } else {
             console.log(postBody)
             price > 10000000
-                ? swal({text: 'Цена не более 10 000 000', icon: 'error'})
-                : swal({text: 'Необходимо заполнить все поля', icon: 'error'})
+                ? swal({ text: 'Цена не более 10 000 000', icon: 'error' })
+                : swal({ text: 'Необходимо заполнить все поля', icon: 'error' })
         }
     }
 
@@ -113,7 +115,7 @@ const PostAd = () => {
             .then((arr) => arr && setOptionsGames(arr))
     }, [])
 
-    //fetch platform & regions
+    //fetch regions & categories
     useEffect(() => {
         if (selectedOptionGame) {
             setSelectedOptionRegion(null)
@@ -121,25 +123,28 @@ const PostAd = () => {
             getGameRegions(selectedOptionGame.value)
                 .then((res) => getOptions(res))
                 .then((arr) => arr && setOptionsRegion(arr))
+            setSelectedOptionCategory(null)
+            setOptionsCategory([])
+            getCategories(selectedOptionGame.value)
+                .then((res) => getOptions(res))
+                .then((arr) => arr && setOptionsCategory(arr))
         } else {
             setSelectedOptionRegion(null)
             setOptionsRegion([])
+            setSelectedOptionCategory(null)
+            setOptionsCategory([])
         }
     }, [selectedOptionGame])
 
     //fetch servers & categories
-    useEffect(() => {
-        if (selectedOptionRegion) {
-            setSelectedOptionCategory(null)
-            setOptionsCategory([])
-            getCategories(selectedOptionRegion.value)
-                .then((res) => getOptions(res))
-                .then((arr) => arr && setOptionsCategory(arr))
-        } else {
-            setSelectedOptionCategory(null)
-            setOptionsCategory([])
-        }
-    }, [selectedOptionRegion])
+    // useEffect(() => {
+    //     if (selectedOptionRegion) {
+
+    //     } else {
+    //         setSelectedOptionCategory(null)
+    //         setOptionsCategory([])
+    //     }
+    // }, [selectedOptionRegion])
 
     //fetch parameters
     useEffect(() => {
