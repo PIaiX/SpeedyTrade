@@ -3245,6 +3245,13 @@ footer {
     }
 }
 
+.chat-box-user,
+.chat-box-reverse-user { 
+    img {
+        width: 39px;
+    }
+}
+
 .unread-header-conversations-count,
 .unread-conversations-count {
     display: flex;
