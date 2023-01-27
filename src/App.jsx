@@ -11,7 +11,7 @@ import ru from 'date-fns/locale/ru'
 import {initFingerprint} from './store/actions/fingerprint'
 import Loader from './components/UI/Loader'
 import {setSocketConnection} from '../src/services/sockets/socketInstance'
-import {setNotification} from './store/reducers/notificationSlice'
+import {setNotification, setUnreadCount} from './store/reducers/notificationSlice'
 
 import {BASE_URL_SOCKET} from './config/api'
 import {io} from 'socket.io-client'
@@ -60,22 +60,26 @@ const App = () => {
             auth: {token: `Bearer ${localStorage.getItem('token')}`},
         })
 
-        if (user && socketNotification) {
+        if (user.id && socketNotification) {
             console.log('Start listen to notification')
             socketNotification.on('message:create', (newMessage) => {
                 if (newMessage.userId !== user.id) {
                     dispatch(setNotification(newMessage))
                 }
             })
+            socketNotification.on('conversation:unreadCount', (count) => {
+                dispatch(setUnreadCount(count))
+            })
         }
 
         return () => {
             console.log('Stop listen to notification')
             socketNotification?.off('message:create')
+            socketNotification?.off('conversation:unreadCount')
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [isLoadingRefresh])
 
     return isLoadingRefresh ? <></> : <AppRouter />
 }

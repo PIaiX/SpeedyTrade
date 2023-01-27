@@ -9,6 +9,7 @@ import {getImageURL} from '../helpers/image'
 
 const Header = () => {
     const auth = useSelector((state) => state?.auth)
+    const unreadCount = useSelector((state) => state?.notification?.unreadCount)
 
     return (
         <header>
@@ -34,6 +35,7 @@ const Header = () => {
                             <span>
                                 <Link to="/account/messages">Онлайн-чат</Link>
                             </span>
+                            {unreadCount && <span className="unread-header-conversations-count">{unreadCount}</span>}
                         </button>
                     )}
                 </div>
