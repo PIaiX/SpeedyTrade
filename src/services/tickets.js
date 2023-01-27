@@ -26,6 +26,7 @@ export const getAllTicketMessages = async (ticketId, payload) => {
         const response = await $authApi.get(
             `${apiRoutes.TICKET_MESSAGE_ACTIONS}/${ticketId}?page=${payload.page}&limit=${payload.limit}&orderBy=${payload.orderBy}`
         )
+        console.log(response.data?.body);
         return response.data?.body
     } catch (error) {
         throw error

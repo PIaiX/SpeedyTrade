@@ -1,22 +1,24 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import InputFile from '../../components/utils/InputFile'
-// import ChatBox from '../../components/ChatBox'
-// import Dropdown from 'react-bootstrap/Dropdown'
-import {Link, useParams} from 'react-router-dom'
-// import {IoEllipsisHorizontal} from 'react-icons/io5'
-// import {BiTrash} from 'react-icons/bi'
-import {FiChevronLeft, FiSend} from 'react-icons/fi'
-import {createTicketMessage, getAllTicketMessages} from '../../services/tickets'
+import ChatMessage from '../../components/ChatMessage'
+import Dropdown from 'react-bootstrap/Dropdown'
+import { Link, useParams } from 'react-router-dom'
+import {IoEllipsisHorizontal} from 'react-icons/io5'
+import {BiTrash} from 'react-icons/bi'
+import { FiChevronLeft, FiSend } from 'react-icons/fi'
+import { createTicketMessage, getAllTicketMessages } from '../../services/tickets'
 import InfiniteScroll from 'react-infinite-scroller'
-import {useForm} from 'react-hook-form'
-import {apiValidationRules} from '../../config/api'
+import { useForm } from 'react-hook-form'
+import { apiValidationRules } from '../../config/api'
 import ValidateWrapper from '../../components/UI/ValidateWrapper'
 import Loader from '../../components/UI/Loader'
-import {useSelector} from 'react-redux'
-import {dispatchAlert} from '../../helpers/alert'
+import { useSelector } from 'react-redux'
+import { dispatchAlert } from '../../helpers/alert'
+import {convertToLocaleDate} from '../../helpers/convertToLocaleDate'
+
 
 const Ticket = () => {
-    const {id} = useParams()
+    const { id } = useParams()
     const [messages, setMessages] = useState({
         isLoaded: false,
         items: [],
@@ -28,7 +30,7 @@ const Ticket = () => {
 
     const {
         register,
-        formState: {errors},
+        formState: { errors },
         handleSubmit,
         // setValue,
         reset,
@@ -55,6 +57,15 @@ const Ticket = () => {
         }
     }, [isFileSent])
 
+    const groupBy = (arr, key) => {
+        const initialValue = {}
+        return arr?.reduce((acc, cval) => {
+            const myAttribute = cval[key] && convertToLocaleDate(cval[key])
+            acc[myAttribute] = [...(acc[myAttribute] || []), cval]
+            return acc
+        }, initialValue)
+    }
+
     const createMessage = (data) => {
         const formData = new FormData()
 
@@ -65,7 +76,7 @@ const Ticket = () => {
         }
 
         Object.values(data?.media).forEach((i) => formData.append('medias[]', i))
-
+        console.log(data?.media[0]);
         createTicketMessage(formData)
             .then((res) => {
                 setMessages((prevState) => ({
@@ -82,7 +93,7 @@ const Ticket = () => {
 
     const getMessages = () => {
         if (id) {
-            getAllTicketMessages(id, {page: currentPage, limit: 4, orderBy: 'desc'})
+            getAllTicketMessages(id, { page: currentPage, limit: 4, orderBy: 'desc' })
                 .then((res) => {
                     res &&
                         setMessages({
@@ -93,7 +104,7 @@ const Ticket = () => {
                     setCurrentPage((prevState) => prevState + 1)
                 })
                 .catch(() => {
-                    setMessages({isLoaded: true, items: null})
+                    setMessages({ isLoaded: true, items: null })
                 })
         }
     }
@@ -113,7 +124,7 @@ const Ticket = () => {
                         <div className="img me-2 me-sm-4">
                             <img src="/images/user2.png" alt="Иванченко Дарья" />
                         </div>
-                        {/*<Dropdown align="end">
+                        <Dropdown align="end">
                             <Dropdown.Toggle variant="simple">
                                 <IoEllipsisHorizontal className="fs-15" />
                             </Dropdown.Toggle>
@@ -123,7 +134,7 @@ const Ticket = () => {
                                     <span className="ms-2">Удалить тикет</span>
                                 </Dropdown.Item>
                             </Dropdown.Menu>
-                        </Dropdown>*/}
+                        </Dropdown>
                     </div>
                 </div>
                 <div>
@@ -144,10 +155,12 @@ const Ticket = () => {
                             threshold={20}
                             useWindow={false}
                         >
-                            {/* {messages.items &&
-                                Object.entries(groupBy(messages.items, 'createdAt', true))?.map((i, index) => (
-                                    <ChatBox key={i[0]} keyArr={i[0]} arr={i[1]} />
-                                ))} */}
+
+                            {messages.items &&
+                                Object.entries(groupBy(messages.items, 'createdAt', true))?.map((message, index) => (
+                                    <ChatMessage   key={message[0]} keyArr={message[0]} arr={message[1]} />
+
+                                ))}
                         </InfiniteScroll>
                     </div>
                     <form onSubmit={handleSubmit(createMessage)}>
@@ -158,7 +171,7 @@ const Ticket = () => {
                                 placeholder="Введите сообщение"
                                 {...register('text', {
                                     required: apiValidationRules.required,
-                                    minLength: {value: 0, message: 'Минимум 1 символ!'},
+                                    minLength: { value: 0, message: 'Минимум 1 символ!' },
                                 })}
                             />
                         </ValidateWrapper>
