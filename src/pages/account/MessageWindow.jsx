@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {useSelector, useDispatch} from 'react-redux'
+import {useSelector} from 'react-redux'
 import {useParams} from 'react-router-dom'
 import {Link} from 'react-router-dom'
 import InputFile from '../../components/utils/InputFile'
@@ -18,11 +18,9 @@ import ValidateWrapper from '../../components/UI/ValidateWrapper'
 import {convertToLocaleDate} from '../../helpers/convertToLocaleDate'
 import ChatMessage from '../../components/ChatMessage'
 import InfiniteScroll from 'react-infinite-scroller'
-import {setNotification} from '../../store/reducers/notificationSlice'
 
 const MessageWindow = () => {
     const user = useSelector((state) => state?.auth?.user)
-    const dispatch = useDispatch()
     const {id} = useParams()
     const {isConnected} = useSocketConnect()
     const [currentPage, setCurrentPage] = useState(1)
@@ -72,7 +70,6 @@ const MessageWindow = () => {
                         ...prevState,
                         items: prevState.items ? [...prevState.items, newMessage] : [newMessage],
                     }))
-                console.log(newMessage)
             })
             socketInstance?.on('message:viewed', (data) => {
                 setMessages((prevState) => ({
