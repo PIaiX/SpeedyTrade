@@ -1,19 +1,19 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Table from 'react-bootstrap/Table'
-import {FiSearch} from 'react-icons/fi'
+import { FiSearch } from 'react-icons/fi'
 import LotPreview from '../components/LotPreview'
 import BtnAddFav from '../components/utils/BtnAddFav'
-import {NavLink, useNavigate, useParams} from 'react-router-dom'
-import {getCategories, getOneGame} from '../services/games'
-import {getImageURL} from '../helpers/image'
+import { NavLink, useNavigate, useParams } from 'react-router-dom'
+import { getCategories, getOneGame } from '../services/games'
+import { getImageURL } from '../helpers/image'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-import {useSelector} from 'react-redux'
+import { useSelector } from 'react-redux'
 import useGetLotsByCategory from '../hooks/axios/getLotsByCategory'
-import {getLotsByCategoryAndParams} from "../services/lots";
+import { getLotsByCategoryAndParams } from "../services/lots";
 
 const Game = () => {
     const navigate = useNavigate();
@@ -28,13 +28,16 @@ const Game = () => {
     const [category, setCategory] = useState();
     const [categoriesId, setCategoriesId] = useState(0);
     const [values, setValues] = useState();
-    const [lots, setLots] = useState([]);
+    const [lots, setLots] = useState({
+        isLoaded: false,
+        items: [],
+    });
     const [categories, setCategories] = useState();
 
 
     useEffect(() => {
         getOneGame(slug)
-            .then((res) => res && setGame({ isLoaded: true, ...res }))
+            .then((res) => res && setGame({ isLoaded: true, ...res }) && console.log(res))
             .catch(() => console.log());
     }, [slug]);
 
@@ -87,7 +90,7 @@ const Game = () => {
             if (i != 0) r.push(parseInt(i));
         });
         if (currentCategoryId) {
-            getLotsByCategoryAndParams(currentCategoryId, r).then((res) => setLots(res.data));
+            getLotsByCategoryAndParams(currentCategoryId, r).then((res) => setLots({ isLoaded: true, items: res.data }));
         }
     }, [values])
     console.log(lots)
@@ -110,15 +113,15 @@ const Game = () => {
                     </div>
                     <div style={{ paddingBottom: "10px" }}>
                         {game.regions && game.regions.map((val, index) => (
-                                <NavLink key={index} to={"/game/" + slug + "/" + val.name}>
-                                    <div
-                                        className={`btn-4 p-2 fs-08 me-1 mb-2 text-uppercase 
-                    ${region  === val.name ? "active" : ""} `}
-                                        style={{ "display": "inline-block"}}>
-                                        {val.name}
-                                    </div>
-                                </NavLink>
-                            )
+                            <NavLink key={index} to={"/game/" + slug + "/" + val.name}>
+                                <div
+                                    className={`btn-4 p-2 fs-08 me-1 mb-2 text-uppercase 
+                    ${region === val.name ? "active" : ""} `}
+                                    style={{ "display": "inline-block" }}>
+                                    {val.name}
+                                </div>
+                            </NavLink>
+                        )
                         )}
 
                     </div>
@@ -154,16 +157,15 @@ const Game = () => {
 
                     <div className="d-flex flex-wrap mt-4 mt-sm-5">
                         {game?.categories?.map((k) => {
-                            return {name: k.name, id: k.id}
+                            return { name: k.name, id: k.id }
                         })
                             .flat()
                             .map((i, index) => (
                                 <button
                                     key={i.id}
                                     type="button"
-                                    className={`${
-                                        i.id === currentCategoryId ? 'active' : ''
-                                    } btn-7 flex-column mb-2 me-2 me-lg-4`}
+                                    className={`${i.id === currentCategoryId ? 'active' : ''
+                                        } btn-7 flex-column mb-2 me-2 me-lg-4`}
                                     onClick={() => {
                                         setCurrentCategoryId(i.id)
                                         setCategoriesId(index);
@@ -174,40 +176,34 @@ const Game = () => {
                             ))}
                     </div>
 
-                    {categories
-                        && categories[categoriesId]
-                        && categories[categoriesId].parameters
-                        && categories[categoriesId].parameters.map((val, index) =>
-                            <select key={index} id={index}  className="flex-1 ms-sm-3 ms-md-4 mt-3 mt-sm-0"
-                                onChange={(event, index) => {
-                                    let r = [];
-                                    values.forEach((i, index) => r[index] = i);
-                                    r[event.target.id] = event.target.value;
-                                    setValues(r);
-                                }}>
-                                <option value={0}>{val.name}</option>
-                                {val.options.map((j, jndex) =>
-                                    <option key={jndex} value={j.id}>
-                                        {j.name}
-                                    </option>
-                                )}
-                            </select>
-                        )
-                    }
-
-                    <div className="d-xl-flex flex-row-reverse align-items-center mt-4 mt-sm-5 mb-4">
-                        <div className="d-sm-flex flex-row-reverse align-items-center mb-3 mb-xl-0">
-                            <form className="form-search-2 ms-xl-4">
-                                <input type="search" placeholder="Поиск по описанию" />
-                                <button type="submit">
-                                    <FiSearch />
-                                </button>
-                            </form>
-                        </div>
-                        <div className="d-sm-flex align-items-center flex-1">
 
 
-                            <div className="d-flex align-items-center ms-sm-3 ms-md-4 mt-3 mt-sm-0">
+                    <div className="d-flex flex-row align-items-center flex-wrap mt-4 mt-sm-5 mb-4">
+                        {categories
+                            && categories[categoriesId]
+                            && categories[categoriesId].parameters
+                            && categories[categoriesId].parameters.map((val, index) =>
+                                <div key={index} id={index} className="flex-grow-1 flex-md-shrink-1 pb-3 pe-3" >
+                                    <select
+                                        onChange={(event, index) => {
+                                            let r = [];
+                                            values.forEach((i, index) => r[index] = i);
+                                            r[event.target.id] = event.target.value;
+                                            setValues(r);
+                                        }}>
+                                        <option value={0}>{val.name}</option>
+                                        {val.options.map((j, jndex) =>
+                                            <option key={jndex} value={j.id}>
+                                                {j.name}
+                                            </option>
+                                        )}
+                                    </select>
+                                </div>
+                            )
+                        }
+
+                        <div className="d-sm-flex align-items-center flex-shrink-1 flex-md-grow-1 pb-3 pe-3">
+                            <div className="d-flex align-items-center">
                                 <span>
                                     Только продавцы
                                     <br className="d-none d-sm-inline d-md-none" /> онлайн:
@@ -217,6 +213,17 @@ const Game = () => {
                                 </label>
                             </div>
                         </div>
+
+                        <div className="flex-grow-1 pb-3 pe-3 pe-md-0">
+                            <form className="form-search-2 ms-xl-4">
+                                <input type="search" placeholder="Поиск по описанию" />
+                                <button type="submit">
+                                    <FiSearch />
+                                </button>
+                            </form>
+                        </div>
+
+
                     </div>
 
                     {lots.isLoaded ? (

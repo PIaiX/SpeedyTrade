@@ -13,6 +13,7 @@ export const getAllGames = async () => {
 export const getOneGame = async (slug) => {
     try {
         const response = await $authApi.get(`${apiRoutes.ACTIONS_GAMES}/${slug}`)
+        console.log(response);
         return response?.data?.body
     } catch (error) {
         console.log(error)
@@ -54,9 +55,9 @@ export const getGameServers = async (regionId) => {
         console.log(error)
     }
 }
-export const getCategories = async (regionId) => {
+export const getCategories = async (gameId) => {
     try {
-        const response = await $api(`${apiRoutes.GET_GAMES_CATEGORIES}/${regionId}`)
+        const response = await $api(`${apiRoutes.GET_GAMES_CATEGORIES}/${gameId}`)
         return response?.data?.body
     } catch (error) {
         console.log(error)
