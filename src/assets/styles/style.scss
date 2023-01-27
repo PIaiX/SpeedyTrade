@@ -53,6 +53,7 @@
     --green: #27ae60;
 
     --user-nickname: #313033;
+    --divider: #EA4545;
 }
 
 :root[data-theme='dark'] {
@@ -96,6 +97,7 @@
     --green: #27ae60;
 
     --user-nickname: #faf2ff;
+    --divider: #121212;
 }
 
 // alert colors
@@ -475,7 +477,7 @@ label {
         padding-right: 3em;
 
         &::placeholder {
-            color: var(--bg-2) !important;
+            color: var(--search-btn) !important;
         }
     }
 
@@ -1351,6 +1353,10 @@ header {
             font-size: 2em;
             color: var(--font-light);
             transform: rotateY(180deg);
+        }
+
+        hr.vertical {
+            background-color: var(--divider);
         }
     }
 }
@@ -3194,7 +3200,7 @@ footer {
 
     &__nickname {
         font-size: 15px;
-        color: var(--user-nickname);
+        // color: var(--user-nickname);
     }
 }
 
