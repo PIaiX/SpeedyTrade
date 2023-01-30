@@ -18,11 +18,16 @@ function GameLarge(props) {
                     </Col>
                     <Col md={10}>
                         <div className="d-flex flex-wrap align-items-center">
-                            {props?.subLinksArr?.flat()?.map((obj) => (
-                                <Link key={obj.anchor} to={obj.link} className="btn-2 me-2 mb-2">
-                                    {obj.anchor}
-                                </Link>
-                            ))}
+                            {props?.subLinksArr?.length > 0 &&
+                                props?.subLinksArr?.map((category) => (
+                                    <Link
+                                        key={category.id}
+                                        to={`/game/${props.slug}/${props.regions[0].name}/${category.id}`}
+                                        className="btn-2 me-2 mb-2"
+                                    >
+                                        {category.name}
+                                    </Link>
+                                ))}
                         </div>
                     </Col>
                 </Row>

@@ -22,24 +22,28 @@ const GameMidi = (props) => {
             </Link>
             <div className="mt-3 d-flex flex-wrap align-items-center">
                 {props?.regions?.length &&
-                    props.regions.map((obj) => {
+                    props.regions.map((region) => {
                         return (
                             <NavLink
-                                key={obj}
-                                to={`/game/${props.slug + '/' + obj.replace('/', '_')}`}
+                                key={region.id}
+                                to={`/game/${props.slug}/${region.name.replace('/', '_')}`}
                                 className="btn-4 p-2 fs-08 me-1 mb-2 text-uppercase"
                             >
-                                {obj}
+                                {region.name}
                             </NavLink>
                         )
                     })}
             </div>
             <div className="mt-3 d-flex flex-wrap align-items-center">
-                {props?.subLinksArr?.length &&
-                    props.subLinksArr?.flat()?.map((obj) => {
+                {props?.subLinksArr?.length > 0 &&
+                    props.subLinksArr?.map((category) => {
                         return (
-                            <Link key={obj.anchor} to={obj.link} className="fs-09 me-3 mb-2">
-                                {obj.anchor}
+                            <Link
+                                key={category.id}
+                                to={`/game/${props.slug}/${props.regions[0].name}/${category.id}`}
+                                className="fs-09 me-3 mb-2"
+                            >
+                                {category.name}
                             </Link>
                         )
                     })}
