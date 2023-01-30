@@ -13,7 +13,6 @@ export const getAllGames = async () => {
 export const getOneGame = async (slug) => {
     try {
         const response = await $authApi.get(`${apiRoutes.ACTIONS_GAMES}/${slug}`)
-        console.log(response);
         return response?.data?.body
     } catch (error) {
         console.log(error)
