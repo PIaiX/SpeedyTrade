@@ -2,6 +2,7 @@ import React from 'react'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import {Link} from 'react-router-dom'
+import parse from 'react-html-parser'
 
 function GameLarge(props) {
     return (
@@ -13,7 +14,7 @@ function GameLarge(props) {
                         <h2>
                             <Link to={`/game/${props.title}`}>{props.title}</Link>
                         </h2>
-                        <p className="mb-4">{props.description}</p>
+                        <div className="mb-4">{parse(props.description)}</div>
                     </Col>
                     <Col md={10}>
                         <div className="d-flex flex-wrap align-items-center">
