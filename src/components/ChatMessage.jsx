@@ -24,6 +24,7 @@ const SingleMessage = ({msg}) => {
     }
 
     useEffect(() => {
+        // console.log(msg)
         const loadImage = async (url) => {
             return new Promise((res, rej) => {
                 let img = new Image()
@@ -33,15 +34,24 @@ const SingleMessage = ({msg}) => {
                 img.onerror = (e) => {
                     setTimeout(() => {
                         loadImage(url).then((i) => res(i))
-                    }, 4000)
+                    }, 1000)
                 }
                 img.src = url
             })
         }
-        msg.attachedfile &&
-            loadImage(getImageURL(msg.attachedfile))
-                .then((img) => setImage([img]))
-                .catch((e) => console.log(e))
+        if (Array.isArray(msg.attachedfile)) {
+            msg.attachedfile.length > 0 && // console.log(msg.attachedfile[0].media)
+                // loadImage(getImageURL(msg.attachedfile[0].media))
+                //     .then((img) => setImage([img]))
+                //     .catch((e) => console.log(e))
+                setImage([getImageURL(msg.attachedfile[0].media)])
+        } else {
+            msg.attachedfile &&
+                // loadImage(getImageURL(msg.attachedfile))
+                //     .then((img) => setImage([img]))
+                //     .catch((e) => console.log(e))
+                setImage([getImageURL(msg.attachedfile)])
+        }
     }, [msg])
 
     return (
@@ -85,14 +95,14 @@ const SingleMessage = ({msg}) => {
     )
 }
 
-const ChatMessage = ({avatarUser, keyArr, arr}) => {
+const ChatMessage = ({keyArr, arr}) => {
     const newDate = keyArr && convertToLocaleDate(keyArr, true)
     const convertedDate = new Date(newDate)
 
     return (
         <>
             <Moment locale="ru" format="DD MMMM" date={convertedDate} />
-            {arr && arr.map((i) => <SingleMessage msg={i} ava={avatarUser} key={`chat${i.id}`} />)}
+            {arr && arr.map((i) => <SingleMessage msg={i} key={`chat${i.id}`} />)}
         </>
     )
 }
