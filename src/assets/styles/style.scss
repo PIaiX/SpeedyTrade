@@ -1732,6 +1732,7 @@ main {
     padding: 0.5em;
     border-radius: 1.5em;
     overflow: hidden;
+    margin-bottom: 48px;
 
     .swiper {
         width: 100%;
@@ -2870,7 +2871,7 @@ main {
     .middle {
         max-height: 450px;
         display: flex;
-        flex-direction: column;
+        flex-direction: column-reverse;
         overflow: auto;
         padding: 2em;
 
@@ -3222,14 +3223,18 @@ footer {
     display: flex;
     justify-content: flex-start;
     flex-direction: row;
+
     .images-box {
+        width: 250px;
+        height: 166px;
+
         &:not(:first-child){
             margin: 0 0 0 1em;
         }
     }
+
     img {
         object-fit: cover;
-        max-width: 250px;
         border-radius: 8px;
     }
 }
@@ -3277,4 +3282,9 @@ footer {
     background-color: var(--font-light);
     color: var(--bg-2);
     margin-left: 1em;
+}
+
+.chat-space {
+    display: flex;
+    flex-direction: column-reverse;
 }
