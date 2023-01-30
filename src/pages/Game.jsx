@@ -57,14 +57,14 @@ const Game = () => {
         if (game.regions) {
             let regionId = -1
             for (let i = 0; i < game.regions.length; i++) {
-                if (game.regions[i].name === region.replace('_', '/')) {
-                    console.log(game.regions[i].name)
+                let reg = region ? region.replace('_', '/') : ''
+                if (game.regions[i].name === reg) {
                     regionId = i
                     break
                 }
             }
             if (regionId == -1) {
-                navigate('/game/' + game.name + '/' + game.regions[0].name.replace('/', '_'))
+                navigate('/game/' + game.slug + '/' + game.regions[0].name.replace('/', '_'))
             }
         }
     }, [game])
