@@ -19,13 +19,11 @@ const Game = () => {
     const navigate = useNavigate()
     const theme = useSelector((state) => state?.theme?.mode)
     const userId = useSelector((state) => state?.auth?.user?.id)
-    const {slug} = useParams()
-    const {region} = useParams()
+    const {slug, region, catId} = useParams()
     const [game, setGame] = useState({
         isLoaded: false,
     })
     const [currentCategoryId, setCurrentCategoryId] = useState(null)
-    const [category, setCategory] = useState()
     const [categoriesId, setCategoriesId] = useState(0)
     const [values, setValues] = useState()
     const [lots, setLots] = useState({
@@ -41,19 +39,6 @@ const Game = () => {
     }, [slug])
 
     useEffect(() => {
-        // eslint-disable-next-line no-prototype-builtins
-        if (game?.hasOwnProperty('regions')) {
-            setCurrentCategoryId(
-                game?.regions
-                    ?.map((i) =>
-                        i.categories?.map((k) => {
-                            return {name: k.name, id: k.id}
-                        })
-                    )
-                    .flat()[0]?.id
-            )
-            setCategories(game.categories)
-        }
         if (game.regions) {
             let regionId = -1
             for (let i = 0; i < game.regions.length; i++) {
@@ -64,13 +49,19 @@ const Game = () => {
                 }
             }
             if (regionId == -1) {
-                navigate('/game/' + game.slug + '/' + game.regions[0].name.replace('/', '_'))
+                navigate('/game/' + game.slug + '/' + game.regions[0].name.replace('/', '_'), {replace: true})
             }
         }
+        game && setCategories(game.categories)
+        // eslint-disable-next-line no-prototype-builtins
     }, [game])
 
     useEffect(() => {
-        categories && setCurrentCategoryId(categories[0].id)
+        if (categories && catId) {
+            setCurrentCategoryId(catId)
+        } else if (categories) {
+            setCurrentCategoryId(categories[0].id)
+        }
     }, [categories])
 
     useEffect(() => {
@@ -93,7 +84,7 @@ const Game = () => {
         }
     }, [values])
 
-    // console.log(game)
+    console.log(game)
 
     return (
         <main>
@@ -119,8 +110,9 @@ const Game = () => {
                                 return (
                                     <NavLink key={index} to={'/game/' + slug + '/' + valName}>
                                         <div
-                                            className={`btn-4 p-2 fs-08 me-1 mb-2 text-uppercase 
-                    ${region === valName ? 'active' : ''} `}
+                                            className={`btn-4 p-2 fs-08 me-1 mb-2 text-uppercase ${
+                                                region === valName ? 'active' : ''
+                                            } `}
                                             style={{display: 'inline-block'}}
                                         >
                                             {val.name}
@@ -160,26 +152,21 @@ const Game = () => {
                     </Row>
 
                     <div className="d-flex flex-wrap mt-4 mt-sm-5">
-                        {game?.categories
-                            ?.map((k) => {
-                                return {name: k.name, id: k.id}
-                            })
-                            .flat()
-                            .map((i, index) => (
-                                <button
-                                    key={i.id}
-                                    type="button"
-                                    className={`${
-                                        i.id === currentCategoryId ? 'active' : ''
-                                    } btn-7 flex-column mb-2 me-2 me-lg-4`}
-                                    onClick={() => {
-                                        setCurrentCategoryId(i.id)
-                                        setCategoriesId(index)
-                                    }}
-                                >
-                                    <span className="fw-5">{i.name}</span>
-                                </button>
-                            ))}
+                        {game?.categories?.map((i, index) => (
+                            <button
+                                key={i.id}
+                                type="button"
+                                className={`${
+                                    i.id === currentCategoryId ? 'active' : ''
+                                } btn-7 flex-column mb-2 me-2 me-lg-4`}
+                                onClick={() => {
+                                    setCurrentCategoryId(i.id)
+                                    setCategoriesId(index)
+                                }}
+                            >
+                                <span className="fw-5">{i.name}</span>
+                            </button>
+                        ))}
                     </div>
 
                     <div className="d-flex flex-row align-items-center flex-wrap mt-4 mt-sm-5 mb-4">
