@@ -40,7 +40,7 @@ const SingleMessage = ({msg}) => {
             })
         }
         if (Array.isArray(msg.attachedfile)) {
-            msg.attachedfile.length > 0 && // console.log(msg.attachedfile[0].media)
+            msg.attachedfile.length > 0 &&
                 loadImage(getImageURL(msg.attachedfile[0].media))
                     .then((img) => setImage([img]))
                     .catch((e) => console.log(e))
@@ -56,6 +56,7 @@ const SingleMessage = ({msg}) => {
         <div className={`chat-box${user?.id === msg?.userId ? '-reverse' : ''}`}>
             <div className={`chat-box${user?.id === msg?.userId ? '-reverse' : ''}-user`}>
                 <img src={getImageURL(msg?.userAvatar)} alt="avatar" />
+                <span className="chat-user-name">{msg?.userName}</span>
             </div>
 
             <div className={`chat-box${user?.id === msg?.userId ? '-reverse' : ''}-messages`}>
