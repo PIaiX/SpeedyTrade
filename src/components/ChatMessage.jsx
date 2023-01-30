@@ -11,7 +11,7 @@ const SingleMessage = ({msg}) => {
     const user = useSelector((state) => state.auth.user)
     const [currentImage, setCurrentImage] = useState(null)
     const [isViewerOpen, setIsViewerOpen] = useState(false)
-    const [image, setImage] = useState([])
+    const [image, setImage] = useState(['/images/no-photo.jpg'])
 
     const openImageViewer = useCallback((index) => {
         setCurrentImage(index)
@@ -41,16 +41,14 @@ const SingleMessage = ({msg}) => {
         }
         if (Array.isArray(msg.attachedfile)) {
             msg.attachedfile.length > 0 && // console.log(msg.attachedfile[0].media)
-                // loadImage(getImageURL(msg.attachedfile[0].media))
-                //     .then((img) => setImage([img]))
-                //     .catch((e) => console.log(e))
-                setImage([getImageURL(msg.attachedfile[0].media)])
+                loadImage(getImageURL(msg.attachedfile[0].media))
+                    .then((img) => setImage([img]))
+                    .catch((e) => console.log(e))
         } else {
             msg.attachedfile &&
-                // loadImage(getImageURL(msg.attachedfile))
-                //     .then((img) => setImage([img]))
-                //     .catch((e) => console.log(e))
-                setImage([getImageURL(msg.attachedfile)])
+                loadImage(getImageURL(msg.attachedfile))
+                    .then((img) => setImage([img]))
+                    .catch((e) => console.log(e))
         }
     }, [msg])
 
