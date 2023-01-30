@@ -1,99 +1,100 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Table from 'react-bootstrap/Table'
-import { FiSearch } from 'react-icons/fi'
+import {FiSearch} from 'react-icons/fi'
 import LotPreview from '../components/LotPreview'
 import BtnAddFav from '../components/utils/BtnAddFav'
-import { NavLink, useNavigate, useParams } from 'react-router-dom'
-import { getCategories, getOneGame } from '../services/games'
-import { getImageURL } from '../helpers/image'
+import {NavLink, useNavigate, useParams} from 'react-router-dom'
+import {getCategories, getOneGame} from '../services/games'
+import {getImageURL} from '../helpers/image'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
-import { useSelector } from 'react-redux'
+import {useSelector} from 'react-redux'
 import useGetLotsByCategory from '../hooks/axios/getLotsByCategory'
-import { getLotsByCategoryAndParams } from "../services/lots";
+import {getLotsByCategoryAndParams} from '../services/lots'
 
 const Game = () => {
-    const navigate = useNavigate();
-    const theme = useSelector((state) => state?.theme?.mode);
-    const userId = useSelector((state) => state?.auth?.user?.id);
-    const { slug } = useParams();
-    const { region } = useParams();
+    const navigate = useNavigate()
+    const theme = useSelector((state) => state?.theme?.mode)
+    const userId = useSelector((state) => state?.auth?.user?.id)
+    const {slug} = useParams()
+    const {region} = useParams()
     const [game, setGame] = useState({
-        isLoaded: false
-    });
-    const [currentCategoryId, setCurrentCategoryId] = useState(null);
-    const [category, setCategory] = useState();
-    const [categoriesId, setCategoriesId] = useState(0);
-    const [values, setValues] = useState();
+        isLoaded: false,
+    })
+    const [currentCategoryId, setCurrentCategoryId] = useState(null)
+    const [category, setCategory] = useState()
+    const [categoriesId, setCategoriesId] = useState(0)
+    const [values, setValues] = useState()
     const [lots, setLots] = useState({
         isLoaded: false,
         items: [],
-    });
-    const [categories, setCategories] = useState();
-
+    })
+    const [categories, setCategories] = useState()
 
     useEffect(() => {
         getOneGame(slug)
-            .then((res) => res && setGame({ isLoaded: true, ...res }) && console.log(res))
-            .catch(() => console.log());
-    }, [slug]);
+            .then((res) => res && setGame({isLoaded: true, ...res}) && console.log(res))
+            .catch(() => console.log())
+    }, [slug])
 
     useEffect(() => {
         // eslint-disable-next-line no-prototype-builtins
-        if (game?.hasOwnProperty("regions")) {
+        if (game?.hasOwnProperty('regions')) {
             setCurrentCategoryId(
                 game?.regions
                     ?.map((i) =>
                         i.categories?.map((k) => {
-                            return { name: k.name, id: k.id };
+                            return {name: k.name, id: k.id}
                         })
                     )
                     .flat()[0]?.id
-            );
-            setCategories(game.categories);
+            )
+            setCategories(game.categories)
         }
         if (game.regions) {
-            let regionId = -1;
+            let regionId = -1
             for (let i = 0; i < game.regions.length; i++) {
-                if (game.regions[i].name === region) {
-                    regionId = i;
-                    break;
+                if (game.regions[i].name === region.replace('_', '/')) {
+                    console.log(game.regions[i].name)
+                    regionId = i
+                    break
                 }
             }
             if (regionId == -1) {
-                navigate("/game/" + game.name + "/" + game.regions[0].name);
+                navigate('/game/' + game.name + '/' + game.regions[0].name.replace('/', '_'))
             }
         }
-    }, [game]);
+    }, [game])
 
     useEffect(() => {
-        categories && setCurrentCategoryId(categories[0].id);
-    }, [categories]);
-
+        categories && setCurrentCategoryId(categories[0].id)
+    }, [categories])
 
     useEffect(() => {
-        let r = [];
+        let r = []
         if (categories && categories[categoriesId].parameters) {
-            for (let i of categories[categoriesId].parameters)
-                r.push(0);
+            for (let i of categories[categoriesId].parameters) r.push(0)
         }
-        setValues(r);
-    }, [currentCategoryId]);
-
+        setValues(r)
+    }, [currentCategoryId])
 
     useEffect(() => {
-        let r = [];
-        values?.forEach(i => {
-            if (i != 0) r.push(parseInt(i));
-        });
+        let r = []
+        values?.forEach((i) => {
+            if (i != 0) r.push(parseInt(i))
+        })
         if (currentCategoryId) {
-            getLotsByCategoryAndParams(currentCategoryId, r).then((res) => setLots({ isLoaded: true, items: res.data }));
+            getLotsByCategoryAndParams(currentCategoryId, r).then((res) =>
+                setLots({isLoaded: true, items: res.data})
+            )
         }
     }, [values])
-    console.log(lots)
+
+    // console.log(game)
+
     return (
         <main>
             <Container>
@@ -111,19 +112,22 @@ const Game = () => {
                         </h1>
                         <BtnAddFav favoriteStatus={game?.isFavorite} gameId={game.id} userId={userId} />
                     </div>
-                    <div style={{ paddingBottom: "10px" }}>
-                        {game.regions && game.regions.map((val, index) => (
-                            <NavLink key={index} to={"/game/" + slug + "/" + val.name}>
-                                <div
-                                    className={`btn-4 p-2 fs-08 me-1 mb-2 text-uppercase 
-                    ${region === val.name ? "active" : ""} `}
-                                    style={{ "display": "inline-block" }}>
-                                    {val.name}
-                                </div>
-                            </NavLink>
-                        )
-                        )}
-
+                    <div style={{paddingBottom: '10px'}}>
+                        {game.regions &&
+                            game.regions.map((val, index) => {
+                                let valName = val.name.replace('/', '_')
+                                return (
+                                    <NavLink key={index} to={'/game/' + slug + '/' + valName}>
+                                        <div
+                                            className={`btn-4 p-2 fs-08 me-1 mb-2 text-uppercase 
+                    ${region === valName ? 'active' : ''} `}
+                                            style={{display: 'inline-block'}}
+                                        >
+                                            {val.name}
+                                        </div>
+                                    </NavLink>
+                                )
+                            })}
                     </div>
                     <Row>
                         <Col xs={12} lg={7} xl={8}>
@@ -156,19 +160,21 @@ const Game = () => {
                     </Row>
 
                     <div className="d-flex flex-wrap mt-4 mt-sm-5">
-                        {game?.categories?.map((k) => {
-                            return { name: k.name, id: k.id }
-                        })
+                        {game?.categories
+                            ?.map((k) => {
+                                return {name: k.name, id: k.id}
+                            })
                             .flat()
                             .map((i, index) => (
                                 <button
                                     key={i.id}
                                     type="button"
-                                    className={`${i.id === currentCategoryId ? 'active' : ''
-                                        } btn-7 flex-column mb-2 me-2 me-lg-4`}
+                                    className={`${
+                                        i.id === currentCategoryId ? 'active' : ''
+                                    } btn-7 flex-column mb-2 me-2 me-lg-4`}
                                     onClick={() => {
                                         setCurrentCategoryId(i.id)
-                                        setCategoriesId(index);
+                                        setCategoriesId(index)
                                     }}
                                 >
                                     <span className="fw-5">{i.name}</span>
@@ -176,31 +182,29 @@ const Game = () => {
                             ))}
                     </div>
 
-
-
                     <div className="d-flex flex-row align-items-center flex-wrap mt-4 mt-sm-5 mb-4">
-                        {categories
-                            && categories[categoriesId]
-                            && categories[categoriesId].parameters
-                            && categories[categoriesId].parameters.map((val, index) =>
-                                <div key={index} id={index} className="flex-grow-1 flex-md-shrink-1 pb-3 pe-3" >
+                        {categories &&
+                            categories[categoriesId] &&
+                            categories[categoriesId].parameters &&
+                            categories[categoriesId].parameters.map((val, index) => (
+                                <div key={index} id={index} className="flex-grow-1 flex-md-shrink-1 pb-3 pe-3">
                                     <select
                                         onChange={(event, index) => {
-                                            let r = [];
-                                            values.forEach((i, index) => r[index] = i);
-                                            r[event.target.id] = event.target.value;
-                                            setValues(r);
-                                        }}>
+                                            let r = []
+                                            values.forEach((i, index) => (r[index] = i))
+                                            r[event.target.id] = event.target.value
+                                            setValues(r)
+                                        }}
+                                    >
                                         <option value={0}>{val.name}</option>
-                                        {val.options.map((j, jndex) =>
+                                        {val.options.map((j, jndex) => (
                                             <option key={jndex} value={j.id}>
                                                 {j.name}
                                             </option>
-                                        )}
+                                        ))}
                                     </select>
                                 </div>
-                            )
-                        }
+                            ))}
 
                         <div className="d-sm-flex align-items-center flex-shrink-1 flex-md-grow-1 pb-3 pe-3">
                             <div className="d-flex align-items-center">
@@ -222,8 +226,6 @@ const Game = () => {
                                 </button>
                             </form>
                         </div>
-
-
                     </div>
 
                     {lots.isLoaded ? (

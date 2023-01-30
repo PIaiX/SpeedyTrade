@@ -26,7 +26,7 @@ const GameMidi = (props) => {
                         return (
                             <NavLink
                                 key={obj}
-                                to={`/game/${props.slug + '/' + obj}`}
+                                to={`/game/${props.slug + '/' + obj.replace('/', '_')}`}
                                 className="btn-4 p-2 fs-08 me-1 mb-2 text-uppercase"
                             >
                                 {obj}
