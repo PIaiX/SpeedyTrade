@@ -6,7 +6,7 @@ const GameMidi = (props) => {
 
     return (
         <>
-            <Link to={`/game/${props.slug + '/' + props.regions[0]}`}>
+            <Link to={`/game/${props.slug}/${props.regions[0].id}`}>
                 <figure className="game-midi">
                     <img src={props.imgLink} alt={props.title} />
                     <figcaption>
@@ -26,7 +26,7 @@ const GameMidi = (props) => {
                         return (
                             <NavLink
                                 key={region.id}
-                                to={`/game/${props.slug}/${region.name.replace('/', '_')}`}
+                                to={`/game/${props.slug}/${region.id}`}
                                 className="btn-4 p-2 fs-08 me-1 mb-2 text-uppercase"
                             >
                                 {region.name}
@@ -40,7 +40,7 @@ const GameMidi = (props) => {
                         return (
                             <Link
                                 key={category.id}
-                                to={`/game/${props.slug}/${props.regions[0].name}/${category.id}`}
+                                to={`/game/${props.slug}/${props.regions[0].id}/${category.id}`}
                                 className="fs-09 me-3 mb-2"
                             >
                                 {category.name}

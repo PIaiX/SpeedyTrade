@@ -4,34 +4,62 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Table from 'react-bootstrap/Table'
 import {FiSearch} from 'react-icons/fi'
-import LotPreview from '../components/LotPreview'
 import BtnAddFav from '../components/utils/BtnAddFav'
-import {NavLink, useNavigate, useParams} from 'react-router-dom'
-import {getCategories, getOneGame} from '../services/games'
+import {Link, useNavigate, useParams} from 'react-router-dom'
+import {getOneGame} from '../services/games'
 import {getImageURL} from '../helpers/image'
 import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import {useSelector} from 'react-redux'
-import useGetLotsByCategory from '../hooks/axios/getLotsByCategory'
-import {getLotsByCategoryAndParams} from '../services/lots'
+import {getLotsByCategoryRegionAndParams} from '../services/lots'
+import StarRating from '../components/utils/StarRating'
 
 const Game = () => {
     const navigate = useNavigate()
     const theme = useSelector((state) => state?.theme?.mode)
     const userId = useSelector((state) => state?.auth?.user?.id)
-    const {slug, region, catId} = useParams()
+    const {slug, regId, catId} = useParams()
     const [game, setGame] = useState({
         isLoaded: false,
     })
-    const [currentCategoryId, setCurrentCategoryId] = useState(null)
-    const [categoriesId, setCategoriesId] = useState(0)
-    const [values, setValues] = useState()
+    const [currentRegion, setCurrentRegion] = useState()
+    const [currentCategory, setCurrentCategory] = useState({}) // { id: number, key: number }
+    const [selectedOptions, setSelectedOptions] = useState([]) // { propertyId: number, option: number }[]
+    const [parametersToShow, setParametersToShow] = useState([])
+
     const [lots, setLots] = useState({
         isLoaded: false,
         items: [],
     })
-    const [categories, setCategories] = useState()
 
+    // Set game parameters options
+    const setOptions = (id, value) => {
+        let arr = selectedOptions.slice()
+        let result = arr.find((o, i) => {
+            if (o?.propertyId === id) {
+                arr[i] = {propertyId: id, option: value}
+                setSelectedOptions(arr)
+                return true
+            }
+        })
+        if (!result) setSelectedOptions((arr) => [...arr, {propertyId: id, option: value}])
+    }
+
+    // Time converter
+    const timeOnSite = (timeDate) => {
+        let date = new Date(timeDate)
+        let month = date.toLocaleString('ru-RU', {month: 'long'})
+        let year = date.toLocaleString('ru-RU', {year: 'numeric'})
+        let string
+        if (month.endsWith('ь')) {
+            string = month.replace(/ь/i, 'я') + ' ' + year
+        } else {
+            string = month.concat('а') + ' ' + year
+        }
+        return string
+    }
+
+    // Get game JSON
     useEffect(() => {
         getOneGame(slug)
             .then((res) => res && setGame({isLoaded: true, ...res}) && console.log(res))
@@ -39,52 +67,46 @@ const Game = () => {
     }, [slug])
 
     useEffect(() => {
-        if (game.regions) {
-            let regionId = -1
-            for (let i = 0; i < game.regions.length; i++) {
-                let reg = region ? region.replace('_', '/') : ''
-                if (game.regions[i].name === reg) {
-                    regionId = i
-                    break
-                }
-            }
-            if (regionId == -1) {
-                navigate('/game/' + game.slug + '/' + game.regions[0].name.replace('/', '_'), {replace: true})
-            }
+        if (!game.isLoaded) return
+
+        // Set active region
+        if (regId) {
+            setCurrentRegion(regId)
+        } else if (game.regions.length > 0) {
+            setCurrentRegion(game.regions[0].id)
         }
-        game && setCategories(game.categories)
+
+        // Set active category
+        if (catId) {
+            let key = game.categories.findIndex((cat) => cat.id == catId)
+            setCurrentCategory({id: catId, key: key})
+        } else if (game.categories.length > 0) {
+            setCurrentCategory({id: game.categories[0].id, key: 0})
+        }
+
         // eslint-disable-next-line no-prototype-builtins
     }, [game])
 
     useEffect(() => {
-        if (categories && catId) {
-            setCurrentCategoryId(catId)
-        } else if (categories) {
-            setCurrentCategoryId(categories[0].id)
-        }
-    }, [categories])
+        if (!game.isLoaded) return
 
-    useEffect(() => {
-        let r = []
-        if (categories && categories[categoriesId].parameters) {
-            for (let i of categories[categoriesId].parameters) r.push(0)
-        }
-        setValues(r)
-    }, [currentCategoryId])
+        setSelectedOptions([])
+        navigate(`/game/${game.slug}/${currentRegion}/${currentCategory.id}`, {replace: true})
+    }, [currentRegion, currentCategory])
 
+    // Get lots by category & parameters options
     useEffect(() => {
-        let r = []
-        values?.forEach((i) => {
-            if (i != 0) r.push(parseInt(i))
-        })
-        if (currentCategoryId) {
-            getLotsByCategoryAndParams(currentCategoryId, r).then((res) =>
+        let options = selectedOptions.map((o) => o.option).filter(Number)
+        if (currentCategory.id && currentRegion) {
+            getLotsByCategoryRegionAndParams(currentRegion, currentCategory.id, options).then((res) =>
                 setLots({isLoaded: true, items: res.data})
             )
         }
-    }, [values])
+    }, [currentRegion, currentCategory, selectedOptions])
 
-    console.log(game)
+    // console.log('region: ' + currentRegion + '\ncategory: ' + currentCategory.id)
+    // if (lots.items.length > 0) console.log(lots.items)
+    // console.log(game)
 
     return (
         <main>
@@ -103,24 +125,28 @@ const Game = () => {
                         </h1>
                         <BtnAddFav favoriteStatus={game?.isFavorite} gameId={game.id} userId={userId} />
                     </div>
+
+                    {/* Game regions ---------------------------------------------------------------------------------------------------------------------- */}
                     <div style={{paddingBottom: '10px'}}>
                         {game.regions &&
-                            game.regions.map((val, index) => {
-                                let valName = val.name.replace('/', '_')
+                            game.regions.map((region) => {
                                 return (
-                                    <NavLink key={index} to={'/game/' + slug + '/' + valName}>
-                                        <div
-                                            className={`btn-4 p-2 fs-08 me-1 mb-2 text-uppercase ${
-                                                region === valName ? 'active' : ''
-                                            } `}
-                                            style={{display: 'inline-block'}}
-                                        >
-                                            {val.name}
-                                        </div>
-                                    </NavLink>
+                                    <button
+                                        type="button"
+                                        key={'region-' + region.id}
+                                        className={`btn-4 p-2 fs-08 me-1 mb-2 text-uppercase ${
+                                            currentRegion == region.id ? 'active' : ''
+                                        } `}
+                                        style={{display: 'inline-block'}}
+                                        onClick={() => setCurrentRegion(region.id)}
+                                    >
+                                        {region.name}
+                                    </button>
                                 )
                             })}
                     </div>
+
+                    {/* Game image & description ---------------------------------------------------------------------------------------------------------- */}
                     <Row>
                         <Col xs={12} lg={7} xl={8}>
                             {game?.image ? (
@@ -151,47 +177,48 @@ const Game = () => {
                         </Col>
                     </Row>
 
+                    {/* Categories ------------------------------------------------------------------------------------------------------------------------ */}
                     <div className="d-flex flex-wrap mt-4 mt-sm-5">
-                        {game?.categories?.map((i, index) => (
+                        {game?.categories?.map((category, index) => (
                             <button
-                                key={i.id}
+                                key={category.id}
                                 type="button"
                                 className={`${
-                                    i.id === currentCategoryId ? 'active' : ''
+                                    category.id == currentCategory.id ? 'active' : ''
                                 } btn-7 flex-column mb-2 me-2 me-lg-4`}
                                 onClick={() => {
-                                    setCurrentCategoryId(i.id)
-                                    setCategoriesId(index)
+                                    setCurrentCategory({id: category.id, key: index})
                                 }}
                             >
-                                <span className="fw-5">{i.name}</span>
+                                <span className="fw-5">{category.name}</span>
                             </button>
                         ))}
                     </div>
 
+                    {/* Category parameters --------------------------------------------------------------------------------------------------------------- */}
                     <div className="d-flex flex-row align-items-center flex-wrap mt-4 mt-sm-5 mb-4">
-                        {categories &&
-                            categories[categoriesId] &&
-                            categories[categoriesId].parameters &&
-                            categories[categoriesId].parameters.map((val, index) => (
-                                <div key={index} id={index} className="flex-grow-1 flex-md-shrink-1 pb-3 pe-3">
-                                    <select
-                                        onChange={(event, index) => {
-                                            let r = []
-                                            values.forEach((i, index) => (r[index] = i))
-                                            r[event.target.id] = event.target.value
-                                            setValues(r)
-                                        }}
+                        {game.categories &&
+                            game.categories[currentCategory.key] &&
+                            game.categories[currentCategory.key].parameters &&
+                            game.categories[currentCategory.key].parameters.map((parameter) => {
+                                // if (parameter.displayInLotList) console.log(parameter)
+                                return (
+                                    <div
+                                        key={parameter.id}
+                                        id={parameter.id}
+                                        className="flex-grow-1 flex-md-shrink-1 pb-3 pe-3"
                                     >
-                                        <option value={0}>{val.name}</option>
-                                        {val.options.map((j, jndex) => (
-                                            <option key={jndex} value={j.id}>
-                                                {j.name}
-                                            </option>
-                                        ))}
-                                    </select>
-                                </div>
-                            ))}
+                                        <select onChange={(e) => setOptions(parameter.id, e.target.value)}>
+                                            <option value={0}>{parameter.name}</option>
+                                            {parameter.options.map((option) => (
+                                                <option key={'option-' + option.id} value={option.id}>
+                                                    {option.name}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                )
+                            })}
 
                         <div className="d-sm-flex align-items-center flex-shrink-1 flex-md-grow-1 pb-3 pe-3">
                             <div className="d-flex align-items-center">
@@ -215,6 +242,7 @@ const Game = () => {
                         </div>
                     </div>
 
+                    {/* Lots ------------------------------------------------------------------------------------------------------------------------------ */}
                     {lots.isLoaded ? (
                         lots.items?.length > 0 ? (
                             <Table borderless responsive className="mb-5">
@@ -227,20 +255,60 @@ const Game = () => {
                                 </thead>
                                 <tbody>
                                     {lots.items?.map(
-                                        (i) =>
-                                            i.isVisible && (
-                                                <LotPreview
-                                                    key={i.id}
-                                                    lotId={i.id}
-                                                    description={i.description}
-                                                    userId={i.userId}
-                                                    avatar={getImageURL(i.user?.avatar)}
-                                                    fullName={i.user?.fullName}
-                                                    nickname={i.user?.nickname}
-                                                    rating={i.user?.rating}
-                                                    createdAt={i.user?.createdAt}
-                                                    price={i.priceCommission}
-                                                />
+                                        (lot) =>
+                                            lot.isVisible && (
+                                                <tr className="lot-preview" key={'lot-' + lot.id}>
+                                                    <td>
+                                                        <Link to={`/lot/${lot.id}`}>
+                                                            {lot.description.length > 300
+                                                                ? lot.description.substring(0, 300) + '...'
+                                                                : lot.description}
+                                                        </Link>
+                                                    </td>
+                                                    <td>
+                                                        <Link
+                                                            to={
+                                                                lot.userId === userId
+                                                                    ? '/account/profile'
+                                                                    : `/user/${lot.userId}`
+                                                            }
+                                                            className="lot-preview-user"
+                                                        >
+                                                            <div className="img">
+                                                                <img
+                                                                    src={
+                                                                        lot.user.avatar
+                                                                            ? getImageURL(lot.user.avatar)
+                                                                            : '/images/user2.png'
+                                                                    }
+                                                                    alt={lot.user.fullName}
+                                                                />
+                                                                <div className="indicator online"></div>
+                                                            </div>
+                                                            <div>
+                                                                <h5 className="achromat-2 mb-1">
+                                                                    {lot.user.fullName}
+                                                                </h5>
+                                                                <div className="achromat-3 mb-1">
+                                                                    @{lot.user.nickname}
+                                                                </div>
+                                                                <StarRating
+                                                                    rate={lot.user.rating}
+                                                                    className="justify-content-start fs-08"
+                                                                />
+                                                                <div>
+                                                                    На&nbsp;сайте с&nbsp;
+                                                                    {timeOnSite(lot.user.createdAt)}&nbsp;г
+                                                                </div>
+                                                            </div>
+                                                        </Link>
+                                                    </td>
+                                                    <td>
+                                                        <div className="color-1 fw-7">
+                                                            {lot.priceCommission}&nbsp;руб.
+                                                        </div>
+                                                    </td>
+                                                </tr>
                                             )
                                     )}
                                 </tbody>

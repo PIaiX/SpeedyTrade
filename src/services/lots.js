@@ -39,9 +39,14 @@ export const getLotsByCategory = async (categoryId) => {
     }
 }
 
-export const getLotsByCategoryAndParams = async (categoryId, params) => {
+export const getLotsByCategoryRegionAndParams = async (regionId, categoryId, params) => {
     try {
-        const response = await $api.get(`${apiRoutes.LOTS_ACTIONS}?categoryId=${categoryId}&page=1&limit=10`, {params: {options:'['+params+']'}})
+        const response = await $api.get(
+            `${apiRoutes.LOTS_ACTIONS}?regionId=${regionId}&categoryId=${categoryId}&page=1&limit=10`,
+            {
+                params: {options: '[' + params + ']'},
+            }
+        )
         return response.data?.body
     } catch (error) {
         throw error

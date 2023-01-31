@@ -22,7 +22,7 @@ function GameLarge(props) {
                                 props?.subLinksArr?.map((category) => (
                                     <Link
                                         key={category.id}
-                                        to={`/game/${props.slug}/${props.regions[0].name}/${category.id}`}
+                                        to={`/game/${props.slug}/${props.regions[0].id}/${category.id}`}
                                         className="btn-2 me-2 mb-2"
                                     >
                                         {category.name}
