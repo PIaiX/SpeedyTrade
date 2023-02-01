@@ -5,7 +5,7 @@ import Col from 'react-bootstrap/Col'
 import Table from 'react-bootstrap/Table'
 import {FiSearch} from 'react-icons/fi'
 import BtnAddFav from '../components/utils/BtnAddFav'
-import {Link, useNavigate, useParams} from 'react-router-dom'
+import {Link, useNavigate, useParams, ScrollRestoration} from 'react-router-dom'
 import {getOneGame} from '../services/games'
 import {getImageURL} from '../helpers/image'
 import Skeleton from 'react-loading-skeleton'
@@ -102,7 +102,7 @@ const Game = () => {
         })
 
         // set location
-        navigate(`/game/${game.slug}/${currentRegion}/${currentCategory.id}`, {replace: true})
+        // navigate(`/game/${game.slug}/${currentRegion}/${currentCategory.id}`, {replace: true})
     }, [currentRegion, currentCategory])
 
     // Get lots by category & parameters options
@@ -142,7 +142,9 @@ const Game = () => {
                         {game.regions &&
                             game.regions.map((region) => {
                                 return (
-                                    <button
+                                    <Link
+                                        to={`/game/${game.slug}/${region.id}/${currentCategory.id}`}
+                                        preventScrollReset={true}
                                         type="button"
                                         key={'region-' + region.id}
                                         className={`btn-4 p-2 fs-08 me-1 mb-2 text-uppercase ${
@@ -152,7 +154,7 @@ const Game = () => {
                                         onClick={() => setCurrentRegion(region.id)}
                                     >
                                         {region.name}
-                                    </button>
+                                    </Link>
                                 )
                             })}
                     </div>
@@ -191,7 +193,9 @@ const Game = () => {
                     {/* Categories ------------------------------------------------------------------------------------------------------------------------ */}
                     <div className="d-flex flex-wrap mt-4 mt-sm-5">
                         {game?.categories?.map((category, index) => (
-                            <button
+                            <Link
+                                to={`/game/${game.slug}/${currentRegion}/${category.id}`}
+                                preventScrollReset={true}
                                 key={category.id}
                                 type="button"
                                 className={`${
@@ -202,7 +206,7 @@ const Game = () => {
                                 }}
                             >
                                 <span className="fw-5">{category.name}</span>
-                            </button>
+                            </Link>
                         ))}
                     </div>
 
