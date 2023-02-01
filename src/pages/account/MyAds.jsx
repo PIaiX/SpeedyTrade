@@ -9,7 +9,7 @@ import {BiEdit, BiTrash} from 'react-icons/bi'
 import {Link} from 'react-router-dom'
 import {FiArrowLeft} from 'react-icons/fi'
 import {getUserLots} from '../../services/lots'
-import {getAllGames, getGamePlatform, getGameServersByGameID} from '../../services/games'
+import {getAllGames} from '../../services/games'
 
 const MyAds = () => {
     const [userLots, setUserLots] = useState([])
@@ -17,11 +17,7 @@ const MyAds = () => {
     const [perPage, setPerPage] = useState(5)
     const [pagesArr, setPagesArr] = useState([])
     const [games, setGames] = useState([])
-    const [servers, setServers] = useState([])
-    const [platforms, setPlatforms] = useState([])
     const [filterGame, setFilterGame] = useState('')
-    const [filterServer, setFilterServer] = useState('')
-    const [filterPlatform, setFilterPlatform] = useState('')
     const userId = useSelector((state) => state.auth.user.id)
 
     useEffect(() => {
@@ -29,23 +25,15 @@ const MyAds = () => {
     }, [])
 
     useEffect(() => {
-        setFilterPlatform('')
-        setFilterServer('')
-        setPlatforms([])
-        setServers([])
         setCurrentPage(1)
-        if (filterGame) {
-            getGamePlatform(filterGame).then((arr) => arr && setPlatforms(arr))
-            getGameServersByGameID(filterGame).then((arr) => arr && setServers(arr))
-        }
     }, [filterGame])
 
     useEffect(() => {
-        getUserLots(userId, currentPage, perPage, filterGame, filterServer, filterPlatform).then((arr) => {
+        getUserLots(userId, currentPage, perPage, filterGame).then((arr) => {
             setUserLots(arr)
             createPagesArr(arr.meta.lastPage)
         })
-    }, [currentPage, filterGame, filterServer, filterPlatform])
+    }, [currentPage, filterGame])
 
     const createPagesArr = (lastPage) => {
         let arr = []
@@ -80,28 +68,6 @@ const MyAds = () => {
                         ))}
                     </select>
                 </Col>
-                <Col className="d-xl-flex align-items-center">
-                    <span className="me-3">Сервер:</span>
-                    <select defaultValue={0} onChange={(e) => setFilterServer(e.target.value)}>
-                        <option value={''}></option>
-                        {servers?.map((server) => (
-                            <option value={server?.id} key={server?.id}>
-                                {server?.name}
-                            </option>
-                        ))}
-                    </select>
-                </Col>
-                <Col className="d-xl-flex align-items-center">
-                    <span className="me-3">Платформа:</span>
-                    <select defaultValue={0} onChange={(e) => setFilterPlatform(e.target.value)}>
-                        <option value={''}></option>
-                        {platforms?.map((platform) => (
-                            <option value={platform?.id} key={platform?.id}>
-                                {platform?.name}
-                            </option>
-                        ))}
-                    </select>
-                </Col>
             </Row>
 
             {/* ---------------- Lots ------------------------------------------------------------------------------ */}
@@ -109,7 +75,6 @@ const MyAds = () => {
                 <thead>
                     <tr>
                         <th>Название&nbsp;игры</th>
-                        <th>Платформа</th>
                         <th>Описание</th>
                         <th>Цена</th>
                         <th></th>
@@ -119,7 +84,6 @@ const MyAds = () => {
                     {userLots?.data?.map((lot) => (
                         <tr key={lot.id}>
                             <td>{lot?.gameInfo?.name}</td>
-                            <td>{lot?.platform?.name}</td>
                             <td>
                                 {lot?.description.length > 150
                                     ? lot?.description.substring(0, 150) + '...'
