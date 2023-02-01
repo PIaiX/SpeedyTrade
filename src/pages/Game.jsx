@@ -113,11 +113,7 @@ const Game = () => {
                 (res) => setLots({isLoaded: true, items: res.data})
             )
         }
-        if (lots.items.length > 0) console.log(lots.items)
     }, [currentRegion, currentCategory, selectedOptions, onlineOnly, query])
-
-    // console.log('region: ' + currentRegion + '\ncategory: ' + currentCategory.id)
-    // console.log(game)
 
     return (
         <main>
