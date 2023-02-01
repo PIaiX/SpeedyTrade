@@ -26,6 +26,8 @@ const Game = () => {
     const [currentCategory, setCurrentCategory] = useState({}) // { id: number, key: number }
     const [selectedOptions, setSelectedOptions] = useState([]) // { propertyId: number, option: number }[]
     const [parametersToShow, setParametersToShow] = useState([])
+    const [onlineOnly, setOnlineOnly] = useState(false)
+    const [query, setQuery] = useState('')
 
     const [lots, setLots] = useState({
         isLoaded: false,
@@ -90,7 +92,16 @@ const Game = () => {
     useEffect(() => {
         if (!game.isLoaded) return
 
+        // Reset selected options
         setSelectedOptions([])
+
+        // Set parameters to show in lot list
+        setParametersToShow([])
+        game.categories[currentCategory.key]?.parameters?.map((parameter) => {
+            if (parameter.displayInLotList) setParametersToShow((arr) => [...arr, parameter])
+        })
+
+        // set location
         navigate(`/game/${game.slug}/${currentRegion}/${currentCategory.id}`, {replace: true})
     }, [currentRegion, currentCategory])
 
@@ -98,14 +109,14 @@ const Game = () => {
     useEffect(() => {
         let options = selectedOptions.map((o) => o.option).filter(Number)
         if (currentCategory.id && currentRegion) {
-            getLotsByCategoryRegionAndParams(currentRegion, currentCategory.id, options).then((res) =>
-                setLots({isLoaded: true, items: res.data})
+            getLotsByCategoryRegionAndParams(currentRegion, currentCategory.id, options, onlineOnly, query).then(
+                (res) => setLots({isLoaded: true, items: res.data})
             )
         }
-    }, [currentRegion, currentCategory, selectedOptions])
+        if (lots.items.length > 0) console.log(lots.items)
+    }, [currentRegion, currentCategory, selectedOptions, onlineOnly, query])
 
     // console.log('region: ' + currentRegion + '\ncategory: ' + currentCategory.id)
-    // if (lots.items.length > 0) console.log(lots.items)
     // console.log(game)
 
     return (
@@ -201,7 +212,6 @@ const Game = () => {
                             game.categories[currentCategory.key] &&
                             game.categories[currentCategory.key].parameters &&
                             game.categories[currentCategory.key].parameters.map((parameter) => {
-                                // if (parameter.displayInLotList) console.log(parameter)
                                 return (
                                     <div
                                         key={parameter.id}
@@ -227,14 +237,18 @@ const Game = () => {
                                     <br className="d-none d-sm-inline d-md-none" /> онлайн:
                                 </span>
                                 <label className="switch ms-2">
-                                    <input type="checkbox" />
+                                    <input type="checkbox" onChange={(e) => setOnlineOnly(e.target.checked)} />
                                 </label>
                             </div>
                         </div>
 
                         <div className="flex-grow-1 pb-3 pe-3 pe-md-0">
                             <form className="form-search-2 ms-xl-4">
-                                <input type="search" placeholder="Поиск по описанию" />
+                                <input
+                                    type="search"
+                                    placeholder="Поиск по описанию"
+                                    onChange={(e) => setQuery(e.target.value)}
+                                />
                                 <button type="submit">
                                     <FiSearch />
                                 </button>
@@ -248,6 +262,10 @@ const Game = () => {
                             <Table borderless responsive className="mb-5">
                                 <thead>
                                     <tr>
+                                        {parametersToShow.length > 0 &&
+                                            parametersToShow.map((param) => (
+                                                <th key={`param-${param.id}`}>{param.name}</th>
+                                            ))}
                                         <th>Описание</th>
                                         <th>Продавец</th>
                                         <th>Цена</th>
@@ -258,6 +276,16 @@ const Game = () => {
                                         (lot) =>
                                             lot.isVisible && (
                                                 <tr className="lot-preview" key={'lot-' + lot.id}>
+                                                    {parametersToShow.length > 0 &&
+                                                        parametersToShow.map((param) => (
+                                                            <td key={`param-${param.id}-${lot.id}`}>
+                                                                {
+                                                                    lot.options.find(
+                                                                        (option) => option.parameterId === param.id
+                                                                    )?.name
+                                                                }
+                                                            </td>
+                                                        ))}
                                                     <td>
                                                         <Link to={`/lot/${lot.id}`}>
                                                             {lot.description.length > 300
@@ -283,7 +311,11 @@ const Game = () => {
                                                                     }
                                                                     alt={lot.user.fullName}
                                                                 />
-                                                                <div className="indicator online"></div>
+                                                                <div
+                                                                    className={`indicator ${
+                                                                        lot.user.isOnline && 'online'
+                                                                    }`}
+                                                                ></div>
                                                             </div>
                                                             <div>
                                                                 <h5 className="achromat-2 mb-1">
