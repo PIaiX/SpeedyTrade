@@ -88,3 +88,12 @@ export const postLot = async (payloads) => {
         return {status: 500, body: error}
     }
 }
+
+export const editLot = async (lotId, payloads) => {
+    try {
+        const response = await $authApi.patch(`${apiRoutes.GET_LOTS}/${lotId}`, payloads)
+        return response?.data
+    } catch (error) {
+        return {status: 500, body: error}
+    }
+}

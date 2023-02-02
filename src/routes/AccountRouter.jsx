@@ -30,6 +30,7 @@ const AccountRouter = () => {
                 <Route path="profile" element={<Profile />} />
                 <Route path="ads" element={<MyAds />} />
                 <Route path="ads/new" element={<PostAd />} />
+                <Route path="ads/edit/:lotId" element={<PostAd />} />
                 <Route path="purchase-history" element={<PurchaseHistory />} />
                 <Route path="sales" element={<SalesHistory />} />
                 <Route path="finance" element={<Finance />} />

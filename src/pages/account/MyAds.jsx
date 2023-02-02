@@ -98,7 +98,7 @@ const MyAds = () => {
                                     <Dropdown.Menu>
                                         <Dropdown.Item as="button">
                                             <BiEdit />
-                                            <span>Редактировать</span>
+                                            <Link to={`edit/${lot.id}`}>Редактировать</Link>
                                         </Dropdown.Item>
                                         <Dropdown.Item as="button">
                                             <BiTrash />
