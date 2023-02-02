@@ -107,16 +107,7 @@ const Game = () => {
             <Container>
                 <section className="game-page pt-4 pt-sm-5 mb-6">
                     <div className="d-md-flex align-items-center justify-content-between mb-4 mb-sm-5">
-                        <h1 className="mb-md-0">
-                            {game?.name || (
-                                <Skeleton
-                                    count={1}
-                                    baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
-                                    highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
-                                    width={'200px'}
-                                />
-                            )}
-                        </h1>
+                        <h1 className="mb-md-0">{game?.name}</h1>
                         <BtnAddFav favoriteStatus={game?.isFavorite} gameId={game.id} userId={userId} />
                     </div>
 
@@ -145,31 +136,16 @@ const Game = () => {
                     {/* Game image & description ---------------------------------------------------------------------------------------------------------- */}
                     <Row>
                         <Col xs={12} lg={7} xl={8}>
-                            {game?.image ? (
+                            {game?.image && (
                                 <img
                                     src={getImageURL(game?.image)}
                                     alt={game?.name}
                                     className="main-img mb-4 mb-lg-0"
                                 />
-                            ) : (
-                                <Skeleton
-                                    baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
-                                    highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
-                                    height={'100%'}
-                                    width={'100%'}
-                                />
                             )}
                         </Col>
                         <Col xs={12} lg={5} xl={4} className="achromat-1 fs-11">
-                            <p>
-                                {game?.topDescription || (
-                                    <Skeleton
-                                        count={6}
-                                        baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
-                                        highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
-                                    />
-                                )}
-                            </p>
+                            <p>{game?.topDescription}</p>
                         </Col>
                     </Row>
 
@@ -251,8 +227,8 @@ const Game = () => {
                     </div>
 
                     {/* Lots ------------------------------------------------------------------------------------------------------------------------------ */}
-                    {lots.isLoaded ? (
-                        lots.items?.length > 0 ? (
+                    {lots.isLoaded &&
+                        (lots.items?.length > 0 ? (
                             <Table borderless responsive className="mb-5">
                                 <thead>
                                     <tr>
@@ -341,15 +317,7 @@ const Game = () => {
                             </Table>
                         ) : (
                             <h6>Лоты отсутствуют</h6>
-                        )
-                    ) : (
-                        <Skeleton
-                            baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
-                            highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
-                            height={'10em'}
-                            width={'100%'}
-                        />
-                    )}
+                        ))}
 
                     <p>{game?.bottomDescription}</p>
                 </section>
