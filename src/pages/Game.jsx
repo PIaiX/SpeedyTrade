@@ -24,7 +24,7 @@ const Game = () => {
     })
     const [currentRegion, setCurrentRegion] = useState()
     const [currentCategory, setCurrentCategory] = useState({}) // { id: number, key: number }
-    const [selectedOptions, setSelectedOptions] = useState([]) // { propertyId: number, option: number }[]
+    const [selectedOptions, setSelectedOptions] = useState({}) // { [propertyId: number]: number }
     const [parametersToShow, setParametersToShow] = useState([])
     const [onlineOnly, setOnlineOnly] = useState(false)
     const [query, setQuery] = useState('')
@@ -33,19 +33,6 @@ const Game = () => {
         isLoaded: false,
         items: [],
     })
-
-    // Set game parameters options
-    const setOptions = (id, value) => {
-        let arr = selectedOptions.slice()
-        let result = arr.find((o, i) => {
-            if (o?.propertyId === id) {
-                arr[i] = {propertyId: id, option: value}
-                setSelectedOptions(arr)
-                return true
-            }
-        })
-        if (!result) setSelectedOptions((arr) => [...arr, {propertyId: id, option: value}])
-    }
 
     // Time converter
     const timeOnSite = (timeDate) => {
@@ -93,25 +80,25 @@ const Game = () => {
         if (!game.isLoaded) return
 
         // Reset selected options
-        setSelectedOptions([])
+        setSelectedOptions({})
 
         // Set parameters to show in lot list
         setParametersToShow([])
         game.categories[currentCategory.key]?.parameters?.map((parameter) => {
             if (parameter.displayInLotList) setParametersToShow((arr) => [...arr, parameter])
         })
-
-        // set location
-        // navigate(`/game/${game.slug}/${currentRegion}/${currentCategory.id}`, {replace: true})
     }, [currentRegion, currentCategory])
 
     // Get lots by category & parameters options
     useEffect(() => {
-        let options = selectedOptions.map((o) => o.option).filter(Number)
         if (currentCategory.id && currentRegion) {
-            getLotsByCategoryRegionAndParams(currentRegion, currentCategory.id, options, onlineOnly, query).then(
-                (res) => setLots({isLoaded: true, items: res.data})
-            )
+            getLotsByCategoryRegionAndParams(
+                currentRegion,
+                currentCategory.id,
+                Object.values(selectedOptions).filter(Number),
+                onlineOnly,
+                query
+            ).then((res) => setLots({isLoaded: true, items: res.data}))
         }
     }, [currentRegion, currentCategory, selectedOptions, onlineOnly, query])
 
@@ -218,8 +205,15 @@ const Game = () => {
                                         id={parameter.id}
                                         className="flex-grow-1 flex-md-shrink-1 pb-3 pe-3"
                                     >
-                                        <select onChange={(e) => setOptions(parameter.id, e.target.value)}>
-                                            <option value={0}>{parameter.name}</option>
+                                        <select
+                                            onChange={(e) =>
+                                                setSelectedOptions((options) => ({
+                                                    ...options,
+                                                    [parameter.id]: Number(e?.target.value),
+                                                }))
+                                            }
+                                        >
+                                            <option value={''}>{parameter.name}</option>
                                             {parameter.options.map((option) => (
                                                 <option key={'option-' + option.id} value={option.id}>
                                                     {option.name}
