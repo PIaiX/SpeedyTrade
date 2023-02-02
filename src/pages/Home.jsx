@@ -206,7 +206,7 @@ const Home = () => {
                         allGames?.items?.filter((i) => i?.name?.toLowerCase().startsWith(letter))?.length > 0 && (
                             <section id={`sort-${index + 3}`} className="mb-6" key={`letter-${letter}`}>
                                 <div className="d-flex align-items-center mb-4 mb-sm-5">
-                                    <h3>{letter.toUpperCase() + letter}</h3>
+                                    <h3>{letter.toUpperCase()}</h3>
                                     <hr className="horizontal flex-1 ms-4" />
                                 </div>
                                 <Row xs={2} md={3} lg={4} className="gy-5 gx-4 gx-xl-5">
