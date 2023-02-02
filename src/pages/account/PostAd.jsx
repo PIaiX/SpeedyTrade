@@ -63,7 +63,7 @@ const PostAd = () => {
         categoryId: selectedOptionCategory ? selectedOptionCategory.value : null,
         regionId: selectedOptionRegion ? selectedOptionRegion.value : null,
         minPrice: minPrice,
-        options: Object.values(options), //options.map((o) => o.option).filter(Number),
+        options: Object.values(options),
     }
 
     const addLot = () => {
@@ -167,8 +167,9 @@ const PostAd = () => {
         !selectedOptionCategory && setSelectedOptionCategory(optionsCategory.find((o) => o.value === lot.categoryId))
         !description && setDescription(lot.description)
         !amount && setAmount(lot.amount)
-        !price && setPrice(lot.price)
         !active && setActive(lot.isVisible)
+        !price && setPrice(lot.price)
+        lot.minPrice && setMinPrice(lot.minPrice)
     }, [lot, optionsRegion, optionsCategory])
 
     return (
@@ -341,7 +342,7 @@ const PostAd = () => {
                                             <label className="switch">
                                                 <input
                                                     type="checkbox"
-                                                    defaultChecked={true}
+                                                    checked={active}
                                                     onChange={(e) => setActive(e.target.checked)}
                                                 />
                                             </label>
@@ -349,18 +350,21 @@ const PostAd = () => {
                                         <td>
                                             <input
                                                 type="number"
+                                                defaultValue={lot && amount}
                                                 onChange={(e) => setAmount(e.target.valueAsNumber)}
                                             />
                                         </td>
                                         <td>
                                             <input
                                                 type="number"
+                                                defaultValue={lot && price}
                                                 onChange={(e) => setPrice(e.target.valueAsNumber)}
                                             />
                                         </td>
                                         <td className="d-flex align-items-center">
                                             <input
                                                 type="number"
+                                                defaultValue={lot && minPrice}
                                                 onChange={(e) => setMinPrice(e.target.valueAsNumber)}
                                             />
                                             <span className="ms-3">руб.</span>
