@@ -1,23 +1,23 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import InputFile from '../../components/utils/InputFile'
 import ChatMessage from '../../components/ChatMessage'
 import Dropdown from 'react-bootstrap/Dropdown'
-import {Link, useParams} from 'react-router-dom'
-import {IoEllipsisHorizontal} from 'react-icons/io5'
-import {BiTrash} from 'react-icons/bi'
-import {FiChevronLeft, FiSend} from 'react-icons/fi'
-import {createTicketMessage, getAllTicketMessages} from '../../services/tickets'
+import { Link, useParams } from 'react-router-dom'
+import { IoEllipsisHorizontal } from 'react-icons/io5'
+import { BiTrash } from 'react-icons/bi'
+import { FiChevronLeft, FiSend } from 'react-icons/fi'
+import { createTicketMessage, getAllTicketMessages } from '../../services/tickets'
 import InfiniteScroll from 'react-infinite-scroller'
-import {useForm} from 'react-hook-form'
-import {apiValidationRules} from '../../config/api'
+import { useForm } from 'react-hook-form'
+import { apiValidationRules } from '../../config/api'
 import ValidateWrapper from '../../components/UI/ValidateWrapper'
 import Loader from '../../components/UI/Loader'
-import {useSelector} from 'react-redux'
-import {dispatchAlert} from '../../helpers/alert'
-import {convertToLocaleDate} from '../../helpers/convertToLocaleDate'
+import { useSelector } from 'react-redux'
+import { dispatchAlert } from '../../helpers/alert'
+import { convertToLocaleDate } from '../../helpers/convertToLocaleDate'
 
 const Ticket = () => {
-    const {id} = useParams()
+    const { id } = useParams()
     const [messages, setMessages] = useState({
         isLoaded: false,
         items: [],
@@ -29,7 +29,7 @@ const Ticket = () => {
 
     const {
         register,
-        formState: {errors},
+        formState: { errors },
         handleSubmit,
         // setValue,
         reset,
@@ -74,14 +74,9 @@ const Ticket = () => {
             }
         }
 
-        // Object.values(data?.attachedfile).forEach((i) => formData.append('attachedfile[]', i))
-        formData.append('attachedfile[]', data?.attachedfile[0])
+        data?.attachedfile > 0 && formData.append('attachedfile[]', data?.attachedfile[0])
 
-        console.log(data)
-        for (const pair of formData.entries()) {
-            console.log(`${pair[0]}: "${pair[1]}"`)
-        }
-
+        console.log(formData)
         createTicketMessage(formData)
             .then((res) => {
                 console.log(res)
@@ -100,7 +95,7 @@ const Ticket = () => {
 
     const getMessages = () => {
         if (id) {
-            getAllTicketMessages(id, {page: currentPage, limit: 4, orderBy: 'desc'})
+            getAllTicketMessages(id, { page: currentPage, limit: 4, orderBy: 'desc' })
                 .then((res) => {
                     res &&
                         setMessages({
@@ -111,7 +106,7 @@ const Ticket = () => {
                     setCurrentPage((prevState) => prevState + 1)
                 })
                 .catch(() => {
-                    setMessages({isLoaded: true, items: null})
+                    setMessages({ isLoaded: true, items: null })
                 })
         }
     }
@@ -176,7 +171,7 @@ const Ticket = () => {
                                 placeholder="Введите сообщение"
                                 {...register('text', {
                                     required: apiValidationRules.required,
-                                    minLength: {value: 0, message: 'Минимум 1 символ!'},
+                                    minLength: { value: 0, message: 'Минимум 1 символ!' },
                                 })}
                             />
                         </ValidateWrapper>
