@@ -21,7 +21,7 @@ const GameMidi = (props) => {
                 </figure>
             </Link>
             <div className="mt-3 d-flex flex-wrap align-items-center">
-                {props?.regions?.length > 0 &&
+                {props?.regions?.length > 1 &&
                     props.regions.map((region) => {
                         return (
                             <NavLink
