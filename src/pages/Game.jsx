@@ -1,30 +1,121 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Table from 'react-bootstrap/Table'
-import {FiSearch} from 'react-icons/fi'
+import { FiSearch } from 'react-icons/fi'
 import BtnAddFav from '../components/utils/BtnAddFav'
-import {Link, useNavigate, useParams, ScrollRestoration} from 'react-router-dom'
-import {getOneGame} from '../services/games'
-import {getImageURL} from '../helpers/image'
-import Skeleton from 'react-loading-skeleton'
+import { Link, useNavigate, useParams, ScrollRestoration } from 'react-router-dom'
+import { getOneGame } from '../services/games'
+import { getImageURL } from '../helpers/image'
 import 'react-loading-skeleton/dist/skeleton.css'
-import {useSelector} from 'react-redux'
-import {getLotsByCategoryRegionAndParams} from '../services/lots'
+import { useSelector } from 'react-redux'
+import { getLotsByCategoryRegionAndParams } from '../services/lots'
 import StarRating from '../components/utils/StarRating'
 
+const Parameters = ({ params, selectedOptions, setSelectedOptions, selectedNumericOptions, setSelectedNumericOptions }) => {
+    const [childrenParam, setChildrenParam] = useState({})
+    const [prevChildrenParams, setPrevChildrenParams] = useState({})
+
+    // On children change, remove those children params from selected
+    useEffect(() => {
+        if (prevChildrenParams) {
+
+            let optCopy = Object.assign({}, selectedOptions)
+            Object.values(prevChildrenParams).map(children => children.map(child => {
+                delete optCopy[child.id]
+            }))
+            setSelectedOptions(optCopy)
+        }
+
+        setPrevChildrenParams(childrenParam)
+    }, [childrenParam])
+
+    if (!params) return
+
+    return params.map((parameter) => (
+        <>
+            <div key={parameter.id}
+                className='flex-grow-1 flex-md-shrink-1 pb-3 pe-3 d-flex align-items-center flex-wrap gap-2'>
+                {parameter.isNumeric
+                    ? // Numeric Options
+                    <>
+                        {parameter.name}
+                        <label className='d-flex flex-nowrap gap-2'>от
+                            <input
+                                type="number"
+                                placeholder="0"
+                                min={parameter.min}
+                                max={parameter.max}
+                                onChange={(e) => {
+                                    setSelectedNumericOptions({
+                                        ...selectedNumericOptions,
+                                        [parameter.id]: { ...selectedNumericOptions[parameter.id], min: Number(e?.target.value) },
+                                    })
+                                }}
+                            />
+                        </label>
+                        <label className='d-flex flex-nowrap gap-2'>до
+                            <input
+                                type="number"
+                                placeholder="0"
+                                min={parameter.min}
+                                max={parameter.max}
+                                onChange={(e) => {
+                                    setSelectedNumericOptions({
+                                        ...selectedNumericOptions,
+                                        [parameter.id]: { ...selectedNumericOptions[parameter.id], max: Number(e?.target.value) },
+                                    })
+                                }}
+                            />
+                        </label>
+                    </>
+                    : // Selectable options
+                    <select
+                        onChange={(e) => {
+                            setSelectedOptions({ ...selectedOptions, [parameter.id]: Number(e?.target.value) })
+                            setChildrenParam({
+                                ...childrenParam,
+                                [parameter.id]: e?.target.selectedIndex > 0
+                                    ? parameter.options[e?.target.selectedIndex - 1].childParameter
+                                    : []
+                            })
+                        }}
+                    >
+                        <option value={''}>{parameter.name}</option>
+                        {parameter?.options?.map((option) => (
+                            <option key={'option-' + option.id} value={option.id}>
+                                {option.name}
+                            </option>
+                        ))}
+                    </select>}
+            </div>
+            {childrenParam && childrenParam[parameter.id] && childrenParam[parameter.id].length > 0 && (
+                <Parameters
+                    params={childrenParam[parameter.id]}
+                    selectedOptions={selectedOptions}
+                    setSelectedOptions={setSelectedOptions}
+                    selectedNumericOptions={selectedNumericOptions}
+                    setSelectedNumericOptions={setSelectedNumericOptions}
+                />
+            )}
+        </>
+    ))
+}
+
 const Game = () => {
-    const navigate = useNavigate()
     const theme = useSelector((state) => state?.theme?.mode)
     const userId = useSelector((state) => state?.auth?.user?.id)
-    const {slug, regId, catId} = useParams()
+    const { slug, regId, catId } = useParams()
     const [game, setGame] = useState({
         isLoaded: false,
     })
+    const [servers, setServers] = useState(null)
     const [currentRegion, setCurrentRegion] = useState()
+    const [currentServer, setCurrentServer] = useState('')
     const [currentCategory, setCurrentCategory] = useState({}) // { id: number, key: number }
     const [selectedOptions, setSelectedOptions] = useState({}) // { [propertyId: number]: number }
+    const [selectedNumericOptions, setSelectedNumericOptions] = useState({})
     const [parametersToShow, setParametersToShow] = useState([])
     const [onlineOnly, setOnlineOnly] = useState(false)
     const [query, setQuery] = useState('')
@@ -34,11 +125,12 @@ const Game = () => {
         items: [],
     })
 
+
     // Time converter
     const timeOnSite = (timeDate) => {
         let date = new Date(timeDate)
-        let month = date.toLocaleString('ru-RU', {month: 'long'})
-        let year = date.toLocaleString('ru-RU', {year: 'numeric'})
+        let month = date.toLocaleString('ru-RU', { month: 'long' })
+        let year = date.toLocaleString('ru-RU', { year: 'numeric' })
         let string
         if (month.endsWith('ь')) {
             string = month.replace(/ь/i, 'я') + ' ' + year
@@ -48,10 +140,19 @@ const Game = () => {
         return string
     }
 
+    useEffect(() => {
+        console.log(selectedOptions)
+    }, [selectedOptions])
+
+    useEffect(() => {
+        console.log(selectedNumericOptions)
+    }, [selectedNumericOptions])
+
+
     // Get game JSON
     useEffect(() => {
         getOneGame(slug)
-            .then((res) => res && setGame({isLoaded: true, ...res}) && console.log(res))
+            .then((res) => res && setGame({ isLoaded: true, ...res }))
             .catch(() => console.log())
     }, [slug])
 
@@ -68,11 +169,10 @@ const Game = () => {
         // Set active category
         if (catId) {
             let key = game.categories.findIndex((cat) => cat.id == catId)
-            setCurrentCategory({id: catId, key: key})
+            setCurrentCategory({ id: catId, key: key })
         } else if (game.categories.length > 0) {
-            setCurrentCategory({id: game.categories[0].id, key: 0})
+            setCurrentCategory({ id: game.categories[0].id, key: 0 })
         }
-
         // eslint-disable-next-line no-prototype-builtins
     }, [game])
 
@@ -84,47 +184,49 @@ const Game = () => {
 
         // Set parameters to show in lot list
         setParametersToShow([])
-        game.categories[currentCategory.key]?.parameters?.map((parameter) => {
+        game.categories[currentCategory.key].parameters?.map((parameter) => {
             if (parameter.displayInLotList) setParametersToShow((arr) => [...arr, parameter])
         })
+
+        game.regions.map((reg) => reg.id == currentRegion && setServers(reg.servers))
     }, [currentRegion, currentCategory])
 
-    // Get lots by category & parameters options
+    // Get lots filtered by region, server, category & parameters options
     useEffect(() => {
         if (currentCategory.id && currentRegion) {
             getLotsByCategoryRegionAndParams(
                 currentRegion,
+                currentServer === 0 ? '' : currentServer,
                 currentCategory.id,
                 Object.values(selectedOptions).filter(Number),
                 onlineOnly,
                 query
-            ).then((res) => setLots({isLoaded: true, items: res.data}))
+            ).then((res) => setLots({ isLoaded: true, items: res.data }))
         }
-    }, [currentRegion, currentCategory, selectedOptions, onlineOnly, query])
+    }, [currentRegion, currentServer, currentCategory, selectedOptions, onlineOnly, query])
 
     return (
         <main>
             <Container>
                 <section className="game-page pt-4 pt-sm-5 mb-6">
-                    <div className="d-md-flex align-items-center justify-content-between mb-4 mb-sm-5">
+                    <div className="d-md-flex align-items-center justify-content-between mb-4 mb-sm-2">
                         <h1 className="mb-md-0">{game?.name}</h1>
                         <BtnAddFav favoriteStatus={game?.isFavorite} gameId={game.id} userId={userId} />
                     </div>
 
                     {/* Game regions ---------------------------------------------------------------------------------------------------------------------- */}
-                    <div style={{paddingBottom: '10px'}}>
-                        {game.regions &&
-                            game.regions.map((region) => {
+                    <div style={{ paddingBottom: '10px' }}>
+                        {game.regions?.length > 1 &&
+                            game.regions?.map((region) => {
                                 return (
                                     <Link
                                         to={`/game/${game.slug}/${region.id}/${currentCategory.id}`}
                                         preventScrollReset={true}
                                         type="button"
                                         key={'region-' + region.id}
-                                        className={`btn-4 p-2 fs-08 me-1 mb-2 text-uppercase ${
-                                            currentRegion == region.id ? 'active' : ''
-                                        } `}
-                                        style={{display: 'inline-block'}}
+                                        className={`btn-4 p-2 fs-08 me-1 mb-2 text-uppercase ${currentRegion == region.id ? 'active' : ''
+                                            } `}
+                                        style={{ display: 'inline-block' }}
                                         onClick={() => setCurrentRegion(region.id)}
                                     >
                                         {region.name}
@@ -157,11 +259,10 @@ const Game = () => {
                                 preventScrollReset={true}
                                 key={category.id}
                                 type="button"
-                                className={`${
-                                    category.id == currentCategory.id ? 'active' : ''
-                                } btn-7 flex-column mb-2 me-2 me-lg-4`}
+                                className={`${category.id == currentCategory.id ? 'active' : ''
+                                    } btn-7 flex-column mb-2 me-2 me-lg-4`}
                                 onClick={() => {
-                                    setCurrentCategory({id: category.id, key: index})
+                                    setCurrentCategory({ id: category.id, key: index })
                                 }}
                             >
                                 <span className="fw-5">{category.name}</span>
@@ -169,36 +270,19 @@ const Game = () => {
                         ))}
                     </div>
 
-                    {/* Category parameters --------------------------------------------------------------------------------------------------------------- */}
-                    <div className="d-flex flex-row align-items-center flex-wrap mt-4 mt-sm-5 mb-4">
-                        {game.categories &&
-                            game.categories[currentCategory.key] &&
-                            game.categories[currentCategory.key].parameters &&
-                            game.categories[currentCategory.key].parameters.map((parameter) => {
-                                return (
-                                    <div
-                                        key={parameter.id}
-                                        id={parameter.id}
-                                        className="flex-grow-1 flex-md-shrink-1 pb-3 pe-3"
-                                    >
-                                        <select
-                                            onChange={(e) =>
-                                                setSelectedOptions((options) => ({
-                                                    ...options,
-                                                    [parameter.id]: Number(e?.target.value),
-                                                }))
-                                            }
-                                        >
-                                            <option value={''}>{parameter.name}</option>
-                                            {parameter.options.map((option) => (
-                                                <option key={'option-' + option.id} value={option.id}>
-                                                    {option.name}
-                                                </option>
-                                            ))}
-                                        </select>
-                                    </div>
-                                )
-                            })}
+                    {/* Main parameters ------------------------------------------------------------------------------------------------------------------- */}
+                    <div className="d-flex flex-row align-items-center flex-wrap mt-3 mt-sm-4 mb-3">
+                        <div key={''} className="flex-grow-1 flex-md-shrink-1 pb-3 pe-3">
+                            <select onChange={(e) => setCurrentServer(Number(e?.target.value))}>
+                                <option value={''}>Сервер</option>
+                                {servers?.length > 0 &&
+                                    servers.map((server) => (
+                                        <option key={'option-' + server.id} value={server.id}>
+                                            {server.name}
+                                        </option>
+                                    ))}
+                            </select>
+                        </div>
 
                         <div className="d-sm-flex align-items-center flex-shrink-1 flex-md-grow-1 pb-3 pe-3">
                             <div className="d-flex align-items-center">
@@ -224,6 +308,19 @@ const Game = () => {
                                 </button>
                             </form>
                         </div>
+                    </div>
+
+                    {/* Category parameters --------------------------------------------------------------------------------------------------------------- */}
+                    <div className="d-flex flex-row align-items-center flex-wrap mb-3">
+                        {game.categories && game.categories[currentCategory.key] && (
+                            <Parameters
+                                params={game.categories[currentCategory.key].parameters}
+                                selectedOptions={selectedOptions}
+                                setSelectedOptions={setSelectedOptions}
+                                selectedNumericOptions={selectedNumericOptions}
+                                setSelectedNumericOptions={setSelectedNumericOptions}
+                            />
+                        )}
                     </div>
 
                     {/* Lots ------------------------------------------------------------------------------------------------------------------------------ */}
@@ -254,6 +351,12 @@ const Game = () => {
                                                                         (option) => option.parameterId === param.id
                                                                     )?.name
                                                                 }
+                                                                {
+                                                                    lot.numericParameters.find(
+                                                                        (numericOption) =>
+                                                                            numericOption.id === param.id
+                                                                    )?.numericValue
+                                                                }
                                                             </td>
                                                         ))}
                                                     <td>
@@ -282,9 +385,8 @@ const Game = () => {
                                                                     alt={lot.user.fullName}
                                                                 />
                                                                 <div
-                                                                    className={`indicator ${
-                                                                        lot.user.isOnline && 'online'
-                                                                    }`}
+                                                                    className={`indicator ${lot.user.isOnline && 'online'
+                                                                        }`}
                                                                 ></div>
                                                             </div>
                                                             <div>
