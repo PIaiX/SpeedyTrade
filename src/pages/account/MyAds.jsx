@@ -1,15 +1,15 @@
-import React, {useState, useEffect} from 'react'
-import {useSelector} from 'react-redux'
+import React, { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Table from 'react-bootstrap/Table'
 import Dropdown from 'react-bootstrap/Dropdown'
-import {IoEllipsisHorizontal} from 'react-icons/io5'
-import {BiEdit, BiTrash} from 'react-icons/bi'
-import {Link} from 'react-router-dom'
-import {FiArrowLeft} from 'react-icons/fi'
-import {getUserLots} from '../../services/lots'
-import {getAllGames} from '../../services/games'
+import { IoEllipsisHorizontal } from 'react-icons/io5'
+import { BiEdit, BiTrash } from 'react-icons/bi'
+import { Link } from 'react-router-dom'
+import { FiArrowLeft } from 'react-icons/fi'
+import { getUserLots } from '../../services/lots'
+import { getAllGames } from '../../services/games'
 
 const MyAds = () => {
     const [userLots, setUserLots] = useState([])
@@ -29,7 +29,7 @@ const MyAds = () => {
     }, [filterGame])
 
     useEffect(() => {
-        getUserLots(userId, currentPage, perPage, filterGame).then((arr) => {
+        getUserLots(userId, currentPage, perPage, filterGame, '').then((arr) => {
             setUserLots(arr)
             createPagesArr(arr.meta.lastPage)
         })
@@ -71,7 +71,7 @@ const MyAds = () => {
             </Row>
 
             {/* ---------------- Lots ------------------------------------------------------------------------------ */}
-            <Table borderless responsive className="my-4">
+            <Table borderless responsive className="my-4" style={{ minHeight: '230px' }}>
                 <thead>
                     <tr>
                         <th>Название&nbsp;игры</th>
