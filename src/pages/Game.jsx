@@ -89,6 +89,7 @@ const Game = () => {
         values?.forEach(i => {
             if (i != 0) r.push(parseInt(i));
         });
+
         if (currentCategoryId) {
             getLotsByCategoryAndParams(currentCategoryId, r).then((res) => setLots({ isLoaded: true, items: res.data }));
         }
@@ -185,11 +186,12 @@ const Game = () => {
                             && categories[categoriesId].parameters.map((val, index) =>
                                 <div key={index} id={index} className="flex-grow-1 flex-md-shrink-1 pb-3 pe-3" >
                                     <select
-                                        onChange={(event, index) => {
+                                        onChange={(event) => {
                                             let r = [];
                                             values.forEach((i, index) => r[index] = i);
-                                            r[event.target.id] = event.target.value;
+                                            r[index] = event.target.value;
                                             setValues(r);
+
                                         }}>
                                         <option value={0}>{val.name}</option>
                                         {val.options.map((j, jndex) =>
