@@ -25,7 +25,6 @@ const Game = () => {
         isLoaded: false
     });
     const [currentCategoryId, setCurrentCategoryId] = useState(null);
-    const [category, setCategory] = useState();
     const [categoriesId, setCategoriesId] = useState(0);
     const [values, setValues] = useState();
     const [lots, setLots] = useState({
@@ -94,7 +93,7 @@ const Game = () => {
             getLotsByCategoryAndParams(currentCategoryId, r).then((res) => setLots({ isLoaded: true, items: res.data }));
         }
     }, [values])
-    console.log(lots)
+
     return (
         <main>
             <Container>
@@ -233,6 +232,7 @@ const Game = () => {
                             <Table borderless responsive className="mb-5">
                                 <thead>
                                     <tr>
+                                        <th>Сервер</th>
                                         <th>Описание</th>
                                         <th>Продавец</th>
                                         <th>Цена</th>
