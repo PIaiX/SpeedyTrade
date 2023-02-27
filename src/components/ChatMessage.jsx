@@ -1,13 +1,13 @@
-import React, {useState, useEffect, memo, useCallback} from 'react'
-import {Link, NavLink} from 'react-router-dom'
-import {useSelector} from 'react-redux'
+import React, { useState, useEffect, memo, useCallback } from 'react'
+import { Link, NavLink } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import Moment from 'react-moment'
 import 'moment/locale/ru'
-import {convertToLocaleDate} from '../helpers/convertToLocaleDate'
+import { convertToLocaleDate } from '../helpers/convertToLocaleDate'
 import ImageViewer from 'react-simple-image-viewer'
-import {getImageURL} from '../helpers/image'
+import { getImageURL } from '../helpers/image'
 
-const SingleMessage = ({msg}) => {
+const SingleMessage = ({ msg }) => {
     const user = useSelector((state) => state.auth.user)
     const [currentImage, setCurrentImage] = useState(null)
     const [isViewerOpen, setIsViewerOpen] = useState(false)
@@ -60,11 +60,11 @@ const SingleMessage = ({msg}) => {
             </div>
 
             <div className={`chat-box${user?.id === msg?.userId ? '-reverse' : ''}-messages`}>
-                <div className="bubble" style={!msg.isViewed ? {border: 'thin solid var(--bg-2)'} : undefined}>
-                    {msg.lotId
+                <div className="bubble" style={!msg.isViewed ? { border: 'thin solid var(--bg-2)' } : undefined}>
+                    {msg.lot
                         && <p>
                             <NavLink to={`/lot/${msg.lotId}`}>
-                                <div style={{borderLeft:"thin solid var(--bg-2)", padding:"5px"}} >
+                                <div style={{ borderLeft: "thin solid var(--bg-2)", padding: "5px" }} >
                                     <div className={"opacity-50"}>
                                         <div>
                                             описание: {msg.lot.description}
@@ -109,7 +109,7 @@ const SingleMessage = ({msg}) => {
     )
 }
 
-const ChatMessage = ({keyArr, arr}) => {
+const ChatMessage = ({ keyArr, arr }) => {
     const newDate = keyArr && convertToLocaleDate(keyArr, true)
     const convertedDate = new Date(newDate)
 
