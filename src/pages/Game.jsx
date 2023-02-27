@@ -19,6 +19,9 @@ const Parameters = ({ params, selectedOptions, setSelectedOptions, selectedNumer
 
     // On children change, remove those children params from selected
     useEffect(() => {
+
+        if (childrenParam === prevChildrenParams) return
+
         if (prevChildrenParams) {
 
             let optCopy = Object.assign({}, selectedOptions)
@@ -76,12 +79,15 @@ const Parameters = ({ params, selectedOptions, setSelectedOptions, selectedNumer
                     <select
                         onChange={(e) => {
                             setSelectedOptions({ ...selectedOptions, [parameter.id]: Number(e?.target.value) })
-                            setChildrenParam({
-                                ...childrenParam,
-                                [parameter.id]: e?.target.selectedIndex > 0
-                                    ? parameter.options[e?.target.selectedIndex - 1].childParameter
-                                    : []
-                            })
+                            e?.target.selectedIndex === 0
+                                ?
+                                setChildrenParam({ ...childrenParam, [parameter.id]: [] })
+                                :
+                                parameter.options[e?.target.selectedIndex - 1].childParameter.length > 0 &&
+                                setChildrenParam({
+                                    ...childrenParam,
+                                    [parameter.id]: parameter.options[e?.target.selectedIndex - 1].childParameter
+                                })
                         }}
                     >
                         <option value={''}>{parameter.name}</option>
@@ -174,6 +180,7 @@ const Game = () => {
 
         // Reset selected options
         setSelectedOptions({})
+        setSelectedNumericOptions({})
 
         // Set parameters to show in lot list
         setParametersToShow([])
@@ -323,6 +330,7 @@ const Game = () => {
                             <Table borderless responsive className="mb-5">
                                 <thead>
                                     <tr>
+                                        <th>Сервер</th>
                                         {parametersToShow.length > 0 &&
                                             parametersToShow.map((param) => (
                                                 <th key={`param-${param.id}`}>{param.name}</th>
@@ -337,6 +345,7 @@ const Game = () => {
                                         (lot) =>
                                             lot.isVisible && (
                                                 <tr className="lot-preview" key={'lot-' + lot.id}>
+                                                    <td>{lot.serverName ? lot.serverName : '-'}</td>
                                                     {parametersToShow.length > 0 &&
                                                         parametersToShow.map((param) => (
                                                             <td key={`param-${param.id}-${lot.id}`}>
