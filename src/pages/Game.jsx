@@ -4,203 +4,285 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Table from 'react-bootstrap/Table'
 import { FiSearch } from 'react-icons/fi'
-import LotPreview from '../components/LotPreview'
 import BtnAddFav from '../components/utils/BtnAddFav'
-import { NavLink, useNavigate, useParams } from 'react-router-dom'
-import { getCategories, getOneGame } from '../services/games'
+import { Link, useNavigate, useParams, ScrollRestoration } from 'react-router-dom'
+import { getOneGame } from '../services/games'
 import { getImageURL } from '../helpers/image'
-import Skeleton from 'react-loading-skeleton'
 import 'react-loading-skeleton/dist/skeleton.css'
 import { useSelector } from 'react-redux'
-import useGetLotsByCategory from '../hooks/axios/getLotsByCategory'
-import { getLotsByCategoryAndParams } from "../services/lots";
+import { getLotsByCategoryRegionAndParams } from '../services/lots'
+import StarRating from '../components/utils/StarRating'
+
+const Parameters = ({ params, selectedOptions, setSelectedOptions, selectedNumericOptions, setSelectedNumericOptions }) => {
+    const [childrenParam, setChildrenParam] = useState({})
+    const [prevChildrenParams, setPrevChildrenParams] = useState({})
+
+    // On children change, remove those children params from selected
+    useEffect(() => {
+        if (prevChildrenParams) {
+
+            let optCopy = Object.assign({}, selectedOptions)
+            Object.values(prevChildrenParams).map(children => children.map(child => {
+                delete optCopy[child.id]
+            }))
+            setSelectedOptions(optCopy)
+        }
+
+        setPrevChildrenParams(childrenParam)
+    }, [childrenParam])
+
+    if (!params) return
+
+    return params.map((parameter) => (
+        <>
+            <div key={parameter.id}
+                className='flex-grow-1 flex-md-shrink-1 pb-3 pe-3 d-flex align-items-center flex-wrap gap-2'>
+                {parameter.isNumeric
+                    ? // Numeric Options
+                    <>
+                        {parameter.name}
+                        <label className='d-flex flex-nowrap gap-2'>от
+                            <input
+                                type="number"
+                                placeholder="0"
+                                min={parameter.min}
+                                max={parameter.max}
+                                onChange={(e) => {
+                                    setSelectedNumericOptions({
+                                        ...selectedNumericOptions,
+                                        [parameter.id]: { ...selectedNumericOptions[parameter.id], min: Number(e?.target.value) },
+                                    })
+                                }}
+                            />
+                        </label>
+                        <label className='d-flex flex-nowrap gap-2'>до
+                            <input
+                                type="number"
+                                placeholder="0"
+                                min={parameter.min}
+                                max={parameter.max}
+                                onChange={(e) => {
+                                    setSelectedNumericOptions({
+                                        ...selectedNumericOptions,
+                                        [parameter.id]: { ...selectedNumericOptions[parameter.id], max: Number(e?.target.value) },
+                                    })
+                                }}
+                            />
+                        </label>
+                    </>
+                    : // Selectable options
+                    <select
+                        onChange={(e) => {
+                            setSelectedOptions({ ...selectedOptions, [parameter.id]: Number(e?.target.value) })
+                            setChildrenParam({
+                                ...childrenParam,
+                                [parameter.id]: e?.target.selectedIndex > 0
+                                    ? parameter.options[e?.target.selectedIndex - 1].childParameter
+                                    : []
+                            })
+                        }}
+                    >
+                        <option value={''}>{parameter.name}</option>
+                        {parameter?.options?.map((option) => (
+                            <option key={'option-' + option.id} value={option.id}>
+                                {option.name}
+                            </option>
+                        ))}
+                    </select>}
+            </div>
+            {childrenParam && childrenParam[parameter.id] && childrenParam[parameter.id].length > 0 && (
+                <Parameters
+                    params={childrenParam[parameter.id]}
+                    selectedOptions={selectedOptions}
+                    setSelectedOptions={setSelectedOptions}
+                    selectedNumericOptions={selectedNumericOptions}
+                    setSelectedNumericOptions={setSelectedNumericOptions}
+                />
+            )}
+        </>
+    ))
+}
 
 const Game = () => {
-    const navigate = useNavigate();
-    const theme = useSelector((state) => state?.theme?.mode);
-    const userId = useSelector((state) => state?.auth?.user?.id);
-    const { slug } = useParams();
-    const { region } = useParams();
+    const theme = useSelector((state) => state?.theme?.mode)
+    const userId = useSelector((state) => state?.auth?.user?.id)
+    const { slug, regId, catId } = useParams()
     const [game, setGame] = useState({
-        isLoaded: false
-    });
-    const [currentCategoryId, setCurrentCategoryId] = useState(null);
-    const [category, setCategory] = useState();
-    const [categoriesId, setCategoriesId] = useState(0);
-    const [values, setValues] = useState();
+        isLoaded: false,
+    })
+    const [servers, setServers] = useState(null)
+    const [currentRegion, setCurrentRegion] = useState()
+    const [currentServer, setCurrentServer] = useState('')
+    const [currentCategory, setCurrentCategory] = useState({}) // { id: number, key: number }
+    const [selectedOptions, setSelectedOptions] = useState({}) // { [propertyId: number]: number }
+    const [selectedNumericOptions, setSelectedNumericOptions] = useState({})
+    const [parametersToShow, setParametersToShow] = useState([])
+    const [onlineOnly, setOnlineOnly] = useState(false)
+    const [query, setQuery] = useState('')
+
     const [lots, setLots] = useState({
         isLoaded: false,
         items: [],
-    });
-    const [categories, setCategories] = useState();
+    })
 
 
+    // Time converter
+    const timeOnSite = (timeDate) => {
+        let date = new Date(timeDate)
+        let month = date.toLocaleString('ru-RU', { month: 'long' })
+        let year = date.toLocaleString('ru-RU', { year: 'numeric' })
+        let string
+        if (month.endsWith('ь')) {
+            string = month.replace(/ь/i, 'я') + ' ' + year
+        } else {
+            string = month.concat('а') + ' ' + year
+        }
+        return string
+    }
+
+    useEffect(() => {
+        console.log(selectedOptions)
+    }, [selectedOptions])
+
+    useEffect(() => {
+        console.log(selectedNumericOptions)
+    }, [selectedNumericOptions])
+
+
+    // Get game JSON
     useEffect(() => {
         getOneGame(slug)
-            .then((res) => res && setGame({ isLoaded: true, ...res }) && console.log(res))
-            .catch(() => console.log());
-    }, [slug]);
+            .then((res) => res && setGame({ isLoaded: true, ...res }))
+            .catch(() => console.log())
+    }, [slug])
 
     useEffect(() => {
+        if (!game.isLoaded) return
+
+        // Set active region
+        if (regId) {
+            setCurrentRegion(regId)
+        } else if (game.regions.length > 0) {
+            setCurrentRegion(game.regions[0].id)
+        }
+
+        // Set active category
+        if (catId) {
+            let key = game.categories.findIndex((cat) => cat.id == catId)
+            setCurrentCategory({ id: catId, key: key })
+        } else if (game.categories.length > 0) {
+            setCurrentCategory({ id: game.categories[0].id, key: 0 })
+        }
         // eslint-disable-next-line no-prototype-builtins
-        if (game?.hasOwnProperty("regions")) {
-            setCurrentCategoryId(
-                game?.regions
-                    ?.map((i) =>
-                        i.categories?.map((k) => {
-                            return { name: k.name, id: k.id };
-                        })
-                    )
-                    .flat()[0]?.id
-            );
-            setCategories(game.categories);
-        }
-        if (game.regions) {
-            let regionId = -1;
-            for (let i = 0; i < game.regions.length; i++) {
-                if (game.regions[i].name === region) {
-                    regionId = i;
-                    break;
-                }
-            }
-            if (regionId == -1) {
-                navigate("/game/" + game.name + "/" + game.regions[0].name);
-            }
-        }
-    }, [game]);
+    }, [game])
 
     useEffect(() => {
-        categories && setCurrentCategoryId(categories[0].id);
-    }, [categories]);
+        if (!game.isLoaded) return
 
+        // Reset selected options
+        setSelectedOptions({})
 
+        // Set parameters to show in lot list
+        setParametersToShow([])
+        game.categories[currentCategory.key].parameters?.map((parameter) => {
+            if (parameter.displayInLotList) setParametersToShow((arr) => [...arr, parameter])
+        })
+
+        game.regions.map((reg) => reg.id == currentRegion && setServers(reg.servers))
+    }, [currentRegion, currentCategory])
+
+    // Get lots filtered by region, server, category & parameters options
     useEffect(() => {
-        let r = [];
-        if (categories && categories[categoriesId].parameters) {
-            for (let i of categories[categoriesId].parameters)
-                r.push(0);
+        if (currentCategory.id && currentRegion) {
+            getLotsByCategoryRegionAndParams(
+                currentRegion,
+                currentServer === 0 ? '' : currentServer,
+                currentCategory.id,
+                Object.values(selectedOptions).filter(Number),
+                onlineOnly,
+                query
+            ).then((res) => setLots({ isLoaded: true, items: res.data }))
         }
-        setValues(r);
-    }, [currentCategoryId]);
+    }, [currentRegion, currentServer, currentCategory, selectedOptions, onlineOnly, query])
 
-
-    useEffect(() => {
-        let r = [];
-        values?.forEach(i => {
-            if (i != 0) r.push(parseInt(i));
-        });
-        if (currentCategoryId) {
-            getLotsByCategoryAndParams(currentCategoryId, r).then((res) => setLots({ isLoaded: true, items: res.data }));
-        }
-    }, [values])
-    console.log(lots)
     return (
         <main>
             <Container>
                 <section className="game-page pt-4 pt-sm-5 mb-6">
-                    <div className="d-md-flex align-items-center justify-content-between mb-4 mb-sm-5">
-                        <h1 className="mb-md-0">
-                            {game?.name || (
-                                <Skeleton
-                                    count={1}
-                                    baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
-                                    highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
-                                    width={'200px'}
-                                />
-                            )}
-                        </h1>
+                    <div className="d-md-flex align-items-center justify-content-between mb-4 mb-sm-2">
+                        <h1 className="mb-md-0">{game?.name}</h1>
                         <BtnAddFav favoriteStatus={game?.isFavorite} gameId={game.id} userId={userId} />
                     </div>
-                    <div style={{ paddingBottom: "10px" }}>
-                        {game.regions && game.regions.map((val, index) => (
-                            <NavLink key={index} to={"/game/" + slug + "/" + val.name}>
-                                <div
-                                    className={`btn-4 p-2 fs-08 me-1 mb-2 text-uppercase 
-                    ${region === val.name ? "active" : ""} `}
-                                    style={{ "display": "inline-block" }}>
-                                    {val.name}
-                                </div>
-                            </NavLink>
-                        )
-                        )}
 
+                    {/* Game regions ---------------------------------------------------------------------------------------------------------------------- */}
+                    <div style={{ paddingBottom: '10px' }}>
+                        {game.regions?.length > 1 &&
+                            game.regions?.map((region) => {
+                                return (
+                                    <Link
+                                        to={`/game/${game.slug}/${region.id}/${currentCategory.id}`}
+                                        preventScrollReset={true}
+                                        type="button"
+                                        key={'region-' + region.id}
+                                        className={`btn-4 p-2 fs-08 me-1 mb-2 text-uppercase ${currentRegion == region.id ? 'active' : ''
+                                            } `}
+                                        style={{ display: 'inline-block' }}
+                                        onClick={() => setCurrentRegion(region.id)}
+                                    >
+                                        {region.name}
+                                    </Link>
+                                )
+                            })}
                     </div>
+
+                    {/* Game image & description ---------------------------------------------------------------------------------------------------------- */}
                     <Row>
                         <Col xs={12} lg={7} xl={8}>
-                            {game?.image ? (
+                            {game?.image && (
                                 <img
                                     src={getImageURL(game?.image)}
                                     alt={game?.name}
                                     className="main-img mb-4 mb-lg-0"
                                 />
-                            ) : (
-                                <Skeleton
-                                    baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
-                                    highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
-                                    height={'100%'}
-                                    width={'100%'}
-                                />
                             )}
                         </Col>
                         <Col xs={12} lg={5} xl={4} className="achromat-1 fs-11">
-                            <p>
-                                {game?.topDescription || (
-                                    <Skeleton
-                                        count={6}
-                                        baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
-                                        highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
-                                    />
-                                )}
-                            </p>
+                            <p>{game?.topDescription}</p>
                         </Col>
                     </Row>
 
+                    {/* Categories ------------------------------------------------------------------------------------------------------------------------ */}
                     <div className="d-flex flex-wrap mt-4 mt-sm-5">
-                        {game?.categories?.map((k) => {
-                            return { name: k.name, id: k.id }
-                        })
-                            .flat()
-                            .map((i, index) => (
-                                <button
-                                    key={i.id}
-                                    type="button"
-                                    className={`${i.id === currentCategoryId ? 'active' : ''
-                                        } btn-7 flex-column mb-2 me-2 me-lg-4`}
-                                    onClick={() => {
-                                        setCurrentCategoryId(i.id)
-                                        setCategoriesId(index);
-                                    }}
-                                >
-                                    <span className="fw-5">{i.name}</span>
-                                </button>
-                            ))}
+                        {game?.categories?.map((category, index) => (
+                            <Link
+                                to={`/game/${game.slug}/${currentRegion}/${category.id}`}
+                                preventScrollReset={true}
+                                key={category.id}
+                                type="button"
+                                className={`${category.id == currentCategory.id ? 'active' : ''
+                                    } btn-7 flex-column mb-2 me-2 me-lg-4`}
+                                onClick={() => {
+                                    setCurrentCategory({ id: category.id, key: index })
+                                }}
+                            >
+                                <span className="fw-5">{category.name}</span>
+                            </Link>
+                        ))}
                     </div>
 
-
-
-                    <div className="d-flex flex-row align-items-center flex-wrap mt-4 mt-sm-5 mb-4">
-                        {categories
-                            && categories[categoriesId]
-                            && categories[categoriesId].parameters
-                            && categories[categoriesId].parameters.map((val, index) =>
-                                <div key={index} id={index} className="flex-grow-1 flex-md-shrink-1 pb-3 pe-3" >
-                                    <select
-                                        onChange={(event, index) => {
-                                            let r = [];
-                                            values.forEach((i, index) => r[index] = i);
-                                            r[event.target.id] = event.target.value;
-                                            setValues(r);
-                                        }}>
-                                        <option value={0}>{val.name}</option>
-                                        {val.options.map((j, jndex) =>
-                                            <option key={jndex} value={j.id}>
-                                                {j.name}
-                                            </option>
-                                        )}
-                                    </select>
-                                </div>
-                            )
-                        }
+                    {/* Main parameters ------------------------------------------------------------------------------------------------------------------- */}
+                    <div className="d-flex flex-row align-items-center flex-wrap mt-3 mt-sm-4 mb-3">
+                        <div key={''} className="flex-grow-1 flex-md-shrink-1 pb-3 pe-3">
+                            <select onChange={(e) => setCurrentServer(Number(e?.target.value))}>
+                                <option value={''}>Сервер</option>
+                                {servers?.length > 0 &&
+                                    servers.map((server) => (
+                                        <option key={'option-' + server.id} value={server.id}>
+                                            {server.name}
+                                        </option>
+                                    ))}
+                            </select>
+                        </div>
 
                         <div className="d-sm-flex align-items-center flex-shrink-1 flex-md-grow-1 pb-3 pe-3">
                             <div className="d-flex align-items-center">
@@ -209,28 +291,48 @@ const Game = () => {
                                     <br className="d-none d-sm-inline d-md-none" /> онлайн:
                                 </span>
                                 <label className="switch ms-2">
-                                    <input type="checkbox" />
+                                    <input type="checkbox" onChange={(e) => setOnlineOnly(e.target.checked)} />
                                 </label>
                             </div>
                         </div>
 
                         <div className="flex-grow-1 pb-3 pe-3 pe-md-0">
                             <form className="form-search-2 ms-xl-4">
-                                <input type="search" placeholder="Поиск по описанию" />
+                                <input
+                                    type="search"
+                                    placeholder="Поиск по описанию"
+                                    onChange={(e) => setQuery(e.target.value)}
+                                />
                                 <button type="submit">
                                     <FiSearch />
                                 </button>
                             </form>
                         </div>
-
-
                     </div>
 
-                    {lots.isLoaded ? (
-                        lots.items?.length > 0 ? (
+                    {/* Category parameters --------------------------------------------------------------------------------------------------------------- */}
+                    <div className="d-flex flex-row align-items-center flex-wrap mb-3">
+                        {game.categories && game.categories[currentCategory.key] && (
+                            <Parameters
+                                params={game.categories[currentCategory.key].parameters}
+                                selectedOptions={selectedOptions}
+                                setSelectedOptions={setSelectedOptions}
+                                selectedNumericOptions={selectedNumericOptions}
+                                setSelectedNumericOptions={setSelectedNumericOptions}
+                            />
+                        )}
+                    </div>
+
+                    {/* Lots ------------------------------------------------------------------------------------------------------------------------------ */}
+                    {lots.isLoaded &&
+                        (lots.items?.length > 0 ? (
                             <Table borderless responsive className="mb-5">
                                 <thead>
                                     <tr>
+                                        {parametersToShow.length > 0 &&
+                                            parametersToShow.map((param) => (
+                                                <th key={`param-${param.id}`}>{param.name}</th>
+                                            ))}
                                         <th>Описание</th>
                                         <th>Продавец</th>
                                         <th>Цена</th>
@@ -238,35 +340,86 @@ const Game = () => {
                                 </thead>
                                 <tbody>
                                     {lots.items?.map(
-                                        (i) =>
-                                            i.isVisible && (
-                                                <LotPreview
-                                                    key={i.id}
-                                                    lotId={i.id}
-                                                    description={i.description}
-                                                    userId={i.userId}
-                                                    avatar={getImageURL(i.user?.avatar)}
-                                                    fullName={i.user?.fullName}
-                                                    nickname={i.user?.nickname}
-                                                    rating={i.user?.rating}
-                                                    createdAt={i.user?.createdAt}
-                                                    price={i.priceCommission}
-                                                />
+                                        (lot) =>
+                                            lot.isVisible && (
+                                                <tr className="lot-preview" key={'lot-' + lot.id}>
+                                                    {parametersToShow.length > 0 &&
+                                                        parametersToShow.map((param) => (
+                                                            <td key={`param-${param.id}-${lot.id}`}>
+                                                                {
+                                                                    lot.options.find(
+                                                                        (option) => option.parameterId === param.id
+                                                                    )?.name
+                                                                }
+                                                                {
+                                                                    lot.numericParameters.find(
+                                                                        (numericOption) =>
+                                                                            numericOption.id === param.id
+                                                                    )?.numericValue
+                                                                }
+                                                            </td>
+                                                        ))}
+                                                    <td>
+                                                        <Link to={`/lot/${lot.id}`}>
+                                                            {lot.description.length > 300
+                                                                ? lot.description.substring(0, 300) + '...'
+                                                                : lot.description}
+                                                        </Link>
+                                                    </td>
+                                                    <td>
+                                                        <Link
+                                                            to={
+                                                                lot.userId === userId
+                                                                    ? '/account/profile'
+                                                                    : `/user/${lot.userId}`
+                                                            }
+                                                            className="lot-preview-user"
+                                                        >
+                                                            <div className="img">
+                                                                <img
+                                                                    src={
+                                                                        lot.user.avatar
+                                                                            ? getImageURL(lot.user.avatar)
+                                                                            : '/images/user2.png'
+                                                                    }
+                                                                    alt={lot.user.fullName}
+                                                                />
+                                                                <div
+                                                                    className={`indicator ${lot.user.isOnline && 'online'
+                                                                        }`}
+                                                                ></div>
+                                                            </div>
+                                                            <div>
+                                                                <h5 className="achromat-2 mb-1">
+                                                                    {lot.user.fullName}
+                                                                </h5>
+                                                                <div className="achromat-3 mb-1">
+                                                                    @{lot.user.nickname}
+                                                                </div>
+                                                                <StarRating
+                                                                    rate={lot.user.rating}
+                                                                    className="justify-content-start fs-08"
+                                                                />
+                                                                <div>
+                                                                    На&nbsp;сайте с&nbsp;
+                                                                    {timeOnSite(lot.user.createdAt)}&nbsp;г
+                                                                </div>
+                                                            </div>
+                                                        </Link>
+                                                    </td>
+                                                    <td>
+                                                        <div className="color-1 fw-7">
+                                                            {lot.priceCommission}&nbsp;руб.
+                                                        </div>
+                                                    </td>
+                                                </tr>
                                             )
                                     )}
                                 </tbody>
                             </Table>
                         ) : (
                             <h6>Лоты отсутствуют</h6>
-                        )
-                    ) : (
-                        <Skeleton
-                            baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
-                            highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
-                            height={'10em'}
-                            width={'100%'}
-                        />
-                    )}
+                        ))}
 
                     <p>{game?.bottomDescription}</p>
                 </section>

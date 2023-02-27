@@ -48,12 +48,12 @@ const MessageWindow = () => {
         meta: null,
     })
 
-    useEffect(() => {
-        const chatBody = document.getElementById('chatBody')
-        return () => {
-            chatBody.scrollTop = chatBody.scrollHeight
-        }
-    })
+    // useEffect(() => {
+    //     const chatBody = document.getElementById('chatBody')
+    //     return () => {
+    //         chatBody.scrollTop = chatBody.scrollHeight
+    //     }
+    // }, [messages])
 
     useEffect(() => {
         setTimeout(() => {

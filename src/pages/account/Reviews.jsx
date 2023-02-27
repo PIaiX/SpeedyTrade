@@ -1,18 +1,17 @@
-import React, {useCallback, useEffect, useState} from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import StarRating from '../../components/utils/StarRating'
 import Review from '../../components/Review'
-import {Link} from 'react-router-dom'
-import {FiArrowLeft} from 'react-icons/fi'
+import { Link } from 'react-router-dom'
+import { FiArrowLeft } from 'react-icons/fi'
 import useGetReview from '../../hooks/axios/getReview'
-import {useSelector} from 'react-redux'
-import Skeleton from 'react-loading-skeleton'
-import {getMyReviews} from '../../services/reviews'
+import { useSelector } from 'react-redux'
+import { getMyReviews } from '../../services/reviews'
 
 const Reviews = () => {
     const user = useSelector((state) => state?.auth?.user)
     const [tab, setTab] = useState(0)
     const theme = useSelector((state) => state?.theme?.mode)
-    const {reviews} = useGetReview(user?.id)
+    const { reviews } = useGetReview(user?.id)
     const [myReviews, setMyReviews] = useState({
         isLoaded: false,
         items: [],
@@ -20,14 +19,14 @@ const Reviews = () => {
 
     useEffect(() => {
         getMyReviews(user?.id)
-            .then((res) => setMyReviews({isLoaded: true, items: res}))
-            .catch(() => setMyReviews({isLoaded: true, items: []}))
+            .then((res) => setMyReviews({ isLoaded: true, items: res }))
+            .catch(() => setMyReviews({ isLoaded: true, items: [] }))
     }, [user?.id])
 
     const refetch = useCallback(() => {
         getMyReviews(user?.id)
-            .then((res) => setMyReviews({isLoaded: true, items: res}))
-            .catch(() => setMyReviews({isLoaded: true, items: []}))
+            .then((res) => setMyReviews({ isLoaded: true, items: res }))
+            .catch(() => setMyReviews({ isLoaded: true, items: [] }))
     }, [user?.id])
 
     return (
@@ -56,64 +55,44 @@ const Reviews = () => {
 
             {tab === 0 ? (
                 <div>
-                    {reviews.isLoaded ? (
-                        reviews?.items?.length > 0 ? (
-                            reviews.items?.map((i) => (
-                                <Review
-                                    key={i.id}
-                                    myReview={false}
-                                    text={i.text}
-                                    avatar={i.user?.avatar}
-                                    fullName={i.user?.fullName}
-                                    nickname={i.user?.nickname}
-                                    rating={i.rating}
-                                    created={i.createdAtForUser}
-                                    userId={i.userId}
-                                />
-                            ))
-                        ) : (
-                            <h6>Отзывов нет</h6>
-                        )
+                    {reviews?.items?.length > 0 ? (
+                        reviews.items?.map((i) => (
+                            <Review
+                                key={i.id}
+                                myReview={false}
+                                text={i.text}
+                                avatar={i.user?.avatar}
+                                fullName={i.user?.fullName}
+                                nickname={i.user?.nickname}
+                                rating={i.rating}
+                                created={i.createdAtForUser}
+                                userId={i.userId}
+                            />
+                        ))
                     ) : (
-                        <Skeleton
-                            count={1}
-                            baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
-                            highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
-                            width={'100%'}
-                            height={'200px'}
-                        />
+                        <h6>Отзывов нет</h6>
                     )}
                 </div>
             ) : (
                 <div>
-                    {myReviews.isLoaded ? (
-                        myReviews.items?.length > 0 ? (
-                            myReviews.items?.map((i) => (
-                                <Review
-                                    reviewId={i.id}
-                                    key={i.id}
-                                    myReview={true}
-                                    text={i.text}
-                                    avatar={i.user?.avatar}
-                                    fullName={i.user?.fullName}
-                                    nickname={i.user?.nickname}
-                                    rating={i.rating}
-                                    created={i.createdAtForUser}
-                                    userId={i.userId}
-                                    seterRefetch={refetch}
-                                />
-                            ))
-                        ) : (
-                            <h6>Отзывов нет</h6>
-                        )
+                    {myReviews.items?.length > 0 ? (
+                        myReviews.items?.map((i) => (
+                            <Review
+                                reviewId={i.id}
+                                key={i.id}
+                                myReview={true}
+                                text={i.text}
+                                avatar={i.user?.avatar}
+                                fullName={i.user?.fullName}
+                                nickname={i.user?.nickname}
+                                rating={i.rating}
+                                created={i.createdAtForUser}
+                                userId={i.userId}
+                                seterRefetch={refetch}
+                            />
+                        ))
                     ) : (
-                        <Skeleton
-                            count={1}
-                            baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
-                            highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
-                            width={'100%'}
-                            height={'200px'}
-                        />
+                        <h6>Отзывов нет</h6>
                     )}
                 </div>
             )}

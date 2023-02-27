@@ -39,9 +39,21 @@ export const getLotsByCategory = async (categoryId) => {
     }
 }
 
-export const getLotsByCategoryAndParams = async (categoryId, params) => {
+export const getLotsByCategoryRegionAndParams = async (
+    regionId,
+    serverId,
+    categoryId,
+    params,
+    onlyOnline,
+    query
+) => {
     try {
-        const response = await $api.get(`${apiRoutes.LOTS_ACTIONS}?categoryId=${categoryId}&page=1&limit=10`, {params: {options:'['+params+']'}})
+        const response = await $api.get(
+            `${apiRoutes.LOTS_ACTIONS}?regionId=${regionId}&serverId=${serverId}&categoryId=${categoryId}&onlyOnline=${onlyOnline}&query=${query}&page=1&limit=10`,
+            {
+                params: {options: '[' + params + ']'},
+            }
+        )
         return response.data?.body
     } catch (error) {
         throw error
@@ -78,6 +90,15 @@ export const getLotReviews = async (id) => {
 export const postLot = async (payloads) => {
     try {
         const response = await $authApi.post(apiRoutes.GET_LOTS, payloads)
+        return response?.data
+    } catch (error) {
+        return {status: 500, body: error}
+    }
+}
+
+export const editLot = async (lotId, payloads) => {
+    try {
+        const response = await $authApi.patch(`${apiRoutes.GET_LOTS}/${lotId}`, payloads)
         return response?.data
     } catch (error) {
         return {status: 500, body: error}

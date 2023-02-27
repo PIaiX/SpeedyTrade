@@ -11,7 +11,7 @@ const SingleMessage = ({msg}) => {
     const user = useSelector((state) => state.auth.user)
     const [currentImage, setCurrentImage] = useState(null)
     const [isViewerOpen, setIsViewerOpen] = useState(false)
-    const [image, setImage] = useState([])
+    const [image, setImage] = useState(['/images/no-photo.jpg'])
 
     const openImageViewer = useCallback((index) => {
         setCurrentImage(index)
@@ -24,6 +24,7 @@ const SingleMessage = ({msg}) => {
     }
 
     useEffect(() => {
+        // console.log(msg)
         const loadImage = async (url) => {
             return new Promise((res, rej) => {
                 let img = new Image()
@@ -33,21 +34,29 @@ const SingleMessage = ({msg}) => {
                 img.onerror = (e) => {
                     setTimeout(() => {
                         loadImage(url).then((i) => res(i))
-                    }, 4000)
+                    }, 1000)
                 }
                 img.src = url
             })
         }
-        msg.attachedfile &&
-            loadImage(getImageURL(msg.attachedfile))
-                .then((img) => setImage([img]))
-                .catch((e) => console.log(e))
+        if (Array.isArray(msg.attachedfile)) {
+            msg.attachedfile.length > 0 &&
+                loadImage(getImageURL(msg.attachedfile[0].media))
+                    .then((img) => setImage([img]))
+                    .catch((e) => console.log(e))
+        } else {
+            msg.attachedfile &&
+                loadImage(getImageURL(msg.attachedfile))
+                    .then((img) => setImage([img]))
+                    .catch((e) => console.log(e))
+        }
     }, [msg])
 
     return (
         <div className={`chat-box${user?.id === msg?.userId ? '-reverse' : ''}`}>
             <div className={`chat-box${user?.id === msg?.userId ? '-reverse' : ''}-user`}>
                 <img src={getImageURL(msg?.userAvatar)} alt="avatar" />
+                <span className="chat-user-name">{msg?.userName}</span>
             </div>
 
             <div className={`chat-box${user?.id === msg?.userId ? '-reverse' : ''}-messages`}>
@@ -85,14 +94,14 @@ const SingleMessage = ({msg}) => {
     )
 }
 
-const ChatMessage = ({avatarUser, keyArr, arr}) => {
+const ChatMessage = ({keyArr, arr}) => {
     const newDate = keyArr && convertToLocaleDate(keyArr, true)
     const convertedDate = new Date(newDate)
 
     return (
         <>
             <Moment locale="ru" format="DD MMMM" date={convertedDate} />
-            {arr && arr.map((i) => <SingleMessage msg={i} ava={avatarUser} key={`chat${i.id}`} />)}
+            {arr && arr.map((i) => <SingleMessage msg={i} key={`chat${i.id}`} />)}
         </>
     )
 }

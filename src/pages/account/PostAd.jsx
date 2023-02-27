@@ -1,41 +1,141 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Select from 'react-select'
 import Table from 'react-bootstrap/Table'
-// import AdsTr2 from '../../components/AdsTr2'
 import { Link } from 'react-router-dom'
 import { FiArrowLeft } from 'react-icons/fi'
-import {
-    getAllGames,
-    getGamePlatform,
-    getGameRegions,
-    getGameServers,
-    getCategories,
-    getCategoryParameters,
-} from '../../services/games'
-import { postLot } from '../../services/lots'
+import { getAllGames, getOneGame, getGameRegions, getCategories, getCategoryParameters } from '../../services/games'
+import { getLot, postLot, editLot } from '../../services/lots'
 import swal from 'sweetalert'
 
+// Опциии для использование с react-select
+const getOptions = (res) => {
+    let arr = []
+    res?.map((el) => {
+        return arr.push({
+            value: el.id,
+            label: el.name,
+            currency: el.isCurrency,
+            slug: el.slug,
+            servers: el.servers,
+            childParameter: el.childParameter,
+        })
+    })
+    return arr
+}
+
+const Parameters = ({ params, lot, setNumericParameters, setOptions, numericParameters, options }) => {
+    const [chParam, setChParam] = useState({})
+
+    useEffect(() => {
+        return () => {
+            let optCopy = Object.assign({}, options)
+            params && params.length > 0 && params.map((par) => delete optCopy[par.id])
+            setOptions(optCopy)
+            setNumericParameters({})
+        }
+    }, [params])
+
+    if (!params) return
+
+    return params.map((parameter) => {
+        if (parameter.isNumeric) {
+            return (
+                <React.Fragment key={parameter.id}>
+                    <Col xs={12} sm={3} md={2}>
+                        {parameter.name}:
+                    </Col>
+                    <Col xs={12} sm={9} md={10} className="d-flex align-items-center">
+                        <input
+                            type="number"
+                            placeholder="0"
+                            className="flex-1"
+                            defaultValue={
+                                lot &&
+                                lot.numericParameters?.find((param) => param.id === parameter.id)?.numericValue
+                            }
+                            onChange={(e) => {
+                                setNumericParameters((options) => ({
+                                    ...options,
+                                    [parameter.id]: Number(e?.target.value),
+                                }))
+                            }}
+                        />
+                    </Col>
+                </React.Fragment>
+            )
+        } else {
+            let parOptions = getOptions(parameter.options)
+            let lotOption = lot ? lot.options.find((o) => o.parameterId == parameter.id)?.id : null
+
+            return (
+                <>
+                    <React.Fragment key={parameter.id}>
+                        <Col xs={12} sm={3} md={2}>
+                            {parameter.name}:
+                        </Col>
+                        <Col xs={12} sm={9} md={10}>
+                            <Select
+                                name="item"
+                                placeholder="Выбрать"
+                                classNamePrefix="react-select"
+                                options={parOptions}
+                                // isClearable={true}
+                                isSearchable={true}
+                                defaultValue={parOptions.find((o) => o.value === lotOption)}
+                                onChange={(e) => {
+                                    setOptions((options) => ({
+                                        ...options,
+                                        [parameter.id]: e?.value,
+                                    }))
+                                    setChParam((params) => ({ ...params, [parameter.id]: e.childParameter }))
+                                }}
+                            />
+                        </Col>
+                    </React.Fragment>
+                    {chParam && chParam[parameter.id] && chParam[parameter.id].length > 0 && (
+                        <Parameters
+                            params={chParam[parameter.id]}
+                            lot={lot}
+                            setNumericParameters={setNumericParameters}
+                            setOptions={setOptions}
+                            options={options}
+                            numericParameters={numericParameters}
+                        />
+                    )}
+                </>
+            )
+        }
+    })
+}
+
 const PostAd = () => {
+    const { lotId } = useParams()
+    const [lot, setLot] = useState()
+
     // Games
     const [selectedOptionGame, setSelectedOptionGame] = useState(null)
     const [optionsGames, setOptionsGames] = useState([])
+    // Selected game
+    const [selectedGame, setSelectedGame] = useState(null)
     // Regions
-    const [selectedOptionRegion, setSelectedOptionRegion] = useState(null)
-    const [optionsRegion, setOptionsRegion] = useState([])
+    const [selectedRegion, setSelectedRegion] = useState(null)
+    // Servers
+    const [selectedServer, setSelectedServer] = useState(null)
     // Lot category
-    const [selectedOptionCategory, setSelectedOptionCategory] = useState(null)
-    const [optionsCategory, setOptionsCategory] = useState([])
+    const [selectedCategory, setSelectedCategory] = useState(null)
     // Gold
     const [gold, setGold] = useState(false)
     // Parameters
     const [categoryParameters, setCategoryParameters] = useState([])
     // Options
-    const [options, setOptions] = useState([])
+    const [options, setOptions] = useState({})
+    // Numeric Options
+    const [numericParameters, setNumericParameters] = useState({})
     // description
     const [description, setDescription] = useState('')
     // Price
@@ -45,30 +145,10 @@ const PostAd = () => {
     // Amount
     const [amount, setAmount] = useState(0)
     // Active
-    const [active, setActive] = useState(true)
+    const [active, setActive] = useState(false)
     // User
     const userId = useSelector((state) => state.auth.user.id)
     const navigate = useNavigate()
-
-    const getOptions = (res) => {
-        let arr = []
-        res?.map((el) => {
-            return arr.push({ value: el.id, label: el.name, currency: el.isCurrency })
-        })
-        return arr
-    }
-
-    const getOptionsById = (id, value) => {
-        let arr = options.slice()
-        let result = arr.find((o, i) => {
-            if (o?.propertyId === id) {
-                arr[i] = { propertyId: id, option: value }
-                setOptions(arr)
-                return true
-            }
-        })
-        if (!result) setOptions((arr) => [...arr, { propertyId: id, option: value }])
-    }
 
     const postBody = {
         isVisible: active,
@@ -76,32 +156,48 @@ const PostAd = () => {
         price: price,
         amount: amount,
         userId: userId,
-        categoryId: selectedOptionCategory ? selectedOptionCategory.value : null,
-        regionId: selectedOptionRegion ? selectedOptionRegion.value : null,
-        minPrice: minPrice,
-        options: options.map((o) => o.option).filter(Number),
+        categoryId: selectedCategory ? selectedCategory.value : null,
+        regionId: selectedRegion ? selectedRegion.value : null,
+        serverId: selectedServer ? selectedServer.value : null,
+        numericParameters: numericParameters ?? null,
+        minPrice: minPrice ?? null,
+        options: Object.values(options),
     }
 
     const addLot = () => {
+        console.log(postBody)
+
         if (
             selectedOptionGame &&
-            selectedOptionCategory &&
-            selectedOptionRegion &&
+            selectedCategory &&
             description &&
             price &&
             price <= 10000000 &&
-            amount &&
-            categoryParameters.length === options.map((o) => o.option).filter(Number).length
+            amount //&&
+            //categoryParameters.length === Object.values(options).length + Object.values(numericParameters).length
         ) {
-            postLot(postBody)
-                .then((res) =>
-                    res.status === 500
-                        ? swal('Ошибка', 'Ошибка при отправке запроса', 'error')
-                        : swal('Успешно', 'Лот размещен', 'success').then(() => navigate('/account/ads'))
-                )
-                .catch(() => swal('Ошибка', 'Ошибка при отправке запроса', 'error'))
+            if (lot) {
+                // Редактирование лота
+                editLot(lot.id, postBody)
+                    .then((res) =>
+                        res.status === 500
+                            ? swal('Ошибка', res.body.response.data.message ?? '', 'error')
+                            : swal('Успешно', 'Лот успешно отредактирован', 'success').then(() =>
+                                navigate('/account/ads')
+                            )
+                    )
+                    .catch(() => swal('Ошибка', 'Ошибка при отправке запроса', 'error'))
+            } else {
+                // Создание лота
+                postLot(postBody)
+                    .then((res) =>
+                        res.status === 500
+                            ? swal('Ошибка', res.body.response.data.message ?? '', 'error')
+                            : swal('Успешно', 'Лот размещен', 'success').then(() => navigate('/account/ads'))
+                    )
+                    .catch((e) => swal('Ошибка', 'Ошибка при отправке запроса', 'error'))
+            }
         } else {
-            console.log(postBody)
             price > 10000000
                 ? swal({ text: 'Цена не более 10 000 000', icon: 'error' })
                 : swal({ text: 'Необходимо заполнить все поля', icon: 'error' })
@@ -118,48 +214,76 @@ const PostAd = () => {
     //fetch regions & categories
     useEffect(() => {
         if (selectedOptionGame) {
-            setSelectedOptionRegion(null)
-            setOptionsRegion([])
-            getGameRegions(selectedOptionGame.value)
-                .then((res) => getOptions(res))
-                .then((arr) => arr && setOptionsRegion(arr))
-            setSelectedOptionCategory(null)
-            setOptionsCategory([])
-            getCategories(selectedOptionGame.value)
-                .then((res) => getOptions(res))
-                .then((arr) => arr && setOptionsCategory(arr))
+            getOneGame(selectedOptionGame.slug).then((game) => setSelectedGame(game))
+            setSelectedRegion(null)
+            setSelectedServer(null)
+            setSelectedCategory(null)
         } else {
-            setSelectedOptionRegion(null)
-            setOptionsRegion([])
-            setSelectedOptionCategory(null)
-            setOptionsCategory([])
+            setSelectedRegion(null)
+            setSelectedServer(null)
+            setSelectedCategory(null)
         }
     }, [selectedOptionGame])
-
-    //fetch servers & categories
-    // useEffect(() => {
-    //     if (selectedOptionRegion) {
-
-    //     } else {
-    //         setSelectedOptionCategory(null)
-    //         setOptionsCategory([])
-    //     }
-    // }, [selectedOptionRegion])
 
     //fetch parameters
     useEffect(() => {
         setCategoryParameters([])
-        setOptions([])
-        if (selectedOptionCategory) {
-            getCategoryParameters(selectedOptionCategory.value).then((arr) => arr && setCategoryParameters(arr))
-            if (selectedOptionCategory.currency) {
+        setOptions({})
+        if (selectedCategory) {
+            if (lot) {
+                let optionsObjects = lot.options.map((option) => ({ [option.parameterId]: option.id }))
+                let lotOptions = Object.assign({}, ...optionsObjects)
+                selectedCategory?.value === lot.categoryId ? setOptions(lotOptions) : setOptions({})
+            }
+            getCategoryParameters(selectedCategory.value).then((arr) => arr && setCategoryParameters(arr))
+            if (selectedCategory.currency) {
                 setGold(true)
                 setDescription('Золото')
             } else {
                 setGold(false)
             }
         }
-    }, [selectedOptionCategory])
+        // console.log(numericParameters)
+    }, [selectedCategory])
+
+    useEffect(() => {
+        selectedRegion?.servers.length === 0 && setSelectedServer(null)
+    }, [selectedRegion])
+
+    // Edit lot -----------------------------------------------------------------------------------------------
+    useEffect(() => {
+        if (!lotId) return
+
+        getLot(lotId).then((res) => setLot(res))
+    }, [lotId])
+
+    useEffect(() => {
+        if (!lot) return
+        console.log(lot)
+
+        !selectedOptionGame && setSelectedOptionGame(optionsGames.find((o) => o.value === lot.gameInfo.id))
+        !selectedRegion && setSelectedRegion(getOptions(selectedGame?.regions).find((o) => o.value === lot.regionId))
+        !selectedServer &&
+            setSelectedServer(getOptions(selectedRegion?.servers).find((o) => o.value === lot.serverId))
+        !selectedCategory &&
+            setSelectedCategory(getOptions(selectedGame?.categories).find((o) => o.value === lot.categoryId))
+        !description && setDescription(lot.description)
+        !amount && setAmount(lot.amount)
+        !active && setActive(lot.isVisible)
+        !price && setPrice(lot.price)
+        lot.minPrice && setMinPrice(lot.minPrice)
+        lot.numericParameters.length > 0 &&
+            lot.numericParameters.map((param) =>
+                setNumericParameters((options) => ({
+                    ...options,
+                    [param.id]: param.numericValue,
+                }))
+            )
+    }, [lot, selectedGame, selectedRegion])
+
+    useEffect(() => {
+        console.log(options)
+    }, [options])
 
     return (
         <div className="main">
@@ -169,7 +293,7 @@ const PostAd = () => {
                 </Link>
                 <h4 className="color-1 mb-0">Мои объявления</h4>
             </div>
-            <p className="mb-4">Добавление нового объявления</p>
+            <p className="mb-4">{lot ? 'Редактирование объявления' : 'Добавление нового объявления'}</p>
             <form>
                 <Row className="g-3 g-lg-4 align-items-center">
                     {/* ---------------------- Game --------------------------------------------------------------- */}
@@ -182,12 +306,12 @@ const PostAd = () => {
                             placeholder="Выбрать"
                             classNamePrefix="react-select"
                             options={optionsGames}
-                            isClearable={true}
                             isSearchable={true}
                             value={selectedOptionGame}
                             onChange={setSelectedOptionGame}
                         />
                     </Col>
+
                     {/* ---------------------- Region ------------------------------------------------------------- */}
                     <Col xs={12} sm={3} md={2}>
                         Регион:
@@ -197,14 +321,33 @@ const PostAd = () => {
                             name="region"
                             placeholder="Выбрать"
                             classNamePrefix="react-select"
-                            options={optionsRegion}
+                            options={getOptions(selectedGame?.regions)}
                             isClearable={true}
                             isSearchable={true}
-                            value={selectedOptionRegion}
-                            onChange={setSelectedOptionRegion}
-                            isDisabled={optionsRegion.length === 0 ? true : false}
+                            value={selectedRegion}
+                            onChange={setSelectedRegion}
+                            isDisabled={selectedGame?.regions?.length > 0 ? false : true}
                         />
                     </Col>
+
+                    {/* ---------------------- Server ------------------------------------------------------------- */}
+                    <Col xs={12} sm={3} md={2}>
+                        Сервер:
+                    </Col>
+                    <Col xs={12} sm={9} md={10}>
+                        <Select
+                            name="region"
+                            placeholder="Выбрать"
+                            classNamePrefix="react-select"
+                            options={selectedRegion && getOptions(selectedRegion.servers)}
+                            isClearable={true}
+                            isSearchable={true}
+                            value={selectedServer}
+                            onChange={setSelectedServer}
+                            isDisabled={selectedRegion?.servers.length > 0 ? false : true}
+                        />
+                    </Col>
+
                     {/* ---------------------- Lot Category ------------------------------------------------------- */}
                     <Col xs={12} sm={3} md={2}>
                         Категория лота:
@@ -214,35 +357,24 @@ const PostAd = () => {
                             name="lot-category"
                             placeholder="Выбрать"
                             classNamePrefix="react-select"
-                            options={optionsCategory}
+                            options={getOptions(selectedGame?.categories)}
                             isClearable={true}
                             isSearchable={true}
-                            value={selectedOptionCategory}
-                            onChange={setSelectedOptionCategory}
-                            isDisabled={optionsCategory.length === 0 ? true : false}
+                            value={selectedCategory}
+                            onChange={setSelectedCategory}
+                            isDisabled={selectedGame?.categories?.length > 0 ? false : true}
                         />
                     </Col>
-                    {categoryParameters?.map((parameter) => {
-                        let options = getOptions(parameter.options)
-                        return (
-                            <React.Fragment key={parameter.id}>
-                                <Col xs={12} sm={3} md={2}>
-                                    {parameter.name}:
-                                </Col>
-                                <Col xs={12} sm={9} md={10}>
-                                    <Select
-                                        name="item"
-                                        placeholder="Выбрать"
-                                        classNamePrefix="react-select"
-                                        options={options}
-                                        isClearable={true}
-                                        isSearchable={true}
-                                        onChange={(e) => getOptionsById(parameter.id, e?.value)}
-                                    />
-                                </Col>
-                            </React.Fragment>
-                        )
-                    })}
+
+                    {/* ---------------------- Category parameters ------------------------------------------------ */}
+                    <Parameters
+                        params={categoryParameters}
+                        lot={lot}
+                        setNumericParameters={setNumericParameters}
+                        setOptions={setOptions}
+                        options={options}
+                        numericParameters={numericParameters}
+                    />
                     {/* ---------------------- Not Gold ----------------------------------------------------------- */}
                     {!gold ? (
                         <>
@@ -256,6 +388,7 @@ const PostAd = () => {
                                 <input
                                     type="text"
                                     placeholder="Описание"
+                                    defaultValue={lot && description}
                                     onChange={(e) => setDescription(e.target.value)}
                                 />
                             </Col>
@@ -270,6 +403,7 @@ const PostAd = () => {
                                     type="number"
                                     placeholder="0"
                                     className="flex-1"
+                                    defaultValue={lot && price}
                                     onChange={(e) => setPrice(e.target.valueAsNumber)}
                                 />
                                 <span className="ms-3">руб.</span>
@@ -282,6 +416,7 @@ const PostAd = () => {
                                     type="number"
                                     placeholder="0"
                                     className="flex-1"
+                                    defaultValue={lot && amount}
                                     onChange={(e) => setAmount(e.target.valueAsNumber)}
                                 />
                                 <span className="ms-3"></span>
@@ -290,7 +425,7 @@ const PostAd = () => {
                                 <label>
                                     <input
                                         type="checkbox"
-                                        defaultChecked={true}
+                                        checked={active}
                                         onChange={(e) => setActive(e.target.checked)}
                                     />
                                     <span>Активное</span>
@@ -322,7 +457,7 @@ const PostAd = () => {
                                             <label className="switch">
                                                 <input
                                                     type="checkbox"
-                                                    defaultChecked={true}
+                                                    checked={active}
                                                     onChange={(e) => setActive(e.target.checked)}
                                                 />
                                             </label>
@@ -330,18 +465,21 @@ const PostAd = () => {
                                         <td>
                                             <input
                                                 type="number"
+                                                defaultValue={lot && amount}
                                                 onChange={(e) => setAmount(e.target.valueAsNumber)}
                                             />
                                         </td>
                                         <td>
                                             <input
                                                 type="number"
+                                                defaultValue={lot && price}
                                                 onChange={(e) => setPrice(e.target.valueAsNumber)}
                                             />
                                         </td>
                                         <td className="d-flex align-items-center">
                                             <input
                                                 type="number"
+                                                defaultValue={lot && minPrice}
                                                 onChange={(e) => setMinPrice(e.target.valueAsNumber)}
                                             />
                                             <span className="ms-3">руб.</span>
