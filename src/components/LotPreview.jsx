@@ -21,6 +21,7 @@ const LotPreview = (props) => {
 
     return (
         <tr className="lot-preview">
+            <td>{props.serverName?props.serverName:'любой сервер'}</td>
             <td>
                 <Link to={`/lot/${props.lotId}`}>
                     {props.description.length > 300

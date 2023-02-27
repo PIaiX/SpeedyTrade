@@ -1,5 +1,5 @@
 import React, {useState, useEffect, memo, useCallback} from 'react'
-import {Link} from 'react-router-dom'
+import {Link, NavLink} from 'react-router-dom'
 import {useSelector} from 'react-redux'
 import Moment from 'react-moment'
 import 'moment/locale/ru'
@@ -61,6 +61,21 @@ const SingleMessage = ({msg}) => {
 
             <div className={`chat-box${user?.id === msg?.userId ? '-reverse' : ''}-messages`}>
                 <div className="bubble" style={!msg.isViewed ? {border: 'thin solid var(--bg-2)'} : undefined}>
+                    {msg.lotId
+                        && <p>
+                            <NavLink to={`/lot/${msg.lotId}`}>
+                                <div style={{borderLeft:"thin solid var(--bg-2)", padding:"5px"}} >
+                                    <div className={"opacity-50"}>
+                                        <div>
+                                            описание: {msg.lot.description}
+                                        </div>
+                                        <div>
+                                            цена: {msg.lot.priceCommission}
+                                        </div>
+                                    </div>
+                                </div>
+                            </NavLink>
+                        </p>}
                     <p>{msg?.text}</p>
                     <div className="images-message">
                         {msg.attachedfile ? (
