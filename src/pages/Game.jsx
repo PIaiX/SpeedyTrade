@@ -47,6 +47,7 @@ const Parameters = ({ params, selectedOptions, setSelectedOptions, selectedNumer
                                 placeholder="0"
                                 min={parameter.min}
                                 max={parameter.max}
+                                defaultValue={parameter.min}
                                 onChange={(e) => {
                                     setSelectedNumericOptions({
                                         ...selectedNumericOptions,
@@ -61,6 +62,7 @@ const Parameters = ({ params, selectedOptions, setSelectedOptions, selectedNumer
                                 placeholder="0"
                                 min={parameter.min}
                                 max={parameter.max}
+                                defaultValue={parameter.max}
                                 onChange={(e) => {
                                     setSelectedNumericOptions({
                                         ...selectedNumericOptions,
@@ -140,15 +142,6 @@ const Game = () => {
         return string
     }
 
-    useEffect(() => {
-        console.log(selectedOptions)
-    }, [selectedOptions])
-
-    useEffect(() => {
-        console.log(selectedNumericOptions)
-    }, [selectedNumericOptions])
-
-
     // Get game JSON
     useEffect(() => {
         getOneGame(slug)
@@ -199,11 +192,12 @@ const Game = () => {
                 currentServer === 0 ? '' : currentServer,
                 currentCategory.id,
                 Object.values(selectedOptions).filter(Number),
+                JSON.stringify(Object.entries(selectedNumericOptions).reduce((obj, item) => Object.assign(obj, { [item[0]]: Object.values(item[1]) }), {})),
                 onlineOnly,
                 query
             ).then((res) => setLots({ isLoaded: true, items: res.data }))
         }
-    }, [currentRegion, currentServer, currentCategory, selectedOptions, onlineOnly, query])
+    }, [currentRegion, currentServer, currentCategory, selectedOptions, onlineOnly, selectedNumericOptions, query])
 
     return (
         <main>
