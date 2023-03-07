@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -6,35 +6,35 @@ import Modal from 'react-bootstrap/Modal'
 import StarRating from '../components/utils/StarRating'
 import InputRating from '../components/utils/InputRating'
 import ReviewBlock from '../components/ReviewBlock'
-import {VscChromeClose} from 'react-icons/vsc'
+import { VscChromeClose } from 'react-icons/vsc'
 import useGetUserInfo from '../hooks/axios/getUserInfo'
-import {useParams} from 'react-router-dom'
-import {useSelector} from 'react-redux'
-import {getImageURL} from '../helpers/image'
+import { useParams } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { getImageURL } from '../helpers/image'
 import Moment from 'react-moment'
 import useGetReview from '../hooks/axios/getReview'
 import Skeleton from 'react-loading-skeleton'
-import {useForm} from 'react-hook-form'
-import {getSellerLots} from '../services/lots'
-import {createReview} from '../services/reviews'
-import {dispatchAlert} from '../helpers/alert'
+import { useForm } from 'react-hook-form'
+import { getSellerLots } from '../services/lots'
+import { createReview } from '../services/reviews'
+import { dispatchAlert } from '../helpers/alert'
 import ValidateWrapper from '../components/UI/ValidateWrapper'
 
 const UserPage = () => {
     const theme = useSelector((state) => state?.theme?.mode)
-    const {id} = useParams()
+    const { id } = useParams()
     const [showReview, setShowReview] = useState(false)
     const currentUser = useSelector((state) => state?.auth?.user)
     const [filterParam, setFilterParam] = useState('init')
     const [refatch, setRefatch] = useState(true)
-    const {user} = useGetUserInfo(id)
-    const {reviews} = useGetReview(id, refatch)
+    const { user } = useGetUserInfo(id)
+    const { reviews } = useGetReview(id, refatch)
     const {
         register,
-        formState: {errors},
+        formState: { errors },
         handleSubmit,
         reset,
-    } = useForm({mode: 'onSubmit', reValidateMode: 'onChange'})
+    } = useForm({ mode: 'onSubmit', reValidateMode: 'onChange' })
     const [sellerLots, setSellerLots] = useState({
         isLoaded: false,
         items: [],
@@ -43,9 +43,9 @@ const UserPage = () => {
     useEffect(() => {
         getSellerLots(id)
             .then((res) => {
-                setSellerLots({isLoaded: true, items: res?.data})
+                setSellerLots({ isLoaded: true, items: res?.data })
             })
-            .catch(() => {})
+            .catch(() => { })
     }, [id])
 
     useEffect(() => {
@@ -68,7 +68,7 @@ const UserPage = () => {
 
     const onSubmitCreateReview = (data) => {
         const userId = currentUser.id
-        const req = {...data, rating, userId}
+        const req = { ...data, rating, userId }
         console.log(req)
         createReview(req)
             .then(() => {
@@ -102,7 +102,10 @@ const UserPage = () => {
                             </Col>
                             <Col sm={7} md={8} lg={4} xl={3}>
                                 {user.isLoaded ? (
-                                    <h4>{user.item?.fullName}</h4>
+                                    <>
+                                        <h4>{user.item?.fullName}</h4>
+                                        <div className='achromat-3 mb-3'>{user.item?.isOnline ? 'Онлайн' : 'Был(а) онлайн ' + user.item?.lastSeenForUser}</div>
+                                    </>
                                 ) : (
                                     <Skeleton
                                         count={1}
@@ -287,7 +290,7 @@ const UserPage = () => {
                         <div className="mb-2">Приобретенный лот:</div>
 
                         <select
-                            style={errors.lotId ? {borderColor: 'red'} : undefined}
+                            style={errors.lotId ? { borderColor: 'red' } : undefined}
                             {...register('lotId', {
                                 setValueAs: (v) => parseInt(v),
                                 min: {
@@ -304,7 +307,7 @@ const UserPage = () => {
                                     </option>
                                 ))}
                         </select>
-                        {errors.lotId && <p style={{fontSize: '0.8em', color: 'red'}}>{errors.lotId.message}</p>}
+                        {errors.lotId && <p style={{ fontSize: '0.8em', color: 'red' }}>{errors.lotId.message}</p>}
 
                         <div className="mt-4 mb-2">Ваша оценка:</div>
                         <InputRating className="fs-15" seterRating={seterRating} />
@@ -313,7 +316,7 @@ const UserPage = () => {
                             <textarea
                                 rows={5}
                                 placeholder="Отзыв"
-                                {...register('text', {required: 'Заполните поле'})}
+                                {...register('text', { required: 'Заполните поле' })}
                             />
                         </ValidateWrapper>
                         <button type="submit" className="btn-5 w-100 mt-4">
