@@ -1,4 +1,4 @@
-import {createSlice} from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
     mode: 'light',
@@ -11,11 +11,11 @@ const themeSlice = createSlice({
         initTheme: (state) => {
             const faviconNode = document.querySelectorAll('link[rel="icon"], link[rel="shortcut icon"]');
 
-            faviconNode.forEach(function(element) {
+            faviconNode.forEach(function (element) {
                 element.setAttribute('href', '/favicon-light.svg');
             });
 
-            document.documentElement.dataset.theme = 'light'
+            document.documentElement.dataset.theme = state.mode
 
         },
         switchTheme: (state) => {
@@ -24,10 +24,10 @@ const themeSlice = createSlice({
             const faviconNode = document.querySelectorAll('link[rel="icon"], link[rel="shortcut icon"]');
 
             let img;
-            faviconNode.href = isLight ? img='favicon-dark.svg' : img='favicon-light.svg'
+            faviconNode.href = isLight ? img = 'favicon-dark.svg' : img = 'favicon-light.svg'
 
-            faviconNode.forEach(function(element) {
-                element.setAttribute('href', '/'+img);
+            faviconNode.forEach(function (element) {
+                element.setAttribute('href', '/' + img);
             });
 
             state.mode = isLight ? 'dark' : 'light'
@@ -38,5 +38,5 @@ const themeSlice = createSlice({
     },
 })
 
-export const {initTheme, switchTheme} = themeSlice.actions
+export const { initTheme, switchTheme } = themeSlice.actions
 export default themeSlice.reducer
