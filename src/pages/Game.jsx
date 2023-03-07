@@ -209,7 +209,7 @@ const Game = () => {
     return (
         <main>
             <Container>
-                <section className="game-page pt-4 pt-sm-5 mb-6">
+                <section className="game-page pt-4 pt-sm-5 mb-6 min-vh-100">
                     <div className="d-md-flex align-items-center justify-content-between mb-4 mb-sm-2">
                         <h1 className="mb-md-0">{game?.name}</h1>
                         <BtnAddFav favoriteStatus={game?.isFavorite} gameId={game.id} userId={userId} />
