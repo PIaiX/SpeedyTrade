@@ -1,13 +1,13 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import Container from 'react-bootstrap/Container'
 import Offcanvas from 'react-bootstrap/Offcanvas'
-import {Link} from 'react-router-dom'
-import {IoGridOutline, IoHomeOutline, IoSearchOutline} from 'react-icons/io5'
-import {VscAccount, VscChromeClose, VscCommentDiscussion} from 'react-icons/vsc'
-import {FiSearch} from 'react-icons/fi'
+import { Link } from 'react-router-dom'
+import { IoGridOutline, IoHomeOutline, IoSearchOutline } from 'react-icons/io5'
+import { VscAccount, VscChromeClose, VscCommentDiscussion } from 'react-icons/vsc'
+import { FiSearch } from 'react-icons/fi'
 import Sign from './utils/Sign'
 import Plaix from './utils/Plaix'
-import {useSelector} from 'react-redux'
+import { useSelector } from 'react-redux'
 
 function Footer() {
     const [showMenu, setShowMenu] = useState(false)
@@ -17,13 +17,14 @@ function Footer() {
     const [showSearch, setShowSearch] = useState(false)
     const handleCloseSearch = () => setShowSearch(false)
     const handleShowSearch = () => setShowSearch(true)
+    const theme = useSelector((state) => state?.theme?.mode)
 
     return (
         <>
             <footer>
                 <Container className="d-none d-md-flex">
-                    <Link to="/">
-                        <img src="/images/logo.svg" alt="Games.ru" />
+                    <Link to="/" style={{ height: '40px' }}>
+                        <img src={theme === 'dark' ? "/images/dark.svg" : "/images/light.svg"} alt="Games.ru" className='h-100' />
                     </Link>
                     <div className="d-flex flex-column flex-xl-row-reverse align-item-center justify-content-center">
                         <ul className="list-unstyled d-flex">

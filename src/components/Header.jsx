@@ -1,22 +1,23 @@
 import React from 'react'
-import {Link, NavLink} from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import Container from 'react-bootstrap/Container'
 import ThemeToggler from './ThemeToggler'
-import {FiMessageCircle, FiSearch} from 'react-icons/fi'
+import { FiMessageCircle, FiSearch } from 'react-icons/fi'
 import Favorites from './Favorites'
-import {useSelector} from 'react-redux'
-import {getImageURL} from '../helpers/image'
+import { useSelector } from 'react-redux'
+import { getImageURL } from '../helpers/image'
 
 const Header = () => {
     const auth = useSelector((state) => state?.auth)
     const unreadCount = useSelector((state) => state?.notification?.unreadCount)
+    const theme = useSelector((state) => state?.theme?.mode)
 
     return (
         <header>
             <Container>
                 <div className="d-flex align-items-center">
-                    <Link to="/" className="me-4">
-                        <img src="/images/logo.svg" alt="Games.ru" />
+                    <Link to="/" className="me-4" style={{ height: '40px' }}>
+                        <img src={theme === 'dark' ? "/images/dark.svg" : "/images/light.svg"} alt="Games.ru" className='h-100' />
                     </Link>
                     <form className="form-search d-none d-md-flex">
                         <input type="search" placeholder="Поиск по играм" />
