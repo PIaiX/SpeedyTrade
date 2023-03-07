@@ -5,7 +5,7 @@ import Col from 'react-bootstrap/Col'
 import Table from 'react-bootstrap/Table'
 import { FiSearch } from 'react-icons/fi'
 import BtnAddFav from '../components/utils/BtnAddFav'
-import { Link, useNavigate, useParams, ScrollRestoration } from 'react-router-dom'
+import { Link, useNavigate, useParams, ScrollRestoration, Navigate } from 'react-router-dom'
 import { getOneGame } from '../services/games'
 import { getImageURL } from '../helpers/image'
 import 'react-loading-skeleton/dist/skeleton.css'
@@ -113,6 +113,7 @@ const Parameters = ({ params, selectedOptions, setSelectedOptions, selectedNumer
 
 const Game = () => {
     const theme = useSelector((state) => state?.theme?.mode)
+    const nav = useNavigate()
     const userId = useSelector((state) => state?.auth?.user?.id)
     const { slug, regId, catId } = useParams()
     const [game, setGame] = useState({
@@ -327,7 +328,7 @@ const Game = () => {
                     {/* Lots ------------------------------------------------------------------------------------------------------------------------------ */}
                     {lots.isLoaded &&
                         (lots.items?.length > 0 ? (
-                            <Table borderless responsive className="mb-5">
+                            <Table borderless responsive className="mb-5" style={{ tableLayout: 'fixed' }}>
                                 <thead>
                                     <tr>
                                         <th>Сервер</th>
@@ -345,10 +346,10 @@ const Game = () => {
                                         (lot) =>
                                             lot.isVisible && (
                                                 <tr className="lot-preview" key={'lot-' + lot.id}>
-                                                    <td>{lot.serverName ? lot.serverName : '-'}</td>
+                                                    <td onClick={() => nav(`/lot/${lot.id}`)}>{lot.serverName ? lot.serverName : '-'}</td>
                                                     {parametersToShow.length > 0 &&
                                                         parametersToShow.map((param) => (
-                                                            <td key={`param-${param.id}-${lot.id}`}>
+                                                            <td key={`param-${param.id}-${lot.id}`} onClick={() => nav(`/lot/${lot.id}`)}>
                                                                 {
                                                                     lot.options.find(
                                                                         (option) => option.parameterId === param.id
@@ -362,12 +363,10 @@ const Game = () => {
                                                                 }
                                                             </td>
                                                         ))}
-                                                    <td>
-                                                        <Link to={`/lot/${lot.id}`}>
-                                                            {lot.description.length > 300
-                                                                ? lot.description.substring(0, 300) + '...'
-                                                                : lot.description}
-                                                        </Link>
+                                                    <td onClick={() => nav(`/lot/${lot.id}`)}>
+                                                        {lot.description.length > 300
+                                                            ? lot.description.substring(0, 300) + '...'
+                                                            : lot.description}
                                                     </td>
                                                     <td>
                                                         <Link
@@ -410,7 +409,7 @@ const Game = () => {
                                                             </div>
                                                         </Link>
                                                     </td>
-                                                    <td>
+                                                    <td onClick={() => nav(`/lot/${lot.id}`)}>
                                                         <div className="color-1 fw-7">
                                                             {lot.priceCommission}&nbsp;руб.
                                                         </div>
