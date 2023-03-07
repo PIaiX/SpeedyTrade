@@ -54,10 +54,10 @@ const SingleMessage = ({ msg }) => {
 
     return (
         <div className={`chat-box${user?.id === msg?.userId ? '-reverse' : ''}`}>
-            <div className={`chat-box${user?.id === msg?.userId ? '-reverse' : ''}-user`}>
+            <Link to={user?.id === msg?.userId ? `/account/profile` : `/user/${msg?.userId}`} className={`chat-box${user?.id === msg?.userId ? '-reverse' : ''}-user`}>
                 <img src={getImageURL(msg?.userAvatar)} alt="avatar" />
                 <span className="chat-user-name">{msg?.userName}</span>
-            </div>
+            </Link>
 
             <div className={`chat-box${user?.id === msg?.userId ? '-reverse' : ''}-messages`}>
                 <div className="bubble" style={!msg.isViewed ? { border: 'thin solid var(--bg-2)' } : undefined}>
