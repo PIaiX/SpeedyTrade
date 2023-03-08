@@ -486,13 +486,27 @@ label {
     button {
         position: absolute;
         top: 0%;
-        right: 0%;
+        right: 1.5em;
         height: 100%;
         z-index: 2;
         width: 3em;
         font-size: 1.2em;
         color: var(--search-btn);
         @include flex-center();
+        transition: var(--transition);
+    }
+
+    div {
+        position: absolute;
+        top: 0%;
+        right: 0%;
+        height: 100%;
+        z-index: 2;
+        width: 2em;
+        font-size: 1.2em;
+        color: var(--search-btn);
+        display: flex;
+        align-items: center;
         transition: var(--transition);
     }
 
@@ -1373,6 +1387,46 @@ header {
 
         hr.vertical {
             background-color: var(--divider);
+        }
+    }
+
+    .search-results-container {
+        color: var(--achromat-2);
+        background-color: var(--bg-main);
+        transition: var(--transition);
+        height: min-content;
+        border-radius: 0 0 1.5em 1.5em;
+        padding: 2em;
+
+        &>div {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 2em;
+
+            &>div {
+                padding: 1em 0;
+            }
+        }
+
+        &::before {
+            content: '';
+            position: fixed;
+            z-index: -1;
+            background: black;
+            opacity: 0.5;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            background-color: var(--bg-2);
+            inset: 0;
+            height: var(--h-height);
+            z-index: -1;
         }
     }
 }
