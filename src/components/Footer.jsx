@@ -35,7 +35,7 @@ function Footer() {
                                 <Link to="/cookies">Политика cookie</Link>
                             </li>
                             <li>
-                                <Link to="/">Помощь</Link>
+                                <Link to="/account/help">Помощь</Link>
                             </li>
                         </ul>
                         <Sign className="text-center fs-09 mt-3 mt-xl-0 me-xl-4" />
