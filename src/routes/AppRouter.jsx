@@ -12,6 +12,8 @@ import AuthRoute from '../layouts/AuthRoute'
 import AccountRouter from './AccountRouter'
 import PrivacyPolicy from '../pages/PrivacyPolicy'
 import CookiesPolicy from '../pages/CookiesPolicy'
+import AllNews from '../pages/AllNews'
+import NewsPage from '../pages/NewsPage'
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -25,6 +27,8 @@ const router = createBrowserRouter(
             <Route path="reset-password" element={<ResetPassword />} />
             <Route path="privacy" element={<PrivacyPolicy />} />
             <Route path="cookies" element={<CookiesPolicy />} />
+            <Route path="news" element={<AllNews/>} />
+            <Route path="news/:newsId" element={<NewsPage/>} />
 
             <Route
                 path="account/*"

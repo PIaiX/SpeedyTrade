@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-
+import { Link } from 'react-router-dom'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -237,7 +237,7 @@ const Home = () => {
                         <Col lg={5} xxl={4} className="d-none d-md-block mb-5">
                             <div className="d-flex justify-content-between align-items-baseline">
                                 <h2 className="mb-0">Новости</h2>
-                                <a href="/">все новости</a>
+                                <Link to="/news">все новости</Link>
                             </div>
                             {news?.isLoaded ? (
                                 news?.meta?.total > 0 ? (
