@@ -6,6 +6,7 @@
     --transition: 300ms ease;
     --font-light: rgba(255, 255, 255, 0.9);
     --gray: #8a8a8a;
+
     @media (max-width: 767px) {
         --h-height: 60px;
         --f-height: 60px;
@@ -129,13 +130,14 @@ $green: #52ff82;
     background-color: var(--total);
     border: 1px solid var(--achromat-4);
     border-radius: 1.3em;
+
     @media (max-width: 1199px) {
         padding: 1em;
     }
 }
 
 html {
-    scrollbar-color: rgba(var(--scroll-rgb) , 0.75);
+    scrollbar-color: rgba(var(--scroll-rgb), 0.75);
     scrollbar-width: thin;
 }
 
@@ -348,9 +350,9 @@ input::-webkit-inner-spin-button,
 
             &:hover,
             &.active,
-            &.active ~ button,
+            &.active~button,
             &:hover,
-            &:hover ~ button {
+            &:hover~button {
                 color: var(--color-2);
             }
         }
@@ -484,13 +486,50 @@ label {
     button {
         position: absolute;
         top: 0%;
-        right: 0%;
+        right: 1.5em;
         height: 100%;
         z-index: 2;
         width: 3em;
         font-size: 1.2em;
         color: var(--search-btn);
         @include flex-center();
+        transition: var(--transition);
+    }
+
+    div {
+        position: absolute;
+        top: 0%;
+        right: 0%;
+        height: 100%;
+        z-index: 2;
+        width: 2em;
+        font-size: 1.2em;
+        color: var(--search-btn);
+        display: flex;
+        align-items: center;
+        transition: var(--transition);
+    }
+
+}
+
+.chat-search {
+    position: relative;
+
+    input {
+        width: auto;
+    }
+
+    div {
+        position: absolute;
+        top: 0%;
+        right: 0%;
+        height: 100%;
+        z-index: 2;
+        width: 2em;
+        font-size: 1.2em;
+        color: var(--search-btn);
+        display: flex;
+        align-items: center;
         transition: var(--transition);
     }
 
@@ -873,6 +912,7 @@ h2 {
     font-weight: 700;
     text-align: left;
     margin-bottom: 1em;
+
     @media (max-width: 767px) {
         font-size: 2em;
     }
@@ -1069,9 +1109,11 @@ hr {
 
 .mt-6 {
     margin-top: 6em;
+
     @media (max-width: 767px) {
         margin-top: 5em;
     }
+
     @media (max-width: 575px) {
         margin-top: 4em;
     }
@@ -1079,12 +1121,15 @@ hr {
 
 .mb-6 {
     margin-bottom: 6em;
+
     @media (max-width: 991px) {
         margin-bottom: 4em;
     }
+
     @media (max-width: 767px) {
         margin-bottom: 3em;
     }
+
     @media (max-width: 575px) {
         margin-bottom: 2em;
     }
@@ -1161,6 +1206,7 @@ hr {
 
 .table {
     --bs-table-striped-bg: var(--achromat-0);
+
     @media (max-width: 1199px) {
         font-size: 13px;
     }
@@ -1176,6 +1222,7 @@ hr {
         font-weight: 400;
         color: var(--achromat-1);
         vertical-align: middle;
+
         @media (max-width: 575px) {
             font-size: 1em;
             font-weight: 700;
@@ -1286,15 +1333,19 @@ hr {
         color: var(--achromat-3);
         border-bottom: 4px solid transparent;
         margin-bottom: -2px;
+
         @media (max-width: 1199px) {
             font-size: 1.2em;
         }
+
         @media (max-width: 991px) {
             font-size: 1.1em;
         }
+
         @media (max-width: 767px) {
             font-size: 1em;
         }
+
         @media (max-width: 575px) {
             font-size: 0.8em;
         }
@@ -1327,9 +1378,11 @@ body {
     color: var(--achromat-2);
     background-color: var(--bg-main);
     transition: var(--transition);
+
     @media (max-width: 991px) {
         font-size: 14px;
     }
+
     @media (max-width: 767px) {
         padding-bottom: var(--f-height);
     }
@@ -1359,10 +1412,51 @@ header {
             background-color: var(--divider);
         }
     }
+
+    .search-results-container {
+        color: var(--achromat-2);
+        background-color: var(--bg-main);
+        transition: var(--transition);
+        height: min-content;
+        border-radius: 0 0 1.5em 1.5em;
+        padding: 2em;
+
+        &>div {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 2em;
+
+            &>div {
+                padding: 1em 0;
+            }
+        }
+
+        &::before {
+            content: '';
+            position: fixed;
+            z-index: -1;
+            background: black;
+            opacity: 0.5;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        &::after {
+            content: '';
+            position: absolute;
+            background-color: var(--bg-2);
+            inset: 0;
+            height: var(--h-height);
+            z-index: -1;
+        }
+    }
 }
 
 .themes-switcher {
     position: relative;
+
     @media (max-width: 575px) {
         margin-right: 1em;
     }
@@ -1475,6 +1569,7 @@ main {
     min-height: calc(100vh - var(--h-height) - var(--f-height));
     padding-top: 2em;
     padding-bottom: 1em;
+
     @media (max-width: 767px) {
         padding-top: 0px;
         padding-bottom: 0px;
@@ -1507,6 +1602,7 @@ main {
 
     &-midi {
         @extend .game;
+
         @media (max-width: 575px) {
             flex-direction: column;
             align-items: flex-start;
@@ -1517,6 +1613,7 @@ main {
             height: 50px;
             border-radius: 1em;
             object-fit: cover;
+
             @media (max-width: 575px) {
                 width: 45px;
                 height: 45px;
@@ -1528,6 +1625,7 @@ main {
             font-size: 1.1em;
             margin-left: 1em;
             font-weight: 700;
+
             @media (max-width: 575px) {
                 margin-left: 0px;
                 margin-top: 0.6em;
@@ -1547,16 +1645,20 @@ main {
     mask-image: -webkit-radial-gradient(white, black);
     isolation: isolate;
     transform: translateZ(0);
+
     @media (max-width: 1399px) {
         height: 550px;
     }
+
     @media (max-width: 1199px) {
         height: 470px;
     }
+
     @media (max-width: 767px) {
         border-radius: 0px;
         height: 700px;
     }
+
     @media (max-width: 575px) {
         height: calc(100vh - var(--h-height));
     }
@@ -1585,24 +1687,24 @@ main {
         z-index: 2;
         width: 100%;
         height: 100%;
-        background: linear-gradient(
-            to bottom,
-            transparent 0%,
-            rgba(0, 0, 0, 0.2) 40%,
-            rgba(0, 0, 0, 0.6) 60%,
-            #000000 100%
-        );
+        background: linear-gradient(to bottom,
+                transparent 0%,
+                rgba(0, 0, 0, 0.2) 40%,
+                rgba(0, 0, 0, 0.6) 60%,
+                #000000 100%);
         display: flex;
         align-items: flex-end;
         justify-content: stretch;
         padding: 3em;
         border-radius: 1.25em;
+
         @media (max-width: 1199px) {
             padding: 2em;
         }
 
         h2 {
             font-size: 3em;
+
             @media (max-width: 1199px) {
                 font-size: 2.5em;
             }
@@ -1632,9 +1734,11 @@ main {
     .mainslides {
         flex: 1;
         margin-right: 2.5em;
+
         @media (max-width: 1199px) {
             margin-right: 1.5em;
         }
+
         @media (max-width: 991px) {
             margin-right: 0px;
         }
@@ -1653,9 +1757,11 @@ main {
             top: unset;
             left: unset;
             margin-top: 0px;
+
             @media (max-width: 1199px) {
                 bottom: 1em;
             }
+
             @media (max-width: 767px) {
                 top: 1em;
                 bottom: unset;
@@ -1668,6 +1774,7 @@ main {
 
         .swiper-button-next {
             right: 2em;
+
             @media (max-width: 1199px) {
                 right: 1em;
             }
@@ -1675,6 +1782,7 @@ main {
 
         .swiper-button-prev {
             right: 5em;
+
             @media (max-width: 1199px) {
                 right: 3.5em;
             }
@@ -1688,12 +1796,15 @@ main {
     .thumbslides {
         width: 200px;
         height: 550px;
+
         @media (max-width: 1399px) {
             height: 500px;
         }
+
         @media (max-width: 1199px) {
             height: 420px;
         }
+
         @media (max-width: 991px) {
             display: none;
         }
@@ -1755,17 +1866,21 @@ main {
         overflow: hidden;
         max-height: var(--line);
         transition: max-height var(--transition);
+
         @media (max-width: 767px) {
             flex-wrap: nowrap;
             overflow: auto;
             -ms-overflow-style: none;
             scrollbar-width: none;
+
             &::-webkit-scrollbar {
                 display: none;
             }
+
             &::-webkit-scrollbar-thumb {
                 display: none;
             }
+
             &::-webkit-scrollbar-button:vertical:start:decrement,
             &::-webkit-scrollbar-button:vertical:end:increment,
             &::-webkit-scrollbar-button:horizontal:start:decrement,
@@ -1776,12 +1891,15 @@ main {
 
         &.full {
             max-height: calc(var(--line) * 4 + var(--gap) * 3);
+
             @media (max-width: 1199px) {
                 max-height: calc(var(--line) * 5 + var(--gap) * 4);
             }
+
             @media (max-width: 991px) {
                 max-height: calc(var(--line) * 6 + var(--gap) * 5);
             }
+
             @media (max-width: 767px) {
                 max-height: calc(var(--line) * 7 + var(--gap) * 6);
             }
@@ -1789,11 +1907,12 @@ main {
 
         li {
             margin-bottom: var(--gap);
+
             @media (max-width: 767px) {
                 margin-bottom: 0px;
             }
 
-            & > * {
+            &>* {
                 white-space: nowrap;
             }
 
@@ -1803,6 +1922,7 @@ main {
 
             .btn {
                 font-weight: 500;
+
                 @media (max-width: 767px) {
                     padding: 0.7em 1em;
                 }
@@ -1855,6 +1975,7 @@ main {
         align-items: baseline;
         justify-content: flex-start;
         color: var(--font-light);
+
         @media (max-width: 575px) {
             padding: 1em;
         }
@@ -1865,6 +1986,7 @@ main {
         padding: 2em;
         border-radius: 1em;
         border: 1px solid var(--chat-border);
+
         @media (max-width: 575px) {
             padding: 1em;
         }
@@ -1876,6 +1998,7 @@ main {
             align-items: stretch;
             padding: 1em;
             border-radius: 1em;
+
             @media (max-width: 575px) {
                 margin-top: 1em;
                 padding: 0.5em;
@@ -1916,6 +2039,7 @@ main {
         &-user {
             width: 2.6em;
             margin-right: 1.6em;
+
             @media (max-width: 575px) {
                 margin-right: 0.6em;
             }
@@ -1956,6 +2080,7 @@ main {
             }
         }
     }
+
     &-box-reverse {
         display: flex;
         flex-direction: row-reverse;
@@ -1969,6 +2094,7 @@ main {
         &-user {
             width: 2.6em;
             margin-left: 1.6em;
+
             @media (max-width: 575px) {
                 margin-left: 0.6em;
             }
@@ -1987,7 +2113,7 @@ main {
             .bubble {
                 background-color: var(--bubble);
                 padding: 1em 1.5em;
-                border-radius: 1em 0  1em 1em;
+                border-radius: 1em 0 1em 1em;
 
                 &:not(:first-child) {
                     margin-top: 1em;
@@ -2065,7 +2191,7 @@ main {
             color: var(--color-1);
         }
     }
-    
+
     select {
         padding-right: 2.5em;
     }
@@ -2073,6 +2199,12 @@ main {
 
 .lot-preview {
     border-top: 1px solid var(--achromat-4);
+    transition: background-color 0.2s ease-in-out;
+
+    &:hover {
+        background: var(--bs-gray-200);
+        cursor: pointer;
+    }
 
     &-user {
         display: flex;
@@ -2083,10 +2215,12 @@ main {
             position: relative;
             width: var(--size);
             margin-right: 1em;
+
             @media (max-width: 991px) {
                 --size: 45px;
                 margin-right: 0.5em;
             }
+
             @media (max-width: 575px) {
                 --size: 30px;
                 margin-right: 0.25em;
@@ -2131,6 +2265,7 @@ main {
         border-radius: 1em;
         overflow: hidden;
         height: 820px;
+
         @media (max-width: 991px) {
             height: 600px;
         }
@@ -2139,7 +2274,7 @@ main {
             border-bottom: 1px solid var(--achromat-4);
         }
 
-        .middle {            
+        .middle {
             max-height: unset;
         }
     }
@@ -2154,6 +2289,7 @@ main {
         height: 60px;
         border-radius: 50%;
         object-fit: cover;
+
         @media (max-width: 575px) {
             width: 50px;
             height: 50px;
@@ -2168,15 +2304,19 @@ main {
         object-fit: cover;
         border-radius: 1.5em;
         margin-bottom: 1em;
+
         @media (max-width: 1399px) {
             height: 260px;
         }
+
         @media (max-width: 1199px) {
             height: 215px;
         }
+
         @media (max-width: 767px) {
             height: 200px;
         }
+
         @media (max-width: 575px) {
             height: 95vw;
         }
@@ -2184,6 +2324,7 @@ main {
 
     .info {
         font-size: 1.2em;
+
         @media (max-width: 575px) {
             font-size: 1em;
         }
@@ -2193,17 +2334,21 @@ main {
 .account {
     --width-1: 140px;
     --width-2: 180px;
+
     @media (max-width: 1199px) {
         --width-1: 110px;
         --width-2: 150px;
     }
+
     @media (max-width: 991px) {
         padding: 2em 0;
     }
+
     @media (max-width: 767px) {
         --width-1: 70px;
         --width-2: 50px;
     }
+
     @media (max-width: 575px) {
         --width-1: 50px;
         --width-2: 30px;
@@ -2211,6 +2356,7 @@ main {
 
     nav.menu {
         @include box();
+
         @media (max-width: 991px) {
             @include flex-center();
         }
@@ -2220,15 +2366,18 @@ main {
             padding-left: 0px;
 
             li {
+
                 a,
                 button {
                     padding: 1em 0;
                     display: flex;
                     align-items: center;
                     justify-content: flex-start;
+
                     @media (max-width: 1199px) {
                         padding: 0.75em 0;
                     }
+
                     @media (max-width: 991px) {
                         font-size: 1.3em;
                     }
@@ -2237,6 +2386,7 @@ main {
                         font-size: 1.1em;
                         margin-left: 1em;
                         color: var(--achromat-1);
+
                         @media (max-width: 1199px) {
                             margin-left: 0.5em;
                             font-size: 1em;
@@ -2246,6 +2396,7 @@ main {
                     svg {
                         font-size: 1.6em;
                         color: var(--color-2);
+
                         @media (max-width: 1199px) {
                             font-size: 1.4em;
                         }
@@ -2283,9 +2434,11 @@ main {
         background-color: var(--achromat-4);
         overflow: hidden;
         position: relative;
+
         @media (max-width: 1199px) {
             margin: 0 1em 0 0;
         }
+
         @media (max-width: 991px) {
             width: 160px;
             height: 160px;
@@ -2369,10 +2522,12 @@ main {
             margin-right: 1.6em;
             transition: var(--transition);
             margin-bottom: 1em;
+
             @media (max-width: 767px) {
                 width: 160px;
                 height: 115px;
             }
+
             @media (max-width: 575px) {
                 margin-right: 1em;
                 width: 150px;
@@ -2402,6 +2557,7 @@ main {
 
                 .bank-type {
                     height: 28px;
+
                     @media (max-width: 767px) {
                         height: 20px;
                     }
@@ -2410,6 +2566,7 @@ main {
                 .number {
                     color: var(--achromat-1);
                     font-size: 1.3em;
+
                     @media (max-width: 767px) {
                         font-size: 1em;
                     }
@@ -2429,6 +2586,7 @@ main {
 
             div {
                 color: var(--achromat-1);
+
                 @media (max-width: 767px) {
                     font-size: 0.8em;
                 }
@@ -2444,11 +2602,13 @@ main {
         padding-bottom: 4em;
         --width: 424px;
         --height: 268px;
+
         @media (max-width: 767px) {
             --width: 320px;
             --height: 225px;
             padding-right: 180px;
         }
+
         @media (max-width: 575px) {
             --width: 300px;
             --height: 210px;
@@ -2465,6 +2625,7 @@ main {
             height: var(--height);
             position: relative;
             z-index: 1;
+
             @media (max-width: 767px) {
                 padding: 1em;
             }
@@ -2476,6 +2637,7 @@ main {
                 max-width: 70px;
                 max-height: 25px;
                 object-fit: contain;
+
                 @media (max-width: 767px) {
                     bottom: 1em;
                     right: 1em;
@@ -2496,9 +2658,11 @@ main {
             padding: 100px 2em 2em 240px;
             width: var(--width);
             height: var(--height);
+
             @media (max-width: 767px) {
                 padding: 90px 1em 1em 150px;
             }
+
             @media (max-width: 575px) {
                 position: relative;
                 bottom: unset;
@@ -2515,6 +2679,7 @@ main {
                 position: absolute;
                 top: 30px;
                 left: 0px;
+
                 @media (max-width: 767px) {
                     top: 20px;
                     height: 40px;
@@ -2539,10 +2704,12 @@ main {
             gap: 0 1.5em;
             padding: 1em 2em;
             transition: var(--transition);
+
             @media (max-width: 1199px) {
                 padding: 1em;
                 gap: 0 1em;
             }
+
             @media (max-width: 575px) {
                 gap: 0 0.5em;
             }
@@ -2576,6 +2743,7 @@ main {
                     border-radius: 50%;
                     background-color: var(--achromat-4);
                     border: 4px solid var(--bg);
+
                     @media (max-width: 767px) {
                         width: 1.25em;
                         height: 1.25em;
@@ -2596,6 +2764,7 @@ main {
                 grid-column: 2/3;
                 grid-row: 1/2;
                 min-width: 0;
+
                 @media (max-width: 575px) {
                     h4 {
                         font-size: 1.25em;
@@ -2617,10 +2786,12 @@ main {
                     object-fit: cover;
                     border-radius: 50%;
                     margin-right: 1em;
+
                     @media (max-width: 767px) {
                         width: 30px;
                         height: 30px;
                     }
+
                     @media (max-width: 575px) {
                         width: 20px;
                         height: 20px;
@@ -2640,6 +2811,7 @@ main {
             .date {
                 grid-column: 3/4;
                 grid-row: 1/2;
+
                 @media (max-width: 767px) {
                     display: none;
                 }
@@ -2660,6 +2832,7 @@ main {
                     width: 1.5em;
                     height: 1.5em;
                     border-radius: 50%;
+
                     @media (max-width: 767px) {
                         font-size: 13px;
                     }
@@ -2675,9 +2848,11 @@ main {
                 display: flex;
                 flex-direction: column;
                 justify-content: space-around;
+
                 @media (max-width: 1199px) {
                     font-size: 13px;
                 }
+
                 @media (max-width: 767px) {
                     display: none;
                 }
@@ -2707,10 +2882,12 @@ main {
         gap: 10px 20px;
         border-top: 1px solid var(--achromat-4);
         padding: 1.6em 0px;
+
         @media (max-width: 767px) {
             grid-template-columns: 120px 1fr;
             grid-template-rows: 2em 2em auto auto;
         }
+
         @media (max-width: 767px) {
             grid-template-columns: var(--width-1) 1fr;
             grid-template-rows: 2em 2em 2em auto auto;
@@ -2719,6 +2896,7 @@ main {
         .img {
             grid-column: 1/2;
             grid-row: 1/4;
+
             @media (max-width: 767px) {
                 grid-row: 1/3;
             }
@@ -2728,6 +2906,7 @@ main {
                 height: var(--width-1);
                 border-radius: 50%;
                 object-fit: cover;
+
                 @media (max-width: 767px) {
                     width: var(--width-1);
                 }
@@ -2737,6 +2916,7 @@ main {
         .grid-1 {
             grid-column: 2/3;
             grid-row: 1/2;
+
             @media (max-width: 767px) {
                 grid-column: 2/4;
             }
@@ -2745,6 +2925,7 @@ main {
         .grid-2 {
             grid-column: 2/3;
             grid-row: 2/3;
+
             @media (max-width: 767px) {
                 grid-column: 2/4;
             }
@@ -2753,10 +2934,12 @@ main {
         .grid-3 {
             grid-column: 3/4;
             grid-row: 1/2;
+
             @media (max-width: 767px) {
                 grid-column: 1/2;
                 grid-row: 3/4;
             }
+
             @media (max-width: 575px) {
                 grid-column: 1/3;
             }
@@ -2765,10 +2948,12 @@ main {
         .grid-4 {
             grid-column: 3/4;
             grid-row: 2/3;
+
             @media (max-width: 767px) {
                 grid-column: 2/3;
                 grid-row: 3/4;
             }
+
             @media (max-width: 575px) {
                 grid-column: 1/3;
                 grid-row: 4/5;
@@ -2778,10 +2963,12 @@ main {
         .grid-5 {
             grid-column: 2/3;
             grid-row: 3/4;
+
             @media (max-width: 767px) {
                 grid-column: 1/3;
                 grid-row: 4/5;
             }
+
             @media (max-width: 575px) {
                 grid-row: 5/6;
             }
@@ -2790,12 +2977,14 @@ main {
         .grid-6 {
             grid-column: 3/4;
             grid-row: 3/4;
+
             @media (max-width: 767px) {
                 grid-column: 2/3;
                 grid-row: 3/4;
                 display: flex;
                 justify-content: flex-end;
             }
+
             @media (max-width: 575px) {
                 grid-column: 1/3;
                 grid-row: 4/5;
@@ -2817,10 +3006,12 @@ main {
         padding: 1em 2em;
         @include flex-center();
         justify-content: space-between;
+
         @media (max-width: 767px) {
             padding: 1em;
             height: 80px;
         }
+
         @media (max-width: 575px) {
             padding: 0.75em;
             height: 60px;
@@ -2831,6 +3022,7 @@ main {
             width: 60px;
             height: 60px;
             position: relative;
+
             @media (max-width: 767px) {
                 width: 40px;
                 height: 40px;
@@ -2852,6 +3044,7 @@ main {
                 border-radius: 50%;
                 background-color: var(--achromat-4);
                 border: 2px solid var(--total);
+
                 @media (max-width: 767px) {
                     width: 0.75em;
                     height: 0.75em;
@@ -2880,6 +3073,7 @@ main {
             &:not(:first-child) {
                 margin: 2em 0 2em 0;
             }
+
             display: block;
             text-align: center;
             margin: 0 0 2em 0;
@@ -2897,6 +3091,7 @@ main {
         @include flex-center();
         padding: 1em 2em;
         border-top: 1px solid var(--achromat-4);
+
         @media (max-width: 575px) {
             padding: 0.75em;
             height: auto;
@@ -2913,6 +3108,7 @@ footer {
     height: var(--f-height);
     background-color: var(--bg-2);
     color: var(--font-light);
+
     @media (max-width: 767px) {
         position: fixed;
         bottom: 0px;
@@ -2927,6 +3123,7 @@ footer {
         display: flex;
         align-items: center;
         justify-content: space-between;
+
         @media (max-width: 767px) {
             align-items: flex-start;
         }
@@ -2936,6 +3133,7 @@ footer {
 
             li:not(:first-child) {
                 margin-left: 2em;
+
                 @media (max-width: 767px) {
                     margin-left: 0px;
                 }
@@ -2986,6 +3184,7 @@ footer {
 
     &-body {
         padding: 2em;
+
         @media (max-width: 575px) {
             padding: 1em;
         }
@@ -3028,6 +3227,7 @@ footer {
 .validate-wrapper {
     position: relative;
     width: 100%;
+
     // .validate-wrapper_error
     &_error {
         input {
@@ -3037,9 +3237,11 @@ footer {
         input::placeholder {
             color: red;
         }
+
         textarea {
             border-color: red;
         }
+
         textarea::placeholder {
             color: red;
         }
@@ -3137,10 +3339,12 @@ footer {
             color: $accent;
         }
     }
+
     @keyframes run {
         0% {
             right: -300px;
         }
+
         100% {
             right: 2vw;
         }
@@ -3229,7 +3433,7 @@ footer {
         width: 250px;
         height: 166px;
 
-        &:not(:first-child){
+        &:not(:first-child) {
             margin: 0 0 0 1em;
         }
     }
@@ -3256,7 +3460,7 @@ footer {
 }
 
 .chat-box-user,
-.chat-box-reverse-user { 
+.chat-box-reverse-user {
     img {
         width: 39px;
     }

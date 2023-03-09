@@ -1,5 +1,5 @@
-import {apiRoutes} from '../config/api'
-import $api, {$authApi} from './index'
+import { apiRoutes } from '../config/api'
+import $api, { $authApi } from './index'
 
 export const getGameLots = async (gameId) => {
     try {
@@ -44,6 +44,7 @@ export const getLotsByCategoryRegionAndParams = async (
     serverId,
     categoryId,
     params,
+    numeric,
     onlyOnline,
     query
 ) => {
@@ -51,7 +52,10 @@ export const getLotsByCategoryRegionAndParams = async (
         const response = await $api.get(
             `${apiRoutes.LOTS_ACTIONS}?regionId=${regionId}&serverId=${serverId}&categoryId=${categoryId}&onlyOnline=${onlyOnline}&query=${query}&page=1&limit=10`,
             {
-                params: {options: '[' + params + ']'},
+                params: {
+                    options: '[' + params + ']',
+                    numericParameters: numeric
+                },
             }
         )
         return response.data?.body
@@ -92,7 +96,7 @@ export const postLot = async (payloads) => {
         const response = await $authApi.post(apiRoutes.GET_LOTS, payloads)
         return response?.data
     } catch (error) {
-        return {status: 500, body: error}
+        return { status: 500, body: error }
     }
 }
 
@@ -101,6 +105,6 @@ export const editLot = async (lotId, payloads) => {
         const response = await $authApi.patch(`${apiRoutes.GET_LOTS}/${lotId}`, payloads)
         return response?.data
     } catch (error) {
-        return {status: 500, body: error}
+        return { status: 500, body: error }
     }
 }

@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from 'react'
-import {useSelector} from 'react-redux'
-import {getImageURL} from '../helpers/image'
-import {convertToLocaleDate} from '../helpers/convertToLocaleDate'
-import {useParams} from 'react-router-dom'
-import {useForm} from 'react-hook-form'
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { getImageURL } from '../helpers/image'
+import { convertToLocaleDate } from '../helpers/convertToLocaleDate'
+import { useParams, Link } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
 
 import useSocketConnect from '../hooks/socketConnect'
-import {socketInstance} from '../services/sockets/socketInstance'
+import { socketInstance } from '../services/sockets/socketInstance'
 import {
     emitCreateMessage,
     emitPaginateMessages,
@@ -16,21 +16,21 @@ import {
 
 import InputFile from '../components/utils/InputFile'
 import Dropdown from 'react-bootstrap/Dropdown'
-import {FiAlertTriangle, FiBell, FiMoreHorizontal, FiSend, FiTrash2} from 'react-icons/fi'
+import { FiAlertTriangle, FiBell, FiMoreHorizontal, FiSend, FiTrash2 } from 'react-icons/fi'
 import InfiniteScroll from 'react-infinite-scroller'
 import ValidateWrapper from '../components/UI/ValidateWrapper'
 import ChatMessage from './ChatMessage'
 
-const LotChat = ({lotUser}) => {
+const LotChat = ({ lotUser }) => {
     const user = useSelector((state) => state?.auth?.user)
-    const {isConnected} = useSocketConnect()
-    const {id} = useParams()
+    const { isConnected } = useSocketConnect()
+    const { id } = useParams()
     const [currentPage, setCurrentPage] = useState(1)
     const [conversationId, setConversationId] = useState()
 
     const {
         register,
-        formState: {errors},
+        formState: { errors },
         handleSubmit,
         reset,
         setValue,
@@ -82,10 +82,10 @@ const LotChat = ({lotUser}) => {
             socketInstance?.on('message:viewed', () => {
                 setMessages((prevState) => ({
                     ...prevState,
-                    items: prevState.items && prevState.items.map((i) => ({...i, isViewed: true})),
+                    items: prevState.items && prevState.items.map((i) => ({ ...i, isViewed: true })),
                 }))
             })
-            lotUser.id && emitViewedMessage({userId: lotUser.id})
+            lotUser.id && emitViewedMessage({ userId: lotUser.id })
         }
         return () => {
             socketInstance?.removeAllListeners()
@@ -111,7 +111,7 @@ const LotChat = ({lotUser}) => {
 
     const getMessages = () => {
         if (lotUser.id) {
-            emitPaginateMessages({userId: lotUser.id}, {page: currentPage, limit: 10, orderBy: 'desc'})
+            emitPaginateMessages({ userId: lotUser.id }, { page: currentPage, limit: 10, orderBy: 'desc' })
                 .then((res) => {
                     if (res.status === 200) {
                         setMessages({
@@ -122,7 +122,7 @@ const LotChat = ({lotUser}) => {
                         setCurrentPage(currentPage + 1)
                     }
                 })
-                .catch(() => setMessages({isLoaded: true, items: null, meta: null}))
+                .catch(() => setMessages({ isLoaded: true, items: null, meta: null }))
         }
     }
 
@@ -138,7 +138,7 @@ const LotChat = ({lotUser}) => {
     return (
         <>
             <div className="top">
-                <div className="d-flex align-items-center">
+                <Link to={`/user/${lotUser.id}`} className="d-flex align-items-center">
                     <div className="img me-2 me-sm-3">
                         <img src={getImageURL(lotUser.avatar)} alt={lotUser.fullName} />
                         <div className={lotUser.isOnline ? 'indicator unread' : 'indicator'}></div>
@@ -149,7 +149,7 @@ const LotChat = ({lotUser}) => {
                             {lotUser.isOnline ? 'Онлайн' : 'Был(а) онлайн ' + lotUser.lastSeenForUser}
                         </div>
                     </div>
-                </div>
+                </Link>
                 <Dropdown align="end">
                     <Dropdown.Toggle variant="simple">
                         <FiMoreHorizontal className="fs-15" />

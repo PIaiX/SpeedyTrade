@@ -5,7 +5,7 @@ import Col from 'react-bootstrap/Col'
 import Table from 'react-bootstrap/Table'
 import { FiSearch } from 'react-icons/fi'
 import BtnAddFav from '../components/utils/BtnAddFav'
-import { Link, useNavigate, useParams, ScrollRestoration } from 'react-router-dom'
+import { Link, useNavigate, useParams, ScrollRestoration, Navigate } from 'react-router-dom'
 import { getOneGame } from '../services/games'
 import { getImageURL } from '../helpers/image'
 import 'react-loading-skeleton/dist/skeleton.css'
@@ -19,6 +19,9 @@ const Parameters = ({ params, selectedOptions, setSelectedOptions, selectedNumer
 
     // On children change, remove those children params from selected
     useEffect(() => {
+
+        if (childrenParam === prevChildrenParams) return
+
         if (prevChildrenParams) {
 
             let optCopy = Object.assign({}, selectedOptions)
@@ -47,6 +50,7 @@ const Parameters = ({ params, selectedOptions, setSelectedOptions, selectedNumer
                                 placeholder="0"
                                 min={parameter.min}
                                 max={parameter.max}
+                                defaultValue={parameter.min}
                                 onChange={(e) => {
                                     setSelectedNumericOptions({
                                         ...selectedNumericOptions,
@@ -61,6 +65,7 @@ const Parameters = ({ params, selectedOptions, setSelectedOptions, selectedNumer
                                 placeholder="0"
                                 min={parameter.min}
                                 max={parameter.max}
+                                defaultValue={parameter.max}
                                 onChange={(e) => {
                                     setSelectedNumericOptions({
                                         ...selectedNumericOptions,
@@ -74,12 +79,15 @@ const Parameters = ({ params, selectedOptions, setSelectedOptions, selectedNumer
                     <select
                         onChange={(e) => {
                             setSelectedOptions({ ...selectedOptions, [parameter.id]: Number(e?.target.value) })
-                            setChildrenParam({
-                                ...childrenParam,
-                                [parameter.id]: e?.target.selectedIndex > 0
-                                    ? parameter.options[e?.target.selectedIndex - 1].childParameter
-                                    : []
-                            })
+                            e?.target.selectedIndex === 0
+                                ?
+                                setChildrenParam({ ...childrenParam, [parameter.id]: [] })
+                                :
+                                parameter.options[e?.target.selectedIndex - 1].childParameter.length > 0 &&
+                                setChildrenParam({
+                                    ...childrenParam,
+                                    [parameter.id]: parameter.options[e?.target.selectedIndex - 1].childParameter
+                                })
                         }}
                     >
                         <option value={''}>{parameter.name}</option>
@@ -105,6 +113,7 @@ const Parameters = ({ params, selectedOptions, setSelectedOptions, selectedNumer
 
 const Game = () => {
     const theme = useSelector((state) => state?.theme?.mode)
+    const nav = useNavigate()
     const userId = useSelector((state) => state?.auth?.user?.id)
     const { slug, regId, catId } = useParams()
     const [game, setGame] = useState({
@@ -140,15 +149,6 @@ const Game = () => {
         return string
     }
 
-    useEffect(() => {
-        console.log(selectedOptions)
-    }, [selectedOptions])
-
-    useEffect(() => {
-        console.log(selectedNumericOptions)
-    }, [selectedNumericOptions])
-
-
     // Get game JSON
     useEffect(() => {
         getOneGame(slug)
@@ -181,6 +181,7 @@ const Game = () => {
 
         // Reset selected options
         setSelectedOptions({})
+        setSelectedNumericOptions({})
 
         // Set parameters to show in lot list
         setParametersToShow([])
@@ -199,16 +200,17 @@ const Game = () => {
                 currentServer === 0 ? '' : currentServer,
                 currentCategory.id,
                 Object.values(selectedOptions).filter(Number),
+                JSON.stringify(Object.entries(selectedNumericOptions).reduce((obj, item) => Object.assign(obj, { [item[0]]: Object.values(item[1]) }), {})),
                 onlineOnly,
                 query
             ).then((res) => setLots({ isLoaded: true, items: res.data }))
         }
-    }, [currentRegion, currentServer, currentCategory, selectedOptions, onlineOnly, query])
+    }, [currentRegion, currentServer, currentCategory, selectedOptions, onlineOnly, selectedNumericOptions, query])
 
     return (
         <main>
             <Container>
-                <section className="game-page pt-4 pt-sm-5 mb-6">
+                <section className="game-page pt-4 pt-sm-5 mb-6 min-vh-100">
                     <div className="d-md-flex align-items-center justify-content-between mb-4 mb-sm-2">
                         <h1 className="mb-md-0">{game?.name}</h1>
                         <BtnAddFav favoriteStatus={game?.isFavorite} gameId={game.id} userId={userId} />
@@ -326,9 +328,10 @@ const Game = () => {
                     {/* Lots ------------------------------------------------------------------------------------------------------------------------------ */}
                     {lots.isLoaded &&
                         (lots.items?.length > 0 ? (
-                            <Table borderless responsive className="mb-5">
+                            <Table borderless responsive className="mb-5" style={{ tableLayout: 'fixed' }}>
                                 <thead>
                                     <tr>
+                                        <th>Сервер</th>
                                         {parametersToShow.length > 0 &&
                                             parametersToShow.map((param) => (
                                                 <th key={`param-${param.id}`}>{param.name}</th>
@@ -343,9 +346,10 @@ const Game = () => {
                                         (lot) =>
                                             lot.isVisible && (
                                                 <tr className="lot-preview" key={'lot-' + lot.id}>
+                                                    <td onClick={() => nav(`/lot/${lot.id}`)}>{lot.serverName ? lot.serverName : '-'}</td>
                                                     {parametersToShow.length > 0 &&
                                                         parametersToShow.map((param) => (
-                                                            <td key={`param-${param.id}-${lot.id}`}>
+                                                            <td key={`param-${param.id}-${lot.id}`} onClick={() => nav(`/lot/${lot.id}`)}>
                                                                 {
                                                                     lot.options.find(
                                                                         (option) => option.parameterId === param.id
@@ -359,12 +363,10 @@ const Game = () => {
                                                                 }
                                                             </td>
                                                         ))}
-                                                    <td>
-                                                        <Link to={`/lot/${lot.id}`}>
-                                                            {lot.description.length > 300
-                                                                ? lot.description.substring(0, 300) + '...'
-                                                                : lot.description}
-                                                        </Link>
+                                                    <td onClick={() => nav(`/lot/${lot.id}`)}>
+                                                        {lot.description.length > 300
+                                                            ? lot.description.substring(0, 300) + '...'
+                                                            : lot.description}
                                                     </td>
                                                     <td>
                                                         <Link
@@ -407,7 +409,7 @@ const Game = () => {
                                                             </div>
                                                         </Link>
                                                     </td>
-                                                    <td>
+                                                    <td onClick={() => nav(`/lot/${lot.id}`)}>
                                                         <div className="color-1 fw-7">
                                                             {lot.priceCommission}&nbsp;руб.
                                                         </div>

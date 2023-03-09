@@ -26,6 +26,7 @@ const apiRoutes = {
     GET_GAMES_SERVERS: 'game/server',
     GET_GAMES_SERVERS_BY_GAME: 'game/server/bygame',
     GET_GAMES_REGIONS: 'game/region',
+    SEARCH_GAMES: 'game/search',
 
     //banner
     GET_BANNER: 'banner',
@@ -70,5 +71,5 @@ const apiValidationRules = {
     unique: 'unique',
 }
 
-export {BASE_API_URL, BASE_URL, BASE_URL_SOCKET}
-export {apiRoutes, apiResponseMessages, apiRejectMessages, apiErrors, apiValidationRules}
+export { BASE_API_URL, BASE_URL, BASE_URL_SOCKET }
+export { apiRoutes, apiResponseMessages, apiRejectMessages, apiErrors, apiValidationRules }
