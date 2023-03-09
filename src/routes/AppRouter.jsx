@@ -12,6 +12,7 @@ import AuthRoute from '../layouts/AuthRoute'
 import AccountRouter from './AccountRouter'
 import PrivacyPolicy from '../pages/PrivacyPolicy'
 import CookiesPolicy from '../pages/CookiesPolicy'
+import Document from '../pages/Document'
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -25,6 +26,7 @@ const router = createBrowserRouter(
             <Route path="reset-password" element={<ResetPassword />} />
             <Route path="privacy" element={<PrivacyPolicy />} />
             <Route path="cookies" element={<CookiesPolicy />} />
+            <Route path="document/:id" element={<Document />} />
 
             <Route
                 path="account/*"
