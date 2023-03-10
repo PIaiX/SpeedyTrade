@@ -1,11 +1,11 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 
-import {Swiper, SwiperSlide} from 'swiper/react'
-import {Autoplay, EffectFade, Mousewheel, Navigation, Thumbs} from 'swiper'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import { Autoplay, EffectFade, Mousewheel, Navigation, Thumbs } from 'swiper'
 import 'swiper/css'
 import 'swiper/css/effect-fade'
 import 'swiper/css/thumbs'
@@ -19,12 +19,12 @@ import GameLarge from '../components/GameLarge'
 import Sort from '../components/Sort'
 import ChatWindow from '../components/ChatWindow'
 
-import {HiArrowNarrowLeft, HiArrowNarrowRight} from 'react-icons/hi'
+import { HiArrowNarrowLeft, HiArrowNarrowRight } from 'react-icons/hi'
 import News from '../components/News'
 import SortSection from '../components/SortSection'
-import {getImageURL} from '../helpers/image'
+import { getImageURL } from '../helpers/image'
 import Skeleton from 'react-loading-skeleton'
-import {useSelector} from 'react-redux'
+import { useSelector } from 'react-redux'
 import useGetBanner from '../hooks/axios/getBanner'
 import useGetCatalogAllGame from '../hooks/axios/getCatalogAllGame'
 import useGetAllNews from '../hooks/axios/getAllNews'
@@ -32,9 +32,9 @@ import useGetAllNews from '../hooks/axios/getAllNews'
 const Home = () => {
     const theme = useSelector((state) => state?.theme?.mode)
     const [thumbsSwiper, setThumbsSwiper] = useState(null)
-    const {banner} = useGetBanner()
-    const {allGames} = useGetCatalogAllGame()
-    const {news} = useGetAllNews()
+    const { banner } = useGetBanner()
+    const { allGames } = useGetCatalogAllGame()
+    const { news } = useGetAllNews()
 
     const letters = 'abcdefghijklmnopqrstuvwxyz'.split('')
 
@@ -48,7 +48,7 @@ const Home = () => {
                         loop={false}
                         effect={'fade'}
                         spaceBetween={20}
-                        thumbs={{swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null}}
+                        thumbs={{ swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null }}
                         modules={[EffectFade, Thumbs, Navigation, Autoplay]}
                         navigation={{
                             nextEl: '.swiper-button-next',
@@ -173,32 +173,32 @@ const Home = () => {
                 {allGames?.items?.filter((i) =>
                     ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']?.includes(i?.name?.toString()[0])
                 )?.length > 0 && (
-                    <section id="sort-2" className="mb-6">
-                        <div className="d-flex align-items-center mb-4 mb-sm-5">
-                            <h3>0–9</h3>
-                            <hr className="horizontal flex-1 ms-4" />
-                        </div>
-                        <Row xs={2} md={3} lg={4} className="gy-5 gx-4 gx-xl-5">
-                            {allGames?.items
-                                ?.filter((i) =>
-                                    ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']?.includes(
-                                        i?.name?.toString()[0]
+                        <section id="sort-2" className="mb-6">
+                            <div className="d-flex align-items-center mb-4 mb-sm-5">
+                                <h3>0–9</h3>
+                                <hr className="horizontal flex-1 ms-4" />
+                            </div>
+                            <Row xs={2} md={3} lg={4} className="gy-5 gx-4 gx-xl-5">
+                                {allGames?.items
+                                    ?.filter((i) =>
+                                        ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']?.includes(
+                                            i?.name?.toString()[0]
+                                        )
                                     )
-                                )
-                                ?.map((i) => (
-                                    <Col key={i.id}>
-                                        <GameMidi
-                                            title={i.name}
-                                            slug={i.slug}
-                                            imgLink={getImageURL(i.logo)}
-                                            subLinksArr={i?.categories}
-                                            regions={i?.regions}
-                                        />
-                                    </Col>
-                                ))}
-                        </Row>
-                    </section>
-                )}
+                                    ?.map((i) => (
+                                        <Col key={i.id}>
+                                            <GameMidi
+                                                title={i.name}
+                                                slug={i.slug}
+                                                imgLink={getImageURL(i.logo)}
+                                                subLinksArr={i?.categories}
+                                                regions={i?.regions}
+                                            />
+                                        </Col>
+                                    ))}
+                            </Row>
+                        </section>
+                    )}
 
                 {/* Games starts with letter ----------------------------------------------------------------------- */}
                 {letters.map(
