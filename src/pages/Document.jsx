@@ -15,9 +15,11 @@ const Document = () => {
     }, [document])
 
     return (
-        <div>
-            документы {id}
-        </div>
+        <main>
+            <h1 style={{textAlign:'center'}}>{document?.title}</h1>
+            <div dangerouslySetInnerHTML={{__html: document?.text}}>
+            </div>
+        </main>
     );
 };
 
