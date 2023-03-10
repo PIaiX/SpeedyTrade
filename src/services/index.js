@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {apiRoutes, BASE_API_URL} from '../config/api'
+import { apiRoutes, BASE_API_URL } from '../config/api'
 
 const apiBody = {
     baseURL: BASE_API_URL,
@@ -43,5 +43,22 @@ $authApi.interceptors.response.use(
         return Promise.reject(error)
     }
 )
+
+
+const axiosBaseQuery = async (url) => {
+    try {
+        const result = await $api(url)
+        return { data: result.data }
+    } catch (axiosError) {
+        let err = axiosError
+        return {
+            error: {
+                status: err.response?.status,
+                data: err.response?.data || err.message,
+            },
+        }
+    }
+}
+
 export default $api
-export {$authApi}
+export { $authApi, axiosBaseQuery }
