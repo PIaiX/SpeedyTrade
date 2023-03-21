@@ -8,6 +8,8 @@ import { FiSearch } from 'react-icons/fi'
 import Sign from './utils/Sign'
 import Plaix from './utils/Plaix'
 import { useSelector } from 'react-redux'
+import swal from 'sweetalert'
+import { useNavigate } from 'react-router-dom'
 
 function Footer() {
     const [showMenu, setShowMenu] = useState(false)
@@ -18,6 +20,7 @@ function Footer() {
     const handleCloseSearch = () => setShowSearch(false)
     const handleShowSearch = () => setShowSearch(true)
     const theme = useSelector((state) => state?.theme?.mode)
+    const nav = useNavigate()
 
     return (
         <>
@@ -35,7 +38,14 @@ function Footer() {
                                 <Link to="/document/2">Политика cookie</Link>
                             </li>
                             <li>
-                                <Link to="/account/help">Помощь</Link>
+                                {isAuth
+                                    ? <Link to="/account/help">Помощь</Link>
+                                    : <div
+                                        onClick={() => swal('Пожалуйста, войдите или зарегистрируйтесь', { buttons: ['Отмена', 'Хорошо'] })
+                                            .then((o) => o && nav('/login'))}
+                                        style={{ cursor: 'pointer' }}
+                                    >Помощь</div>
+                                }
                             </li>
                         </ul>
                         <Sign className="text-center fs-09 mt-3 mt-xl-0 me-xl-4" />
@@ -110,9 +120,14 @@ function Footer() {
                                     </Link>
                                 </li>
                                 <li className="mb-3">
-                                    <Link to="/" className="">
-                                        Помощь
-                                    </Link>
+                                    {isAuth
+                                        ? <Link to="/account/help">Помощь</Link>
+                                        : <div
+                                            onClick={() => swal('Пожалуйста, войдите или зарегистрируйтесь', { buttons: ['Отмена', 'Хорошо'] })
+                                                .then((o) => o && nav('/login'))}
+                                            style={{ cursor: 'pointer' }}
+                                        >Помощь</div>
+                                    }
                                 </li>
                                 <li className="mb-3">
                                     <Link to="/" className="">
