@@ -56,6 +56,9 @@ const apiRoutes = {
     //lots
     LOTS_SELLER: 'lot/purchase/purchase/mypurchases',
     LOTS_ACTIONS: 'lot',
+
+    //document
+    GET_DOCUMENT:'documents',
 }
 
 const apiResponseMessages = {}

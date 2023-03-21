@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react'
+import React, {useCallback, useEffect, useReducer, useState} from 'react'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import InputPassword from '../utils/InputPassword'
@@ -11,10 +11,25 @@ import LoaderButton from '../UI/LoaderButton'
 import {validateFormFromApi} from '../../helpers/form'
 import ValidateWrapper from '../UI/ValidateWrapper'
 import {login} from '../../store/actions/auth'
+import {getDocument} from "../../services/document";
 
 const RegistrationForm = () => {
     const dispatch = useDispatch()
     const [isLoadingEmailVerify, setIsLoadingEmailVerify] = useState(false)
+    const [document, setDocument] = useState([])
+    const [points, setPoint] = useState([])
+    useEffect(()=>{
+        getDocument().then(setDocument)
+    }, [])
+
+    useEffect(()=>{
+        const t = document.reduce(
+            (element)=>
+                [...element, false]
+            ,[]
+        )
+        setPoint(t)
+    }, [document])
 
     const {
         register,
@@ -178,8 +193,22 @@ const RegistrationForm = () => {
                         />
                     </ValidateWrapper>
                 </Col>
+                {document?.map((element, index)=>
+                    <Col key={index} md={12} style={{alignItems:'center'}}>
+                        <div style={{display:'flex'}}>
+                            <div className={'px-2'}>
+                                <input type={'checkbox'} onClick={()=>{
+                                    setPoint(points.map((element, index2)=>index2===index?!element:element))
+                                }} />
+                            </div>
+                            <div>
+                                Я соглашаюсь с "<Link style={{color:'blue'}} to={`/document/${element.id}`}>{element.title}</Link>"
+                            </div>
+                        </div>
+                    </Col>
+                )}
             </Row>
-            <button type="submit" className="btn-5 fs-13 mt-4 mx-auto" disabled={!isValid}>
+            <button type="submit" className="btn-5 fs-13 mt-4 mx-auto" disabled={!(isValid && points.length>0 && points.reduce((oldResult, currentValue)=>oldResult && currentValue))}>
                 Зарегистрироваться
             </button>
             <p className="text-center achromat-3 fs-08 mt-3">

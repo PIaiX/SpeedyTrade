@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react'
 import AppRouter from './routes/AppRouter'
 import 'bootstrap/dist/css/bootstrap.min.css'
-import './assets/styles/style.min.css'
+import './assets/styles/style.scss'
 import {useDispatch, useSelector} from 'react-redux'
 import {initTheme} from './store/reducers/themeSlice'
 import {logout, refreshAuth} from './store/actions/auth'
