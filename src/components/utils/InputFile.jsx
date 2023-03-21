@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react'
-import {FiPaperclip} from 'react-icons/fi'
+import React, { useEffect, useState } from 'react'
+import { FiPaperclip } from 'react-icons/fi'
 
 export default function InputFile(props) {
     const [files, setFiles] = useState(0)
@@ -20,6 +20,7 @@ export default function InputFile(props) {
                     onChange={(e) => {
                         setFiles(e.target.files.length)
                     }}
+                    disabled={props.disabled}
                 />
             ) : (
                 <input
@@ -28,6 +29,7 @@ export default function InputFile(props) {
                     onChange={(e) => {
                         setFiles(e.target.files.length)
                     }}
+                    disabled={props.disabled}
                 />
             )}
             <FiPaperclip />

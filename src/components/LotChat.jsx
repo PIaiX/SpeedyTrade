@@ -23,6 +23,7 @@ import ChatMessage from './ChatMessage'
 
 const LotChat = ({ lotUser }) => {
     const user = useSelector((state) => state?.auth?.user)
+    const isAuth = useSelector((state) => state?.auth?.isAuth)
     const { isConnected } = useSocketConnect()
     const { id } = useParams()
     const [currentPage, setCurrentPage] = useState(1)
@@ -171,7 +172,7 @@ const LotChat = ({ lotUser }) => {
                 </Dropdown>
             </div>
             <div className="middle" id="chatBody">
-                {user.id ? (
+                {isAuth ? (
                     <InfiniteScroll
                         loadMore={getMessages}
                         isReverse={true}
@@ -190,7 +191,7 @@ const LotChat = ({ lotUser }) => {
                 )}
             </div>
             <form onSubmit={handleSubmit(createMessage)}>
-                <InputFile register={register('attachedfile')} />
+                <InputFile register={register('attachedfile')} disabled={!isAuth} />
 
                 <ValidateWrapper error={errors?.text}>
                     <input
@@ -199,10 +200,11 @@ const LotChat = ({ lotUser }) => {
                         {...register('text', {
                             required: 'Минимум 1 знак',
                         })}
+                        disabled={!isAuth}
                     />
                 </ValidateWrapper>
 
-                <button type="submit">
+                <button type="submit" disabled={!isAuth}>
                     <FiSend />
                 </button>
             </form>
