@@ -29,10 +29,10 @@ function Footer() {
                     <div className="d-flex flex-column flex-xl-row-reverse align-item-center justify-content-center">
                         <ul className="list-unstyled d-flex">
                             <li>
-                                <Link to="/privacy">Политика конфиденциальности</Link>
+                                <Link to="/document/1">Политика конфиденциальности</Link>
                             </li>
                             <li>
-                                <Link to="/cookies">Политика cookie</Link>
+                                <Link to="/document/2">Политика cookie</Link>
                             </li>
                             <li>
                                 <Link to="/account/help">Помощь</Link>
@@ -120,12 +120,12 @@ function Footer() {
                                     </Link>
                                 </li>
                                 <li className="mb-3">
-                                    <Link to="/privacy" className="">
+                                    <Link to="/document/1" className="">
                                         Политика конфиденциальности
                                     </Link>
                                 </li>
                                 <li className="mb-3">
-                                    <Link to="/cookies" className="">
+                                    <Link to="/document/2" className="">
                                         Политика cookie
                                     </Link>
                                 </li>
