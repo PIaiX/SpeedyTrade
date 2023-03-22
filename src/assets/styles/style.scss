@@ -1416,6 +1416,17 @@ header {
         }
     }
 
+    .search-results-overlay {
+        content: '';
+        position: fixed;
+        z-index: -1;
+        background: black;
+        opacity: 0.5;
+        inset: 0;
+        width: 100vw;
+        height: 100vh;
+    }
+
     .search-results-container {
         color: var(--achromat-2);
         background-color: var(--bg-main);
@@ -1435,16 +1446,16 @@ header {
             }
         }
 
-        &::before {
-            content: '';
-            position: fixed;
-            z-index: -1;
-            background: black;
-            opacity: 0.5;
-            inset: 0;
-            width: 100vw;
-            height: 100vh;
-        }
+        // &::before {
+        //     content: '';
+        //     position: fixed;
+        //     z-index: -1;
+        //     background: black;
+        //     opacity: 0.5;
+        //     inset: 0;
+        //     width: 100vw;
+        //     height: 100vh;
+        // }
 
         &::after {
             content: '';
