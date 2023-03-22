@@ -1416,6 +1416,11 @@ header {
         }
     }
 
+    &.fav-visible {
+        pointer-events: none;
+        filter: grayscale(0.3);
+    }
+
     .search-results-overlay {
         content: '';
         position: fixed;

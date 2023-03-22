@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import Container from 'react-bootstrap/Container'
 import Offcanvas from 'react-bootstrap/Offcanvas'
@@ -25,6 +25,13 @@ function Favorites() {
             await deleteFavorite({ userId, gameId })
         }
     }
+
+    useEffect(() => {
+        let header = document.querySelector('header')
+        header && showFav
+            ? header.classList.add('fav-visible')
+            : header.removeAttribute('class')
+    }, [showFav])
 
     return (
         <>
