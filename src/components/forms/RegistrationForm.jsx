@@ -48,10 +48,11 @@ const RegistrationForm = () => {
     const onSubmitRegistration = useCallback((data) => {
         authRegistration(data)
             .then((res) => {
-                console.log(res)
                 res && dispatch(login({ email: data?.email, password: data?.password }))
             })
-            .catch((e) => dispatchAlert('danger', e.response.data.message))
+            .catch((e) => {
+                e.response.data.errors.errors.map(error => setError(error.field, { type: 'custom', message: error.message }))
+            })
     }, [])
 
     const onSubmitEmailVerify = useCallback(() => {

@@ -74,7 +74,7 @@ const Ticket = () => {
             }
         }
 
-        data?.attachedfile > 0 && formData.append('attachedfile[]', data?.attachedfile[0])
+        data?.attachedfile > 0 && formData.append('medias[]', data?.attachedfile[0])
 
         console.log(formData)
         createTicketMessage(formData)
