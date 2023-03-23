@@ -22,7 +22,7 @@ const ChangePasswordForm = () => {
     const onSubmit = (data) => {
         userUpdatePassword(data, userId)
             .then(() => dispatchAlert('success', 'Пароль успешно изменен'))
-            .catch((err) => console.log(err)) // dispatchAlert('danger', err.response.data.message))
+            .catch((err) => dispatchAlert('danger', err.response.data.message))
     }
 
     return (
