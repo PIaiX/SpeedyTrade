@@ -1,7 +1,7 @@
-import React, {useCallback} from 'react'
+import React, { useCallback } from 'react'
 import Row from 'react-bootstrap/Row'
-import {Link} from 'react-router-dom'
-import {FiArrowLeft} from 'react-icons/fi'
+import { Link } from 'react-router-dom'
+import { FiArrowLeft } from 'react-icons/fi'
 import ProfileForm from '../../components/forms/ProfileForm'
 import ChangePasswordForm from '../../components/forms/ChangePasswordForm'
 
@@ -15,7 +15,7 @@ const Profile = () => {
                 <h4 className="color-1 mb-0">Профиль</h4>
             </div>
             <Row>
-                <ProfileForm /> {/* onSubmit={onSubmit} */}
+                <ProfileForm />
                 <ChangePasswordForm />
             </Row>
         </div>

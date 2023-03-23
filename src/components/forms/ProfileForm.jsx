@@ -47,7 +47,7 @@ const ProfileForm = () => {
                         })
                 })
                 .catch((e) => {
-                    dispatchAlert('danger', e.response.data.message)
+                    e.response.data.body.errors.map(error => setError(error.field, { type: 'custom', message: error.message }))
                 })
         },
         [user?.id]
@@ -61,6 +61,7 @@ const ProfileForm = () => {
         getValues,
         setValue,
         watch,
+        setError,
         reset,
     } = useForm({
         mode: 'all',
