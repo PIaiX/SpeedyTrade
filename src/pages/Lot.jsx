@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -8,22 +8,30 @@ import StarRating from '../components/utils/StarRating'
 import ReviewBlock from '../components/ReviewBlock'
 import Skeleton from 'react-loading-skeleton'
 import useGetLotReviews from '../hooks/axios/getReview'
-import {useParams} from 'react-router-dom'
-import {useSelector} from 'react-redux'
+import { useParams } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import useGetOneLot from '../hooks/axios/getOneLot'
 import LotChat from '../components/LotChat'
+import swal from 'sweetalert'
+import { purchaseLot } from '../services/lots'
 
 const optionsPayment = [
-    {value: '1', label: 'Тип оплаты 1'},
-    {value: '2', label: 'Тип оплаты 2'},
-    {value: '3', label: 'Тип оплаты 3'},
+    { value: 'balance', label: 'С баланса' },
+    { value: 'card', label: 'Банковской картой' },
 ]
 
 const Lot = () => {
+    const userId = useSelector(state => state.auth.user.id)
     const theme = useSelector((state) => state?.theme?.mode)
-    const {id} = useParams()
-    const {lot} = useGetOneLot(id)
-    const {reviews} = useGetLotReviews(lot?.item?.id)
+    const { id } = useParams()
+    const { lot } = useGetOneLot(id)
+    const { reviews } = useGetLotReviews(lot?.item?.id)
+    const [purchaseDto, setPurchaseDto] = useState({
+        userId: userId,
+        lotId: Number(id),
+        paymentType: undefined
+
+    })
 
     const [filterParam, setFilterParam] = useState('init')
 
@@ -65,12 +73,33 @@ const Lot = () => {
                                         placeholder="Выбрать"
                                         classNamePrefix="react-select"
                                         options={optionsPayment}
-                                        isClearable={true}
-                                        isSearchable={true}
+                                        onChange={(e) => setPurchaseDto({ ...purchaseDto, paymentType: e.value })}
                                     />
                                 </Col>
                                 <Col md={3}>
-                                    <button type="button" className="btn-5 w-100">
+                                    <button
+                                        type="button"
+                                        className="btn-5 w-100"
+                                        onClick={() => {
+                                            if (!purchaseDto.paymentType) return swal('Выберите способ оплаты')
+                                            swal({
+                                                title: "Хотите приобрести данный лот?",
+                                                text: lot.item?.description,
+                                                buttons: ['Отмена', 'Да']
+                                            })
+                                                .then(ok => ok && purchaseLot(purchaseDto))
+                                                .then(res => res.status === 201
+                                                    ?
+                                                    swal({
+                                                        title: "Успешно приобретено:",
+                                                        text: lot.item?.description,
+                                                        icon: "success"
+                                                    })
+                                                    : swal('Ошибка', 'Ошибка при отправке запроса', res.error)
+                                                )
+                                                .catch(() => swal('Ошибка', 'Ошибка при отправке запроса', 'error'))
+                                        }}
+                                    >
                                         Оплатить
                                     </button>
                                 </Col>
