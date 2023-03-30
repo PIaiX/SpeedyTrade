@@ -382,7 +382,7 @@ const Game = () => {
                                                                     src={
                                                                         lot.user.avatar
                                                                             ? getImageURL(lot.user.avatar)
-                                                                            : '/images/user2.png'
+                                                                            : '/images/no-photo.jpg'
                                                                     }
                                                                     alt={lot.user.fullName}
                                                                 />
