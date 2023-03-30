@@ -344,79 +344,78 @@ const Game = () => {
                                 <tbody>
                                     {lots.items?.map(
                                         (lot) =>
-                                            lot.isVisible && (
-                                                <tr className="lot-preview" key={'lot-' + lot.id}>
-                                                    <td onClick={() => nav(`/lot/${lot.id}`)}>{lot.serverName ? lot.serverName : '-'}</td>
-                                                    {parametersToShow.length > 0 &&
-                                                        parametersToShow.map((param) => (
-                                                            <td key={`param-${param.id}-${lot.id}`} onClick={() => nav(`/lot/${lot.id}`)}>
-                                                                {
-                                                                    lot.options.find(
-                                                                        (option) => option.parameterId === param.id
-                                                                    )?.name
-                                                                }
-                                                                {
-                                                                    lot.numericParameters.find(
-                                                                        (numericOption) =>
-                                                                            numericOption.id === param.id
-                                                                    )?.numericValue
-                                                                }
-                                                            </td>
-                                                        ))}
-                                                    <td onClick={() => nav(`/lot/${lot.id}`)}>
-                                                        {lot.description.length > 300
-                                                            ? lot.description.substring(0, 300) + '...'
-                                                            : lot.description}
-                                                    </td>
-                                                    <td>
-                                                        <Link
-                                                            to={
-                                                                lot.userId === userId
-                                                                    ? '/account/profile'
-                                                                    : `/user/${lot.userId}`
+                                            <tr className="lot-preview" key={'lot-' + lot.id}>
+                                                <td onClick={() => nav(`/lot/${lot.id}`)}>{lot.serverName ? lot.serverName : '-'}</td>
+                                                {parametersToShow.length > 0 &&
+                                                    parametersToShow.map((param) => (
+                                                        <td key={`param-${param.id}-${lot.id}`} onClick={() => nav(`/lot/${lot.id}`)}>
+                                                            {
+                                                                lot.options.find(
+                                                                    (option) => option.parameterId === param.id
+                                                                )?.name
                                                             }
-                                                            className="lot-preview-user"
-                                                        >
-                                                            <div className="img">
-                                                                <img
-                                                                    src={
-                                                                        lot.user.avatar
-                                                                            ? getImageURL(lot.user.avatar)
-                                                                            : '/images/no-photo.jpg'
-                                                                    }
-                                                                    alt={lot.user.fullName}
-                                                                />
-                                                                <div
-                                                                    className={`indicator ${lot.user.isOnline && 'online'
-                                                                        }`}
-                                                                ></div>
-                                                            </div>
-                                                            <div>
-                                                                <h5 className="achromat-2 mb-1">
-                                                                    {lot.user.fullName}
-                                                                </h5>
-                                                                <div className="achromat-3 mb-1">
-                                                                    @{lot.user.nickname}
-                                                                </div>
-                                                                <StarRating
-                                                                    rate={lot.user.rating}
-                                                                    className="justify-content-start fs-08"
-                                                                />
-                                                                <div>
-                                                                    На&nbsp;сайте с&nbsp;
-                                                                    {timeOnSite(lot.user.createdAt)}&nbsp;г
-                                                                </div>
-                                                            </div>
-                                                        </Link>
-                                                    </td>
-                                                    <td onClick={() => nav(`/lot/${lot.id}`)}>
-                                                        <div className="color-1 fw-7">
-                                                            {lot.priceCommission}&nbsp;руб.
+                                                            {
+                                                                lot.numericParameters.find(
+                                                                    (numericOption) =>
+                                                                        numericOption.id === param.id
+                                                                )?.numericValue
+                                                            }
+                                                        </td>
+                                                    ))}
+                                                <td onClick={() => nav(`/lot/${lot.id}`)}>
+                                                    {lot.description.length > 300
+                                                        ? lot.description.substring(0, 300) + '...'
+                                                        : lot.description}
+                                                </td>
+                                                <td>
+                                                    <Link
+                                                        to={
+                                                            lot.userId === userId
+                                                                ? '/account/profile'
+                                                                : `/user/${lot.userId}`
+                                                        }
+                                                        className="lot-preview-user"
+                                                    >
+                                                        <div className="img">
+                                                            <img
+                                                                src={
+                                                                    lot.user.avatar
+                                                                        ? getImageURL(lot.user.avatar)
+                                                                        : '/images/no-photo.jpg'
+                                                                }
+                                                                alt={lot.user.fullName}
+                                                            />
+                                                            <div
+                                                                className={`indicator ${lot.user.isOnline && 'online'
+                                                                    }`}
+                                                            ></div>
                                                         </div>
-                                                    </td>
-                                                </tr>
-                                            )
-                                    )}
+                                                        <div>
+                                                            <h5 className="achromat-2 mb-1">
+                                                                {lot.user.fullName}
+                                                            </h5>
+                                                            <div className="achromat-3 mb-1">
+                                                                @{lot.user.nickname}
+                                                            </div>
+                                                            <StarRating
+                                                                rate={lot.user.rating}
+                                                                className="justify-content-start fs-08"
+                                                            />
+                                                            <div>
+                                                                На&nbsp;сайте с&nbsp;
+                                                                {timeOnSite(lot.user.createdAt)}&nbsp;г
+                                                            </div>
+                                                        </div>
+                                                    </Link>
+                                                </td>
+                                                <td onClick={() => nav(`/lot/${lot.id}`)}>
+                                                    <div className="color-1 fw-7">
+                                                        {lot.priceCommission}&nbsp;руб.
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                    )
+                                    }
                                 </tbody>
                             </Table>
                         ) : (
