@@ -156,7 +156,7 @@ const Lot = () => {
                         </Col>
                         <Col xs={12} lg={5}>
                             <div className="message-window">
-                                {lot.item.user && <LotChat lotUser={lot.item.user} />}
+                                {lot.item.user && lot.item.user.id !== userId && <LotChat lotUser={lot.item.user} />}
                             </div>
                         </Col>
                     </Row>
