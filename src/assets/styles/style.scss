@@ -2390,7 +2390,7 @@ main {
     transition: background-color 0.2s ease-in-out;
 
     &:hover {
-        background: var(--bs-gray-200);
+        background: var(--hr-color);
         cursor: pointer;
     }
 
