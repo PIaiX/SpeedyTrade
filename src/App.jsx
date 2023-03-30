@@ -1,20 +1,20 @@
-import React, {useEffect} from 'react'
+import React, { useEffect } from 'react'
 import AppRouter from './routes/AppRouter'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './assets/styles/style.scss'
-import {useDispatch, useSelector} from 'react-redux'
-import {initTheme} from './store/reducers/themeSlice'
-import {logout, refreshAuth} from './store/actions/auth'
-import {setLoadingRefresh} from './store/reducers/authSlice'
-import {setDefaultLocale} from 'react-datepicker'
+import { useDispatch, useSelector } from 'react-redux'
+import { initTheme } from './store/reducers/themeSlice'
+import { logout, refreshAuth } from './store/actions/auth'
+import { setLoadingRefresh, setUser } from './store/reducers/authSlice'
+import { setDefaultLocale } from 'react-datepicker'
 import ru from 'date-fns/locale/ru'
-import {initFingerprint} from './store/actions/fingerprint'
+import { initFingerprint } from './store/actions/fingerprint'
 import Loader from './components/UI/Loader'
-import {setSocketConnection} from '../src/services/sockets/socketInstance'
-import {setNotification, setUnreadCount} from './store/reducers/notificationSlice'
+import { setSocketConnection } from '../src/services/sockets/socketInstance'
+import { setNotification, setUnreadCount } from './store/reducers/notificationSlice'
 
-import {BASE_URL_SOCKET} from './config/api'
-import {io} from 'socket.io-client'
+import { BASE_URL_SOCKET } from './config/api'
+import { io } from 'socket.io-client'
 
 const App = () => {
     setDefaultLocale(ru)
@@ -46,18 +46,20 @@ const App = () => {
         } else dispatch(initFingerprint())
     }, [fingerprint])
 
-    const onUnloadHandler = () => {
+    const onUnloadHandler = (event) => {
+        event.preventDefault()
         const isOtherPC = localStorage.getItem('isOtherPC')
         if (isOtherPC === 'true') {
             dispatch(logout())
             localStorage.removeItem('isOtherPC')
+            localStorage.removeItem('token')
         }
     }
 
     // Global notification listener
     useEffect(() => {
         let socketNotification = io(`${BASE_URL_SOCKET}`, {
-            auth: {token: `Bearer ${localStorage.getItem('token')}`},
+            auth: { token: `Bearer ${localStorage.getItem('token')}` },
         })
 
         if (user.id && socketNotification) {

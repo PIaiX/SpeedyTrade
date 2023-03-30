@@ -1,5 +1,5 @@
-import {createSlice} from '@reduxjs/toolkit'
-import {login, logout, refreshAuth} from '../actions/auth'
+import { createSlice } from '@reduxjs/toolkit'
+import { login, logout, refreshAuth } from '../actions/auth'
 
 const initialState = {
     isLoadingRefresh: true,
@@ -50,11 +50,13 @@ const authSlice = createSlice({
         // ! LOGOUT
         [logout.fulfilled]: (state) => {
             localStorage.removeItem('token')
+            localStorage.removeItem('isOtherPC')
             state.isAuth = false
             state.user = {}
         },
         [logout.rejected]: (state) => {
             localStorage.removeItem('token')
+            localStorage.removeItem('isOtherPC')
             state.isAuth = false
             state.user = {}
         },
@@ -76,6 +78,6 @@ const authSlice = createSlice({
     },
 })
 
-export const {setLoadingLogin, setLoadingRefresh, setUser, setAuth, setLoginError} = authSlice.actions
+export const { setLoadingLogin, setLoadingRefresh, setUser, setAuth, setLoginError } = authSlice.actions
 
 export default authSlice.reducer
