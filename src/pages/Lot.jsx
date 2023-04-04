@@ -8,7 +8,7 @@ import StarRating from '../components/utils/StarRating'
 import ReviewBlock from '../components/ReviewBlock'
 import Skeleton from 'react-loading-skeleton'
 import useGetLotReviews from '../hooks/axios/getReview'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import useGetOneLot from '../hooks/axios/getOneLot'
 import LotChat from '../components/LotChat'
@@ -21,6 +21,7 @@ const optionsPayment = [
 ]
 
 const Lot = () => {
+    const nav = useNavigate()
     const userId = useSelector(state => state.auth.user.id)
     const theme = useSelector((state) => state?.theme?.mode)
     const { id } = useParams()
@@ -88,13 +89,13 @@ const Lot = () => {
                                                 buttons: ['Отмена', 'Да']
                                             })
                                                 .then(ok => ok && purchaseLot(purchaseDto))
-                                                .then(res => res.status === 201
+                                                .then(res => res.status === 200
                                                     ?
                                                     swal({
                                                         title: "Успешно приобретено:",
                                                         text: lot.item?.description,
                                                         icon: "success"
-                                                    })
+                                                    }).then(() => nav('/account/purchase-history'))
                                                     : swal('Ошибка', 'Ошибка при отправке запроса', res.error)
                                                 )
                                                 .catch(() => swal('Ошибка', 'Ошибка при отправке запроса', 'error'))
