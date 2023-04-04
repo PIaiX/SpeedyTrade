@@ -151,7 +151,7 @@ const LotChat = ({ lotUser }) => {
                         </div>
                     </div>
                 </Link>
-                <Dropdown align="end">
+                {/* <Dropdown align="end">
                     <Dropdown.Toggle variant="simple">
                         <FiMoreHorizontal className="fs-15" />
                     </Dropdown.Toggle>
@@ -169,7 +169,7 @@ const LotChat = ({ lotUser }) => {
                             <span className="ms-2">Удалить диалог</span>
                         </Dropdown.Item>
                     </Dropdown.Menu>
-                </Dropdown>
+                </Dropdown> */}
             </div>
             <div className="middle" id="chatBody">
                 {isAuth ? (
