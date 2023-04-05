@@ -62,6 +62,8 @@ const apiRoutes = {
 
     //document
     GET_DOCUMENT: 'documents',
+
+    GET_OPERATIONS: 'balance/operations'
 }
 
 const apiResponseMessages = {}

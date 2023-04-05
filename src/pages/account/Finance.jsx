@@ -1,13 +1,24 @@
-import React, {useState} from 'react'
+import React, { useState, useEffect } from 'react'
 import Table from 'react-bootstrap/Table'
-import {Link} from 'react-router-dom'
-import {FiArrowLeft} from 'react-icons/fi'
+import { Link } from 'react-router-dom'
+import { FiArrowLeft } from 'react-icons/fi'
+import { getBalanceOperations } from '../../services/balance'
+import Pagination from '../../components/Pagination'
 
 const Finance = () => {
     const [tab, setTab] = useState(0)
     const [sum, setSum] = useState(0)
     const [card, setCard] = useState()
     const [showAdd, setShowAdd] = useState(false)
+    const [operations, setOperations] = useState()
+    const [currentPage, setCurrentPage] = useState("/?page=1")
+
+    useEffect(() => {
+        tab === 1 &&
+            getBalanceOperations(currentPage)
+                .then(res => setOperations(res))
+
+    }, [tab])
 
     return (
         <div className="main">
@@ -169,48 +180,23 @@ const Finance = () => {
                     </button>
                 </form>
             ) : (
-                <div>
+                <div className='d-flex flex-column h-100'>
                     <h6>Ваши списания и пополнения:</h6>
-                    <Table striped borderless className="my-3 my-sm-4">
+                    <Table striped borderless className="my-3 my-sm-4 h-100">
                         <tbody>
-                            <tr>
-                                <td>Списание 28.09.2022 г.</td>
-                                <td className="text-end fw-7">- 345 руб.</td>
-                            </tr>
-                            <tr>
-                                <td>Списание 28.09.2022 г.</td>
-                                <td className="text-end fw-7">- 345 руб.</td>
-                            </tr>
-                            <tr>
-                                <td>Пополнение 12.09.2022 г.</td>
-                                <td className="text-end fw-7">+ 2 000 руб.</td>
-                            </tr>
-                            <tr>
-                                <td>Списание 28.09.2022 г.</td>
-                                <td className="text-end fw-7">- 345 руб.</td>
-                            </tr>
-                            <tr>
-                                <td>Списание 28.09.2022 г.</td>
-                                <td className="text-end fw-7">- 345 руб.</td>
-                            </tr>
-                            <tr>
-                                <td>Пополнение 12.09.2022 г.</td>
-                                <td className="text-end fw-7">+ 2 000 руб.</td>
-                            </tr>
-                            <tr>
-                                <td>Списание 28.09.2022 г.</td>
-                                <td className="text-end fw-7">- 345 руб.</td>
-                            </tr>
-                            <tr>
-                                <td>Списание 28.09.2022 г.</td>
-                                <td className="text-end fw-7">- 345 руб.</td>
-                            </tr>
-                            <tr>
-                                <td>Пополнение 12.09.2022 г.</td>
-                                <td className="text-end fw-7">+ 2 000 руб.</td>
-                            </tr>
+                            {operations?.data.map(operation =>
+                                <tr key={operation.id}>
+                                    <td>{operation.type === "sale" ? 'Пополнение' : 'Списание'} {operation.createdAtForUser} г.</td>
+                                    <td className="text-end fw-7">{operation.price} руб.</td>
+                                </tr>
+                            )}
                         </tbody>
                     </Table>
+                    <Pagination
+                        meta={operations?.meta}
+                        setCurrentPage={setCurrentPage}
+                        currentPage={currentPage}
+                    />
                 </div>
             )}
         </div>
