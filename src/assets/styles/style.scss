@@ -2399,17 +2399,17 @@ main {
         align-items: flex-start;
         position: relative;
 
-        &:hover::after {
-            content: 'Перейти на страницу пользователя';
-            position: absolute;
-            bottom: 0;
-            color: var(--achromat-2);
-            border: 1px solid var(--achromat-4);
-            background-color: var(--achromat-0);
-            padding: 0.1em 0.6em;
-            border-radius: 0.3em;
-            width: max-content;
-        }
+        // &:hover::after {
+        //     content: 'Перейти на страницу пользователя';
+        //     position: absolute;
+        //     bottom: 0;
+        //     color: var(--achromat-2);
+        //     border: 1px solid var(--achromat-4);
+        //     background-color: var(--achromat-0);
+        //     padding: 0.1em 0.6em;
+        //     border-radius: 0.3em;
+        //     width: max-content;
+        // }
 
         .img {
             --size: 60px;

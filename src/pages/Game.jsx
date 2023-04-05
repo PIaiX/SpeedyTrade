@@ -366,13 +366,8 @@ const Game = () => {
                                                         ? lot.description.substring(0, 300) + '...'
                                                         : lot.description}
                                                 </td>
-                                                <td>
-                                                    <Link
-                                                        to={
-                                                            lot.userId === userId
-                                                                ? '/account/profile'
-                                                                : `/user/${lot.userId}`
-                                                        }
+                                                <td onClick={() => nav(`/lot/${lot.id}`)}>
+                                                    <div
                                                         className="lot-preview-user"
                                                     >
                                                         <div className="img">
@@ -405,7 +400,7 @@ const Game = () => {
                                                                 {timeOnSite(lot.user.createdAt)}&nbsp;г
                                                             </div>
                                                         </div>
-                                                    </Link>
+                                                    </div>
                                                 </td>
                                                 <td onClick={() => nav(`/lot/${lot.id}`)}>
                                                     <div className="color-1 fw-7">
