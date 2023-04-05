@@ -19,6 +19,10 @@ const NewsPage = () => {
   const [slug, setSlug] = useState({ slug: '', skip: true })
   const { data, isFetching } = useGetOneNewsQuery(slug.slug, { skip: slug.skip })
 
+  function createMarkup() {
+    return { __html: data?.body?.description };
+  }
+
   useEffect(() => {
     newsId && setSlug({ slug: newsId, skip: false })
   }, [newsId])
@@ -34,7 +38,7 @@ const NewsPage = () => {
           <Row className='gx-4 gx-xl-5'>
             <Col xs={12} lg={7} xxl={8}>
               <h3>{data?.body?.suptitle}</h3>
-              {data?.body?.description}
+              <p dangerouslySetInnerHTML={createMarkup()}></p>
             </Col>
             <Col xs={12} lg={5} xxl={4} className='mt-5 mt-lg-0'>
               <div className="box">

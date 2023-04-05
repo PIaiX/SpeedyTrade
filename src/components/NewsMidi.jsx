@@ -4,11 +4,16 @@ import { FiArrowRight } from "react-icons/fi"
 import { getImageURL } from '../helpers/image'
 
 const NewsMidi = ({ news }) => {
+
+  function createMarkup() {
+    return { __html: news.description };
+  }
+
   return (
     <article className='news-midi'>
       <div className='text'>
         <h3>{news.title}</h3>
-        <p>{news.description}</p>
+        <p dangerouslySetInnerHTML={createMarkup()}></p>
         <time>{new Date(news.createdAt).toLocaleDateString('ru', { dateStyle: 'full' })}</time>
         <Link to={`/news/${news.slug}`} className='stretched-link'>
           <span>Читать далее</span>
