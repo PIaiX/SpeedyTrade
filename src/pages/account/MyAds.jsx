@@ -71,7 +71,7 @@ const MyAds = () => {
             </Row>
 
             {/* ---------------- Lots ------------------------------------------------------------------------------ */}
-            <Table borderless responsive className="my-4" style={{ minHeight: '230px' }}>
+            <Table borderless responsive className="my-4">
                 <thead>
                     <tr>
                         <th>Название&nbsp;игры</th>
