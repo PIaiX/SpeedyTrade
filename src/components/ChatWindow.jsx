@@ -19,6 +19,7 @@ function ChatWindow() {
     const { isConnected } = useSocketConnect()
     const [currentPage, setCurrentPage] = useState(1)
     const [isFileSent, setIsFileSent] = useState(false)
+    const [lockSubmit, setLockSubmit] = useState(false)
 
     const [messages, setMessages] = useState({
         isLoaded: false,
@@ -65,8 +66,10 @@ function ChatWindow() {
     }, [messages])
 
     const createMessage = (payload) => {
-        const formData = new FormData()
-        formData.append('attachedfile', payload.attachedfile[0])
+        if (lockSubmit) return
+        setLockSubmit(true)
+        setTimeout(() => setLockSubmit(false), 5000)
+
         emitCreatePublicMessage(payload)
             .then((res) => {
                 setIsFileSent(true)
@@ -140,7 +143,7 @@ function ChatWindow() {
 
                     <hr className="vertical mx-2 mx-sm-3" />
 
-                    <button type="submit" disabled={!isAuth}>
+                    <button type="submit" disabled={!isAuth || lockSubmit}>
                         <FiSend />
                     </button>
                 </form>
