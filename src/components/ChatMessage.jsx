@@ -50,13 +50,11 @@ const SingleMessage = ({ msg }) => {
             msg.medias.length > 0 &&
                 loadAllImages(msg.medias).then(imgArr => setImage(imgArr))
         } else {
-            msg.medias &&
-                loadImage(getImageURL(msg.medias))
-                    .then((img) => setImage([img]))
+            msg.attachedfile &&
+                loadImage(getImageURL(msg.attachedfile))
+                    .then(img => setImage([img]))
         }
     }, [])
-
-    // console.log(image)
 
     return (
         <div className={`chat-box${user?.id === msg?.userId ? '-reverse' : ''}`}>
@@ -84,7 +82,7 @@ const SingleMessage = ({ msg }) => {
                         </p>}
                     <p>{msg?.text}</p>
                     <div className="images-message">
-                        {msg.medias ? (
+                        {msg.medias &&
                             <div
                                 className="images-box"
                                 onClick={() => {
@@ -94,10 +92,19 @@ const SingleMessage = ({ msg }) => {
                                 {image.length !== 0 && image.map(img =>
                                     <img key={msg.id + '-' + img} src={img} />
                                 )}
-                            </div>
-                        ) : (
-                            ''
-                        )}
+
+                            </div>}
+
+                        {msg.attachedfile &&
+                            <div
+                                className="images-box"
+                                onClick={() => {
+                                    openImageViewer(0)
+                                }}
+                            >
+                                {image.length !== 0 &&
+                                    <img src={image[0]} width={'100%'} height={'100%'} />}
+                            </div>}
                     </div>
                     {isViewerOpen && (
                         <ImageViewer
