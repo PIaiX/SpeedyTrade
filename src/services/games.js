@@ -19,6 +19,15 @@ export const getAllGames = async () => {
     }
 }
 
+export const getAllGamesWhereIHaveLots = async () => {
+    try {
+        const response = await $authApi(`${apiRoutes.GET_GAMES_WHERE_I_HAVE_LOTS}`)
+        return response?.data?.body
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 export const getOneGame = async (slug) => {
     try {
         const response = await $authApi.get(`${apiRoutes.ACTIONS_GAMES}/${slug}`)
