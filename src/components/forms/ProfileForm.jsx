@@ -201,21 +201,15 @@ const ProfileForm = () => {
                                     control={control}
                                     render={({ field }) => (
                                         <PhoneInput
+                                            required={false}
                                             inputClass="phone-input"
                                             country={'ru'}
                                             placeholder="Номер телефона"
                                             specialLabel={null}
                                             value={getValues('phone')}
-                                            onChange={(phone) => field.onChange(`+${phone}`)}
+                                            onChange={(phone) => field.onChange(`${phone}`)}
                                         />
                                     )}
-                                    rules={{
-                                        required: 'Заполните поле',
-                                        minLength: {
-                                            value: 11,
-                                            message: 'введите номер до конца',
-                                        },
-                                    }}
                                 />
                             </ValidateWrapper>
                         </Col>
