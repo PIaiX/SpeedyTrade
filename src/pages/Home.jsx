@@ -23,7 +23,6 @@ import { HiArrowNarrowLeft, HiArrowNarrowRight } from 'react-icons/hi'
 import News from '../components/News'
 import SortSection from '../components/SortSection'
 import { getImageURL } from '../helpers/image'
-import Skeleton from 'react-loading-skeleton'
 import { useSelector } from 'react-redux'
 import useGetBanner from '../hooks/axios/getBanner'
 import useGetCatalogAllGame from '../hooks/axios/getCatalogAllGame'
@@ -82,15 +81,7 @@ const Home = () => {
                             ) : (
                                 <h6>Игр нет</h6>
                             )
-                        ) : (
-                            <Skeleton
-                                count={1}
-                                baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
-                                highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
-                                width={'100%'}
-                                height={'30em'}
-                            />
-                        )}
+                        ) : null}
                         <div className="swiper-button-prev btn-2">
                             <HiArrowNarrowLeft />
                         </div>
@@ -125,15 +116,7 @@ const Home = () => {
                             ) : (
                                 <h6>Игр нет</h6>
                             )
-                        ) : (
-                            <Skeleton
-                                count={1}
-                                baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
-                                highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
-                                width={'100%'}
-                                height={'50px'}
-                            />
-                        )}
+                        ) : null}
                     </Swiper>
                 </section>
             </Container>
@@ -255,15 +238,7 @@ const Home = () => {
                                 ) : (
                                     <h6>Ничего нет</h6>
                                 )
-                            ) : (
-                                <Skeleton
-                                    count={5}
-                                    baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
-                                    highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
-                                    width={'100%'}
-                                    height={'50px'}
-                                />
-                            )}
+                            ) : null}
                         </Col>
 
                         {/* Chat column -------------------------------------------- */}

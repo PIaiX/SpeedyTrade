@@ -6,7 +6,6 @@ import { HiBookmark } from 'react-icons/hi'
 import { IoArrowUpCircleOutline, IoCloseCircleOutline } from 'react-icons/io5'
 import { useDeleteFavoriteMutation, useGetFavoritesQuery } from '../services/RTK/favoritesApi'
 import { useSelector } from 'react-redux'
-import Skeleton from 'react-loading-skeleton'
 import { getImageURL } from '../helpers/image'
 import swal from 'sweetalert'
 import { useNavigate } from 'react-router-dom'
@@ -66,14 +65,7 @@ function Favorites() {
                                 ) : (
                                     <h6>Список избранных пуст</h6>
                                 )
-                            ) : (
-                                <Skeleton
-                                    baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
-                                    highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
-                                    height={'100%'}
-                                    width={'15em'}
-                                />
-                            )}
+                            ) : null}
                         </ul>
                     </Container>
                 </Offcanvas.Body>

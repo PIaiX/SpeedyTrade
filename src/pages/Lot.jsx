@@ -6,7 +6,6 @@ import Select from 'react-select'
 
 import StarRating from '../components/utils/StarRating'
 import ReviewBlock from '../components/ReviewBlock'
-import Skeleton from 'react-loading-skeleton'
 import useGetLotReviews from '../hooks/axios/getReview'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
@@ -58,14 +57,7 @@ const Lot = () => {
                                         <div className="box">
                                             <p>{lot.item?.description}</p>
                                         </div>
-                                    ) : (
-                                        <Skeleton
-                                            baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
-                                            highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
-                                            height={'100%'}
-                                            width={'100%'}
-                                        />
-                                    )}
+                                    ) : null}
                                 </Col>
                                 <Col md={3}>Способ оплаты:</Col>
                                 <Col md={9}>
@@ -144,15 +136,7 @@ const Lot = () => {
                                     ) : (
                                         <h6>Отзывов нет</h6>
                                     )
-                                ) : (
-                                    <Skeleton
-                                        count={1}
-                                        baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
-                                        highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
-                                        width={'100%'}
-                                        height={'200px'}
-                                    />
-                                )}
+                                ) : null}
                             </Col>
                         </Col>
                         <Col xs={12} lg={5}>
