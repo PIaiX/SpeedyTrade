@@ -18,6 +18,7 @@ function ChatWindow() {
     const isAuth = useSelector((state) => state?.auth?.isAuth)
     const { isConnected } = useSocketConnect()
     const [currentPage, setCurrentPage] = useState(1)
+    const [isFileSent, setIsFileSent] = useState(false)
 
     const [messages, setMessages] = useState({
         isLoaded: false,
@@ -68,6 +69,7 @@ function ChatWindow() {
         formData.append('attachedfile', payload.attachedfile[0])
         emitCreatePublicMessage(payload)
             .then((res) => {
+                setIsFileSent(true)
                 reset()
             })
             .catch((e) => console.log(e))
@@ -123,7 +125,7 @@ function ChatWindow() {
                     </InfiniteScroll>
                 </div>
                 <form onSubmit={handleSubmit(createMessage)}>
-                    <InputFile register={register('attachedfile')} disabled={!isAuth} />
+                    <InputFile register={register('attachedfile')} isFileSent={isFileSent} disabled={!isAuth} />
 
                     <ValidateWrapper error={errors?.text}>
                         <input
