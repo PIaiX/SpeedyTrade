@@ -11,7 +11,7 @@ const SingleMessage = ({ msg }) => {
     const user = useSelector((state) => state.auth.user)
     const [currentImage, setCurrentImage] = useState(null)
     const [isViewerOpen, setIsViewerOpen] = useState(false)
-    const [image, setImage] = useState(['/images/no-photo.jpg'])
+    const [image, setImage] = useState([])
 
     const openImageViewer = useCallback((index) => {
         setCurrentImage(index)
@@ -39,18 +39,24 @@ const SingleMessage = ({ msg }) => {
                 img.src = url
             })
         }
-        if (Array.isArray(msg.attachedfile)) {
-            msg.attachedfile.length > 0 &&
-                loadImage(getImageURL(msg.attachedfile[0].media))
-                    .then((img) => setImage([img]))
-                    .catch((e) => console.log(e))
-        } else {
-            msg.attachedfile &&
-                loadImage(getImageURL(msg.attachedfile))
-                    .then((img) => setImage([img]))
-                    .catch((e) => console.log(e))
+
+        const loadAllImages = async (imgArray) => {
+            return await Promise.all(
+                imgArray.map(img => loadImage(getImageURL(img.media)))
+            )
         }
-    }, [msg])
+
+        if (Array.isArray(msg.medias)) {
+            msg.medias.length > 0 &&
+                loadAllImages(msg.medias).then(imgArr => setImage(imgArr))
+        } else {
+            msg.medias &&
+                loadImage(getImageURL(msg.medias))
+                    .then((img) => setImage([img]))
+        }
+    }, [])
+
+    // console.log(image)
 
     return (
         <div className={`chat-box${user?.id === msg?.userId ? '-reverse' : ''}`}>
@@ -78,14 +84,16 @@ const SingleMessage = ({ msg }) => {
                         </p>}
                     <p>{msg?.text}</p>
                     <div className="images-message">
-                        {msg.attachedfile ? (
+                        {msg.medias ? (
                             <div
                                 className="images-box"
                                 onClick={() => {
                                     openImageViewer(0)
                                 }}
                             >
-                                {image.length !== 0 && <img src={image} height={'100%'} width={'100%'} />}
+                                {image.length !== 0 && image.map(img =>
+                                    <img key={msg.id + '-' + img} src={img} />
+                                )}
                             </div>
                         ) : (
                             ''
