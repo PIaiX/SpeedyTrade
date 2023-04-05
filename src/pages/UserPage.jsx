@@ -210,10 +210,10 @@ const UserPage = () => {
                             })}
                         >
                             <option value={'0'}>Нет лотов</option>
-                            {sellerLots.items?.length > 0 ??
+                            {sellerLots.items?.length > 0 &&
                                 sellerLots.items?.map((i) => (
                                     <option key={i.id} value={i.lotId}>
-                                        {i.id}
+                                        {i.lot.description}
                                     </option>
                                 ))}
                         </select>
