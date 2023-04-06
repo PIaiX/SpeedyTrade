@@ -189,7 +189,7 @@ const MessageWindow = () => {
                     </InfiniteScroll>
                 </div>
                 <form onSubmit={handleSubmit(createMessage)}>
-                    <InputFile isFileSent={isFileSent} register={register('attachedfile')} />
+                    <InputFile isFileSent={isFileSent} setIsFileSent={setIsFileSent} register={register('attachedfile')} />
 
                     <ValidateWrapper error={errors?.text}>
                         <input

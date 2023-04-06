@@ -68,7 +68,7 @@ function ChatWindow() {
     const createMessage = (payload) => {
         if (lockSubmit) return
         setLockSubmit(true)
-        setTimeout(() => setLockSubmit(false), 5000)
+        setTimeout(() => setLockSubmit(false), 2000)
 
         emitCreatePublicMessage(payload)
             .then((res) => {
@@ -128,7 +128,7 @@ function ChatWindow() {
                     </InfiniteScroll>
                 </div>
                 <form onSubmit={handleSubmit(createMessage)}>
-                    <InputFile register={register('attachedfile')} isFileSent={isFileSent} disabled={!isAuth} />
+                    <InputFile register={register('attachedfile')} isFileSent={isFileSent} setIsFileSent={setIsFileSent} disabled={!isAuth} />
 
                     <ValidateWrapper error={errors?.text}>
                         <input

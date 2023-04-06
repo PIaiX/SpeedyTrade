@@ -163,7 +163,7 @@ const Ticket = () => {
                         </InfiniteScroll>
                     </div>
                     <form onSubmit={handleSubmit(createMessage)}>
-                        <InputFile register={register('attachedfile')} isFileSent={isFileSent} multiple={true} />
+                        <InputFile register={register('attachedfile')} isFileSent={isFileSent} setIsFileSent={setIsFileSent} multiple={true} />
                         <ValidateWrapper error={errors?.text}>
                             <input
                                 type="text"

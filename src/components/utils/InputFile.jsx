@@ -7,6 +7,7 @@ export default function InputFile(props) {
     useEffect(() => {
         if (props.isFileSent) {
             setFiles(0)
+            props.setIsFileSent(false)
         }
     }, [props.isFileSent])
 

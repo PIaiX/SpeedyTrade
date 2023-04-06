@@ -193,7 +193,7 @@ const LotChat = ({ lotUser }) => {
                 )}
             </div>
             <form onSubmit={handleSubmit(createMessage)}>
-                <InputFile register={register('attachedfile')} isFileSent={isFileSent} disabled={!isAuth} />
+                <InputFile register={register('attachedfile')} isFileSent={isFileSent} setIsFileSent={setIsFileSent} disabled={!isAuth} />
 
                 <ValidateWrapper error={errors?.text}>
                     <input
