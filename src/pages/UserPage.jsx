@@ -68,7 +68,6 @@ const UserPage = () => {
     const onSubmitCreateReview = (data) => {
         const userId = currentUser.id
         const req = { ...data, rating, userId }
-        console.log(req)
         createReview(req)
             .then(() => {
                 setRefatch(true)
