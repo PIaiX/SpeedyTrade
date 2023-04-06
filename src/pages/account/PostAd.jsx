@@ -313,40 +313,46 @@ const PostAd = () => {
                     </Col>
 
                     {/* ---------------------- Region ------------------------------------------------------------- */}
-                    <Col xs={12} sm={3} md={2}>
-                        Регион:
-                    </Col>
-                    <Col xs={12} sm={9} md={10}>
-                        <Select
-                            name="region"
-                            placeholder="Выбрать"
-                            classNamePrefix="react-select"
-                            options={getOptions(selectedGame?.regions)}
-                            isClearable={true}
-                            isSearchable={true}
-                            value={selectedRegion}
-                            onChange={setSelectedRegion}
-                            isDisabled={selectedGame?.regions?.length > 0 ? false : true}
-                        />
-                    </Col>
+                    {selectedGame?.regions &&
+                        <>
+                            <Col xs={12} sm={3} md={2}>
+                                Регион:
+                            </Col>
+                            <Col xs={12} sm={9} md={10}>
+                                <Select
+                                    name="region"
+                                    placeholder="Выбрать"
+                                    classNamePrefix="react-select"
+                                    options={getOptions(selectedGame?.regions)}
+                                    isClearable={true}
+                                    isSearchable={true}
+                                    value={selectedRegion}
+                                    onChange={setSelectedRegion}
+                                    isDisabled={selectedGame?.regions?.length > 0 ? false : true}
+                                />
+                            </Col>
+                        </>}
 
                     {/* ---------------------- Server ------------------------------------------------------------- */}
-                    <Col xs={12} sm={3} md={2}>
-                        Сервер:
-                    </Col>
-                    <Col xs={12} sm={9} md={10}>
-                        <Select
-                            name="region"
-                            placeholder="Выбрать"
-                            classNamePrefix="react-select"
-                            options={selectedRegion && getOptions(selectedRegion.servers)}
-                            isClearable={true}
-                            isSearchable={true}
-                            value={selectedServer}
-                            onChange={setSelectedServer}
-                            isDisabled={selectedRegion?.servers.length > 0 ? false : true}
-                        />
-                    </Col>
+                    {selectedRegion?.servers &&
+                        <>
+                            <Col xs={12} sm={3} md={2}>
+                                Сервер:
+                            </Col>
+                            <Col xs={12} sm={9} md={10}>
+                                <Select
+                                    name="region"
+                                    placeholder="Выбрать"
+                                    classNamePrefix="react-select"
+                                    options={selectedRegion && getOptions(selectedRegion.servers)}
+                                    isClearable={true}
+                                    isSearchable={true}
+                                    value={selectedServer}
+                                    onChange={setSelectedServer}
+                                    isDisabled={selectedRegion?.servers.length > 0 ? false : true}
+                                />
+                            </Col>
+                        </>}
 
                     {/* ---------------------- Lot Category ------------------------------------------------------- */}
                     <Col xs={12} sm={3} md={2}>
