@@ -27,6 +27,14 @@ export const deleteMyReview = async (reviewId) => {
     }
 }
 
+export const editMyReview = async (reviewId, payload) => {
+    try {
+        return await $authApi.patch(`${apiRoutes.REVIEW_ACTIONS}/${reviewId}`, payload)
+    } catch (error) {
+        throw error
+    }
+}
+
 export const createReview = async (payloads) => {
     try {
         return await $authApi.post(apiRoutes.REVIEW_ACTIONS, payloads)
