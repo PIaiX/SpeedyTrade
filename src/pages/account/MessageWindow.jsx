@@ -1,34 +1,35 @@
-import React, {useEffect, useState} from 'react'
-import {useSelector} from 'react-redux'
-import {useParams} from 'react-router-dom'
-import {Link} from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { useParams } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import InputFile from '../../components/utils/InputFile'
 import Dropdown from 'react-bootstrap/Dropdown'
-import {IoEllipsisHorizontal} from 'react-icons/io5'
-import {BiBlock, BiTrash} from 'react-icons/bi'
-import {FiChevronLeft, FiSend} from 'react-icons/fi'
-import {getImageURL} from '../../helpers/image'
+import { IoEllipsisHorizontal } from 'react-icons/io5'
+import { BiBlock, BiTrash } from 'react-icons/bi'
+import { FiChevronLeft, FiSend } from 'react-icons/fi'
+import { getImageURL } from '../../helpers/image'
 
-import {useForm} from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import useSocketConnect from '../../hooks/socketConnect'
-import {socketInstance} from '../../services/sockets/socketInstance'
-import {emitCreateMessage, emitPaginateMessages, emitViewedMessage} from '../../services/sockets/messages'
-import {emitGetConversation} from '../../services/sockets/conversations'
+import { socketInstance } from '../../services/sockets/socketInstance'
+import { emitCreateMessage, emitPaginateMessages, emitViewedMessage } from '../../services/sockets/messages'
+import { emitGetConversation } from '../../services/sockets/conversations'
 import ValidateWrapper from '../../components/UI/ValidateWrapper'
-import {convertToLocaleDate} from '../../helpers/convertToLocaleDate'
+import { convertToLocaleDate } from '../../helpers/convertToLocaleDate'
 import ChatMessage from '../../components/ChatMessage'
 import InfiniteScroll from 'react-infinite-scroller'
 
 const MessageWindow = () => {
     const user = useSelector((state) => state?.auth?.user)
-    const {id} = useParams()
-    const {isConnected} = useSocketConnect()
+    const { id } = useParams()
+    const { isConnected } = useSocketConnect()
     const [currentPage, setCurrentPage] = useState(1)
     const [conversation, setConversation] = useState()
+    const [isFileSent, setIsFileSent] = useState(false)
 
     const {
         register,
-        formState: {errors},
+        formState: { errors },
         handleSubmit,
         reset,
     } = useForm({
@@ -74,10 +75,10 @@ const MessageWindow = () => {
             socketInstance?.on('message:viewed', (data) => {
                 setMessages((prevState) => ({
                     ...prevState,
-                    items: prevState.items && prevState.items.map((i) => ({...i, isViewed: true})),
+                    items: prevState.items && prevState.items.map((i) => ({ ...i, isViewed: true })),
                 }))
             })
-            id && user?.id && emitViewedMessage({conversationId: id})
+            id && user?.id && emitViewedMessage({ conversationId: id })
         }
         return () => {
             console.log(`Chat ${id} listener deactivated`)
@@ -103,13 +104,14 @@ const MessageWindow = () => {
                     fromId: user?.id,
                     attachedfile: '',
                 })
+                setIsFileSent(true)
             })
             .catch((e) => console.log(e))
     }
 
     const getMessages = () => {
         if (id) {
-            emitPaginateMessages({conversationId: id}, {page: currentPage, limit: 10, orderBy: 'desc'})
+            emitPaginateMessages({ conversationId: id }, { page: currentPage, limit: 10, orderBy: 'desc' })
                 .then((res) => {
                     res &&
                         messages.items &&
@@ -120,7 +122,7 @@ const MessageWindow = () => {
                         })
                     setCurrentPage(currentPage + 1)
                 })
-                .catch(() => setMessages({isLoaded: true, items: null, meta: null}))
+                .catch(() => setMessages({ isLoaded: true, items: null, meta: null }))
         }
     }
 
@@ -187,7 +189,7 @@ const MessageWindow = () => {
                     </InfiniteScroll>
                 </div>
                 <form onSubmit={handleSubmit(createMessage)}>
-                    <InputFile multiple={true} register={register('attachedfile')} />
+                    <InputFile isFileSent={isFileSent} register={register('attachedfile')} />
 
                     <ValidateWrapper error={errors?.text}>
                         <input

@@ -28,6 +28,7 @@ const LotChat = ({ lotUser }) => {
     const { id } = useParams()
     const [currentPage, setCurrentPage] = useState(1)
     const [conversationId, setConversationId] = useState()
+    const [isFileSent, setIsFileSent] = useState(false)
 
     const {
         register,
@@ -105,6 +106,7 @@ const LotChat = ({ lotUser }) => {
                         ...prevState,
                         items: prevState.items ? [...prevState.items, res.body] : [res.body],
                     }))
+                setIsFileSent(true)
                 reset()
             })
             .catch((e) => console.log(e))
@@ -191,7 +193,7 @@ const LotChat = ({ lotUser }) => {
                 )}
             </div>
             <form onSubmit={handleSubmit(createMessage)}>
-                <InputFile register={register('attachedfile')} disabled={!isAuth} />
+                <InputFile register={register('attachedfile')} isFileSent={isFileSent} disabled={!isAuth} />
 
                 <ValidateWrapper error={errors?.text}>
                     <input
