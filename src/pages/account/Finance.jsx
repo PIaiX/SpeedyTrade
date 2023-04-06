@@ -30,7 +30,7 @@ const Finance = () => {
             </div>
             <div className="tabs-group mb-4 mb-sm-5">
                 <button type="button" className={tab === 0 ? 'active' : ''} onClick={() => setTab(0)}>
-                    Пополнить баланс
+                    Баланс
                 </button>
                 <button type="button" className={tab === 1 ? 'active' : ''} onClick={() => setTab(1)}>
                     История списаний и пополнений
@@ -175,9 +175,14 @@ const Finance = () => {
                             </a>
                         </span>
                     </label>
-                    <button type="button" disabled={true} className="btn-5 mt-4 mt-sm-5">
-                        Оплатить {sum} руб.
-                    </button>
+                    <div className='d-flex gap-3'>
+                        <button type="button" disabled={true} className="btn-5 mt-4 mt-sm-5">
+                            Оплатить {sum} руб.
+                        </button>
+                        <button type="button" disabled={true} className="btn-5 mt-4 mt-sm-5">
+                            Вывод средств
+                        </button>
+                    </div>
                 </form>
             ) : (
                 <div className='d-flex flex-column h-100'>

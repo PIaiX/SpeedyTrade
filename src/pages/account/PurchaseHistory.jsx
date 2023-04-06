@@ -49,7 +49,7 @@ const PurchaseHistory = () => {
                                 <th>Описание</th>
                                 <th>Продавец</th>
                                 <th>Статус</th>
-                                <th>Цена</th>
+                                <th>Стоимость</th>
                                 <th></th>
                             </>
                         </tr>
@@ -65,7 +65,7 @@ const PurchaseHistory = () => {
                                 createdAt={i?.lot?.createdAtForUser}
                                 description={i?.lot?.description}
                                 userNickname={i?.lot?.user.nickname}
-                                price={i?.lot?.price}
+                                price={i?.lot?.priceCommission * i?.amount}
                                 priceCommission={i?.lot?.priceCommission}
                             />
                         ))}

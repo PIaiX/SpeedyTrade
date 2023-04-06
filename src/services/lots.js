@@ -114,7 +114,7 @@ export const purchaseLot = async (payloads) => {
         const response = await $authApi.post(apiRoutes.PURCHASE_LOT, payloads)
         return response?.data
     } catch (error) {
-        return { status: 500, body: error }
+        return error.response.data
     }
 }
 
