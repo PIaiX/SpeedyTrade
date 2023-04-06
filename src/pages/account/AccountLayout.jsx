@@ -1,11 +1,14 @@
 import React from 'react'
-import {Outlet} from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 import AccountMenu from './AccountMenu'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Container from 'react-bootstrap/Container'
+import { useSelector } from 'react-redux'
 
-const AccountLayout = ({isMobile}) => {
+const AccountLayout = ({ isMobile }) => {
+    const user = useSelector(state => state.auth.user)
+
     return (
         <main className="account">
             <Container>
@@ -16,7 +19,7 @@ const AccountLayout = ({isMobile}) => {
                         <div className="d-flex justify-content-between align-items-center mb-5">
                             <h1 className="mb-0">Личный кабинет</h1>
                             <div>
-                                Баланс: <span className="fw-5">15 638 руб.</span>
+                                Баланс: <span className="fw-5">{user.balance}</span>
                             </div>
                         </div>
                         <Row>

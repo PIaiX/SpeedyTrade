@@ -11,7 +11,7 @@ const SingleMessage = ({ msg }) => {
     const user = useSelector((state) => state.auth.user)
     const [currentImage, setCurrentImage] = useState(null)
     const [isViewerOpen, setIsViewerOpen] = useState(false)
-    const [image, setImage] = useState(['/images/no-photo.jpg'])
+    const [image, setImage] = useState([])
 
     const openImageViewer = useCallback((index) => {
         setCurrentImage(index)
@@ -39,18 +39,22 @@ const SingleMessage = ({ msg }) => {
                 img.src = url
             })
         }
-        if (Array.isArray(msg.attachedfile)) {
-            msg.attachedfile.length > 0 &&
-                loadImage(getImageURL(msg.attachedfile[0].media))
-                    .then((img) => setImage([img]))
-                    .catch((e) => console.log(e))
+
+        const loadAllImages = async (imgArray) => {
+            return await Promise.all(
+                imgArray.map(img => loadImage(getImageURL(img.media)))
+            )
+        }
+
+        if (Array.isArray(msg.medias)) {
+            msg.medias.length > 0 &&
+                loadAllImages(msg.medias).then(imgArr => setImage(imgArr))
         } else {
             msg.attachedfile &&
                 loadImage(getImageURL(msg.attachedfile))
-                    .then((img) => setImage([img]))
-                    .catch((e) => console.log(e))
+                    .then(img => setImage([img]))
         }
-    }, [msg])
+    }, [])
 
     return (
         <div className={`chat-box${user?.id === msg?.userId ? '-reverse' : ''}`}>
@@ -78,18 +82,29 @@ const SingleMessage = ({ msg }) => {
                         </p>}
                     <p>{msg?.text}</p>
                     <div className="images-message">
-                        {msg.attachedfile ? (
+                        {msg.medias &&
                             <div
                                 className="images-box"
                                 onClick={() => {
                                     openImageViewer(0)
                                 }}
                             >
-                                {image.length !== 0 && <img src={image} height={'100%'} width={'100%'} />}
-                            </div>
-                        ) : (
-                            ''
-                        )}
+                                {image.length !== 0 && image.map(img =>
+                                    <img key={msg.id + '-' + img} src={img} />
+                                )}
+
+                            </div>}
+
+                        {msg.attachedfile &&
+                            <div
+                                className="images-box"
+                                onClick={() => {
+                                    openImageViewer(0)
+                                }}
+                            >
+                                {image.length !== 0 &&
+                                    <img src={image[0]} width={'100%'} height={'100%'} />}
+                            </div>}
                     </div>
                     {isViewerOpen && (
                         <ImageViewer

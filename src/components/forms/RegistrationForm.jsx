@@ -1,28 +1,44 @@
-import React, {useCallback, useState} from 'react'
+import React, { useCallback, useEffect, useReducer, useState } from 'react'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import InputPassword from '../utils/InputPassword'
-import {Link} from 'react-router-dom'
-import {Form} from 'react-bootstrap'
-import {useForm} from 'react-hook-form'
-import {useDispatch} from 'react-redux'
-import {authRegistration, authRegistrationEmailVerify} from '../../services/auth'
+import { Link } from 'react-router-dom'
+import { Form } from 'react-bootstrap'
+import { useForm } from 'react-hook-form'
+import { useDispatch } from 'react-redux'
+import { authRegistration, authRegistrationEmailVerify } from '../../services/auth'
 import LoaderButton from '../UI/LoaderButton'
-import {validateFormFromApi} from '../../helpers/form'
+import { validateFormFromApi } from '../../helpers/form'
 import ValidateWrapper from '../UI/ValidateWrapper'
-import {login} from '../../store/actions/auth'
+import { login } from '../../store/actions/auth'
+import { getDocument } from "../../services/document"
+import { dispatchAlert } from '../../helpers/alert'
 
 const RegistrationForm = () => {
     const dispatch = useDispatch()
     const [isLoadingEmailVerify, setIsLoadingEmailVerify] = useState(false)
+    const [document, setDocument] = useState([])
+    const [points, setPoint] = useState([])
+
+    useEffect(() => {
+        getDocument().then(setDocument)
+    }, [])
+
+    useEffect(() => {
+        const t = document.reduce(
+            (element) =>
+                [...element, false]
+            , []
+        )
+        setPoint(t)
+    }, [document])
 
     const {
         register,
-        formState: {errors, isValid},
+        formState: { errors, isValid },
         handleSubmit,
         getValues,
         setError,
-        clearErrors,
         watch,
     } = useForm({
         mode: 'onChange',
@@ -32,9 +48,11 @@ const RegistrationForm = () => {
     const onSubmitRegistration = useCallback((data) => {
         authRegistration(data)
             .then((res) => {
-                res && dispatch(login({email: data?.email, password: data?.password}))
+                res && dispatch(login({ email: data?.email, password: data?.password }))
             })
-            .catch((error) => error && console.log('error', error))
+            .catch((e) => {
+                e.response.data.errors.errors.map(error => setError(error.field, { type: 'custom', message: error.message }))
+            })
     }, [])
 
     const onSubmitEmailVerify = useCallback(() => {
@@ -42,13 +60,13 @@ const RegistrationForm = () => {
 
         if (email) {
             setIsLoadingEmailVerify(true)
-            authRegistrationEmailVerify({email})
+            authRegistrationEmailVerify({ email })
                 .then((res) => res && setIsLoadingEmailVerify(false))
                 .catch((error) => {
                     validateFormFromApi(error, setError)
                     error && setIsLoadingEmailVerify(false)
                 })
-        } else setError('email', {type: 'custom', message: 'Заполните поле'})
+        } else setError('email', { type: 'custom', message: 'Заполните поле' })
     }, [watch('email')])
 
     return (
@@ -64,7 +82,7 @@ const RegistrationForm = () => {
                             placeholder="Имя"
                             {...register('firstName', {
                                 required: 'Заполните поле',
-                                minLength: {value: 2, message: 'Минимум 2 символа'},
+                                minLength: { value: 2, message: 'Минимум 2 символа' },
                             })}
                         />
                     </ValidateWrapper>
@@ -79,7 +97,7 @@ const RegistrationForm = () => {
                             placeholder="Фамилия"
                             {...register('lastName', {
                                 required: 'Заполните поле',
-                                minLength: {value: 2, message: 'Минимум 2 символа'},
+                                minLength: { value: 2, message: 'Минимум 2 символа' },
                             })}
                         />
                     </ValidateWrapper>
@@ -94,7 +112,7 @@ const RegistrationForm = () => {
                             placeholder="Ник"
                             {...register('nickname', {
                                 required: 'Заполните поле',
-                                minLength: {value: 2, message: 'Минимум 2 символа'},
+                                minLength: { value: 2, message: 'Минимум 2 символа' },
                             })}
                         />
                     </ValidateWrapper>
@@ -119,7 +137,7 @@ const RegistrationForm = () => {
                         </ValidateWrapper>
                         <LoaderButton
                             type="button"
-                            loaderProps={{size: 18}}
+                            loaderProps={{ size: 18 }}
                             className={`btn-4 ws-no px-3 ${!errors?.email && watch('email') ? 'active' : ''}`}
                             onClick={() => onSubmitEmailVerify()}
                             disabled={isLoadingEmailVerify}
@@ -137,7 +155,7 @@ const RegistrationForm = () => {
                             type="text"
                             placeholder="Код"
                             className="w-100"
-                            {...register('verifyCode', {required: 'Заполните поле'})}
+                            {...register('verifyCode', { required: 'Заполните поле' })}
                         />
                     </ValidateWrapper>
                 </Col>
@@ -178,8 +196,22 @@ const RegistrationForm = () => {
                         />
                     </ValidateWrapper>
                 </Col>
+                {document?.map((element, index) =>
+                    <Col key={index} md={12} style={{ alignItems: 'center' }}>
+                        <div style={{ display: 'flex' }}>
+                            <div className={'px-2'}>
+                                <input type={'checkbox'} onClick={() => {
+                                    setPoint(points.map((element, index2) => index2 === index ? !element : element))
+                                }} />
+                            </div>
+                            <div>
+                                Я соглашаюсь с "<Link style={{ color: 'blue' }} to={`/document/${element.id}`}>{element.title}</Link>"
+                            </div>
+                        </div>
+                    </Col>
+                )}
             </Row>
-            <button type="submit" className="btn-5 fs-13 mt-4 mx-auto" disabled={!isValid}>
+            <button type="submit" className="btn-5 fs-13 mt-4 mx-auto" disabled={!(isValid && points.length > 0 && points.reduce((oldResult, currentValue) => oldResult && currentValue))}>
                 Зарегистрироваться
             </button>
             <p className="text-center achromat-3 fs-08 mt-3">

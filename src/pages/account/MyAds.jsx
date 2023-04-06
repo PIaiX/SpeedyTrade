@@ -9,7 +9,7 @@ import { BiEdit, BiTrash } from 'react-icons/bi'
 import { Link } from 'react-router-dom'
 import { FiArrowLeft } from 'react-icons/fi'
 import { getUserLots } from '../../services/lots'
-import { getAllGames } from '../../services/games'
+import { getAllGamesWhereIHaveLots } from '../../services/games'
 
 const MyAds = () => {
     const [userLots, setUserLots] = useState([])
@@ -21,7 +21,7 @@ const MyAds = () => {
     const userId = useSelector((state) => state.auth.user.id)
 
     useEffect(() => {
-        getAllGames().then((arr) => arr && setGames(arr))
+        getAllGamesWhereIHaveLots().then((arr) => arr && setGames(arr))
     }, [])
 
     useEffect(() => {
@@ -71,7 +71,7 @@ const MyAds = () => {
             </Row>
 
             {/* ---------------- Lots ------------------------------------------------------------------------------ */}
-            <Table borderless responsive className="my-4" style={{ minHeight: '230px' }}>
+            <Table borderless responsive className="my-4">
                 <thead>
                     <tr>
                         <th>Название&nbsp;игры</th>

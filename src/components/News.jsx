@@ -1,19 +1,19 @@
 import React from 'react'
-import {getImageURL} from '../helpers/image'
+import { getImageURL } from '../helpers/image'
 import Moment from 'react-moment'
 import 'moment/locale/ru'
-import {NavLink} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const News = (props) => {
     return (
         <article className="news">
-            {/* <NavLink to={`/news/${props?.slug}`}> */}
-            <img src={getImageURL(props?.image)} alt={props?.title || ''} />
-            {/* </NavLink> */}
+            <Link to={`/news/${props?.slug}`}>
+                <img src={getImageURL(props?.image)} alt={props?.title || ''} />
+            </Link>
             <div>
-                {/* <NavLink to={`/news/${props?.slug}`}> */}
-                <h5>{props?.title}</h5>
-                {/* </NavLink> */}
+                <Link to={`/news/${props?.slug}`}>
+                    <h5>{props?.title}</h5>
+                </Link>
                 <p>{props?.suptitle}</p>
                 <div className="d-flex align-items-center mt-3">
                     <span>

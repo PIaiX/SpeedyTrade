@@ -23,10 +23,12 @@ import ChatMessage from './ChatMessage'
 
 const LotChat = ({ lotUser }) => {
     const user = useSelector((state) => state?.auth?.user)
+    const isAuth = useSelector((state) => state?.auth?.isAuth)
     const { isConnected } = useSocketConnect()
     const { id } = useParams()
     const [currentPage, setCurrentPage] = useState(1)
     const [conversationId, setConversationId] = useState()
+    const [isFileSent, setIsFileSent] = useState(false)
 
     const {
         register,
@@ -104,6 +106,7 @@ const LotChat = ({ lotUser }) => {
                         ...prevState,
                         items: prevState.items ? [...prevState.items, res.body] : [res.body],
                     }))
+                setIsFileSent(true)
                 reset()
             })
             .catch((e) => console.log(e))
@@ -150,7 +153,7 @@ const LotChat = ({ lotUser }) => {
                         </div>
                     </div>
                 </Link>
-                <Dropdown align="end">
+                {/* <Dropdown align="end">
                     <Dropdown.Toggle variant="simple">
                         <FiMoreHorizontal className="fs-15" />
                     </Dropdown.Toggle>
@@ -168,10 +171,10 @@ const LotChat = ({ lotUser }) => {
                             <span className="ms-2">Удалить диалог</span>
                         </Dropdown.Item>
                     </Dropdown.Menu>
-                </Dropdown>
+                </Dropdown> */}
             </div>
             <div className="middle" id="chatBody">
-                {user.id ? (
+                {isAuth ? (
                     <InfiniteScroll
                         loadMore={getMessages}
                         isReverse={true}
@@ -190,7 +193,7 @@ const LotChat = ({ lotUser }) => {
                 )}
             </div>
             <form onSubmit={handleSubmit(createMessage)}>
-                <InputFile register={register('attachedfile')} />
+                <InputFile register={register('attachedfile')} isFileSent={isFileSent} setIsFileSent={setIsFileSent} disabled={!isAuth} />
 
                 <ValidateWrapper error={errors?.text}>
                     <input
@@ -199,10 +202,11 @@ const LotChat = ({ lotUser }) => {
                         {...register('text', {
                             required: 'Минимум 1 знак',
                         })}
+                        disabled={!isAuth}
                     />
                 </ValidateWrapper>
 
-                <button type="submit">
+                <button type="submit" disabled={!isAuth}>
                     <FiSend />
                 </button>
             </form>
