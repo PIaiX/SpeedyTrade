@@ -27,10 +27,9 @@ const Lot = () => {
     const { lot } = useGetOneLot(id)
     const { reviews } = useGetLotReviews(lot?.item?.id)
     const [purchaseDto, setPurchaseDto] = useState({
-        userId: userId,
         lotId: Number(id),
-        paymentType: undefined
-
+        amount: 1,
+        paymentType: 'balance',
     })
 
     const [filterParam, setFilterParam] = useState('init')
@@ -66,10 +65,29 @@ const Lot = () => {
                                         placeholder="Выбрать"
                                         classNamePrefix="react-select"
                                         options={optionsPayment}
+                                        defaultValue={{ value: 'balance', label: 'С баланса' }}
                                         onChange={(e) => setPurchaseDto({ ...purchaseDto, paymentType: e.value })}
                                     />
                                 </Col>
+                                <Col md={3}>Количество:</Col>
                                 <Col md={3}>
+                                    <input
+                                        type='number'
+                                        defaultValue={1}
+                                        name="payment"
+                                        placeholder="Выбрать"
+                                        onChange={(e) => setPurchaseDto({ ...purchaseDto, amount: e.target.valueAsNumber })}
+                                    />
+                                </Col>
+                                <Col md={3}>Доступно:</Col>
+                                <Col md={3}>
+                                    <input
+                                        type='number'
+                                        value={lot.item.amount}
+                                        disabled={true}
+                                    />
+                                </Col>
+                                <Col md={4}>
                                     <button
                                         type="button"
                                         className="btn-5 w-100"
@@ -88,15 +106,16 @@ const Lot = () => {
                                                         text: lot.item?.description,
                                                         icon: "success"
                                                     }).then(() => nav('/account/purchase-history'))
-                                                    : swal('Ошибка', 'Ошибка при отправке запроса', res.error)
+                                                    : swal('Ошибка', res.message, "error")
                                                 )
-                                                .catch(() => swal('Ошибка', 'Ошибка при отправке запроса', 'error'))
+                                                .catch((error) => swal('Ошибка', error.message, "error"))
                                         }}
+                                        disabled={!purchaseDto.amount || purchaseDto.amount < 1 || purchaseDto.amount > lot.item.amount}
                                     >
-                                        Оплатить
+                                        Оплатить {purchaseDto.amount ? lot.item.priceCommission * purchaseDto.amount : '0'}&nbsp;руб.
                                     </button>
                                 </Col>
-                                <Col md={9}>
+                                <Col md={8}>
                                     <p className="achromat-3">
                                         * Продавец не сможет получить оплату до тех пор, пока вы не подтвердите
                                         выполнение всех его обязательств
