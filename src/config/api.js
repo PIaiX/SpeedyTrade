@@ -50,6 +50,7 @@ const apiRoutes = {
     //reviews
     REVIEW_ACTIONS: 'user/review',
     REVIEW_LOTS: 'user/review/lot',
+    REVIEW_LOTS_BY_FILTER: 'user/review/saler',
 
     //favorites
     FAVORITES_ACTIONS: 'user/favorite',

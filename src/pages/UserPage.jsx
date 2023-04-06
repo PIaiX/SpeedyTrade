@@ -12,22 +12,20 @@ import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { getImageURL } from '../helpers/image'
 import Moment from 'react-moment'
-import useGetReview from '../hooks/axios/getReview'
 import { useForm } from 'react-hook-form'
 import { getSellerLots } from '../services/lots'
-import { createReview } from '../services/reviews'
+import {createReview, getUserReviewsByFilter} from '../services/reviews'
 import { dispatchAlert } from '../helpers/alert'
 import ValidateWrapper from '../components/UI/ValidateWrapper'
 
 const UserPage = () => {
-    const theme = useSelector((state) => state?.theme?.mode)
     const { id } = useParams()
     const [showReview, setShowReview] = useState(false)
     const currentUser = useSelector((state) => state?.auth?.user)
     const [filterParam, setFilterParam] = useState('init')
     const [refatch, setRefatch] = useState(true)
     const { user } = useGetUserInfo(id)
-    const { reviews } = useGetReview(id, refatch)
+    const [reviews, setReviews] = useState()
     const {
         register,
         formState: { errors },
@@ -57,13 +55,14 @@ const UserPage = () => {
         setRating(value)
     }, [])
 
-    const filtredReviews = () => {
-        if (filterParam === 'init') {
-            return reviews.items
-        } else {
-            return reviews.items?.filter((i) => i.rating === +filterParam)
-        }
-    }
+    useEffect(()=>{
+        getUserReviewsByFilter(id).then(res=>{
+            if(res){
+                setReviews(res)
+            }
+        })
+        console.log(filterParam)
+    }, [filterParam])
 
     const onSubmitCreateReview = (data) => {
         const userId = currentUser.id
@@ -164,22 +163,18 @@ const UserPage = () => {
                                         <option value="1">1 звезда</option>
                                     </select>
                                 </div>
-                                {reviews.isLoaded ? (
-                                    filtredReviews().length > 0 ? (
-                                        filtredReviews().map((i) => (
-                                            <ReviewBlock
-                                                key={i.id}
-                                                fullName={i.user?.fullName}
-                                                avatar={i.user?.avatar}
-                                                rating={i.rating}
-                                                description={i.text}
-                                                nickname={i.user?.nickname}
-                                            />
-                                        ))
-                                    ) : (
-                                        <h6>Отзывов нет</h6>
-                                    )
-                                ) : null}
+                                {reviews?
+                                    reviews?.map(i=>
+                                        <ReviewBlock
+                                            key={i.id}
+                                            fullName={i.user?.fullName}
+                                            avatar={i.user?.avatar}
+                                            rating={i.rating}
+                                            description={i.text}
+                                            nickname={i.user?.nickname}
+                                        />)
+                                    : <h6>Отзывов нет</h6>
+                                }
                             </Col>
                         </Row>
                     </section>
