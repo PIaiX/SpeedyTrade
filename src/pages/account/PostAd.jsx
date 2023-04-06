@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { useSelector } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom'
+import {useLocation, useNavigate, useParams} from 'react-router-dom'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Select from 'react-select'
@@ -117,6 +117,8 @@ const PostAd = () => {
     const { lotId } = useParams()
     const [lot, setLot] = useState()
 
+    const {state:stateFromLocation} = useLocation()
+    const [state, setState] = useState(stateFromLocation)
     // Games
     const [selectedOptionGame, setSelectedOptionGame] = useState(null)
     const [optionsGames, setOptionsGames] = useState([])
@@ -204,6 +206,18 @@ const PostAd = () => {
         }
     }
 
+
+    useEffect(()=>{
+        if(state){
+            const def = {childParameter:undefined,currency:undefined,servers :undefined,slug : undefined}
+            setSelectedOptionGame({...def, ...state.selectedOptionGame})
+            setSelectedRegion({...def, ...state?.selectedRegion})
+            setSelectedServer({...def, ...state.selectedServer})
+            setSelectedCategory({...def, currency: false, ...state.selectedCategory})
+        }
+    }, [state])
+
+    console.log(selectedRegion)
     // fetch games
     useEffect(() => {
         getAllGames()
@@ -215,10 +229,12 @@ const PostAd = () => {
     useEffect(() => {
         if (selectedOptionGame) {
             getOneGame(selectedOptionGame.slug).then((game) => setSelectedGame(game))
-            setSelectedRegion(null)
-            setSelectedServer(null)
-            setSelectedCategory(null)
-        } else {
+            if(!state){
+                setSelectedRegion(null)
+                setSelectedServer(null)
+                setSelectedCategory(null)
+            }
+        } else if(!state){
             setSelectedRegion(null)
             setSelectedServer(null)
             setSelectedCategory(null)
@@ -247,7 +263,7 @@ const PostAd = () => {
     }, [selectedCategory])
 
     useEffect(() => {
-        selectedRegion?.servers.length === 0 && setSelectedServer(null)
+        selectedRegion?.servers.length === 0 && !state && setSelectedServer(null)
     }, [selectedRegion])
 
     // Edit lot -----------------------------------------------------------------------------------------------
@@ -264,26 +280,22 @@ const PostAd = () => {
         !selectedOptionGame && setSelectedOptionGame(optionsGames.find((o) => o.value === lot.gameInfo.id))
         !selectedRegion && setSelectedRegion(getOptions(selectedGame?.regions).find((o) => o.value === lot.regionId))
         !selectedServer &&
-            setSelectedServer(getOptions(selectedRegion?.servers).find((o) => o.value === lot.serverId))
+        setSelectedServer(getOptions(selectedRegion?.servers).find((o) => o.value === lot.serverId))
         !selectedCategory &&
-            setSelectedCategory(getOptions(selectedGame?.categories).find((o) => o.value === lot.categoryId))
+        setSelectedCategory(getOptions(selectedGame?.categories).find((o) => o.value === lot.categoryId))
         !description && setDescription(lot.description)
         !amount && setAmount(lot.amount)
         !active && setActive(lot.isVisible)
         !price && setPrice(lot.price)
         lot.minPrice && setMinPrice(lot.minPrice)
         lot.numericParameters.length > 0 &&
-            lot.numericParameters.map((param) =>
-                setNumericParameters((options) => ({
-                    ...options,
-                    [param.id]: param.numericValue,
-                }))
-            )
+        lot.numericParameters.map((param) =>
+            setNumericParameters((options) => ({
+                ...options,
+                [param.id]: param.numericValue,
+            }))
+        )
     }, [lot, selectedGame, selectedRegion])
-
-    useEffect(() => {
-        console.log(options)
-    }, [options])
 
     return (
         <div className="main">
@@ -308,7 +320,11 @@ const PostAd = () => {
                             options={optionsGames}
                             isSearchable={true}
                             value={selectedOptionGame}
-                            onChange={setSelectedOptionGame}
+                            onChange={(e)=>{
+                                setState(null)
+                                setSelectedOptionGame(e)
+                            }}
+
                         />
                     </Col>
 
@@ -440,51 +456,51 @@ const PostAd = () => {
                         <Col xs={12}>
                             <Table borderless responsive className="my-4">
                                 <thead>
-                                    <tr>
-                                        <th>Показать</th>
-                                        <th>Наличие</th>
-                                        <th>
-                                            Цена, руб. <div>за 1 000 ед.</div>
-                                        </th>
-                                        <th>
-                                            Мин. сумма заказа <div>чем меньше, тем лучше</div>
-                                        </th>
-                                    </tr>
+                                <tr>
+                                    <th>Показать</th>
+                                    <th>Наличие</th>
+                                    <th>
+                                        Цена, руб. <div>за 1 000 ед.</div>
+                                    </th>
+                                    <th>
+                                        Мин. сумма заказа <div>чем меньше, тем лучше</div>
+                                    </th>
+                                </tr>
                                 </thead>
                                 <tbody>
-                                    <tr className="centered">
-                                        <td>
-                                            <label className="switch">
-                                                <input
-                                                    type="checkbox"
-                                                    checked={active}
-                                                    onChange={(e) => setActive(e.target.checked)}
-                                                />
-                                            </label>
-                                        </td>
-                                        <td>
+                                <tr className="centered">
+                                    <td>
+                                        <label className="switch">
                                             <input
-                                                type="number"
-                                                defaultValue={lot && amount}
-                                                onChange={(e) => setAmount(e.target.valueAsNumber)}
+                                                type="checkbox"
+                                                checked={active}
+                                                onChange={(e) => setActive(e.target.checked)}
                                             />
-                                        </td>
-                                        <td>
-                                            <input
-                                                type="number"
-                                                defaultValue={lot && price}
-                                                onChange={(e) => setPrice(e.target.valueAsNumber)}
-                                            />
-                                        </td>
-                                        <td className="d-flex align-items-center">
-                                            <input
-                                                type="number"
-                                                defaultValue={lot && minPrice}
-                                                onChange={(e) => setMinPrice(e.target.valueAsNumber)}
-                                            />
-                                            <span className="ms-3">руб.</span>
-                                        </td>
-                                    </tr>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <input
+                                            type="number"
+                                            defaultValue={lot && amount}
+                                            onChange={(e) => setAmount(e.target.valueAsNumber)}
+                                        />
+                                    </td>
+                                    <td>
+                                        <input
+                                            type="number"
+                                            defaultValue={lot && price}
+                                            onChange={(e) => setPrice(e.target.valueAsNumber)}
+                                        />
+                                    </td>
+                                    <td className="d-flex align-items-center">
+                                        <input
+                                            type="number"
+                                            defaultValue={lot && minPrice}
+                                            onChange={(e) => setMinPrice(e.target.valueAsNumber)}
+                                        />
+                                        <span className="ms-3">руб.</span>
+                                    </td>
+                                </tr>
                                 </tbody>
                             </Table>
                         </Col>
