@@ -1,5 +1,5 @@
 import React from 'react'
-import {createBrowserRouter, createRoutesFromElements, Route, RouterProvider} from 'react-router-dom'
+import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom'
 import Home from '../pages/Home'
 import UserPage from '../pages/UserPage'
 import Game from '../pages/Game'
@@ -13,6 +13,8 @@ import AccountRouter from './AccountRouter'
 import PrivacyPolicy from '../pages/PrivacyPolicy'
 import CookiesPolicy from '../pages/CookiesPolicy'
 import Document from '../pages/Document'
+import AllNews from '../pages/AllNews'
+import NewsPage from '../pages/NewsPage'
 
 const router = createBrowserRouter(
     createRoutesFromElements(
@@ -27,6 +29,8 @@ const router = createBrowserRouter(
             <Route path="privacy" element={<PrivacyPolicy />} />
             <Route path="cookies" element={<CookiesPolicy />} />
             <Route path="document/:id" element={<Document />} />
+            <Route path="news" element={<AllNews />} />
+            <Route path="news/:newsId" element={<NewsPage />} />
 
             <Route
                 path="account/*"

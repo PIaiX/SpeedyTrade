@@ -1,22 +1,25 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 
-import {useSelector} from 'react-redux'
-import {useForm} from 'react-hook-form'
+import { useSelector } from 'react-redux'
+import { useForm } from 'react-hook-form'
 import useSocketConnect from '../hooks/socketConnect'
-import {socketInstance} from '../services/sockets/socketInstance'
-import {emitCreatePublicMessage, emitPaginatePublicMessages} from '../services/sockets/messages'
+import { socketInstance } from '../services/sockets/socketInstance'
+import { emitCreatePublicMessage, emitPaginatePublicMessages } from '../services/sockets/messages'
 
-import {FiSend} from 'react-icons/fi'
+import { FiSend } from 'react-icons/fi'
 import InfiniteScroll from 'react-infinite-scroller'
 import ChatMessage from './ChatMessage'
-import {convertToLocaleDate} from '../helpers/convertToLocaleDate'
+import { convertToLocaleDate } from '../helpers/convertToLocaleDate'
 import InputFile from '../components/utils/InputFile'
 import ValidateWrapper from '../components/UI/ValidateWrapper'
 
 function ChatWindow() {
     const user = useSelector((state) => state?.auth?.user)
-    const {isConnected} = useSocketConnect()
+    const isAuth = useSelector((state) => state?.auth?.isAuth)
+    const { isConnected } = useSocketConnect()
     const [currentPage, setCurrentPage] = useState(1)
+    const [isFileSent, setIsFileSent] = useState(false)
+    const [lockSubmit, setLockSubmit] = useState(false)
 
     const [messages, setMessages] = useState({
         isLoaded: false,
@@ -26,7 +29,7 @@ function ChatWindow() {
 
     const {
         register,
-        formState: {errors},
+        formState: { errors },
         handleSubmit,
         reset,
     } = useForm({
@@ -63,10 +66,13 @@ function ChatWindow() {
     }, [messages])
 
     const createMessage = (payload) => {
-        const formData = new FormData()
-        formData.append('attachedfile', payload.attachedfile[0])
+        if (lockSubmit) return
+        setLockSubmit(true)
+        setTimeout(() => setLockSubmit(false), 2000)
+
         emitCreatePublicMessage(payload)
             .then((res) => {
+                setIsFileSent(true)
                 reset()
             })
             .catch((e) => console.log(e))
@@ -74,7 +80,7 @@ function ChatWindow() {
 
     const getMessages = () => {
         user &&
-            emitPaginatePublicMessages({page: currentPage, limit: 10, orderBy: 'desc'})
+            emitPaginatePublicMessages({ page: currentPage, limit: 10, orderBy: 'desc' })
                 .then((res) => {
                     if (res.status === 200) {
                         setMessages({
@@ -87,7 +93,7 @@ function ChatWindow() {
                         console.log(res)
                     }
                 })
-                .catch(() => setMessages({isLoaded: true, items: null, meta: null}))
+                .catch(() => setMessages({ isLoaded: true, items: null, meta: null }))
     }
 
     const groupBy = (arr, key) => {
@@ -122,7 +128,7 @@ function ChatWindow() {
                     </InfiniteScroll>
                 </div>
                 <form onSubmit={handleSubmit(createMessage)}>
-                    <InputFile register={register('attachedfile')} />
+                    <InputFile register={register('attachedfile')} isFileSent={isFileSent} setIsFileSent={setIsFileSent} disabled={!isAuth} />
 
                     <ValidateWrapper error={errors?.text}>
                         <input
@@ -131,12 +137,13 @@ function ChatWindow() {
                             {...register('text', {
                                 required: 'Минимум 1 знак',
                             })}
+                            disabled={!isAuth}
                         />
                     </ValidateWrapper>
 
                     <hr className="vertical mx-2 mx-sm-3" />
 
-                    <button type="submit">
+                    <button type="submit" disabled={!isAuth || lockSubmit}>
                         <FiSend />
                     </button>
                 </form>

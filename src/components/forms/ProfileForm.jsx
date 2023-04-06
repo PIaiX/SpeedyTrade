@@ -1,21 +1,21 @@
-import React, {useCallback, useEffect} from 'react'
+import React, { useCallback, useEffect } from 'react'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import {Controller, useForm} from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import PhoneInput from 'react-phone-input-2'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 import ValidateWrapper from '../UI/ValidateWrapper'
-import {useSelector, useDispatch} from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import UserPhoto from '../utils/UserPhoto'
 import StarRating from '../utils/StarRating'
-import {useImageViewer} from '../../hooks/imageViewer'
-import {onImageHandler} from '../../helpers/formHandlers'
-import {dispatchAlert} from '../../helpers/alert'
-import {getImageURL} from '../../helpers/image'
-import {userUpdateProfile} from '../../services/user'
+import { useImageViewer } from '../../hooks/imageViewer'
+import { onImageHandler } from '../../helpers/formHandlers'
+import { dispatchAlert } from '../../helpers/alert'
+import { getImageURL } from '../../helpers/image'
+import { userUpdateProfile } from '../../services/user'
 import moment from 'moment'
-import {refreshAuth} from '../../store/actions/auth'
+import { refreshAuth } from '../../store/actions/auth'
 
 const ProfileForm = () => {
     const user = useSelector((state) => state?.auth?.user)
@@ -42,12 +42,12 @@ const ProfileForm = () => {
                                 isSubscribed: res.payload.user.isSubscribed,
                             })
                         })
-                        .catch(() => {
-                            dispatchAlert('danger', 'Произошла ошибка, попробуйте еще раз')
+                        .catch((e) => {
+                            dispatchAlert('danger', e.response.data.message)
                         })
                 })
-                .catch(() => {
-                    dispatchAlert('danger', 'Произошла ошибка')
+                .catch((e) => {
+                    e.response.data.body.errors.map(error => setError(error.field, { type: 'custom', message: error.message }))
                 })
         },
         [user?.id]
@@ -55,12 +55,13 @@ const ProfileForm = () => {
 
     const {
         register,
-        formState: {errors, isDirty, isValid},
+        formState: { errors, isDirty, isValid },
         handleSubmit,
         control,
         getValues,
         setValue,
         watch,
+        setError,
         reset,
     } = useForm({
         mode: 'all',
@@ -79,7 +80,7 @@ const ProfileForm = () => {
     const avatarImage = useImageViewer(watch('avatar'))
 
     const onChangeAvatar = useCallback((e) => {
-        const result = onImageHandler(e, (file) => setValue('avatar', file, {shouldDirty: true}))
+        const result = onImageHandler(e, (file) => setValue('avatar', file, { shouldDirty: true }))
         if (!result) dispatchAlert('danger', 'Фото должно быть в одном из форматов (png, jpg, jpeg) и не более 1Мб')
     }, [])
 
@@ -116,7 +117,7 @@ const ProfileForm = () => {
                                 <input
                                     type="text"
                                     placeholder="Имя"
-                                    {...register('firstName', {required: 'Заполните поле'})}
+                                    {...register('firstName', { required: 'Заполните поле' })}
                                 />
                             </ValidateWrapper>
                         </Col>
@@ -128,7 +129,7 @@ const ProfileForm = () => {
                                 <input
                                     type="text"
                                     placeholder="Фамилия"
-                                    {...register('lastName', {required: 'Заполните поле'})}
+                                    {...register('lastName', { required: 'Заполните поле' })}
                                 />
                             </ValidateWrapper>
                         </Col>
@@ -140,7 +141,7 @@ const ProfileForm = () => {
                                 <input
                                     type="text"
                                     placeholder="Ник"
-                                    {...register('nickname', {required: 'Заполните поле'})}
+                                    {...register('nickname', { required: 'Заполните поле' })}
                                 />
                             </ValidateWrapper>
                         </Col>
@@ -152,7 +153,7 @@ const ProfileForm = () => {
                                 <input
                                     className="c-pointer"
                                     type="radio"
-                                    {...register('sex', {required: true})}
+                                    {...register('sex', { required: true })}
                                     value="true"
                                 />
                                 <span>Женский</span>
@@ -161,7 +162,7 @@ const ProfileForm = () => {
                                 <input
                                     className="c-pointer"
                                     type="radio"
-                                    {...register('sex', {required: true})}
+                                    {...register('sex', { required: true })}
                                     value="false"
                                 />
                                 <span>Мужской</span>
@@ -175,7 +176,7 @@ const ProfileForm = () => {
                                 <Controller
                                     name="birthday"
                                     control={control}
-                                    render={({field}) => (
+                                    render={({ field }) => (
                                         <DatePicker
                                             selected={new Date(moment(watch('birthday'), 'DD.MM.YYYY').format())}
                                             onChange={(date) => field.onChange(moment(date).format('DD.MM.YYYY'))}
@@ -186,7 +187,7 @@ const ProfileForm = () => {
                                             dateFormat="dd-MM-yyyy"
                                         />
                                     )}
-                                    rules={{required: 'Заполните поле'}}
+                                    rules={{ required: 'Заполните поле' }}
                                 />
                             </ValidateWrapper>
                         </Col>
@@ -198,23 +199,17 @@ const ProfileForm = () => {
                                 <Controller
                                     name="phone"
                                     control={control}
-                                    render={({field}) => (
+                                    render={({ field }) => (
                                         <PhoneInput
+                                            required={false}
                                             inputClass="phone-input"
                                             country={'ru'}
                                             placeholder="Номер телефона"
                                             specialLabel={null}
                                             value={getValues('phone')}
-                                            onChange={(phone) => field.onChange(`+${phone}`)}
+                                            onChange={(phone) => field.onChange(`${phone}`)}
                                         />
                                     )}
-                                    rules={{
-                                        required: 'Заполните поле',
-                                        minLength: {
-                                            value: 11,
-                                            message: 'введите номер до конца',
-                                        },
-                                    }}
                                 />
                             </ValidateWrapper>
                         </Col>
@@ -226,7 +221,7 @@ const ProfileForm = () => {
                                 <input type="email" placeholder="email@email.com" value={user?.email} disabled />
                             </ValidateWrapper>
                         </Col>
-                        <Col md={{span: 9, offset: 3}}>
+                        <Col md={{ span: 9, offset: 3 }}>
                             <label className="c-pointer">
                                 <input type="checkbox" {...register('isSubscribed')} className="c-pointer" />
                                 <span>Получать уведомления на почту</span>

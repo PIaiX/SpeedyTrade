@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -6,24 +6,32 @@ import Select from 'react-select'
 
 import StarRating from '../components/utils/StarRating'
 import ReviewBlock from '../components/ReviewBlock'
-import Skeleton from 'react-loading-skeleton'
 import useGetLotReviews from '../hooks/axios/getReview'
-import {useParams} from 'react-router-dom'
-import {useSelector} from 'react-redux'
+import { useNavigate, useParams } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import useGetOneLot from '../hooks/axios/getOneLot'
 import LotChat from '../components/LotChat'
+import swal from 'sweetalert'
+import { purchaseLot } from '../services/lots'
 
 const optionsPayment = [
-    {value: '1', label: 'Тип оплаты 1'},
-    {value: '2', label: 'Тип оплаты 2'},
-    {value: '3', label: 'Тип оплаты 3'},
+    { value: 'balance', label: 'С баланса' },
+    { value: 'card', label: 'Банковской картой' },
 ]
 
 const Lot = () => {
+    const nav = useNavigate()
+    const userId = useSelector(state => state.auth.user.id)
     const theme = useSelector((state) => state?.theme?.mode)
-    const {id} = useParams()
-    const {lot} = useGetOneLot(id)
-    const {reviews} = useGetLotReviews(lot?.item?.id)
+    const { id } = useParams()
+    const { lot } = useGetOneLot(id)
+    const { reviews } = useGetLotReviews(lot?.item?.id)
+    const [purchaseDto, setPurchaseDto] = useState({
+        userId: userId,
+        lotId: Number(id),
+        paymentType: undefined
+
+    })
 
     const [filterParam, setFilterParam] = useState('init')
 
@@ -49,14 +57,7 @@ const Lot = () => {
                                         <div className="box">
                                             <p>{lot.item?.description}</p>
                                         </div>
-                                    ) : (
-                                        <Skeleton
-                                            baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
-                                            highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
-                                            height={'100%'}
-                                            width={'100%'}
-                                        />
-                                    )}
+                                    ) : null}
                                 </Col>
                                 <Col md={3}>Способ оплаты:</Col>
                                 <Col md={9}>
@@ -65,12 +66,33 @@ const Lot = () => {
                                         placeholder="Выбрать"
                                         classNamePrefix="react-select"
                                         options={optionsPayment}
-                                        isClearable={true}
-                                        isSearchable={true}
+                                        onChange={(e) => setPurchaseDto({ ...purchaseDto, paymentType: e.value })}
                                     />
                                 </Col>
                                 <Col md={3}>
-                                    <button type="button" className="btn-5 w-100">
+                                    <button
+                                        type="button"
+                                        className="btn-5 w-100"
+                                        onClick={() => {
+                                            if (!purchaseDto.paymentType) return swal('Выберите способ оплаты')
+                                            swal({
+                                                title: "Хотите приобрести данный лот?",
+                                                text: lot.item?.description,
+                                                buttons: ['Отмена', 'Да']
+                                            })
+                                                .then(ok => ok && purchaseLot(purchaseDto))
+                                                .then(res => res.status === 200
+                                                    ?
+                                                    swal({
+                                                        title: "Успешно приобретено:",
+                                                        text: lot.item?.description,
+                                                        icon: "success"
+                                                    }).then(() => nav('/account/purchase-history'))
+                                                    : swal('Ошибка', 'Ошибка при отправке запроса', res.error)
+                                                )
+                                                .catch(() => swal('Ошибка', 'Ошибка при отправке запроса', 'error'))
+                                        }}
+                                    >
                                         Оплатить
                                     </button>
                                 </Col>
@@ -114,20 +136,12 @@ const Lot = () => {
                                     ) : (
                                         <h6>Отзывов нет</h6>
                                     )
-                                ) : (
-                                    <Skeleton
-                                        count={1}
-                                        baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
-                                        highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
-                                        width={'100%'}
-                                        height={'200px'}
-                                    />
-                                )}
+                                ) : null}
                             </Col>
                         </Col>
                         <Col xs={12} lg={5}>
                             <div className="message-window">
-                                {lot.item.user && <LotChat lotUser={lot.item.user} />}
+                                {lot.item.user && lot.item.user.id !== userId && <LotChat lotUser={lot.item.user} />}
                             </div>
                         </Col>
                     </Row>

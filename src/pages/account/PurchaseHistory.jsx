@@ -59,11 +59,12 @@ const PurchaseHistory = () => {
                         {paginationItems?.map((i) => (
                             <AdsTr3
                                 key={i?.id}
+                                purchaseId={i?.id}
                                 lotId={i?.lotId}
                                 status={i?.statusForUser}
                                 createdAt={i?.lot?.createdAtForUser}
                                 description={i?.lot?.description}
-                                userNickname={i?.lot?.userId}
+                                userNickname={i?.lot?.user.nickname}
                                 price={i?.lot?.price}
                                 priceCommission={i?.lot?.priceCommission}
                             />
