@@ -1,5 +1,6 @@
 import { apiRoutes } from '../config/api'
 import $api, { $authApi } from './index'
+import { socketInstance } from './sockets/socketInstance'
 
 export const getGameLots = async (gameId) => {
     try {
@@ -110,12 +111,21 @@ export const editLot = async (lotId, payloads) => {
 }
 
 export const purchaseLot = async (payloads) => {
-    try {
-        const response = await $authApi.post(apiRoutes.PURCHASE_LOT, payloads)
-        return response?.data
-    } catch (error) {
-        return error.response.data
-    }
+    return await new Promise((resolve, reject) => {
+        socketInstance?.emit('lots:buy', payloads, (response) => {
+            try {
+                resolve(response)
+            } catch (e) {
+                reject(e)
+            }
+        })
+    })
+    // try {
+    //     const response = await $authApi.post(apiRoutes.PURCHASE_LOT, payloads)
+    //     return response?.data
+    // } catch (error) {
+    //     return error.response.data
+    // }
 }
 
 export const submitPurchase = async (purchaseId) => {
