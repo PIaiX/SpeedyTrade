@@ -31,11 +31,11 @@ const SingleMessage = ({ msg }) => {
                 img.onload = () => {
                     res(img.src)
                 }
-                img.onerror = (e) => {
-                    setTimeout(() => {
-                        loadImage(url).then((i) => res(i))
-                    }, 1000)
-                }
+                // img.onerror = (e) => {
+                //     setTimeout(() => {
+                //         loadImage(url).then((i) => res(i))
+                //     }, 1000)
+                // }
                 img.src = url
             })
         }

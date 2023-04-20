@@ -29,7 +29,7 @@ const Lot = () => {
     const [purchaseDto, setPurchaseDto] = useState({
         lotId: Number(id),
         amount: 1,
-        paymentType: 'balance',
+        // paymentType: 'balance',
     })
 
     const [filterParam, setFilterParam] = useState('init')
@@ -92,7 +92,7 @@ const Lot = () => {
                                         type="button"
                                         className="btn-5 w-100"
                                         onClick={() => {
-                                            if (!purchaseDto.paymentType) return swal('Выберите способ оплаты')
+                                            // if (!purchaseDto.paymentType) return swal('Выберите способ оплаты')
                                             swal({
                                                 title: "Хотите приобрести данный лот?",
                                                 text: lot.item?.description,
@@ -106,9 +106,9 @@ const Lot = () => {
                                                         text: lot.item?.description,
                                                         icon: "success"
                                                     }).then(() => nav('/account/purchase-history'))
-                                                    : swal('Ошибка', res.message, "error")
+                                                    : console.log(res) //swal('Ошибка', res.message, "error")
                                                 )
-                                                .catch((error) => swal('Ошибка', error.message, "error"))
+                                                .catch((error) => console.log(error)) // swal('Ошибка', error.message, "error"))
                                         }}
                                         disabled={!purchaseDto.amount || purchaseDto.amount < 1 || purchaseDto.amount > lot.item.amount}
                                     >
