@@ -15,6 +15,7 @@
 
 :root[data-theme=light] {
   --total: #fff;
+  --total-invert: #000;
   --bg-main: #fcfcfc;
   --bg-2: #f05d66;
   --bg-3: #fffbf9;
@@ -56,6 +57,7 @@
 
 :root[data-theme=dark] {
   --total: #000;
+  --total-invert: #fff;
   --bg-main: #05001c;
   --bg-2: #322054;
   --bg-3: #1f1f1f;
@@ -1273,6 +1275,106 @@ header .search-results-container::after {
   inset: 0;
   height: var(--h-height);
   z-index: -1;
+}
+
+.notifications {
+  margin-left: 1em;
+  position: relative;
+  height: var(--h-height);
+}
+.notifications-btn {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: var(--transition);
+  color: #fff;
+}
+.notifications-btn:hover {
+  color: var(--color-1);
+}
+.notifications-btn svg {
+  font-size: 1.34em;
+  stroke-width: 2.5px;
+}
+.notifications-btn span {
+  font-size: 0.8em;
+  margin-left: 0.5em;
+}
+.notifications-box {
+  background-color: transparent !important;
+  border: none !important;
+}
+.notifications-box .offcanvas-body {
+  background-color: var(--achromat-5);
+  color: var(--total-invert);
+  width: 544px;
+  margin-left: auto;
+  border-radius: 0px 0px 1.34em 1.34em;
+  padding-left: 2em !important;
+  padding-right: 2em !important;
+  padding-bottom: 1em !important;
+}
+@media (max-width: 767px) {
+  .notifications-box .offcanvas-body {
+    width: 400px;
+  }
+}
+@media (max-width: 575px) {
+  .notifications-box .offcanvas-body {
+    width: 300px;
+    padding-left: 1em !important;
+    padding-right: 1em !important;
+    padding-bottom: 1em !important;
+  }
+}
+.notifications-box ul {
+  list-style: none;
+  padding-left: 0px;
+}
+.notifications-box ul li {
+  border-bottom: 1px solid var(--gray);
+}
+.notifications-box ul li a {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: nowrap;
+  transition: var(--transition);
+  padding: 1em;
+}
+@media (max-width: 575px) {
+  .notifications-box ul li a {
+    padding: 0.75em;
+  }
+}
+.notifications-box ul li a div {
+  flex: 1;
+}
+.notifications-box ul li a svg {
+  color: var(--achromat-3);
+  font-size: 0.8em;
+  transition: var(--transition);
+}
+.notifications-box ul li a:hover, .notifications-box ul li a:focus, .notifications-box ul li a:active {
+  color: var(--color-1);
+}
+.notifications-box ul li a:hover svg, .notifications-box ul li a:focus svg, .notifications-box ul li a:active svg {
+  color: var(--color-1);
+}
+.notifications-box .more {
+  color: var(--achromat-3);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  margin: 1em auto 0px;
+}
+.notifications-box .more:hover, .notifications-box .more:focus, .notifications-box .more:active {
+  color: var(--color-2);
 }
 
 .themes-switcher {

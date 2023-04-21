@@ -9,6 +9,7 @@ import { getImageURL } from '../helpers/image'
 import { searchGames } from '../services/games'
 import GameMidiSearch from '../components/GameMidiSearch'
 import { useRef } from 'react'
+import Notifications from './Notifications'
 
 const Header = () => {
     const auth = useSelector((state) => state?.auth)
@@ -85,6 +86,7 @@ const Header = () => {
                             </Link>
                         </>
                     )}
+                    <Notifications/>
                 </div>
             </Container>
             {searchResults &&
