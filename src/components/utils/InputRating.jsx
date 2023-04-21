@@ -2,7 +2,8 @@ import React, {useEffect, useState} from 'react'
 import {ImStarFull} from 'react-icons/im'
 
 export default function InputRating(props) {
-    const [ratingValue, setRatingValue] = useState(1)
+    const {rating} = props
+    const [ratingValue, setRatingValue] = useState(rating?rating:1)
 
     useEffect(() => {
         ratingValue && props.seterRating && props.seterRating(ratingValue)

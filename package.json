@@ -46,9 +46,10 @@
         "test": "react-scripts test",
         "eject": "react-scripts eject",
         "predeploy": "npm run build",
-        "deploy": "gh-pages -d build",
+        "deploy": "scp -r C:/Users/Admon/Desktop/games/build/* root@62.217.176.71:/var/www/SpeedyTrade_front/",
         "format": "prettier --write . --config ./.prettierrc",
-        "sass": "node-sass src/assets/styles/style.scss src/assets/styles/style.min.css --output-style compressed"
+        "sass": "node-sass src/assets/styles/style.scss src/assets/styles/style.min.css --output-style compressed",
+        "send": "scp -r C:/Users/Admon/Desktop/games/build/* root@62.217.176.71:/var/www/SpeedyTrade_front/"
     },
     "browserslist": {
         "production": [

@@ -2,10 +2,11 @@ import React from 'react'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import InputPassword from '../utils/InputPassword'
-import {useForm} from 'react-hook-form'
-import {useSelector} from 'react-redux'
-import {userUpdatePassword} from '../../services/user'
-import {dispatchAlert} from '../../helpers/alert'
+import { useForm } from 'react-hook-form'
+import { useSelector } from 'react-redux'
+import { userUpdatePassword } from '../../services/user'
+import { dispatchAlert } from '../../helpers/alert'
+import ValidateWrapper from '../UI/ValidateWrapper'
 
 const ChangePasswordForm = () => {
     const userId = useSelector((state) => state?.auth?.user?.id)
@@ -15,13 +16,13 @@ const ChangePasswordForm = () => {
         getValues,
         handleSubmit,
         setValue,
-        formState: {errors},
-    } = useForm({mode: 'onSubmit', reValidateMode: 'onChange'})
+        formState: { errors },
+    } = useForm({ mode: 'onSubmit', reValidateMode: 'onChange' })
 
     const onSubmit = (data) => {
         userUpdatePassword(data, userId)
             .then(() => dispatchAlert('success', 'Пароль успешно изменен'))
-            .catch(() => console.log('12'))
+            .catch((err) => dispatchAlert('danger', err.response.data.message))
     }
 
     return (
@@ -33,56 +34,62 @@ const ChangePasswordForm = () => {
                         <div>Старый пароль:</div>
                     </Col>
                     <Col md={9}>
-                        <InputPassword
-                            register={register('oldPassword', {
-                                required: 'Заполните поле',
-                                minLength: {
-                                    value: 8,
-                                    message: 'Минимум 8 символов',
-                                },
-                                maxLength: {
-                                    value: 15,
-                                    message: 'Максимум 15 символов',
-                                },
-                                pattern: {
-                                    value: /(.*[0-9].*[A-Z])|(.*[A-Z].*[0-9])/gm,
-                                    message: 'Нет заглавная буквы или цифры',
-                                },
-                            })}
-                        />
+                        <ValidateWrapper error={errors?.oldPassword}>
+                            <InputPassword
+                                register={register('oldPassword', {
+                                    required: 'Заполните поле',
+                                    minLength: {
+                                        value: 8,
+                                        message: 'Минимум 8 символов',
+                                    },
+                                    maxLength: {
+                                        value: 15,
+                                        message: 'Максимум 15 символов',
+                                    },
+                                    pattern: {
+                                        value: /(.*[0-9].*[A-Z])|(.*[A-Z].*[0-9])/gm,
+                                        message: 'Нет заглавной буквы или цифры',
+                                    },
+                                })}
+                            />
+                        </ValidateWrapper>
                     </Col>
                     <Col md={3}>
                         <div>Новый пароль:</div>
                     </Col>
                     <Col md={9}>
-                        <InputPassword
-                            register={register('password', {
-                                required: 'Заполните поле',
-                                minLength: {
-                                    value: 8,
-                                    message: 'Минимум 8 символов',
-                                },
-                                maxLength: {
-                                    value: 15,
-                                    message: 'Максимум 15 символов',
-                                },
-                                pattern: {
-                                    value: /(.*[0-9].*[A-Z])|(.*[A-Z].*[0-9])/gm,
-                                    message: 'Нет заглавная буквы или цифры',
-                                },
-                            })}
-                        />
+                        <ValidateWrapper error={errors?.password}>
+                            <InputPassword
+                                register={register('password', {
+                                    required: 'Заполните поле',
+                                    minLength: {
+                                        value: 8,
+                                        message: 'Минимум 8 символов',
+                                    },
+                                    maxLength: {
+                                        value: 15,
+                                        message: 'Максимум 15 символов',
+                                    },
+                                    pattern: {
+                                        value: /(.*[0-9].*[A-Z])|(.*[A-Z].*[0-9])/gm,
+                                        message: 'Нет заглавной буквы или цифры',
+                                    },
+                                })}
+                            />
+                        </ValidateWrapper>
                     </Col>
                     <Col md={3}>
                         <div>Повторить пароль:</div>
                     </Col>
                     <Col md={9}>
-                        <InputPassword
-                            register={register('passwordConfirm', {
-                                required: 'Заполните поле',
-                                validate: (value) => getValues('password') === value || 'Пароли не совпадают',
-                            })}
-                        />
+                        <ValidateWrapper error={errors?.passwordConfirm}>
+                            <InputPassword
+                                register={register('passwordConfirm', {
+                                    required: 'Заполните поле',
+                                    validate: (value) => getValues('password') === value || 'Пароли не совпадают',
+                                })}
+                            />
+                        </ValidateWrapper>
                     </Col>
                     <Col xs={12}>
                         <button type="submit" className="btn-5">

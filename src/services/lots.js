@@ -1,5 +1,6 @@
 import { apiRoutes } from '../config/api'
 import $api, { $authApi } from './index'
+import { socketInstance } from './sockets/socketInstance'
 
 export const getGameLots = async (gameId) => {
     try {
@@ -12,7 +13,7 @@ export const getGameLots = async (gameId) => {
 
 export const getUserLots = async (userId, page, perPage, gameId, serverId, platformId) => {
     try {
-        const response = await $api(
+        const response = await $authApi(
             `${apiRoutes.GET_LOTS}/?userId=${userId}&page=${page}&limit=${perPage}&gameId=${gameId}&serverId=${serverId}&platformId=${platformId}`
         )
         return response?.data?.body
@@ -103,6 +104,33 @@ export const postLot = async (payloads) => {
 export const editLot = async (lotId, payloads) => {
     try {
         const response = await $authApi.patch(`${apiRoutes.GET_LOTS}/${lotId}`, payloads)
+        return response?.data
+    } catch (error) {
+        return { status: 500, body: error }
+    }
+}
+
+export const purchaseLot = async (payloads) => {
+    return await new Promise((resolve, reject) => {
+        socketInstance?.emit('lots:buy', payloads, (response) => {
+            try {
+                resolve(response)
+            } catch (e) {
+                reject(e)
+            }
+        })
+    })
+    // try {
+    //     const response = await $authApi.post(apiRoutes.PURCHASE_LOT, payloads)
+    //     return response?.data
+    // } catch (error) {
+    //     return error.response.data
+    // }
+}
+
+export const submitPurchase = async (purchaseId) => {
+    try {
+        const response = await $authApi.post(`${apiRoutes.PURCHASE_CONFIRM}/${purchaseId}`)
         return response?.data
     } catch (error) {
         return { status: 500, body: error }

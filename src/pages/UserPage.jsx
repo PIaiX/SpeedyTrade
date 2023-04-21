@@ -12,23 +12,20 @@ import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { getImageURL } from '../helpers/image'
 import Moment from 'react-moment'
-import useGetReview from '../hooks/axios/getReview'
-import Skeleton from 'react-loading-skeleton'
 import { useForm } from 'react-hook-form'
 import { getSellerLots } from '../services/lots'
-import { createReview } from '../services/reviews'
+import {createReview, getUserReviewsByFilter} from '../services/reviews'
 import { dispatchAlert } from '../helpers/alert'
 import ValidateWrapper from '../components/UI/ValidateWrapper'
 
 const UserPage = () => {
-    const theme = useSelector((state) => state?.theme?.mode)
     const { id } = useParams()
     const [showReview, setShowReview] = useState(false)
     const currentUser = useSelector((state) => state?.auth?.user)
     const [filterParam, setFilterParam] = useState('init')
     const [refatch, setRefatch] = useState(true)
     const { user } = useGetUserInfo(id)
-    const { reviews } = useGetReview(id, refatch)
+    const [reviews, setReviews] = useState()
     const {
         register,
         formState: { errors },
@@ -58,18 +55,18 @@ const UserPage = () => {
         setRating(value)
     }, [])
 
-    const filtredReviews = () => {
-        if (filterParam === 'init') {
-            return reviews.items
-        } else {
-            return reviews.items?.filter((i) => i.rating === +filterParam)
-        }
-    }
+    useEffect(()=>{
+        getUserReviewsByFilter(id).then(res=>{
+            if(res){
+                setReviews(res)
+            }
+        })
+        console.log(filterParam)
+    }, [filterParam])
 
     const onSubmitCreateReview = (data) => {
         const userId = currentUser.id
         const req = { ...data, rating, userId }
-        console.log(req)
         createReview(req)
             .then(() => {
                 setRefatch(true)
@@ -89,16 +86,7 @@ const UserPage = () => {
                             <Col sm={5} md={4} lg={3}>
                                 {user.isLoaded ? (
                                     <img src={getImageURL(user.item?.avatar)} alt="" className="img" />
-                                ) : (
-                                    <Skeleton
-                                        count={1}
-                                        baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
-                                        highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
-                                        width={'100%'}
-                                        height={'280px'}
-                                        borderRadius={'1.5em'}
-                                    />
-                                )}
+                                ) : null}
                             </Col>
                             <Col sm={7} md={8} lg={4} xl={3}>
                                 {user.isLoaded ? (
@@ -106,52 +94,20 @@ const UserPage = () => {
                                         <h4>{user.item?.fullName}</h4>
                                         <div className='achromat-3 mb-3'>{user.item?.isOnline ? 'Онлайн' : 'Был(а) онлайн ' + user.item?.lastSeenForUser}</div>
                                     </>
-                                ) : (
-                                    <Skeleton
-                                        count={1}
-                                        baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
-                                        highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
-                                        width={'100%'}
-                                        height={'25px'}
-                                    />
-                                )}
+                                ) : null}
                                 {user.isLoaded ? (
                                     <StarRating rate={user.item?.rating || 0} className="justify-content-start" />
-                                ) : (
-                                    <Skeleton
-                                        count={1}
-                                        baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
-                                        highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
-                                        width={'100%'}
-                                        height={'25px'}
-                                    />
-                                )}
+                                ) : null}
                                 {user.isLoaded ? (
                                     <p className="mt-4">
                                         На сайте с <Moment format={'LL'} date={user.item?.createdAt} />
                                     </p>
-                                ) : (
-                                    <Skeleton
-                                        count={1}
-                                        baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
-                                        highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
-                                        width={'100%'}
-                                        height={'25px'}
-                                    />
-                                )}
+                                ) : null}
                                 {user.isLoaded ? (
                                     <p className="mt-2">
                                         Завершено сделок: <strong>{user.item?.salesCount}</strong>
                                     </p>
-                                ) : (
-                                    <Skeleton
-                                        count={1}
-                                        baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
-                                        highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
-                                        width={'100%'}
-                                        height={'25px'}
-                                    />
-                                )}
+                                ) : null}
                                 <button
                                     type="button"
                                     onClick={() => setShowReview(true)}
@@ -167,71 +123,31 @@ const UserPage = () => {
                                     <Col xs={7}>
                                         {user.isLoaded ? (
                                             user.item?.firstName
-                                        ) : (
-                                            <Skeleton
-                                                count={1}
-                                                baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
-                                                highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
-                                                width={'100%'}
-                                                height={'25px'}
-                                            />
-                                        )}
+                                        ) : null}
                                     </Col>
                                     <Col xs={5}>Фамилия:</Col>
                                     <Col xs={7}>
                                         {user.isLoaded ? (
                                             user.item?.lastName
-                                        ) : (
-                                            <Skeleton
-                                                count={1}
-                                                baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
-                                                highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
-                                                width={'100%'}
-                                                height={'25px'}
-                                            />
-                                        )}
+                                        ) : null}
                                     </Col>
                                     <Col xs={5}>Ник:</Col>
                                     <Col xs={7}>
                                         {user.isLoaded ? (
                                             `@${user.item?.nickname}`
-                                        ) : (
-                                            <Skeleton
-                                                count={1}
-                                                baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
-                                                highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
-                                                width={'100%'}
-                                                height={'25px'}
-                                            />
-                                        )}
+                                        ) : null}
                                     </Col>
                                     <Col xs={5}>Пол:</Col>
                                     <Col xs={7}>
                                         {user.isLoaded ? (
                                             `${user.item?.sex ? 'Женский' : 'Мужской'}`
-                                        ) : (
-                                            <Skeleton
-                                                count={1}
-                                                baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
-                                                highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
-                                                width={'100%'}
-                                                height={'25px'}
-                                            />
-                                        )}
+                                        ) : null}
                                     </Col>
                                     <Col xs={5}>Дата рождения:</Col>
                                     <Col xs={7}>
                                         {user.isLoaded ? (
                                             user.item?.birthdayForUser
-                                        ) : (
-                                            <Skeleton
-                                                count={1}
-                                                baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
-                                                highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
-                                                width={'100%'}
-                                                height={'25px'}
-                                            />
-                                        )}
+                                        ) : null}
                                     </Col>
                                 </Row>
                             </Col>
@@ -247,30 +163,18 @@ const UserPage = () => {
                                         <option value="1">1 звезда</option>
                                     </select>
                                 </div>
-                                {reviews.isLoaded ? (
-                                    filtredReviews().length > 0 ? (
-                                        filtredReviews().map((i) => (
-                                            <ReviewBlock
-                                                key={i.id}
-                                                fullName={i.user?.fullName}
-                                                avatar={i.user?.avatar}
-                                                rating={i.rating}
-                                                description={i.text}
-                                                nickname={i.user?.nickname}
-                                            />
-                                        ))
-                                    ) : (
-                                        <h6>Отзывов нет</h6>
-                                    )
-                                ) : (
-                                    <Skeleton
-                                        count={1}
-                                        baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
-                                        highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
-                                        width={'100%'}
-                                        height={'200px'}
-                                    />
-                                )}
+                                {reviews?
+                                    reviews?.map(i=>
+                                        <ReviewBlock
+                                            key={i.id}
+                                            fullName={i.user?.fullName}
+                                            avatar={i.user?.avatar}
+                                            rating={i.rating}
+                                            description={i.text}
+                                            nickname={i.user?.nickname}
+                                        />)
+                                    : <h6>Отзывов нет</h6>
+                                }
                             </Col>
                         </Row>
                     </section>
@@ -300,10 +204,10 @@ const UserPage = () => {
                             })}
                         >
                             <option value={'0'}>Нет лотов</option>
-                            {sellerLots.items?.length > 0 ??
+                            {sellerLots.items?.length > 0 &&
                                 sellerLots.items?.map((i) => (
                                     <option key={i.id} value={i.lotId}>
-                                        {i.id}
+                                        {i.lot.description}
                                     </option>
                                 ))}
                         </select>

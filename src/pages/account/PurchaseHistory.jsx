@@ -49,7 +49,7 @@ const PurchaseHistory = () => {
                                 <th>Описание</th>
                                 <th>Продавец</th>
                                 <th>Статус</th>
-                                <th>Цена</th>
+                                <th>Стоимость</th>
                                 <th></th>
                             </>
                         </tr>
@@ -59,12 +59,13 @@ const PurchaseHistory = () => {
                         {paginationItems?.map((i) => (
                             <AdsTr3
                                 key={i?.id}
+                                purchaseId={i?.id}
                                 lotId={i?.lotId}
                                 status={i?.statusForUser}
                                 createdAt={i?.lot?.createdAtForUser}
                                 description={i?.lot?.description}
-                                userNickname={i?.lot?.userId}
-                                price={i?.lot?.price}
+                                userNickname={i?.lot?.user.nickname}
+                                price={i?.lot?.priceCommission * i?.amount}
                                 priceCommission={i?.lot?.priceCommission}
                             />
                         ))}

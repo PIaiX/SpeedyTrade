@@ -27,6 +27,7 @@ const apiRoutes = {
     GET_GAMES_SERVERS_BY_GAME: 'game/server/bygame',
     GET_GAMES_REGIONS: 'game/region',
     SEARCH_GAMES: 'game/search',
+    GET_GAMES_WHERE_I_HAVE_LOTS: 'game/whereIHaveLots',
 
     //banner
     GET_BANNER: 'banner',
@@ -49,6 +50,7 @@ const apiRoutes = {
     //reviews
     REVIEW_ACTIONS: 'user/review',
     REVIEW_LOTS: 'user/review/lot',
+    REVIEW_LOTS_BY_FILTER: 'user/review/saler',
 
     //favorites
     FAVORITES_ACTIONS: 'user/favorite',
@@ -56,6 +58,13 @@ const apiRoutes = {
     //lots
     LOTS_SELLER: 'lot/purchase/purchase/mypurchases',
     LOTS_ACTIONS: 'lot',
+    PURCHASE_LOT: 'lot/purchase',
+    PURCHASE_CONFIRM: 'lot/purchase/confirm',
+
+    //document
+    GET_DOCUMENT: 'documents',
+
+    GET_OPERATIONS: 'balance/operations'
 }
 
 const apiResponseMessages = {}

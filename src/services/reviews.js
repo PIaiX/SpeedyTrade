@@ -19,9 +19,26 @@ export const getUserReviews = async (lotId) => {
     }
 }
 
+export const getUserReviewsByFilter = async (lotId) => {
+    try {
+        const response = await $authApi.get(`${apiRoutes.REVIEW_LOTS_BY_FILTER}/${lotId}`)
+        return response.data?.body
+    } catch (error) {
+        throw error
+    }
+}
+
 export const deleteMyReview = async (reviewId) => {
     try {
         return await $authApi.delete(`${apiRoutes.REVIEW_ACTIONS}/${reviewId}`)
+    } catch (error) {
+        throw error
+    }
+}
+
+export const editMyReview = async (reviewId, payload) => {
+    try {
+        return await $authApi.patch(`${apiRoutes.REVIEW_ACTIONS}/${reviewId}`, payload)
     } catch (error) {
         throw error
     }

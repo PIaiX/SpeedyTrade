@@ -9,6 +9,7 @@ import { getImageURL } from '../helpers/image'
 import { searchGames } from '../services/games'
 import GameMidiSearch from '../components/GameMidiSearch'
 import { useRef } from 'react'
+import { setSeconds } from 'date-fns'
 import Notifications from './Notifications'
 
 const Header = () => {
@@ -17,6 +18,7 @@ const Header = () => {
     const theme = useSelector((state) => state?.theme?.mode)
     const [search, setSearch] = useState('')
     const [searchResults, setsearchResults] = useState(undefined)
+    const [show, setShow] = useState(false)
     const inputRef = useRef()
 
     useEffect(() => {
@@ -36,7 +38,12 @@ const Header = () => {
                         <img src={theme === 'dark' ? "/images/dark.svg" : "/images/light.svg"} alt="Games.ru" className='h-100' />
                     </Link>
                     <form className="form-search d-none d-md-flex">
-                        <input type="text" placeholder="Поиск по играм" onChange={(e) => setSearch(e.target.value)} ref={inputRef} />
+                        <input
+                            type="text"
+                            placeholder="Поиск по играм"
+                            onChange={(e) => setSearch(e.target.value)} ref={inputRef}
+                            onFocus={() => setShow(true)}
+                        />
                         {searchResults && <button type="button" onClick={() => {
                             inputRef.current.value = ''
                             setSearch(undefined)
@@ -89,9 +96,10 @@ const Header = () => {
                     <Notifications/>
                 </div>
             </Container>
-            {searchResults &&
+            {searchResults && show &&
 
                 <Container className='search-results-container'>
+                    <div className='search-results-overlay' onClick={() => setShow(false)}></div>
                     <div>
                         {searchResults.length > 0
                             ?

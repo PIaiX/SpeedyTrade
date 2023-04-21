@@ -1,30 +1,47 @@
-import React, {useState} from 'react'
-import {Link} from 'react-router-dom'
+import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import Container from 'react-bootstrap/Container'
 import Offcanvas from 'react-bootstrap/Offcanvas'
-import {HiBookmark} from 'react-icons/hi'
-import {IoArrowUpCircleOutline, IoCloseCircleOutline} from 'react-icons/io5'
-import {useDeleteFavoriteMutation, useGetFavoritesQuery} from '../services/RTK/favoritesApi'
-import {useSelector} from 'react-redux'
-import Skeleton from 'react-loading-skeleton'
-import {getImageURL} from '../helpers/image'
+import { HiBookmark } from 'react-icons/hi'
+import { IoArrowUpCircleOutline, IoCloseCircleOutline } from 'react-icons/io5'
+import { useDeleteFavoriteMutation, useGetFavoritesQuery } from '../services/RTK/favoritesApi'
+import { useSelector } from 'react-redux'
+import { getImageURL } from '../helpers/image'
+import swal from 'sweetalert'
+import { useNavigate } from 'react-router-dom'
 
 function Favorites() {
+    const isAuth = useSelector(state => state.auth.isAuth)
+    const nav = useNavigate()
     const [showFav, setShowFav] = useState(false)
     const userId = useSelector((state) => state?.auth?.user?.id)
     const theme = useSelector((state) => state?.theme?.mode)
-    const {data, isLoading} = useGetFavoritesQuery(userId, {skip: !userId})
+    const { data, isLoading } = useGetFavoritesQuery(userId, { skip: !userId })
     const [deleteFavorite] = useDeleteFavoriteMutation()
 
     const deleteFav = async (gameId) => {
         if (gameId) {
-            await deleteFavorite({userId, gameId})
+            await deleteFavorite({ userId, gameId })
         }
     }
 
+    useEffect(() => {
+        let header = document.querySelector('header')
+        header && showFav
+            ? header.classList.add('fav-visible')
+            : header.removeAttribute('class')
+    }, [showFav])
+
     return (
         <>
-            <button type="button" className="fav-btn" onClick={() => setShowFav(!showFav)}>
+            <button type="button" className="fav-btn" onClick={() => {
+                if (isAuth) {
+                    setShowFav(!showFav)
+                } else {
+                    swal('Пожалуйста, войдите или зарегистрируйтесь', { buttons: ['Отмена', 'Хорошо'] })
+                        .then((o) => o && nav('/login'))
+                }
+            }}>
                 <HiBookmark />
             </button>
             <Offcanvas show={showFav} placement={'top'} onHide={() => setShowFav(!showFav)}>
@@ -48,14 +65,7 @@ function Favorites() {
                                 ) : (
                                     <h6>Список избранных пуст</h6>
                                 )
-                            ) : (
-                                <Skeleton
-                                    baseColor={theme === 'dark' ? `#322054` : '#f05d66'}
-                                    highlightColor={theme === 'dark' ? `#5736db` : '#eb3349'}
-                                    height={'100%'}
-                                    width={'15em'}
-                                />
-                            )}
+                            ) : null}
                         </ul>
                     </Container>
                 </Offcanvas.Body>
