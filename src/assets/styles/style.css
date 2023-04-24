@@ -25,6 +25,7 @@
   --accent-br: #ff0000;
   --hr-color: #fceeee;
   --gray: #e0e0e0;
+  --light-gray: #F5F5F5;
   --search-btn: #e13f3f;
   --btn-1-bg: #fcfcfc;
   --btn-1-color: #b92730;
@@ -47,6 +48,7 @@
   --achromat-0: #f9f9f9;
   --color-1: #b92730;
   --color-2: #f05d66;
+  --color-2-15: rgba(240, 93, 102, .15);
   --color-3: #de4444;
   --color-4: #c55656;
   --color-5: #fbd9d6;
@@ -67,6 +69,8 @@
   --accent: #5736db;
   --accent-br: #5736db;
   --hr-color: #2b2831;
+  --gray: #727272;
+  --light-gray: #1e1e1e;
   --search-btn: var(--font-color);
   --btn-1-bg: #5736db;
   --btn-1-color: #faf2ff;
@@ -89,6 +93,7 @@
   --achromat-0: #1a1a1a;
   --color-1: #8e72ff;
   --color-2: #5736db;
+  --color-2-15: rgba(87, 54, 219, .15);
   --color-3: #6640ff;
   --color-4: #745dd2;
   --color-5: #1a103f;
@@ -885,6 +890,10 @@ h6 {
   font-weight: 900;
 }
 
+.lh-1 {
+  line-height: 100%;
+}
+
 .color-1 {
   color: var(--color-1);
 }
@@ -919,6 +928,10 @@ h6 {
 
 .accent {
   color: var(--accent-br);
+}
+
+.total-invert {
+  color: var(--total-invert);
 }
 
 hr, hr.horizontal, hr.vertical {
@@ -1035,14 +1048,12 @@ hr.horizontal {
   border: 1px solid var(--achromat-4);
   border-radius: 50%;
 }
-.pagination ul li a:hover, .pagination ul li a:focus,
-.pagination ul li button:hover,
-.pagination ul li button:focus {
+.pagination ul li a:hover,
+.pagination ul li button:hover {
   color: var(--color-3);
   border: 1px solid var(--color-3);
 }
-.pagination ul li a:active, .pagination ul li a.active,
-.pagination ul li button:active,
+.pagination ul li a.active,
 .pagination ul li button.active {
   color: var(--color-1);
   border: 1px solid var(--color-1);
@@ -1240,6 +1251,20 @@ header .container .menu {
 header .container hr.vertical {
   background-color: var(--divider);
 }
+header.fav-visible {
+  pointer-events: none;
+  filter: grayscale(0.3);
+}
+header .search-results-overlay {
+  content: "";
+  position: fixed;
+  z-index: -1;
+  background: black;
+  opacity: 0.5;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+}
 header .search-results-container {
   color: var(--achromat-2);
   background-color: var(--bg-main);
@@ -1257,16 +1282,6 @@ header .search-results-container > div {
 }
 header .search-results-container > div > div {
   padding: 1em 0;
-}
-header .search-results-container::before {
-  content: "";
-  position: fixed;
-  z-index: -1;
-  background: black;
-  opacity: 0.5;
-  inset: 0;
-  width: 100vw;
-  height: 100vh;
 }
 header .search-results-container::after {
   content: "";
@@ -2188,9 +2203,10 @@ main {
   padding-left: 10%;
 }
 .news-page figure figcaption h1 {
-  color: inherit;
+  color: white;
 }
-.news-page h3, .news-page p {
+.news-page h3,
+.news-page p {
   margin-bottom: 1em;
 }
 
@@ -2221,12 +2237,13 @@ main {
   transition: background-color 0.2s ease-in-out;
 }
 .lot-preview:hover {
-  background: var(--bs-gray-200);
+  background: var(--hr-color);
   cursor: pointer;
 }
 .lot-preview-user {
   display: flex;
   align-items: flex-start;
+  position: relative;
 }
 .lot-preview-user .img {
   --size: 60px;
@@ -2319,6 +2336,7 @@ main {
      object-fit: cover;
   border-radius: 1.5em;
   margin-bottom: 1em;
+  background-color: var(--bg-3);
 }
 @media (max-width: 1399px) {
   .user-page .img {
@@ -2340,6 +2358,15 @@ main {
     height: 95vw;
   }
 }
+.user-page .num {
+  font-size: 2em;
+  font-weight: 700;
+  line-height: 115%;
+  color: var(--color-2);
+  border-bottom: 4px solid currentColor;
+  width: 2em;
+  margin: 0 auto;
+}
 .user-page .info {
   font-size: 1.2em;
 }
@@ -2347,6 +2374,74 @@ main {
   .user-page .info {
     font-size: 1em;
   }
+}
+.user-page .game-btn {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: nowrap;
+  width: 100%;
+  border: 1px solid var(--gray);
+  border-radius: 1.3em;
+  padding: 1.3em;
+  transition: 300ms linear;
+  color: var(--achromat-1);
+}
+@media (max-width: 1399px) {
+  .user-page .game-btn {
+    border-radius: 1em;
+    padding: 1em;
+  }
+}
+@media (max-width: 575px) {
+  .user-page .game-btn {
+    padding: 0.5em;
+  }
+}
+.user-page .game-btn img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  margin-right: 1.3em;
+}
+@media (max-width: 1399px) {
+  .user-page .game-btn img {
+    margin-right: 0.5em;
+  }
+}
+@media (max-width: 575px) {
+  .user-page .game-btn img {
+    width: 30px;
+    height: 30px;
+  }
+}
+.user-page .game-btn h5 {
+  color: inherit;
+  margin-bottom: 0px;
+}
+.user-page .game-btn:hover, .user-page .game-btn:focus {
+  background-color: var(--light-gray);
+}
+.user-page .game-btn:active, .user-page .game-btn.active {
+  color: #fff;
+  background-color: var(--color-2);
+}
+.user-page table th, .user-page table td {
+  padding: 1rem;
+}
+@media (max-width: 575px) {
+  .user-page table th, .user-page table td {
+    padding: 0.75rem 0.35rem;
+  }
+}
+.user-page table tbody tr {
+  border-top: 1px solid var(--achromat-4);
+}
+.user-page table .stretched-link:hover::after {
+  background-color: var(--color-2-15);
 }
 
 .account {
@@ -2458,12 +2553,15 @@ main {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  min-height: 100%;
+  height: 100%;
 }
 @media (max-width: 1199px) {
   .account .main {
     padding: 1em;
   }
+}
+.account .main .table-responsive {
+  height: 100%;
 }
 .account .user-photo {
   display: block;
@@ -3313,7 +3411,7 @@ footer nav.mobile button.active {
   right: 2vw;
   top: 12vh;
   background-color: var(--bg-2);
-  max-width: 300px;
+  max-width: 50vw;
   padding: 15px;
   font-size: 0.8em;
   z-index: 3000;
@@ -3421,15 +3519,27 @@ footer nav.mobile button.active {
 }
 .images-message .images-box {
   width: 250px;
-  height: 166px;
+  margin-top: 1em;
+  cursor: pointer;
 }
-.images-message .images-box:not(:first-child) {
-  margin: 0 0 0 1em;
-}
-.images-message img {
+.images-message .images-box img {
   -o-object-fit: cover;
      object-fit: cover;
   border-radius: 8px;
+  width: 100%;
+  max-height: 166px;
+  margin-top: -80px;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.2);
+}
+.images-message .images-box img:nth-child(even) {
+  rotate: 10grad;
+}
+.images-message .images-box img:nth-child(odd) {
+  rotate: -5grad;
+}
+.images-message .images-box img:first-child {
+  margin: 0;
+  rotate: none;
 }
 
 .link-to-chat {
@@ -3484,4 +3594,9 @@ footer nav.mobile button.active {
 .chat-user-name {
   font-size: 11px;
   max-width: 39px;
+}
+
+.swal-button {
+  border-radius: 20px;
+  padding: 20px 24px;
 }/*# sourceMappingURL=style.css.map */

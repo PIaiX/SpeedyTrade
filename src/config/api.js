@@ -28,6 +28,7 @@ const apiRoutes = {
     GET_GAMES_REGIONS: 'game/region',
     SEARCH_GAMES: 'game/search',
     GET_GAMES_WHERE_I_HAVE_LOTS: 'game/whereIHaveLots',
+    GET_GAMES_WHERE_USER_HAS_LOTS: 'game/whereUserHasLots',
 
     //banner
     GET_BANNER: 'banner',
