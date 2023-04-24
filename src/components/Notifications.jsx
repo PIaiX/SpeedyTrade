@@ -1,72 +1,54 @@
-import React, {useState} from 'react';
-import Container from 'react-bootstrap/Container';
-import Offcanvas from 'react-bootstrap/Offcanvas';
-import { Link } from 'react-router-dom';
-import { FiBell } from 'react-icons/fi';
-import { BsFillCaretRightFill, BsFillCaretDownFill } from "react-icons/bs";
+import React, { useState } from 'react'
+import Container from 'react-bootstrap/Container'
+import Offcanvas from 'react-bootstrap/Offcanvas'
+import { Link } from 'react-router-dom'
+import { FiBell } from 'react-icons/fi'
+import { BsFillCaretRightFill, BsFillCaretDownFill } from "react-icons/bs"
+import { useDispatch, useSelector } from 'react-redux'
+import { clearNotifications } from '../store/reducers/notificationMenuSlice'
 
 const Notifications = () => {
-  const [showNotifications, setShowNotifications] = useState(false);
-  const handleCloseNotifications = () => setShowNotifications(false);
-  const handleShowNotifications = () => setShowNotifications(true);
+  const [showNotifications, setShowNotifications] = useState(false)
+  const handleCloseNotifications = () => setShowNotifications(false)
+  const handleShowNotifications = () => setShowNotifications(true)
+
+  const dispatch = useDispatch()
+  const notification = useSelector(state => state.notificationMenu)
+  const [showAll, setShowAll] = useState(false)
 
   return (
     <div className="notifications">
       <button type='button' onClick={(showNotifications) ? handleCloseNotifications : handleShowNotifications} className='notifications-btn'>
-        <FiBell/>
-        <span>2 уведомления</span>
+        <FiBell />
+        <span>{notification.count} уведомления</span>
       </button>
       <Offcanvas className="notifications-box" show={showNotifications} onHide={handleCloseNotifications} placement='top'>
         <Container>
           <Offcanvas.Body>
-            <h4 className='mb-2'>Уведомления</h4>
+            <div className='d-flex justify-content-between'>
+              <h4 className='mb-2'>Уведомления</h4>
+              <button type='button' onClick={() => dispatch(clearNotifications())}>Очистить</button>
+            </div>
             <ul>
-              <li>
-                <Link to='/'>
-                  <div>Новое сообщение от laprad</div>
-                  <BsFillCaretRightFill/>
-                </Link>
-              </li>
-              <li>
-                <Link to='/'>
-                  <div>Пользователь купил ваш лот 00000</div>
-                  <BsFillCaretRightFill/>
-                </Link>
-              </li>
-              <li>
-                <Link to='/'>
-                  <div>Новое сообщение от laprad</div>
-                  <BsFillCaretRightFill/>
-                </Link>
-              </li>
-              <li>
-                <Link to='/'>
-                  <div>Пользователь купил ваш лот 00000</div>
-                  <BsFillCaretRightFill/>
-                </Link>
-              </li>
-              <li>
-                <Link to='/'>
-                  <div>Новое сообщение от laprad</div>
-                  <BsFillCaretRightFill/>
-                </Link>
-              </li>
-              <li>
-                <Link to='/'>
-                  <div>Пользователь купил ваш лот 00000</div>
-                  <BsFillCaretRightFill/>
-                </Link>
-              </li>
+              {notification.messages.slice(0, showAll ? 1000 : 5).map((message, index) =>
+                <li key={'notification-menu-' + index}>
+                  <Link to={message.link}>
+                    <div>{message.text}</div>
+                    <BsFillCaretRightFill />
+                  </Link>
+                </li>
+              )}
             </ul>
-            <button type='button' className='more'>
-              <span>Показать все</span>
-              <BsFillCaretDownFill/>
-            </button>
+            {notification.messages.length > 5 &&
+              <button type='button' className='more' onClick={() => setShowAll(!showAll)}>
+                <span>{showAll ? 'Скрыть' : 'Показать все'}</span>
+                <BsFillCaretDownFill />
+              </button>}
           </Offcanvas.Body>
         </Container>
       </Offcanvas>
     </div>
-  );
-};
+  )
+}
 
-export default Notifications;
+export default Notifications

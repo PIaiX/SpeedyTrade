@@ -15,6 +15,7 @@ import { setNotification, setUnreadCount } from './store/reducers/notificationSl
 
 import { BASE_URL_SOCKET } from './config/api'
 import { io } from 'socket.io-client'
+import { addNotification } from './store/reducers/notificationMenuSlice'
 
 const App = () => {
     setDefaultLocale(ru)
@@ -67,6 +68,10 @@ const App = () => {
             socketNotification.on('message:create', (newMessage) => {
                 if (newMessage.userId !== user.id) {
                     dispatch(setNotification(newMessage))
+                    dispatch(addNotification({
+                        text: 'Новое сообщение от ' + newMessage.userName,
+                        link: '/account/messages/chat/' + newMessage.conversationId
+                    }))
                 }
             })
             socketNotification.on('conversation:unreadCount', (count) => {

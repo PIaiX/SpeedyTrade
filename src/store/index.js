@@ -6,6 +6,7 @@ import alertReducer from './reducers/alertSlice'
 import themeReducer from './reducers/themeSlice'
 import fingerprintReducer from './reducers/fingerprintSlice'
 import notificationReducer from './reducers/notificationSlice'
+import notificationMenuReducer from './reducers/notificationMenuSlice'
 import { favoritesApi } from '../services/RTK/favoritesApi'
 import { newsApi } from '../services/RTK/newsApi'
 
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
     theme: themeReducer,
     fingerprint: fingerprintReducer,
     notification: notificationReducer,
+    notificationMenu: notificationMenuReducer,
 
     [favoritesApi.reducerPath]: favoritesApi.reducer,
     [newsApi.reducerPath]: newsApi.reducer,
