@@ -10,6 +10,7 @@ import { searchGames } from '../services/games'
 import GameMidiSearch from '../components/GameMidiSearch'
 import { useRef } from 'react'
 import { setSeconds } from 'date-fns'
+import Notifications from './Notifications'
 
 const Header = () => {
     const auth = useSelector((state) => state?.auth)
@@ -92,6 +93,7 @@ const Header = () => {
                             </Link>
                         </>
                     )}
+                    <Notifications/>
                 </div>
             </Container>
             {searchResults && show &&
