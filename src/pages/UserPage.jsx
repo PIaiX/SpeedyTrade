@@ -14,12 +14,13 @@ import { useSelector } from 'react-redux'
 import { getImageURL } from '../helpers/image'
 import Moment from 'react-moment'
 import { useForm } from 'react-hook-form'
-import { getSellerLots } from '../services/lots'
-import {createReview, getUserReviewsByFilter} from '../services/reviews'
+import { getLotsByUserAndGame, getSellerLots } from '../services/lots'
+import { createReview, getUserReviewsByFilter } from '../services/reviews'
 import { dispatchAlert } from '../helpers/alert'
 import ValidateWrapper from '../components/UI/ValidateWrapper'
 import { Link } from 'react-router-dom'
-import { BsFillCaretDownFill } from "react-icons/bs";
+import { BsFillCaretDownFill, BsFillCaretUpFill } from "react-icons/bs";
+import { getAllGamesWhereUserHasLots } from '../services/games'
 
 const UserPage = () => {
     const { id } = useParams()
@@ -39,6 +40,7 @@ const UserPage = () => {
         isLoaded: false,
         items: [],
     })
+
     const [rating, setRating] = useState(null)
     useEffect(() => {
         getSellerLots(id)
@@ -58,14 +60,27 @@ const UserPage = () => {
         setRating(value)
     }, [])
 
-    useEffect(()=>{
-        getUserReviewsByFilter(id).then(res=>{
-            if(res){
+    useEffect(() => {
+        getUserReviewsByFilter(id).then(res => {
+            if (res) {
                 setReviews(res)
             }
         })
         console.log(filterParam)
     }, [filterParam])
+
+    const [showAllGames, setShowAllGames] = useState(false)
+    const [games, setGames] = useState()
+    useEffect(() => {
+        getAllGamesWhereUserHasLots(id)
+            .then(res => { setGames(res); res && setActiveGame(res[0].id) })
+    }, [])
+
+    const [activeGame, setActiveGame] = useState()
+    const [lots, setLots] = useState()
+    useEffect(() => {
+        activeGame && getLotsByUserAndGame(id, activeGame).then(res => setLots(res.data))
+    }, [activeGame])
 
     const onSubmitCreateReview = (data) => {
         const userId = currentUser.id
@@ -82,7 +97,7 @@ const UserPage = () => {
 
     return (
         <>
-            <main> 
+            <main>
                 <section className="user-page pt-5 mb-6">
                     <Container>
                         <Row className='gx-lg-5'>
@@ -95,10 +110,10 @@ const UserPage = () => {
                                     </Col>
                                     <Col xs={12} sm={7}>
                                         {user.isLoaded ? (
-                                        <>
-                                            <h4 className='mb-2'><span className='total-invert'>{user.item?.fullName}</span> - <span className='achromat-3 fw-4'>@{user.item?.nickname}</span></h4>
-                                            <div className='achromat-3'>{user.item?.isOnline ? 'Онлайн' : 'Был(а) онлайн ' + user.item?.lastSeenForUser}</div>
-                                        </>
+                                            <>
+                                                <h4 className='mb-2'><span className='total-invert'>{user.item?.fullName}</span> - <span className='achromat-3 fw-4'>@{user.item?.nickname}</span></h4>
+                                                <div className='achromat-3'>{user.item?.isOnline ? 'Онлайн' : 'Был(а) онлайн ' + user.item?.lastSeenForUser}</div>
+                                            </>
                                         ) : null}
                                         {user.isLoaded ? (
                                             <p className="total-invert mt-2">
@@ -136,54 +151,44 @@ const UserPage = () => {
 
                                 <h6>Предложения пользователя</h6>
                                 <ul className='list-unstyled row row-cols-2 row-cols-md-3 row-cols-lg-2 row-cols-xl-3 g-2 g-sm-3 g-xl-4'>
-                                    <li>
-                                        <button type='button' className='game-btn active'>
-                                            <img src="../images/avatar.jpg" alt="AFK Arena" />
-                                            <h5>AFK Arena</h5>
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button type='button' className='game-btn'>
-                                            <img src="../images/avatar.jpg" alt="Battlefield" />
-                                            <h5>Battlefield</h5>
-                                        </button>
-                                    </li>
-                                    <li>
-                                        <button type='button' className='game-btn'>
-                                            <img src="../images/avatar.jpg" alt="Critical Strike" />
-                                            <h5>Critical Strike</h5>
-                                        </button>
-                                    </li>
+                                    {games && games.slice(0, showAllGames ? 100 : 3).map(game =>
+                                        <li key={'game-' + game.id}>
+                                            <button
+                                                type='button'
+                                                className={`game-btn ${activeGame === game.id ? 'active' : ''}`}
+                                                onClick={() => setActiveGame(game.id)}
+                                            >
+                                                <img src={getImageURL(game.logo)} alt={game.name} />
+                                                <h5>{game.name}</h5>
+                                            </button>
+                                        </li>
+                                    )}
                                 </ul>
-                                <button type='button' className='d-flex flex-column align-items-center achromat-3 mx-auto mt-4'>
-                                    <span>Показать все</span>
-                                    <BsFillCaretDownFill/>
+                                <button
+                                    type='button'
+                                    className='d-flex flex-column align-items-center achromat-3 mx-auto mt-4'
+                                    onClick={() => setShowAllGames(!showAllGames)}
+                                >
+                                    <span>{showAllGames ? 'Скрыть' : 'Показать все'}</span>
+                                    {showAllGames ? <BsFillCaretUpFill /> : <BsFillCaretDownFill />}
                                 </button>
 
                                 <Table borderless responsive className="mt-4 mt-sm-5">
                                     <thead>
                                         <tr>
-                                            <th>Платформа</th>
                                             <th width="55%">Описание</th>
+                                            <th>Количество</th>
                                             <th>Цена</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr className='position-relative'>
-                                            <td>Airin + Blackbird</td>
-                                            <td><Link className='stretched-link' to=''>ProjectSuperEssence.net Top Rang Step - Season 3, l8k-2568, Прочее, Без ранга, 150 шт., Avatar</Link></td>
-                                            <td><div className="color-1 fw-7">3000&nbsp;руб.</div></td>
-                                        </tr>
-                                        <tr className='position-relative'>
-                                            <td>Airin + Blackbird</td>
-                                            <td><Link className='stretched-link' to=''>ProjectSuperEssence.net Top Rang Step - Season 3, l8k-2568, Прочее, Без ранга, 150 шт., Avatar</Link></td>
-                                            <td><div className="color-1 fw-7">3000&nbsp;руб.</div></td>
-                                        </tr>
-                                        <tr className='position-relative'>
-                                            <td>Airin + Blackbird</td>
-                                            <td><Link className='stretched-link' to=''>ProjectSuperEssence.net Top Rang Step - Season 3, l8k-2568, Прочее, Без ранга, 150 шт., Avatar</Link></td>
-                                            <td><div className="color-1 fw-7">3000&nbsp;руб.</div></td>
-                                        </tr>
+                                        {lots && lots.map(lot =>
+                                            <tr className='position-relative' key={'lots-' + lot.id}>
+                                                <td><Link className='stretched-link' to={`/lot/${lot.id}`}>{lot.description}</Link></td>
+                                                <td>{lot.amount}</td>
+                                                <td><div className="color-1 fw-7">{lot.priceCommission}&nbsp;руб.</div></td>
+                                            </tr>
+                                        )}
                                     </tbody>
                                 </Table>
                             </Col>
@@ -199,8 +204,8 @@ const UserPage = () => {
                                         <option value="1">1 звезда</option>
                                     </select>
                                 </div>
-                                {reviews?
-                                    reviews?.map(i=>
+                                {reviews ?
+                                    reviews?.map(i =>
                                         <ReviewBlock
                                             key={i.id}
                                             fullName={i.user?.fullName}

@@ -11,6 +11,17 @@ export const getGameLots = async (gameId) => {
     }
 }
 
+export const getLotsByUserAndGame = async (userId, gameId) => {
+    try {
+        const response = await $authApi(
+            `${apiRoutes.GET_LOTS}/?userId=${userId}&gameId=${gameId}&page=1&limit=100`
+        )
+        return response?.data?.body
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 export const getUserLots = async (userId, page, perPage, gameId, serverId, platformId) => {
     try {
         const response = await $authApi(
@@ -120,12 +131,6 @@ export const purchaseLot = async (payloads) => {
             }
         })
     })
-    // try {
-    //     const response = await $authApi.post(apiRoutes.PURCHASE_LOT, payloads)
-    //     return response?.data
-    // } catch (error) {
-    //     return error.response.data
-    // }
 }
 
 export const submitPurchase = async (purchaseId) => {
