@@ -2,26 +2,29 @@ import React from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import ResetPasswordForm from '../components/forms/ResetPasswordForm'
-import {useForm} from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import ValidateWrapper from '../components/UI/ValidateWrapper'
-import {apiValidationRules} from '../config/api'
-import {resetPasswordEmailVerify} from '../services/resetPassword'
-import {dispatchAlert} from '../helpers/alert'
+import { apiValidationRules } from '../config/api'
+import { resetPasswordEmailVerify } from '../services/resetPassword'
+import { dispatchAlert } from '../helpers/alert'
 
 const ResetPassword = () => {
     const {
         register,
-        formState: {errors},
+        formState: { errors },
         handleSubmit,
+        setError,
         getValues,
-    } = useForm({mode: 'onSubmit', reValidateMode: 'onChange'})
+    } = useForm({ mode: 'onSubmit', reValidateMode: 'onChange' })
 
     const onSubmit = (data) => {
         resetPasswordEmailVerify(data)
             .then(() => dispatchAlert('success', 'Код отправлен, проверьте почту!'))
-            .catch(() => dispatchAlert('danger', 'Произошла ошибка'))
+            .catch((res) => {
+                if (res.response.data.errors.errors) setError('email', { type: 'custom', message: 'Email не найден' })
+            })
     }
 
     return (
