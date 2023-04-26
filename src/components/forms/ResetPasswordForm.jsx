@@ -1,23 +1,24 @@
-import React, {useEffect} from 'react'
+import React, { useEffect } from 'react'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import InputPassword from '../utils/InputPassword'
-import {useForm} from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import ValidateWrapper from '../UI/ValidateWrapper'
-import {resetPasswordConfirm} from '../../services/resetPassword'
-import {apiValidationRules} from '../../config/api'
-import {dispatchAlert} from '../../helpers/alert'
-import {useNavigate} from 'react-router-dom'
+import { resetPasswordConfirm } from '../../services/resetPassword'
+import { apiValidationRules } from '../../config/api'
+import { dispatchAlert } from '../../helpers/alert'
+import { useNavigate } from 'react-router-dom'
 
-const ResetPasswordForm = ({email}) => {
+const ResetPasswordForm = ({ email }) => {
     const navigate = useNavigate()
     const {
         register,
         getValues,
-        formState: {errors},
+        formState: { errors },
         handleSubmit,
+        setError,
         setValue,
-    } = useForm({mode: 'onSubmit', reValidateMode: 'onChange'})
+    } = useForm({ mode: 'onSubmit', reValidateMode: 'onChange' })
 
     useEffect(() => {
         email && setValue('email', email)
@@ -29,8 +30,9 @@ const ResetPasswordForm = ({email}) => {
                 dispatchAlert('success', 'Пароль успешно изменен!')
                 navigate('/login')
             })
-            .catch(() => {
-                dispatchAlert('danger', 'Произошла ошибка')
+            .catch((e) => {
+                if (e.response.data.code === 'VALIDATION_ERROR') setError('verifyCode', { type: 'custom', message: 'Код должен состоять из 6 цифр' })
+                if (e.response.data.code === 'CLIENT_ERROR') setError('verifyCode', { type: 'custom', message: 'Не верный код подтверждения' })
             })
     }
 
@@ -42,7 +44,7 @@ const ResetPasswordForm = ({email}) => {
                 </Col>
                 <Col md={8}>
                     <ValidateWrapper error={errors?.verifyCode}>
-                        <input {...register('verifyCode', {required: apiValidationRules.required})} />
+                        <input {...register('verifyCode', { required: apiValidationRules.required })} />
                     </ValidateWrapper>
                 </Col>
                 <Col md={4}>

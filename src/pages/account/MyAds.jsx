@@ -60,7 +60,7 @@ const MyAds = () => {
                 <Col className="d-xl-flex align-items-center">
                     <span className="me-3">Игра:</span>
                     <select defaultValue={0} onChange={(e) => setFilterGame(e.target.value)}>
-                        <option value={''}></option>
+                        <option value={''}>Все игры</option>
                         {games?.map((game) => (
                             <option value={game?.id} key={game?.id}>
                                 {game?.name}
