@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { FiPaperclip } from 'react-icons/fi'
+import swal from 'sweetalert'
 
 export default function InputFile(props) {
     const [files, setFiles] = useState(0)
@@ -19,6 +20,10 @@ export default function InputFile(props) {
                     multiple
                     {...props.register}
                     onChange={(e) => {
+                        if (e.target.files.length && e.target.files[0].type !== 'image/jpeg') {
+                            document.querySelector('input[type=file]').value = ''
+                            swal('Только изображения формата JPEG')
+                        }
                         setFiles(e.target.files.length)
                     }}
                     disabled={props.disabled}
@@ -28,6 +33,10 @@ export default function InputFile(props) {
                     type="file"
                     {...props.register}
                     onChange={(e) => {
+                        if (e.target.files.length && e.target.files[0].type !== 'image/jpeg') {
+                            document.querySelector('input[type=file]').value = ''
+                            swal('Только изображения формата JPEG')
+                        }
                         setFiles(e.target.files.length)
                     }}
                     disabled={props.disabled}
