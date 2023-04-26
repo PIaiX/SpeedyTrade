@@ -1,12 +1,12 @@
 import React from 'react'
-import {useSelector} from 'react-redux'
+import { useSelector } from 'react-redux'
 import Dropdown from 'react-bootstrap/Dropdown'
-import {Link} from 'react-router-dom'
-import {BiBlock, BiDotsHorizontalRounded, BiTrash} from 'react-icons/bi'
-import {getImageURL} from '../helpers/image'
+import { Link } from 'react-router-dom'
+import { BiBlock, BiDotsHorizontalRounded, BiTrash } from 'react-icons/bi'
+import { getImageURL } from '../helpers/image'
 import Moment from 'react-moment'
 
-const MessagePreview = ({conversation}) => {
+const MessagePreview = ({ conversation }) => {
     const user = useSelector((state) => state?.auth?.user)
     return (
         <li className="messages-list-preview">
@@ -38,17 +38,17 @@ const MessagePreview = ({conversation}) => {
             <div className="date">
                 <Moment locale="ru" format="DD.MM.YYYY" date={conversation.updatedAt} />
                 {' в '}
-                <Moment locale="ru" format="hh:mm" date={conversation.updatedAt} />
+                <Moment locale="ru" format="HH:MM" date={conversation.updatedAt} />
             </div>{' '}
             <div className="count">
                 {conversation.newMessagesCount && <span>{conversation.newMessagesCount}</span>}
             </div>
             <Link to={`chat/${conversation.id}`} aria-label="link to chat" className="link-to-chat" />
             <div className="controls">
-                <button type="button">
+                {/* <button type="button">
                     <BiTrash className="fs-13" />
                     <span className="ms-2">Удалить сообщение</span>
-                </button>
+                </button> */}
                 <button type="button">
                     <BiBlock className="fs-13" />
                     <span className="ms-2">Заблокировать</span>
@@ -60,10 +60,10 @@ const MessagePreview = ({conversation}) => {
                         <BiDotsHorizontalRounded />
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                        <Dropdown.Item as="button">
+                        {/* <Dropdown.Item as="button">
                             <BiTrash className="fs-13" />
                             <span className="ms-2">Удалить сообщение</span>
-                        </Dropdown.Item>
+                        </Dropdown.Item> */}
                         <Dropdown.Item as="button">
                             <BiBlock className="fs-13" />
                             <span className="ms-2">Заблокировать</span>
