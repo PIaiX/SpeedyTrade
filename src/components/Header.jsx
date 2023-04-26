@@ -93,7 +93,7 @@ const Header = () => {
                             </Link>
                         </>
                     )}
-                    <Notifications/>
+                    {auth?.isAuth && <Notifications />}
                 </div>
             </Container>
             {searchResults && show &&
