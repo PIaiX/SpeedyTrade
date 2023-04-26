@@ -20,9 +20,10 @@ export default function InputFile(props) {
                     multiple
                     {...props.register}
                     onChange={(e) => {
-                        if (e.target.files.length && e.target.files[0].type !== 'image/jpeg') {
+                        const file = e.target.files[0]
+                        if (e.target.files.length && !(file.type === 'image/jpeg' || file.type === 'image/png')) {
                             document.querySelector('input[type=file]').value = ''
-                            swal('Только изображения формата JPEG')
+                            swal('Только изображения формата JPEG или PNG')
                         }
                         setFiles(e.target.files.length)
                     }}
@@ -33,9 +34,10 @@ export default function InputFile(props) {
                     type="file"
                     {...props.register}
                     onChange={(e) => {
-                        if (e.target.files.length && e.target.files[0].type !== 'image/jpeg') {
+                        const file = e.target.files[0]
+                        if (e.target.files.length && !(file.type === 'image/jpeg' || file.type === 'image/png')) {
                             document.querySelector('input[type=file]').value = ''
-                            swal('Только изображения формата JPEG')
+                            swal('Только изображения формата JPEG или PNG')
                         }
                         setFiles(e.target.files.length)
                     }}
