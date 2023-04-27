@@ -5,7 +5,7 @@ import Col from 'react-bootstrap/Col'
 import Table from 'react-bootstrap/Table'
 import Dropdown from 'react-bootstrap/Dropdown'
 import { IoEllipsisHorizontal } from 'react-icons/io5'
-import { BiEdit, BiTrash } from 'react-icons/bi'
+import { BiEdit, BiTrash, BiShow } from 'react-icons/bi'
 import { Link } from 'react-router-dom'
 import { FiArrowLeft } from 'react-icons/fi'
 import { getUserLots } from '../../services/lots'
@@ -96,6 +96,10 @@ const MyAds = () => {
                                         <IoEllipsisHorizontal />
                                     </Dropdown.Toggle>
                                     <Dropdown.Menu>
+                                        <Dropdown.Item as="button">
+                                            <BiShow />
+                                            <Link to={`/lot/${lot.id}`}>Открыть</Link>
+                                        </Dropdown.Item>
                                         <Dropdown.Item as="button">
                                             <BiEdit />
                                             <Link to={`edit/${lot.id}`}>Редактировать</Link>
