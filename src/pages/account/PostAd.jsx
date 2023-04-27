@@ -153,6 +153,14 @@ const PostAd = () => {
     // User
     const userId = useSelector((state) => state.auth.user.id)
     const navigate = useNavigate()
+    // remove flockering on edit load
+    const [opacity, setOpacity] = useState('opacity-0')
+
+    useEffect(() => {
+        lotId && setTimeout(() => {
+            setOpacity('opacity-100')
+        }, 1000)
+    }, [lotId])
 
     const postBody = {
         isVisible: active,
@@ -169,8 +177,6 @@ const PostAd = () => {
     }
 
     const addLot = () => {
-        console.log(postBody)
-
         if (
             selectedOptionGame &&
             selectedCategory &&
@@ -224,7 +230,7 @@ const PostAd = () => {
         getAllGames()
             .then((res) => getOptions(res))
             .then((arr) => arr && setOptionsGames(arr))
-    }, [])
+    }, [lotId])
 
     //fetch regions & categories
     useEffect(() => {
@@ -296,8 +302,6 @@ const PostAd = () => {
             )
     }, [lot, selectedGame, selectedRegion])
 
-    console.log(selectedCategory)
-
     return (
         <div className="main">
             <div className="d-flex align-items-center mb-4">
@@ -307,7 +311,7 @@ const PostAd = () => {
                 <h4 className="color-1 mb-0">Мои объявления</h4>
             </div>
             <p className="mb-4">{lot ? 'Редактирование объявления' : 'Добавление нового объявления'}</p>
-            <form>
+            <form className={lotId ? opacity : undefined} style={{ transition: '0.14s opacity ease-in' }}>
                 <Row className="g-3 g-lg-4 align-items-center">
                     {/* ---------------------- Game --------------------------------------------------------------- */}
                     <Col xs={12} sm={3} md={2}>
