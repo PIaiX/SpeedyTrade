@@ -25,7 +25,7 @@ export const getLotsByUserAndGame = async (userId, gameId) => {
 export const getUserLots = async (userId, page, perPage, gameId, serverId, platformId) => {
     try {
         const response = await $authApi(
-            `${apiRoutes.GET_LOTS}/?userId=${userId}&page=${page}&limit=${perPage}&gameId=${gameId}&serverId=${serverId}&platformId=${platformId}`
+            `${apiRoutes.GET_LOTS}${page}&userId=${userId}&limit=${perPage}&gameId=${gameId}&serverId=${serverId}&platformId=${platformId}`
         )
         return response?.data?.body
     } catch (error) {

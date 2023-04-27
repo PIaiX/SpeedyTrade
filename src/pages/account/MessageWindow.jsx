@@ -49,13 +49,6 @@ const MessageWindow = () => {
         meta: null,
     })
 
-    // useEffect(() => {
-    //     const chatBody = document.getElementById('chatBody')
-    //     return () => {
-    //         chatBody.scrollTop = chatBody.scrollHeight
-    //     }
-    // }, [messages])
-
     useEffect(() => {
         setTimeout(() => {
             id && emitGetConversation(id).then((res) => setConversation(res))
@@ -89,8 +82,6 @@ const MessageWindow = () => {
     }, [isConnected])
 
     const createMessage = (payload) => {
-        const formData = new FormData()
-        formData.append('attachedfile', payload.attachedfile[0])
         emitCreateMessage(payload)
             .then((res) => {
                 res &&

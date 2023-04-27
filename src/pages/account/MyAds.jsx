@@ -10,12 +10,12 @@ import { Link } from 'react-router-dom'
 import { FiArrowLeft } from 'react-icons/fi'
 import { getUserLots } from '../../services/lots'
 import { getAllGamesWhereIHaveLots } from '../../services/games'
+import Pagination from '../../components/Pagination'
 
 const MyAds = () => {
     const [userLots, setUserLots] = useState([])
-    const [currentPage, setCurrentPage] = useState(1)
-    const [perPage, setPerPage] = useState(5)
-    const [pagesArr, setPagesArr] = useState([])
+    const [currentPage, setCurrentPage] = useState('/?page=1')
+    const [perPage, setPerPage] = useState(6)
     const [games, setGames] = useState([])
     const [filterGame, setFilterGame] = useState('')
     const userId = useSelector((state) => state.auth.user.id)
@@ -25,23 +25,14 @@ const MyAds = () => {
     }, [])
 
     useEffect(() => {
-        setCurrentPage(1)
+        setCurrentPage('/?page=1')
     }, [filterGame])
 
     useEffect(() => {
-        getUserLots(userId, currentPage, perPage, filterGame, '').then((arr) => {
+        currentPage && getUserLots(userId, currentPage, perPage, filterGame, '').then((arr) => {
             setUserLots(arr)
-            createPagesArr(arr.meta.lastPage)
         })
     }, [currentPage, filterGame])
-
-    const createPagesArr = (lastPage) => {
-        let arr = []
-        for (let i = 1; i <= lastPage; i++) {
-            arr.push(i)
-        }
-        setPagesArr(arr)
-    }
 
     return (
         <div className="main">
@@ -85,7 +76,7 @@ const MyAds = () => {
                         <tr key={lot.id}>
                             <td>{lot?.gameInfo?.name}</td>
                             <td>
-                                {lot?.description.length > 150
+                                {lot?.description && lot.description.length > 150
                                     ? lot?.description.substring(0, 150) + '...'
                                     : lot?.description}
                             </td>
@@ -117,7 +108,13 @@ const MyAds = () => {
             </Table>
 
             {/* ---------------- Pagination ------------------------------------------------------------------------ */}
-            <nav className="pagination">
+
+            <Pagination
+                meta={userLots?.meta}
+                setCurrentPage={setCurrentPage}
+                currentPage={currentPage}
+            />
+            {/* <nav className="pagination">
                 <ul>
                     {pagesArr?.map((page) => (
                         <li key={'page' + page}>
@@ -130,12 +127,9 @@ const MyAds = () => {
                             </button>
                         </li>
                     ))}
-                    {/* <li className="ellipsis">
-                        <IoEllipsisHorizontal />
-                    </li> */}
                 </ul>
-            </nav>
-        </div>
+            </nav > */}
+        </div >
     )
 }
 
