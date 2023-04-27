@@ -16,6 +16,7 @@ import { setNotification, setUnreadCount } from './store/reducers/notificationSl
 import { BASE_URL_SOCKET } from './config/api'
 import { io } from 'socket.io-client'
 import { addNotification } from './store/reducers/notificationMenuSlice'
+import swal from 'sweetalert'
 
 const App = () => {
     setDefaultLocale(ru)
@@ -77,12 +78,30 @@ const App = () => {
             socketNotification.on('conversation:unreadCount', (count) => {
                 dispatch(setUnreadCount(count))
             })
+            socketNotification?.on('ticket:answerWasCreated', (ticket) => {
+                ticket &&
+                    dispatch(addNotification({
+                        text: 'Ответ от техподдержки ',
+                        link: '/account/help/ticket/' + ticket.ticketId
+                    }))
+                swal('У Вас новое уведомление')
+            })
+            socketNotification?.on('lots:wasBought', (sold) => {
+                sold &&
+                    dispatch(addNotification({
+                        text: `Ваш лот №${sold.lotId} приобретен`,
+                        link: '/account/sales'
+                    }))
+                swal('У Вас новое уведомление')
+            })
         }
 
         return () => {
             console.log('Stop listen to notification')
             socketNotification?.off('message:create')
             socketNotification?.off('conversation:unreadCount')
+            socketNotification?.off('ticket:answerWasCreated')
+            socketNotification?.off('lots:wasBought')
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
