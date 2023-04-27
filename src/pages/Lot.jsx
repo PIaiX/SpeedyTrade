@@ -112,7 +112,7 @@ const Lot = () => {
                                         }}
                                         disabled={!purchaseDto.amount || purchaseDto.amount < 1 || purchaseDto.amount > lot.item.amount}
                                     >
-                                        Оплатить {purchaseDto.amount ? lot.item.priceCommission * purchaseDto.amount : '0'}&nbsp;руб.
+                                        Оплатить {purchaseDto.amount ? (lot.item.priceCommission * purchaseDto.amount).toFixed(2) : '0'}&nbsp;руб.
                                     </button>
                                 </Col>
                                 <Col md={8}>
