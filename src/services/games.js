@@ -3,7 +3,7 @@ import $api, { $authApi } from './index'
 
 export const searchGames = async (q) => {
     try {
-        const response = await $api(`${apiRoutes.SEARCH_GAMES}?query=${q}`)
+        const response = await $api(`${apiRoutes.SEARCH_GAMES}?query=${q}&page=1`)
         return response?.data?.body
     } catch (error) {
         console.log(error)

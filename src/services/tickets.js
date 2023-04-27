@@ -1,5 +1,6 @@
-import {$authApi} from './index'
-import {apiRoutes} from '../config/api'
+import { $authApi } from './index'
+import { apiRoutes } from '../config/api'
+import { socketInstance } from './sockets/socketInstance'
 
 export const getAllTickets = async (userId) => {
     try {
@@ -11,14 +12,15 @@ export const getAllTickets = async (userId) => {
 }
 
 export const createTicket = async (payloads) => {
-    try {
-        const response = await $authApi.post(apiRoutes.TICKET_ACTIONS, payloads, {
-            headers: {'Content-Type': 'multipart/form-data'},
+    return await new Promise((resolve, reject) => {
+        socketInstance?.emit('ticket:create', payloads, (response) => {
+            try {
+                resolve(response)
+            } catch (e) {
+                reject(e)
+            }
         })
-        return response.data
-    } catch (error) {
-        throw error
-    }
+    })
 }
 
 export const getAllTicketMessages = async (ticketId, payload) => {
@@ -26,7 +28,6 @@ export const getAllTicketMessages = async (ticketId, payload) => {
         const response = await $authApi.get(
             `${apiRoutes.TICKET_MESSAGE_ACTIONS}/${ticketId}?page=${payload.page}&limit=${payload.limit}&orderBy=${payload.orderBy}`
         )
-        console.log(response.data?.body);
         return response.data?.body
     } catch (error) {
         throw error
@@ -34,12 +35,15 @@ export const getAllTicketMessages = async (ticketId, payload) => {
 }
 
 export const createTicketMessage = async (payloads) => {
-    try {
-        const response = await $authApi.post(apiRoutes.TICKET_MESSAGE_ACTIONS, payloads, {
-            headers: {'Content-Type': 'multipart/form-data'},
+    console.log(payloads)
+    return await new Promise((resolve, reject) => {
+        socketInstance?.emit('ticket:messageCreate', payloads, (response) => {
+            try {
+                console.log(response)
+                resolve(response)
+            } catch (e) {
+                reject(e)
+            }
         })
-        return response.data?.body
-    } catch (error) {
-        throw error
-    }
+    })
 }

@@ -27,7 +27,7 @@ function Footer() {
             <footer>
                 <Container className="d-none d-md-flex">
                     <Link to="/" style={{ height: '40px' }}>
-                        <img src={theme === 'dark' ? "/images/dark.svg" : "/images/light.svg"} alt="Games.ru" className='h-100' />
+                        <img src={theme === 'dark' ? "/images/dark.svg" : "/images/light.svg"} alt="SpeedyTrade.ru" className='h-100' />
                     </Link>
                     <div className="d-flex flex-column flex-xl-row-reverse align-item-center justify-content-center">
                         <ul className="list-unstyled d-flex">
