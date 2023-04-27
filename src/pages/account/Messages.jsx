@@ -27,7 +27,7 @@ const Messages = () => {
             socketInstance?.removeAllListeners()
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [conversations])
+    }, [])
 
     useEffect(() => {
         setTimeout(() => {
