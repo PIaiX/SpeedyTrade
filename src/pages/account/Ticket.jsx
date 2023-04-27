@@ -15,6 +15,8 @@ import Loader from '../../components/UI/Loader'
 import { useSelector } from 'react-redux'
 import { dispatchAlert } from '../../helpers/alert'
 import { convertToLocaleDate } from '../../helpers/convertToLocaleDate'
+import { socketInstance } from '../../services/sockets/socketInstance'
+import useSocketConnect from '../../hooks/socketConnect'
 
 const Ticket = () => {
     const { id } = useParams()
@@ -26,6 +28,7 @@ const Ticket = () => {
     const userId = useSelector((state) => state?.auth?.user?.id)
     const [currentPage, setCurrentPage] = useState(1)
     const [isFileSent, setIsFileSent] = useState(false)
+    const { isConnected } = useSocketConnect()
 
     const {
         register,
@@ -64,6 +67,24 @@ const Ticket = () => {
         }, initialValue)
     }
 
+    useEffect(() => {
+        if (isConnected && socketInstance) {
+            console.log(`Listening to answer on ticket`)
+            socketInstance?.on('ticket:answerWasCreated', (newMessage) => {
+                newMessage &&
+                    setMessages((prevState) => ({
+                        ...prevState,
+                        items: prevState.items ? [...prevState.items, newMessage] : [newMessage],
+                    }))
+                console.log(newMessage)
+            })
+        }
+        return () => {
+            console.log(`Chat ${id} listener deactivated`)
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isConnected])
+
     const createMessage = (data) => {
         const formData = new FormData()
 
@@ -76,12 +97,12 @@ const Ticket = () => {
             formData.append('medias[]', data?.attachedfile[i])
         }
 
-        createTicketMessage(formData)
+        createTicketMessage(data)
             .then((res) => {
                 console.log(res)
                 setMessages((prevState) => ({
                     ...prevState,
-                    items: prevState.items ? [...prevState.items, res] : [res],
+                    items: prevState.items ? [...prevState.items, res.body] : [res.body],
                 }))
                 reset()
                 setIsFileSent(true)
