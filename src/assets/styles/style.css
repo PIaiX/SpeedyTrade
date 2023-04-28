@@ -748,11 +748,6 @@ button {
   color: var(--color-1);
   border: 1px solid var(--color-1);
 }
-@media (max-width: 575px) {
-  .btn-7 {
-    padding: 0.25em 1em;
-  }
-}
 .btn-simple {
   border: none;
   padding: 0.25em 0.5em;
@@ -926,6 +921,10 @@ h6 {
   color: var(--achromat-3);
 }
 
+.achromat-4 {
+  color: var(--achromat-4);
+}
+
 .accent {
   color: var(--accent-br);
 }
@@ -955,6 +954,11 @@ hr.horizontal {
   flex: 1;
 }
 
+@media (max-width: 575px) {
+  .w-xs-100 {
+    width: 100%;
+  }
+}
 .ws-no {
   white-space: nowrap;
 }
@@ -2244,6 +2248,12 @@ main {
   display: flex;
   align-items: flex-start;
   position: relative;
+  overflow: hidden;
+}
+@media (max-width: 768px) {
+  .lot-preview-user {
+    flex-direction: column;
+  }
 }
 .lot-preview-user .img {
   --size: 60px;
@@ -2291,6 +2301,146 @@ main {
     width: 0.75em;
     height: 0.75em;
   }
+}
+
+.lot-line, .lot-line-heading {
+  list-style: none;
+  padding-left: 0px;
+  border-top: 1px solid var(--achromat-4);
+  padding: 0.5em 0;
+  display: grid;
+  grid-template-columns: 100px 120px auto 300px 100px;
+  grid-template-rows: auto;
+  grid-template-areas: "server category description seller price";
+  gap: 1em 1em;
+  transition: var(--transition);
+}
+@media (max-width: 1199px) {
+  .lot-line, .lot-line-heading {
+    grid-template-columns: 100px 120px auto 250px 100px;
+  }
+}
+@media (max-width: 991px) {
+  .lot-line, .lot-line-heading {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: "server price" "description description" "seller seller";
+    border-top: none;
+    border-bottom: 1px solid var(--achromat-4);
+  }
+}
+@media (max-width: 575px) {
+  .lot-line, .lot-line-heading {
+    gap: 0.6em 0.6em;
+  }
+}
+.lot-line:hover, .lot-line-heading:hover {
+  background: var(--hr-color);
+  cursor: pointer;
+}
+.lot-line-server {
+  grid-area: server;
+}
+.lot-line-cat {
+  grid-area: category;
+}
+@media (max-width: 991px) {
+  .lot-line-cat {
+    display: none;
+  }
+}
+.lot-line-descr {
+  grid-area: description;
+}
+.lot-line-descr .clamped {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.2em;
+  height: 2.4em;
+}
+.lot-line-user {
+  grid-area: seller;
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  overflow: hidden;
+}
+.lot-line-user .img {
+  --size: 60px;
+  position: relative;
+  width: var(--size);
+  margin-right: 1em;
+}
+@media (max-width: 991px) {
+  .lot-line-user .img {
+    --size: 50px;
+  }
+}
+@media (max-width: 575px) {
+  .lot-line-user .img {
+    --size: 40px;
+    margin-right: 0.5em;
+  }
+}
+.lot-line-user .img img {
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  position: relative;
+  z-index: 1;
+}
+.lot-line-user .img .indicator {
+  position: absolute;
+  z-index: 2;
+  bottom: 0px;
+  right: 0px;
+  width: 1em;
+  height: 1em;
+  background-color: var(--achromat-4);
+  border: 2px solid var(--bg-main);
+  border-radius: 50%;
+}
+.lot-line-user .img .indicator.online {
+  background-color: var(--green);
+}
+@media (max-width: 575px) {
+  .lot-line-user .img .indicator {
+    width: 0.75em;
+    height: 0.75em;
+  }
+}
+.lot-line-price {
+  grid-area: price;
+  color: var(--color-1);
+  font-weight: 700;
+}
+@media (max-width: 991px) {
+  .lot-line-price {
+    text-align: right;
+  }
+}
+.lot-line-heading {
+  border-top: none;
+  color: var(--achromat-1);
+}
+.lot-line-heading > div {
+  font-size: 1.3em;
+}
+@media (max-width: 991px) {
+  .lot-line-heading {
+    display: none;
+  }
+}
+.lot-line-heading:hover {
+  background: transparent;
+  cursor: unset;
+}
+.lot-line-heading .lot-line-price {
+  color: var(--achromat-1);
+  font-weight: 400;
 }
 
 .lot-page .message-window {
@@ -2429,11 +2579,13 @@ main {
   color: #fff;
   background-color: var(--color-2);
 }
-.user-page table th, .user-page table td {
+.user-page table th,
+.user-page table td {
   padding: 1rem;
 }
 @media (max-width: 575px) {
-  .user-page table th, .user-page table td {
+  .user-page table th,
+  .user-page table td {
     padding: 0.75rem 0.35rem;
   }
 }

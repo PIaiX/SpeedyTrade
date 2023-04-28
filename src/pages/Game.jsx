@@ -323,117 +323,245 @@ const Game = () => {
                             />
                         )}
                     </div>
-                    <Row>
-                        <div>
-                            <div style={{float:'right'}}>
-                                <NavLink to="/account/ads/new" type="button" className="active btn-7 flex-column mb-2 me-2 me-lg-4"
-                                         state = {{
-                                             selectedOptionGame:{label :game?.name, value :game?.id, slug :game?.slug},
-                                             selectedRegion:{
-                                                 servers:game?.regions?.find(element=>element.id==currentRegion)?.servers,
-                                                 label:game?.regions?.find(element=>element.id==currentRegion)?.name,
-                                                 value:Number(currentRegion)
-                                             },
-                                             selectedCategory:{label:game?.categories?.find(element=>element.id==currentCategory?.id)?.name, value:Number(currentCategory?.id)},
-                                             selectedServer:servers?{label:servers?.find(element=>element.id==currentServer)?.name, value:currentServer}:null
-                                         }}
-                                >
-                                    <span className="fw-5">Создать лот</span>
-                                </NavLink>
-                            </div>
-                        </div>
-                    </Row>
+                    <NavLink to="/account/ads/new" type="button" className="active btn-7 w-xs-100 mb-2 ms-auto me-2 me-lg-4"
+                        state = {{
+                            selectedOptionGame:{label :game?.name, value :game?.id, slug :game?.slug},
+                            selectedRegion:{
+                                servers:game?.regions?.find(element=>element.id==currentRegion)?.servers,
+                                label:game?.regions?.find(element=>element.id==currentRegion)?.name,
+                                value:Number(currentRegion)
+                            },
+                            selectedCategory:{label:game?.categories?.find(element=>element.id==currentCategory?.id)?.name, value:Number(currentCategory?.id)},
+                            selectedServer:servers?{label:servers?.find(element=>element.id==currentServer)?.name, value:currentServer}:null
+                        }}
+                    >
+                        <span className="fw-5">Создать лот</span>
+                    </NavLink>
                     {/* Lots ------------------------------------------------------------------------------------------------------------------------------ */}
+                    {/* <ul className="lot-line-heading mt-4">
+                        <div className="lot-line-server">Сервер</div>
+                        <div className='lot-line-cat'>Параметр</div>
+                        <div className="lot-line-descr">Описание</div>
+                        <div className="lot-line-user">Продавец</div>
+                        <div className="lot-line-price">Цена</div>
+                    </ul>
+
+                    <ul className="mt-2 mt-sm-3 mb-4 mt-lg-0 list-unstyled g-3 g-sm-4 g-lg-0 row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-1">
+                        <li>
+                            <div className="lot-line">
+                                <div className="lot-line-server">Сервер</div>
+                                <div className='lot-line-cat'>Прочее</div>
+                                <div className="lot-line-descr">
+                                    <div className="clamped">ProjectSuperEssence.net Top Rang Step - Season 3, l8k-2568, Прочее, Без ранга, 150 шт., Avatar</div>
+                                </div>
+                                <div className="lot-line-user">
+                                    <div className="img">
+                                        <img
+                                            src="images/user.png"
+                                            alt=""
+                                        />
+                                        <div className={`indicator`}></div>
+                                    </div>
+                                    <div>
+                                        <div className="d-flex flex-row flex-sm-column">
+                                            <h5 className="achromat-3 mb-0 mb-sm-1 me-3 me-sm-0">
+                                            @Irishka1911
+                                            </h5>
+                                            <StarRating
+                                                rate={4}
+                                                className="justify-content-start fs-08"
+                                            />
+                                        </div>
+                                        <div className='mt-1 fs-09 achromat-3 fw-3'>На сайте с сентября 2019 г.</div>
+                                    </div>
+                                </div>
+                                <div className="lot-line-price">3 000 руб.</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div className="lot-line">
+                                <div className="lot-line-server">Сервер</div>
+                                <div className='lot-line-cat'>Прочее</div>
+                                <div className="lot-line-descr">
+                                    <div className="clamped">ProjectSuperEssence.net Top Rang Step - Season 3, l8k-2568, Прочее, Без ранга, 150 шт., Avatar</div>
+                                </div>
+                                <div className="lot-line-user">
+                                    <div className="img">
+                                        <img
+                                            src="images/user.png"
+                                            alt=""
+                                        />
+                                        <div className={`indicator`}></div>
+                                    </div>
+                                    <div>
+                                        <div className="d-flex flex-row flex-sm-column">
+                                            <h5 className="achromat-3 mb-0 mb-sm-1 me-3 me-sm-0">
+                                            @Irishka1911
+                                            </h5>
+                                            <StarRating
+                                                rate={4}
+                                                className="justify-content-start fs-08"
+                                            />
+                                        </div>
+                                        <div className='mt-1 fs-09 achromat-3 fw-3'>На сайте с сентября 2019 г.</div>
+                                    </div>
+                                </div>
+                                <div className="lot-line-price">3 000 руб.</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div className="lot-line">
+                                <div className="lot-line-server">Сервер</div>
+                                <div className='lot-line-cat'>Прочее</div>
+                                <div className="lot-line-descr">
+                                    <div className="clamped">ProjectSuperEssence.net Top Rang Step - Season 3, l8k-2568, Прочее, Без ранга, 150 шт., Avatar</div>
+                                </div>
+                                <div className="lot-line-user">
+                                    <div className="img">
+                                        <img
+                                            src="images/user.png"
+                                            alt=""
+                                        />
+                                        <div className={`indicator`}></div>
+                                    </div>
+                                    <div>
+                                        <div className="d-flex flex-row flex-sm-column">
+                                            <h5 className="achromat-3 mb-0 mb-sm-1 me-3 me-sm-0">
+                                            @Irishka1911
+                                            </h5>
+                                            <StarRating
+                                                rate={4}
+                                                className="justify-content-start fs-08"
+                                            />
+                                        </div>
+                                        <div className='mt-1 fs-09 achromat-3 fw-3'>На сайте с сентября 2019 г.</div>
+                                    </div>
+                                </div>
+                                <div className="lot-line-price">3 000 руб.</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div className="lot-line">
+                                <div className="lot-line-server">Сервер</div>
+                                <div className='lot-line-cat'>Прочее</div>
+                                <div className="lot-line-descr">
+                                    <div className="clamped">ProjectSuperEssence.net Top Rang Step - Season 3, l8k-2568, Прочее, Без ранга, 150 шт., Avatar</div>
+                                </div>
+                                <div className="lot-line-user">
+                                    <div className="img">
+                                        <img
+                                            src="images/user.png"
+                                            alt=""
+                                        />
+                                        <div className={`indicator`}></div>
+                                    </div>
+                                    <div>
+                                        <div className="d-flex flex-row flex-sm-column">
+                                            <h5 className="achromat-3 mb-0 mb-sm-1 me-3 me-sm-0">
+                                            @Irishka1911
+                                            </h5>
+                                            <StarRating
+                                                rate={4}
+                                                className="justify-content-start fs-08"
+                                            />
+                                        </div>
+                                        <div className='mt-1 fs-09 achromat-3 fw-3'>На сайте с сентября 2019 г.</div>
+                                    </div>
+                                </div>
+                                <div className="lot-line-price">3 000 руб.</div>
+                            </div>
+                        </li>
+                    </ul> */}
+
                     {lots.isLoaded &&
                         (lots.items?.length > 0 ? (
-                            <Table borderless responsive className="mb-5" style={{ tableLayout: 'fixed' }}>
-                                <thead>
-                                <tr>
-                                    <th>Сервер</th>
+                            <>
+                                <ul className="lot-line-heading mt-4">
+                                    <div className="lot-line-server">Сервер</div>
                                     {parametersToShow.length > 0 &&
-                                        parametersToShow.map((param) => (
-                                            <th key={`param-${param.id}`}>{param.name}</th>
-                                        ))}
-                                    <th>Описание</th>
-                                    <th>Продавец</th>
-                                    <th>Цена</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {lots.items?.map(
-                                    (lot) =>
-                                        <tr className="lot-preview" key={'lot-' + lot.id}>
-                                            <td onClick={() => nav(`/lot/${lot.id}`)}>{lot.serverName ? lot.serverName : '-'}</td>
-                                            {parametersToShow.length > 0 &&
-                                                parametersToShow.map((param) => (
-                                                    <td key={`param-${param.id}-${lot.id}`} onClick={() => nav(`/lot/${lot.id}`)}>
-                                                        {
-                                                            lot.options.find(
-                                                                (option) => option.parameterId === param.id
-                                                            )?.name
-                                                        }
-                                                        {
-                                                            lot.numericParameters.find(
-                                                                (numericOption) =>
-                                                                    numericOption.id === param.id
-                                                            )?.numericValue
-                                                        }
-                                                    </td>
-                                                ))}
-                                            <td onClick={() => nav(`/lot/${lot.id}`)}>
-                                                {lot.description.length > 300
-                                                    ? lot.description.substring(0, 300) + '...'
-                                                    : lot.description}
-                                            </td>
-                                            <td onClick={() => nav(`/lot/${lot.id}`)}>
-                                                <div
-                                                    className="lot-preview-user"
-                                                >
-                                                    <div className="img">
-                                                        <img
-                                                            src={
-                                                                lot.user.avatar
-                                                                    ? getImageURL(lot.user.avatar)
-                                                                    : '/images/no-photo.jpg'
+                                    parametersToShow.map((param) => (
+                                        <div className='lot-line-cat' key={`param-${param.id}`}>{param.name}</div>
+                                    ))}
+                                    <div className="lot-line-descr">Описание</div>
+                                    <div className="lot-line-user">Продавец</div>
+                                    <div className="lot-line-price">Цена</div>
+                                </ul>
+
+                                <ul className="mt-2 mt-sm-3 mb-4 mt-lg-0 list-unstyled g-3 g-sm-4 g-lg-0 row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-1">
+                                    {lots.items?.map(
+                                        (lot) =>
+                                            <li key={'lot-' + lot.id}>
+                                                <div className="lot-line">
+                                                    <div onClick={() => nav(`/lot/${lot.id}`)} className="lot-line-server">{lot.serverName ? lot.serverName : '-'}</div>
+
+                                                    {parametersToShow.length > 0 &&
+                                                    parametersToShow.map((param) => (
+                                                        <div className='lot-line-cat' key={`param-${param.id}-${lot.id}`} onClick={() => nav(`/lot/${lot.id}`)}>
+                                                            {
+                                                                lot.options.find(
+                                                                    (option) => option.parameterId === param.id
+                                                                )?.name
                                                             }
-                                                            alt={lot.user.fullName}
-                                                        />
-                                                        <div
-                                                            className={`indicator ${lot.user.isOnline && 'online'
-                                                            }`}
-                                                        ></div>
-                                                    </div>
-                                                    <div>
-                                                        <h5 className="achromat-2 mb-1">
-                                                            {lot.user.fullName}
-                                                        </h5>
-                                                        <div className="achromat-3 mb-1">
-                                                            @{lot.user.nickname}
+                                                            {
+                                                                lot.numericParameters.find(
+                                                                    (numericOption) =>
+                                                                        numericOption.id === param.id
+                                                                )?.numericValue
+                                                            }
                                                         </div>
-                                                        <StarRating
-                                                            rate={lot.user.rating}
-                                                            className="justify-content-start fs-08"
-                                                        />
+                                                    ))}
+
+                                                    <div className="lot-line-descr" onClick={() => nav(`/lot/${lot.id}`)}>
+                                                        <div className="clamped">
+                                                            {lot.description.length > 300
+                                                            ? lot.description.substring(0, 300) + '...'
+                                                            : lot.description}
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div className="lot-line-user" onClick={() => nav(`/lot/${lot.id}`)}>
+                                                        <div className="img">
+                                                            <img
+                                                                src={
+                                                                    lot.user.avatar
+                                                                        ? getImageURL(lot.user.avatar)
+                                                                        : '/images/no-photo.jpg'
+                                                                }
+                                                                alt={lot.user.fullName}
+                                                            />
+                                                            <div
+                                                                className={`indicator ${lot.user.isOnline && 'online'
+                                                                }`}
+                                                            ></div>
+                                                        </div>
                                                         <div>
-                                                            На&nbsp;сайте с&nbsp;
-                                                            {timeOnSite(lot.user.createdAt)}&nbsp;г
+                                                            <h5 className="achromat-3 mb-0 mb-sm-1 me-3 me-sm-0">
+                                                                @{lot.user.nickname}
+                                                            </h5>
+                                                            <StarRating
+                                                                rate={lot.user.rating}
+                                                                className="justify-content-start fs-08"
+                                                            />
+                                                            <div className='mt-1 fs-09 achromat-3 fw-3'>
+                                                                На&nbsp;сайте с&nbsp;
+                                                                {timeOnSite(lot.user.createdAt)}&nbsp;г
+                                                            </div>
                                                         </div>
                                                     </div>
+
+                                                    <div className="lot-line-price" onClick={() => nav(`/lot/${lot.id}`)}>
+                                                        {lot.priceCommission}&nbsp;руб.
+                                                    </div>
                                                 </div>
-                                            </td>
-                                            <td onClick={() => nav(`/lot/${lot.id}`)}>
-                                                <div className="color-1 fw-7">
-                                                    {lot.priceCommission}&nbsp;руб.
-                                                </div>
-                                            </td>
-                                        </tr>
-                                )
-                                }
-                                </tbody>
-                            </Table>
+                                            </li>
+                                        )
+                                    }
+                                </ul>
+                            </>
                         ) : (
                             <h6>Лоты отсутствуют</h6>
-                        ))}
+                        ))
+                    }
 
                     <p>{game?.bottomDescription}</p>
                 </section>
