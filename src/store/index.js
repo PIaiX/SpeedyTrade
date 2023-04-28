@@ -27,7 +27,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
     key: 'root',
     storage,
-    whitelist: ['theme', 'fingerprint'],
+    whitelist: ['theme', 'fingerprint', 'notificationMenu'],
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducer)
