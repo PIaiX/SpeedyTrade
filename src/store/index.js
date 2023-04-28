@@ -9,6 +9,7 @@ import notificationReducer from './reducers/notificationSlice'
 import notificationMenuReducer from './reducers/notificationMenuSlice'
 import { favoritesApi } from '../services/RTK/favoritesApi'
 import { newsApi } from '../services/RTK/newsApi'
+import { gamesApi } from '../services/RTK/gamesApi'
 
 const rootReducer = combineReducers({
     auth: authReducer,
@@ -20,6 +21,7 @@ const rootReducer = combineReducers({
 
     [favoritesApi.reducerPath]: favoritesApi.reducer,
     [newsApi.reducerPath]: newsApi.reducer,
+    [gamesApi.reducerPath]: gamesApi.reducer,
 })
 
 const persistConfig = {
@@ -40,6 +42,7 @@ const store = configureStore({
         })
             .concat(favoritesApi.middleware)
             .concat(newsApi.middleware)
+            .concat(gamesApi.middleware)
 })
 const persistor = persistStore(store)
 
