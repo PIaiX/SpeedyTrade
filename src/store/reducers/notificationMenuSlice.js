@@ -17,9 +17,13 @@ const notificationMenuSlice = createSlice({
             state.messages = initialState.messages
             state.count = initialState.count
         },
+        removeMessageNotification: (state, action) => {
+            state.messages = state.messages.filter(el => el.conversationId !== action.payload)
+            state.count = state.count - 1
+        },
     },
 })
 
-export const { addNotification, clearNotifications } = notificationMenuSlice.actions
+export const { addNotification, clearNotifications, removeMessageNotification } = notificationMenuSlice.actions
 
 export default notificationMenuSlice.reducer

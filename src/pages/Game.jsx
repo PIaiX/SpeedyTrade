@@ -5,7 +5,7 @@ import Col from 'react-bootstrap/Col'
 import Table from 'react-bootstrap/Table'
 import { FiSearch } from 'react-icons/fi'
 import BtnAddFav from '../components/utils/BtnAddFav'
-import {Link, useNavigate, useParams, ScrollRestoration, Navigate, NavLink} from 'react-router-dom'
+import { Link, useNavigate, useParams, ScrollRestoration, Navigate, NavLink } from 'react-router-dom'
 import { getOneGame } from '../services/games'
 import { getImageURL } from '../helpers/image'
 import { useSelector } from 'react-redux'
@@ -38,7 +38,7 @@ const Parameters = ({ params, selectedOptions, setSelectedOptions, selectedNumer
     return params.map((parameter) => (
         <>
             <div key={parameter.id}
-                 className='flex-grow-1 flex-md-shrink-1 pb-3 pe-3 d-flex align-items-center flex-wrap gap-2'>
+                className='flex-grow-1 flex-md-shrink-1 pb-3 pe-3 d-flex align-items-center flex-wrap gap-2'>
                 {parameter.isNumeric
                     ? // Numeric Options
                     <>
@@ -226,7 +226,7 @@ const Game = () => {
                                         type="button"
                                         key={'region-' + region.id}
                                         className={`btn-4 p-2 fs-08 me-1 mb-2 text-uppercase ${currentRegion == region.id ? 'active' : ''
-                                        } `}
+                                            } `}
                                         style={{ display: 'inline-block' }}
                                         onClick={() => setCurrentRegion(region.id)}
                                     >
@@ -261,7 +261,7 @@ const Game = () => {
                                 key={category.id}
                                 type="button"
                                 className={`${category.id == currentCategory.id ? 'active' : ''
-                                } btn-7 flex-column mb-2 me-2 me-lg-4`}
+                                    } btn-7 flex-column mb-2 me-2 me-lg-4`}
                                 onClick={() => {
                                     setCurrentCategory({ id: category.id, key: index })
                                 }}
@@ -273,7 +273,7 @@ const Game = () => {
 
                     {/* Main parameters ------------------------------------------------------------------------------------------------------------------- */}
                     <div className="d-flex flex-row align-items-center flex-wrap mt-3 mt-sm-4 mb-3">
-                        <div key={''} className="flex-grow-1 flex-md-shrink-1 pb-3 pe-3">
+                        {servers && servers.length > 0 && <div key={''} className="flex-grow-1 flex-md-shrink-1 pb-3 pe-3">
                             <select onChange={(e) => setCurrentServer(Number(e?.target.value))}>
                                 <option value={''}>Сервер</option>
                                 {servers?.length > 0 &&
@@ -283,7 +283,7 @@ const Game = () => {
                                         </option>
                                     ))}
                             </select>
-                        </div>
+                        </div>}
 
                         <div className="d-sm-flex align-items-center flex-shrink-1 flex-md-grow-1 pb-3 pe-3">
                             <div className="d-flex align-items-center">
