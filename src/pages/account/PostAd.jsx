@@ -355,7 +355,7 @@ const PostAd = () => {
                         </>}
 
                     {/* ---------------------- Server ------------------------------------------------------------- */}
-                    {selectedRegion?.servers &&
+                    {selectedRegion?.servers && selectedRegion.servers.length > 0 &&
                         <>
                             <Col xs={12} sm={3} md={2}>
                                 Сервер:
