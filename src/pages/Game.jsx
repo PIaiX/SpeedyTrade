@@ -5,7 +5,7 @@ import Col from 'react-bootstrap/Col'
 import Table from 'react-bootstrap/Table'
 import { FiSearch } from 'react-icons/fi'
 import BtnAddFav from '../components/utils/BtnAddFav'
-import {Link, useNavigate, useParams, ScrollRestoration, Navigate, NavLink} from 'react-router-dom'
+import { Link, useNavigate, useParams, ScrollRestoration, Navigate, NavLink } from 'react-router-dom'
 import { getOneGame } from '../services/games'
 import { getImageURL } from '../helpers/image'
 import { useSelector } from 'react-redux'
@@ -38,7 +38,7 @@ const Parameters = ({ params, selectedOptions, setSelectedOptions, selectedNumer
     return params.map((parameter) => (
         <>
             <div key={parameter.id}
-                 className='flex-grow-1 flex-md-shrink-1 pb-3 pe-3 d-flex align-items-center flex-wrap gap-2'>
+                className='flex-grow-1 flex-md-shrink-1 pb-3 pe-3 d-flex align-items-center flex-wrap gap-2'>
                 {parameter.isNumeric
                     ? // Numeric Options
                     <>
@@ -226,7 +226,7 @@ const Game = () => {
                                         type="button"
                                         key={'region-' + region.id}
                                         className={`btn-4 p-2 fs-08 me-1 mb-2 text-uppercase ${currentRegion == region.id ? 'active' : ''
-                                        } `}
+                                            } `}
                                         style={{ display: 'inline-block' }}
                                         onClick={() => setCurrentRegion(region.id)}
                                     >
@@ -261,7 +261,7 @@ const Game = () => {
                                 key={category.id}
                                 type="button"
                                 className={`${category.id == currentCategory.id ? 'active' : ''
-                                } btn-7 flex-column mb-2 me-2 me-lg-4`}
+                                    } btn-7 flex-column mb-2 me-2 me-lg-4`}
                                 onClick={() => {
                                     setCurrentCategory({ id: category.id, key: index })
                                 }}
@@ -273,7 +273,7 @@ const Game = () => {
 
                     {/* Main parameters ------------------------------------------------------------------------------------------------------------------- */}
                     <div className="d-flex flex-row align-items-center flex-wrap mt-3 mt-sm-4 mb-3">
-                        <div key={''} className="flex-grow-1 flex-md-shrink-1 pb-3 pe-3">
+                        {servers && servers.length > 0 && <div key={''} className="flex-grow-1 flex-md-shrink-1 pb-3 pe-3">
                             <select onChange={(e) => setCurrentServer(Number(e?.target.value))}>
                                 <option value={''}>Сервер</option>
                                 {servers?.length > 0 &&
@@ -283,7 +283,7 @@ const Game = () => {
                                         </option>
                                     ))}
                             </select>
-                        </div>
+                        </div>}
 
                         <div className="d-sm-flex align-items-center flex-shrink-1 flex-md-grow-1 pb-3 pe-3">
                             <div className="d-flex align-items-center">
@@ -325,18 +325,18 @@ const Game = () => {
                     </div>
                     <Row>
                         <div>
-                            <div style={{float:'right'}}>
+                            <div style={{ float: 'right' }}>
                                 <NavLink to="/account/ads/new" type="button" className="active btn-7 flex-column mb-2 me-2 me-lg-4"
-                                         state = {{
-                                             selectedOptionGame:{label :game?.name, value :game?.id, slug :game?.slug},
-                                             selectedRegion:{
-                                                 servers:game?.regions?.find(element=>element.id==currentRegion)?.servers,
-                                                 label:game?.regions?.find(element=>element.id==currentRegion)?.name,
-                                                 value:Number(currentRegion)
-                                             },
-                                             selectedCategory:{label:game?.categories?.find(element=>element.id==currentCategory?.id)?.name, value:Number(currentCategory?.id)},
-                                             selectedServer:servers?{label:servers?.find(element=>element.id==currentServer)?.name, value:currentServer}:null
-                                         }}
+                                    state={{
+                                        selectedOptionGame: { label: game?.name, value: game?.id, slug: game?.slug },
+                                        selectedRegion: {
+                                            servers: game?.regions?.find(element => element.id == currentRegion)?.servers,
+                                            label: game?.regions?.find(element => element.id == currentRegion)?.name,
+                                            value: Number(currentRegion)
+                                        },
+                                        selectedCategory: { label: game?.categories?.find(element => element.id == currentCategory?.id)?.name, value: Number(currentCategory?.id) },
+                                        selectedServer: servers && servers.length > 0 ? { label: servers?.find(element => element.id == currentServer)?.name, value: currentServer } : null
+                                    }}
                                 >
                                     <span className="fw-5">Создать лот</span>
                                 </NavLink>
@@ -348,87 +348,87 @@ const Game = () => {
                         (lots.items?.length > 0 ? (
                             <Table borderless responsive className="mb-5" style={{ tableLayout: 'fixed' }}>
                                 <thead>
-                                <tr>
-                                    <th>Сервер</th>
-                                    {parametersToShow.length > 0 &&
-                                        parametersToShow.map((param) => (
-                                            <th key={`param-${param.id}`}>{param.name}</th>
-                                        ))}
-                                    <th>Описание</th>
-                                    <th>Продавец</th>
-                                    <th>Цена</th>
-                                </tr>
+                                    <tr>
+                                        <th>Сервер</th>
+                                        {parametersToShow.length > 0 &&
+                                            parametersToShow.map((param) => (
+                                                <th key={`param-${param.id}`}>{param.name}</th>
+                                            ))}
+                                        <th>Описание</th>
+                                        <th>Продавец</th>
+                                        <th>Цена</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
-                                {lots.items?.map(
-                                    (lot) =>
-                                        <tr className="lot-preview" key={'lot-' + lot.id}>
-                                            <td onClick={() => nav(`/lot/${lot.id}`)}>{lot.serverName ? lot.serverName : '-'}</td>
-                                            {parametersToShow.length > 0 &&
-                                                parametersToShow.map((param) => (
-                                                    <td key={`param-${param.id}-${lot.id}`} onClick={() => nav(`/lot/${lot.id}`)}>
-                                                        {
-                                                            lot.options.find(
-                                                                (option) => option.parameterId === param.id
-                                                            )?.name
-                                                        }
-                                                        {
-                                                            lot.numericParameters.find(
-                                                                (numericOption) =>
-                                                                    numericOption.id === param.id
-                                                            )?.numericValue
-                                                        }
-                                                    </td>
-                                                ))}
-                                            <td onClick={() => nav(`/lot/${lot.id}`)}>
-                                                {lot.description.length > 300
-                                                    ? lot.description.substring(0, 300) + '...'
-                                                    : lot.description}
-                                            </td>
-                                            <td onClick={() => nav(`/lot/${lot.id}`)}>
-                                                <div
-                                                    className="lot-preview-user"
-                                                >
-                                                    <div className="img">
-                                                        <img
-                                                            src={
-                                                                lot.user.avatar
-                                                                    ? getImageURL(lot.user.avatar)
-                                                                    : '/images/no-photo.jpg'
+                                    {lots.items?.map(
+                                        (lot) =>
+                                            <tr className="lot-preview" key={'lot-' + lot.id}>
+                                                <td onClick={() => nav(`/lot/${lot.id}`)}>{lot.serverName ? lot.serverName : '-'}</td>
+                                                {parametersToShow.length > 0 &&
+                                                    parametersToShow.map((param) => (
+                                                        <td key={`param-${param.id}-${lot.id}`} onClick={() => nav(`/lot/${lot.id}`)}>
+                                                            {
+                                                                lot.options.find(
+                                                                    (option) => option.parameterId === param.id
+                                                                )?.name
                                                             }
-                                                            alt={lot.user.fullName}
-                                                        />
-                                                        <div
-                                                            className={`indicator ${lot.user.isOnline && 'online'
-                                                            }`}
-                                                        ></div>
-                                                    </div>
-                                                    <div>
-                                                        <h5 className="achromat-2 mb-1">
-                                                            {lot.user.fullName}
-                                                        </h5>
-                                                        <div className="achromat-3 mb-1">
-                                                            @{lot.user.nickname}
+                                                            {
+                                                                lot.numericParameters.find(
+                                                                    (numericOption) =>
+                                                                        numericOption.id === param.id
+                                                                )?.numericValue
+                                                            }
+                                                        </td>
+                                                    ))}
+                                                <td onClick={() => nav(`/lot/${lot.id}`)}>
+                                                    {lot.description && lot.description.length > 300
+                                                        ? lot.description.substring(0, 300) + '...'
+                                                        : lot.description}
+                                                </td>
+                                                <td onClick={() => nav(`/lot/${lot.id}`)}>
+                                                    <div
+                                                        className="lot-preview-user"
+                                                    >
+                                                        <div className="img">
+                                                            <img
+                                                                src={
+                                                                    lot.user.avatar
+                                                                        ? getImageURL(lot.user.avatar)
+                                                                        : '/images/no-photo.jpg'
+                                                                }
+                                                                alt={lot.user.fullName}
+                                                            />
+                                                            <div
+                                                                className={`indicator ${lot.user.isOnline && 'online'
+                                                                    }`}
+                                                            ></div>
                                                         </div>
-                                                        <StarRating
-                                                            rate={lot.user.rating}
-                                                            className="justify-content-start fs-08"
-                                                        />
                                                         <div>
-                                                            На&nbsp;сайте с&nbsp;
-                                                            {timeOnSite(lot.user.createdAt)}&nbsp;г
+                                                            <h5 className="achromat-2 mb-1">
+                                                                {lot.user.fullName}
+                                                            </h5>
+                                                            <div className="achromat-3 mb-1">
+                                                                @{lot.user.nickname}
+                                                            </div>
+                                                            <StarRating
+                                                                rate={lot.user.rating}
+                                                                className="justify-content-start fs-08"
+                                                            />
+                                                            <div>
+                                                                На&nbsp;сайте с&nbsp;
+                                                                {timeOnSite(lot.user.createdAt)}&nbsp;г
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </td>
-                                            <td onClick={() => nav(`/lot/${lot.id}`)}>
-                                                <div className="color-1 fw-7">
-                                                    {lot.priceCommission}&nbsp;руб.
-                                                </div>
-                                            </td>
-                                        </tr>
-                                )
-                                }
+                                                </td>
+                                                <td onClick={() => nav(`/lot/${lot.id}`)}>
+                                                    <div className="color-1 fw-7">
+                                                        {lot.priceCommission}&nbsp;руб.
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                    )
+                                    }
                                 </tbody>
                             </Table>
                         ) : (

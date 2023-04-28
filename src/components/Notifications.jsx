@@ -20,7 +20,7 @@ const Notifications = () => {
     <div className="notifications">
       <button type='button' onClick={(showNotifications) ? handleCloseNotifications : handleShowNotifications} className='notifications-btn'>
         <FiBell />
-        <span>{notification.count} уведомления</span>
+        {notification.count > 0 && <span className="unread-notifications-count">{notification.count}</span>}
       </button>
       <Offcanvas className="notifications-box" show={showNotifications} onHide={handleCloseNotifications} placement='top'>
         <Container>

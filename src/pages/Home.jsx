@@ -27,12 +27,13 @@ import { useSelector } from 'react-redux'
 import useGetBanner from '../hooks/axios/getBanner'
 import useGetCatalogAllGame from '../hooks/axios/getCatalogAllGame'
 import useGetAllNews from '../hooks/axios/getAllNews'
+import { useGetAllGamesQuery } from '../services/RTK/gamesApi'
 
 const Home = () => {
     const theme = useSelector((state) => state?.theme?.mode)
     const [thumbsSwiper, setThumbsSwiper] = useState(null)
     const { banner } = useGetBanner()
-    const { allGames } = useGetCatalogAllGame()
+    const { data } = useGetAllGamesQuery()
     const { news } = useGetAllNews()
 
     const letters = 'abcdefghijklmnopqrstuvwxyz'.split('')
@@ -128,14 +129,14 @@ const Home = () => {
                 </div>
 
                 {/* Top games -------------------------------------------------------------------------------------- */}
-                {allGames?.items?.filter((i) => i.isTop === true)?.length > 0 && (
+                {data?.body?.filter((i) => i.isTop === true)?.length > 0 && (
                     <section id="sort-1" className="mt-6 mb-6">
                         <div className="d-flex align-items-center mb-4 mb-sm-5">
                             <h3>Топ</h3>
                             <hr className="horizontal flex-1 ms-4" />
                         </div>
                         <Row xs={2} md={3} lg={4} className="gy-4 gy-sm-5 gx-2 gx-sm-4 gx-xl-5">
-                            {allGames?.items
+                            {data?.body
                                 ?.filter((i) => i.isTop === true)
                                 ?.map((i) => (
                                     <Col key={i.id}>
@@ -153,7 +154,7 @@ const Home = () => {
                 )}
 
                 {/* Games starts with number ----------------------------------------------------------------------- */}
-                {allGames?.items?.filter((i) =>
+                {data?.body?.filter((i) =>
                     ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']?.includes(i?.name?.toString()[0])
                 )?.length > 0 && (
                         <section id="sort-2" className="mb-6">
@@ -162,7 +163,7 @@ const Home = () => {
                                 <hr className="horizontal flex-1 ms-4" />
                             </div>
                             <Row xs={2} md={3} lg={4} className="gy-5 gx-4 gx-xl-5">
-                                {allGames?.items
+                                {data?.body
                                     ?.filter((i) =>
                                         ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']?.includes(
                                             i?.name?.toString()[0]
@@ -186,14 +187,14 @@ const Home = () => {
                 {/* Games starts with letter ----------------------------------------------------------------------- */}
                 {letters.map(
                     (letter, index) =>
-                        allGames?.items?.filter((i) => i?.name?.toLowerCase().startsWith(letter))?.length > 0 && (
+                        data?.body?.filter((i) => i?.name?.toLowerCase().startsWith(letter))?.length > 0 && (
                             <section id={`sort-${index + 3}`} className="mb-6" key={`letter-${letter}`}>
                                 <div className="d-flex align-items-center mb-4 mb-sm-5">
                                     <h3>{letter.toUpperCase()}</h3>
                                     <hr className="horizontal flex-1 ms-4" />
                                 </div>
                                 <Row xs={2} md={3} lg={4} className="gy-5 gx-4 gx-xl-5">
-                                    {allGames?.items
+                                    {data?.body
                                         ?.filter((i) => i?.name?.toLowerCase().startsWith(letter))
                                         ?.map((i) => (
                                             <Col key={i.id}>

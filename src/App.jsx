@@ -15,7 +15,7 @@ import { setNotification, setUnreadCount } from './store/reducers/notificationSl
 
 import { BASE_URL_SOCKET } from './config/api'
 import { io } from 'socket.io-client'
-import { addNotification } from './store/reducers/notificationMenuSlice'
+import { addNotification, removeMessageNotification } from './store/reducers/notificationMenuSlice'
 import swal from 'sweetalert'
 
 const App = () => {
@@ -71,7 +71,9 @@ const App = () => {
                     dispatch(setNotification(newMessage))
                     dispatch(addNotification({
                         text: 'Новое сообщение от ' + newMessage.userName,
-                        link: '/account/messages/chat/' + newMessage.conversationId
+                        link: '/account/messages/chat/' + newMessage.conversationId,
+                        id: newMessage.id,
+                        conversationId: newMessage.conversationId
                     }))
                 }
             })
@@ -82,7 +84,8 @@ const App = () => {
                 ticket &&
                     dispatch(addNotification({
                         text: 'Ответ от техподдержки ',
-                        link: '/account/help/ticket/' + ticket.ticketId
+                        link: '/account/help/ticket/' + ticket.ticketId,
+                        id: ticket.con
                     }))
                 swal('У Вас новое уведомление')
             })
@@ -90,9 +93,15 @@ const App = () => {
                 sold &&
                     dispatch(addNotification({
                         text: `Ваш лот №${sold.lotId} приобретен`,
-                        link: '/account/sales'
+                        link: '/account/sales',
+                        id: sold.id
                     }))
                 swal('У Вас новое уведомление')
+            })
+            socketNotification?.on('message:viewed', (message) => {
+                if (message.userId == user.id) {
+                    dispatch(removeMessageNotification(message.conversationId))
+                }
             })
         }
 
@@ -101,6 +110,7 @@ const App = () => {
             socketNotification?.off('message:create')
             socketNotification?.off('conversation:unreadCount')
             socketNotification?.off('ticket:answerWasCreated')
+            socketNotification?.off('lots:wasBought')
             socketNotification?.off('lots:wasBought')
         }
 
