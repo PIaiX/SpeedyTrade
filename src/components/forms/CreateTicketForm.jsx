@@ -1,20 +1,20 @@
-import React, {useCallback, useEffect, useState} from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import InputFile from '../utils/InputFile'
-import {useForm} from 'react-hook-form'
-import {apiValidationRules} from '../../config/api'
-import {createTicket} from '../../services/tickets'
-import {useSelector} from 'react-redux'
+import { useForm } from 'react-hook-form'
+import { apiValidationRules } from '../../config/api'
+import { createTicket } from '../../services/tickets'
+import { useSelector } from 'react-redux'
 import ValidateWrapper from '../UI/ValidateWrapper'
-import {dispatchAlert} from '../../helpers/alert'
+import { dispatchAlert } from '../../helpers/alert'
 
-const CreateTicketForm = ({setRefetch}) => {
+const CreateTicketForm = ({ setRefetch }) => {
     const userId = useSelector((state) => state?.auth?.user?.id)
 
     const {
         register,
-        formState: {errors},
+        formState: { errors },
         handleSubmit,
         reset,
     } = useForm({
@@ -46,8 +46,8 @@ const CreateTicketForm = ({setRefetch}) => {
 
         Object.values(data?.media).forEach((i) => formData.append('medias[]', i))
 
-        createTicket(formData)
-            .then(() => {
+        createTicket(data)
+            .then((res) => {
                 dispatchAlert('success', 'Тикет успешно создан')
                 reset()
                 setRefetch(true)
@@ -71,7 +71,7 @@ const CreateTicketForm = ({setRefetch}) => {
                             placeholder="Тема тикета"
                             {...register('topic', {
                                 required: apiValidationRules.required,
-                                minLength: {value: 5, message: 'Минимум 5 символов'},
+                                minLength: { value: 5, message: 'Минимум 5 символов' },
                             })}
                         />
                     </ValidateWrapper>
@@ -86,7 +86,7 @@ const CreateTicketForm = ({setRefetch}) => {
                             placeholder="Сообщение"
                             {...register('text', {
                                 required: apiValidationRules.required,
-                                minLength: {value: 5, message: 'Минимум 5 символов'},
+                                minLength: { value: 5, message: 'Минимум 5 символов' },
                             })}
                         />
                     </ValidateWrapper>
@@ -94,7 +94,7 @@ const CreateTicketForm = ({setRefetch}) => {
                         withText={true}
                         multiple={true}
                         register={register('media')}
-                        isFileSent={isFileSent}
+                        setIsFileSent={setIsFileSent}
                     />
                 </Col>
             </Row>
