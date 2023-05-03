@@ -324,15 +324,15 @@ const Game = () => {
                         )}
                     </div>
                     <NavLink to="/account/ads/new" type="button" className="active btn-7 w-xs-100 mb-2 ms-auto me-2 me-lg-4"
-                        state = {{
-                            selectedOptionGame:{label :game?.name, value :game?.id, slug :game?.slug},
-                            selectedRegion:{
-                                servers:game?.regions?.find(element=>element.id==currentRegion)?.servers,
-                                label:game?.regions?.find(element=>element.id==currentRegion)?.name,
-                                value:Number(currentRegion)
+                        state={{
+                            selectedOptionGame: { label: game?.name, value: game?.id, slug: game?.slug },
+                            selectedRegion: {
+                                servers: game?.regions?.find(element => element.id == currentRegion)?.servers,
+                                label: game?.regions?.find(element => element.id == currentRegion)?.name,
+                                value: Number(currentRegion)
                             },
-                            selectedCategory:{label:game?.categories?.find(element=>element.id==currentCategory?.id)?.name, value:Number(currentCategory?.id)},
-                            selectedServer:servers?{label:servers?.find(element=>element.id==currentServer)?.name, value:currentServer}:null
+                            selectedCategory: { label: game?.categories?.find(element => element.id == currentCategory?.id)?.name, value: Number(currentCategory?.id) },
+                            selectedServer: servers ? { label: servers?.find(element => element.id == currentServer)?.name, value: currentServer } : null
                         }}
                     >
                         <span className="fw-5">Создать лот</span>
@@ -479,9 +479,9 @@ const Game = () => {
                                 <ul className="lot-line-heading mt-4">
                                     <div className="lot-line-server">Сервер</div>
                                     {parametersToShow.length > 0 &&
-                                    parametersToShow.map((param) => (
-                                        <div className='lot-line-cat' key={`param-${param.id}`}>{param.name}</div>
-                                    ))}
+                                        parametersToShow.map((param) => (
+                                            <div className='lot-line-cat' key={`param-${param.id}`}>{param.name}</div>
+                                        ))}
                                     <div className="lot-line-descr">Описание</div>
                                     <div className="lot-line-user">Продавец</div>
                                     <div className="lot-line-price">Цена</div>
@@ -495,30 +495,30 @@ const Game = () => {
                                                     <div onClick={() => nav(`/lot/${lot.id}`)} className="lot-line-server">{lot.serverName ? lot.serverName : '-'}</div>
 
                                                     {parametersToShow.length > 0 &&
-                                                    parametersToShow.map((param) => (
-                                                        <div className='lot-line-cat' key={`param-${param.id}-${lot.id}`} onClick={() => nav(`/lot/${lot.id}`)}>
-                                                            {
-                                                                lot.options.find(
-                                                                    (option) => option.parameterId === param.id
-                                                                )?.name
-                                                            }
-                                                            {
-                                                                lot.numericParameters.find(
-                                                                    (numericOption) =>
-                                                                        numericOption.id === param.id
-                                                                )?.numericValue
-                                                            }
-                                                        </div>
-                                                    ))}
+                                                        parametersToShow.map((param) => (
+                                                            <div className='lot-line-cat' key={`param-${param.id}-${lot.id}`} onClick={() => nav(`/lot/${lot.id}`)}>
+                                                                {
+                                                                    lot.options.find(
+                                                                        (option) => option.parameterId === param.id
+                                                                    )?.name
+                                                                }
+                                                                {
+                                                                    lot.numericParameters.find(
+                                                                        (numericOption) =>
+                                                                            numericOption.id === param.id
+                                                                    )?.numericValue
+                                                                }
+                                                            </div>
+                                                        ))}
 
                                                     <div className="lot-line-descr" onClick={() => nav(`/lot/${lot.id}`)}>
                                                         <div className="clamped">
-                                                            {lot.description.length > 300
-                                                            ? lot.description.substring(0, 300) + '...'
-                                                            : lot.description}
+                                                            {lot.description && lot.description.length > 300
+                                                                ? lot.description.substring(0, 300) + '...'
+                                                                : lot.description}
                                                         </div>
                                                     </div>
-                                                    
+
                                                     <div className="lot-line-user" onClick={() => nav(`/lot/${lot.id}`)}>
                                                         <div className="img">
                                                             <img
@@ -531,7 +531,7 @@ const Game = () => {
                                                             />
                                                             <div
                                                                 className={`indicator ${lot.user.isOnline && 'online'
-                                                                }`}
+                                                                    }`}
                                                             ></div>
                                                         </div>
                                                         <div>
@@ -554,7 +554,7 @@ const Game = () => {
                                                     </div>
                                                 </div>
                                             </li>
-                                        )
+                                    )
                                     }
                                 </ul>
                             </>
