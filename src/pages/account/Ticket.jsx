@@ -86,16 +86,6 @@ const Ticket = () => {
     }, [isConnected])
 
     const createMessage = (data) => {
-        const formData = new FormData()
-
-        for (const key in data) {
-            if (key !== 'attachedfile') {
-                formData.append(key, data[key])
-            }
-        }
-        for (let i = 0; i < data?.attachedfile.length; i++) {
-            formData.append('medias[]', data?.attachedfile[i])
-        }
 
         createTicketMessage(data)
             .then((res) => {
@@ -184,7 +174,7 @@ const Ticket = () => {
                         </InfiniteScroll>
                     </div>
                     <form onSubmit={handleSubmit(createMessage)}>
-                        <InputFile register={register('attachedfile')} isFileSent={isFileSent} setIsFileSent={setIsFileSent} multiple={true} />
+                        <InputFile register={register('medias')} isFileSent={isFileSent} setIsFileSent={setIsFileSent} multiple={true} />
                         <ValidateWrapper error={errors?.text}>
                             <input
                                 type="text"
