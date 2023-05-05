@@ -70,9 +70,9 @@ const SingleMessage = ({ msg }) => {
                             <NavLink to={`/lot/${msg.lotId}`}>
                                 <div style={{ borderLeft: "thin solid var(--bg-2)", padding: "5px" }} >
                                     <div className={"opacity-50"}>
-                                        <div>
+                                        {msg.lot.description && <div>
                                             описание: {msg.lot.description}
-                                        </div>
+                                        </div>}
                                         <div>
                                             цена: {msg.lot.priceCommission}
                                         </div>

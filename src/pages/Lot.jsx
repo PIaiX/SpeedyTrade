@@ -48,16 +48,19 @@ const Lot = () => {
                 <section className="lot-page pt-4 pt-sm-5 mb-6">
                     <Row className="gx-4 gy-5">
                         <Col xs={12} lg={7}>
-                            <h1>Оформление заказа</h1>
+                            <h2 className='d-flex flex-column'>
+                                {lot.item?.description}
+                                <span className='h3 opacity-75'>{lot.item?.gameInfo?.name} {lot.item?.serverName && `(${lot.item?.serverName})`}</span>
+                            </h2>
                             <Row className="g-3 g-sm-4">
-                                <Col md={3}>Описание:</Col>
+                                {/* <Col md={3}>Описание:</Col>
                                 <Col md={9}>
                                     {lot.isLoaded ? (
                                         <div className="box">
                                             <p>{lot.item?.description}</p>
                                         </div>
                                     ) : null}
-                                </Col>
+                                </Col> */}
                                 <Col md={3}>Способ оплаты:</Col>
                                 <Col md={9}>
                                     <Select
