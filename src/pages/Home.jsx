@@ -135,7 +135,7 @@ const Home = () => {
                             <h3>Топ</h3>
                             <hr className="horizontal flex-1 ms-4" />
                         </div>
-                        <Row xs={2} md={3} lg={4} className="gy-4 gy-sm-5 gx-2 gx-sm-4 gx-xl-5">
+                        <Row xs={2} md={3} lg={4} className="gy-3 gx-3 gx-xl-5">
                             {data?.body
                                 ?.filter((i) => i.isTop === true)
                                 ?.map((i) => (
@@ -162,7 +162,7 @@ const Home = () => {
                                 <h3>0–9</h3>
                                 <hr className="horizontal flex-1 ms-4" />
                             </div>
-                            <Row xs={2} md={3} lg={4} className="gy-5 gx-4 gx-xl-5">
+                            <Row xs={2} md={3} lg={4} className="gy-3 gx-3 gx-xl-5">
                                 {data?.body
                                     ?.filter((i) =>
                                         ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']?.includes(
@@ -193,7 +193,7 @@ const Home = () => {
                                     <h3>{letter.toUpperCase()}</h3>
                                     <hr className="horizontal flex-1 ms-4" />
                                 </div>
-                                <Row xs={2} md={3} lg={4} className="gy-5 gx-4 gx-xl-5">
+                                <Row xs={2} md={3} lg={4} className="gy-3 gx-3 gx-xl-5">
                                     {data?.body
                                         ?.filter((i) => i?.name?.toLowerCase().startsWith(letter))
                                         ?.map((i) => (

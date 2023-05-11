@@ -11,6 +11,9 @@ import { FiArrowLeft } from 'react-icons/fi'
 import { getAllGames, getOneGame, getGameRegions, getCategories, getCategoryParameters } from '../../services/games'
 import { getLot, postLot, editLot } from '../../services/lots'
 import swal from 'sweetalert'
+import { $authApi } from '../../services'
+import { selectStyles } from '../../assets/styles/react-select-scrollbar'
+import { sortByLAbel } from '../../helpers/sortByLabel'
 
 // Опциии для использование с react-select
 const getOptions = (res) => {
@@ -96,6 +99,7 @@ const Parameters = ({ params, lot, setNumericParameters, setOptions, numericPara
                                     }))
                                     setChParam((params) => ({ ...params, [parameter.id]: e.childParameter }))
                                 }}
+                                styles={selectStyles}
                             />
                         </Col>
                     </React.Fragment>
@@ -228,7 +232,7 @@ const PostAd = () => {
     // fetch games
     useEffect(() => {
         getAllGames()
-            .then((res) => getOptions(res))
+            .then((res) => getOptions(res.sort(sortByLAbel)))
             .then((arr) => arr && setOptionsGames(arr))
     }, [lotId])
 
@@ -302,6 +306,15 @@ const PostAd = () => {
             )
     }, [lot, selectedGame, selectedRegion])
 
+    // ----------------------------------------------------------------------
+
+    // useEffect(() => {
+    //     (async () => {
+    //         selectedServer.
+    //         const lot = await $authApi.get('', {param: { categoryId: selectedCategory.value } })
+    //     })()
+    // }, [gold])
+
     return (
         <div className="main">
             <div className="d-flex align-items-center mb-4">
@@ -329,7 +342,7 @@ const PostAd = () => {
                                 setState(null)
                                 setSelectedOptionGame(e)
                             }}
-
+                            styles={selectStyles}
                         />
                     </Col>
 
@@ -350,6 +363,7 @@ const PostAd = () => {
                                     value={selectedRegion}
                                     onChange={setSelectedRegion}
                                     isDisabled={selectedGame?.regions?.length > 0 ? false : true}
+                                    styles={selectStyles}
                                 />
                             </Col>
                         </>}
@@ -371,6 +385,7 @@ const PostAd = () => {
                                     value={selectedServer}
                                     onChange={setSelectedServer}
                                     isDisabled={selectedRegion?.servers.length > 0 ? false : true}
+                                    styles={selectStyles}
                                 />
                             </Col>
                         </>}
@@ -390,6 +405,7 @@ const PostAd = () => {
                             value={selectedCategory}
                             onChange={setSelectedCategory}
                             isDisabled={selectedGame?.categories?.length > 0 ? false : true}
+                            styles={selectStyles}
                         />
                     </Col>
 

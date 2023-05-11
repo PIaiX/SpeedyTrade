@@ -162,10 +162,13 @@ $green: #52ff82;
     -webkit-box-orient: vertical;
     overflow: hidden;
     line-height: $line;
+
     @if $strict {
-       height: $line * $count;
-    } @else {
-       max-height: $line * $count;
+        height: $line * $count;
+    }
+
+    @else {
+        max-height: $line * $count;
     }
 }
 
@@ -2537,10 +2540,12 @@ main {
 .lot-preview {
     border-top: 1px solid var(--achromat-4);
     transition: background-color 0.2s ease-in-out;
+
     &:hover {
         background: var(--hr-color);
         cursor: pointer;
     }
+
     &-user {
         display: flex;
         align-items: flex-start;
@@ -2622,58 +2627,72 @@ main {
     grid-template-areas: "server category description seller price";
     gap: 1em 1em;
     transition: var(--transition);
+
     @media (max-width: 1199px) {
         grid-template-columns: 100px 120px auto 250px 100px;
     }
+
     @media (max-width: 991px) {
         grid-template-columns: 1fr 1fr;
-        grid-template-areas: 
-        "server price"
-        "description description"
-        "seller seller";
+        grid-template-areas:
+            "server price"
+            "description description"
+            "seller seller";
         border-top: none;
         border-bottom: 1px solid var(--achromat-4);
     }
+
     @media (max-width: 575px) {
         gap: .6em .6em;
     }
+
     &:hover {
         background: var(--hr-color);
         cursor: pointer;
     }
+
     &-server {
         grid-area: server;
     }
+
     &-cat {
         grid-area: category;
+
         @media (max-width: 991px) {
             display: none;
         }
     }
+
     &-descr {
         grid-area: description;
+
         .clamped {
             @include clamp(2, 1.2em, true);
         }
     }
+
     &-user {
         grid-area: seller;
         display: flex;
         align-items: flex-start;
         position: relative;
         overflow: hidden;
+
         .img {
             --size: 60px;
             position: relative;
             width: var(--size);
             margin-right: 1em;
+
             @media (max-width: 991px) {
                 --size: 50px;
             }
+
             @media (max-width: 575px) {
                 --size: 40px;
                 margin-right: 0.5em;
             }
+
             img {
                 width: var(--size);
                 height: var(--size);
@@ -2682,6 +2701,7 @@ main {
                 position: relative;
                 z-index: 1;
             }
+
             .indicator {
                 position: absolute;
                 z-index: 2;
@@ -2692,9 +2712,11 @@ main {
                 background-color: var(--achromat-4);
                 border: 2px solid var(--bg-main);
                 border-radius: 50%;
+
                 &.online {
                     background-color: var(--green);
                 }
+
                 @media (max-width: 575px) {
                     width: 0.75em;
                     height: 0.75em;
@@ -2702,26 +2724,35 @@ main {
             }
         }
     }
+
     &-price {
         grid-area: price;
         color: var(--color-1);
         font-weight: 700;
+
         @media (max-width: 991px) {
             text-align: right;
         }
     }
+
     &-heading {
         @extend .lot-line;
         border-top: none;
         color: var(--achromat-1);
-        &>div{font-size: 1.3em;}
+
+        &>div {
+            font-size: 1.3em;
+        }
+
         @media (max-width: 991px) {
             display: none;
         }
+
         &:hover {
             background: transparent;
             cursor: unset;
         }
+
         .lot-line-price {
             color: var(--achromat-1);
             font-weight: 400;
@@ -2974,7 +3005,7 @@ main {
 
     .main {
         @include box();
-        overflow: hidden;
+        // overflow: hidden;
         display: flex;
         flex-direction: column;
         height: 100%;
@@ -3558,6 +3589,7 @@ main {
     flex-direction: column;
     justify-content: space-between;
     overflow: hidden;
+    border-radius: inherit;
 
     .top {
         background-color: var(--achromat-0);
@@ -3667,6 +3699,7 @@ footer {
     height: var(--f-height);
     background-color: var(--bg-2);
     color: var(--font-light);
+    transition: bottom 0.2s linear;
 
     @media (max-width: 767px) {
         position: fixed;

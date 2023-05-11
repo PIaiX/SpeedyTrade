@@ -72,7 +72,7 @@ const RegistrationForm = () => {
     return (
         <Form onSubmit={handleSubmit(onSubmitRegistration)}>
             <Row className="g-3 g-sm-4 align-items-center">
-                <Col md={4}>
+                {/* <Col md={4}>
                     <h6 className="mb-0">Имя:</h6>
                 </Col>
                 <Col md={8}>
@@ -101,7 +101,7 @@ const RegistrationForm = () => {
                             })}
                         />
                     </ValidateWrapper>
-                </Col>
+                </Col> */}
                 <Col md={4}>
                     <h6 className="mb-0">Ник:</h6>
                 </Col>
