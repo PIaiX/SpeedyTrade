@@ -67,8 +67,8 @@ const ProfileForm = () => {
         mode: 'all',
         reValidateMode: 'onSubmit',
         defaultValues: {
-            firstName: user.firstName ?? '',
-            lastName: user.lastName ?? '',
+            // firstName: user.firstName ?? '',
+            // lastName: user.lastName ?? '',
             nickname: user.nickname ?? '',
             phone: user.phone ?? '',
             sex: user.sex?.toString() ?? 'true',
@@ -109,7 +109,7 @@ const ProfileForm = () => {
                 </Col>
                 <Col xs={12} xl={8}>
                     <Row className="g-3 g-xl-4 align-items-center">
-                        <Col md={3}>
+                        {/* <Col md={3}>
                             <div>Имя:</div>
                         </Col>
                         <Col md={9}>
@@ -132,7 +132,7 @@ const ProfileForm = () => {
                                     {...register('lastName', { required: 'Заполните поле' })}
                                 />
                             </ValidateWrapper>
-                        </Col>
+                        </Col> */}
                         <Col md={3}>
                             <div>Ник:</div>
                         </Col>
