@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import InputFile from '../../components/utils/InputFile'
 import Dropdown from 'react-bootstrap/Dropdown'
 import { IoEllipsisHorizontal } from 'react-icons/io5'
-import { BiBlock, BiTrash } from 'react-icons/bi'
+import { BiBlock, BiMessageRoundedError } from 'react-icons/bi'
 import { FiChevronLeft, FiSend } from 'react-icons/fi'
 import { getImageURL } from '../../helpers/image'
 
@@ -153,8 +153,8 @@ const MessageWindow = () => {
                             </Dropdown.Toggle>
                             <Dropdown.Menu>
                                 <Dropdown.Item as="button">
-                                    <BiTrash className="fs-13" />
-                                    <span className="ms-2">Удалить диалог</span>
+                                    <BiMessageRoundedError className="fs-13" />
+                                    <span className="ms-2">Пожаловаться</span>
                                 </Dropdown.Item>
                                 <Dropdown.Item as="button">
                                     <BiBlock className="fs-13" />
