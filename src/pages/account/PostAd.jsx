@@ -13,6 +13,7 @@ import { getLot, postLot, editLot } from '../../services/lots'
 import swal from 'sweetalert'
 import { $authApi } from '../../services'
 import { selectStyles } from '../../assets/styles/react-select-scrollbar'
+import { sortByLAbel } from '../../helpers/sortByLabel'
 
 // Опциии для использование с react-select
 const getOptions = (res) => {
@@ -231,7 +232,7 @@ const PostAd = () => {
     // fetch games
     useEffect(() => {
         getAllGames()
-            .then((res) => getOptions(res))
+            .then((res) => getOptions(res.sort(sortByLAbel)))
             .then((arr) => arr && setOptionsGames(arr))
     }, [lotId])
 
