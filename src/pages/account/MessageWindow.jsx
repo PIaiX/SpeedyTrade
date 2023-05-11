@@ -56,6 +56,13 @@ const MessageWindow = () => {
     }, [id])
 
     useEffect(() => {
+        document.querySelector('footer')
+            .style.bottom = 'calc(-1 * var(--f-height))'
+
+        return () => document.querySelector('footer').removeAttribute('style')
+    }, [])
+
+    useEffect(() => {
         if (isConnected && socketInstance) {
             console.log(`Chat ${id} listener activated`)
             socketInstance?.on('message:create', (newMessage) => {

@@ -3699,6 +3699,7 @@ footer {
     height: var(--f-height);
     background-color: var(--bg-2);
     color: var(--font-light);
+    transition: bottom 0.2s linear;
 
     @media (max-width: 767px) {
         position: fixed;
