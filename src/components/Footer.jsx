@@ -71,7 +71,7 @@ function Footer() {
                                 </button>
                             </li>
                             <li>
-                                <Link to={isAuth ? '/account/profile' : '/login'}>
+                                <Link to={isAuth ? '/account' : '/login'}>
                                     <VscAccount />
                                 </Link>
                             </li>
