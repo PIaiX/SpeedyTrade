@@ -76,7 +76,7 @@ function Footer() {
                                 </Link>
                             </li>
                             <li>
-                                <Link to="/">
+                                <Link to={isAuth ? '/account/messages' : '/login'}>
                                     <VscCommentDiscussion />
                                 </Link>
                             </li>
