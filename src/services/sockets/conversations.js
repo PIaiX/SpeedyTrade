@@ -1,4 +1,4 @@
-import {socketInstance} from './socketInstance'
+import { socketInstance } from './socketInstance'
 
 export const emitPaginateConversation = async (payloads) => {
     return await new Promise((resolve, reject) => {
@@ -39,6 +39,18 @@ export const emitCloseConversation = async (conversationId) => {
 export const emitDeleteConversation = async (conversationId) => {
     return await new Promise((resolve, reject) => {
         socketInstance?.emit('conversation:delete', conversationId, (response) => {
+            try {
+                resolve(response?.body)
+            } catch (e) {
+                reject(e)
+            }
+        })
+    })
+}
+
+export const emitReportConversation = async (userID) => {
+    return await new Promise((resolve, reject) => {
+        socketInstance?.emit('report:user', userID, (response) => {
             try {
                 resolve(response?.body)
             } catch (e) {

@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { logout } from '../actions/auth'
 
 const initialState = {
     messages: [],
@@ -22,6 +23,12 @@ const notificationMenuSlice = createSlice({
             state.count = state.count - 1
         },
     },
+    extraReducers: builder =>
+        builder
+            .addCase(logout.fulfilled, (state) => {
+                state.messages = initialState.messages
+                state.count = initialState.count
+            })
 })
 
 export const { addNotification, clearNotifications, removeMessageNotification } = notificationMenuSlice.actions

@@ -13,11 +13,12 @@ import { useForm } from 'react-hook-form'
 import useSocketConnect from '../../hooks/socketConnect'
 import { socketInstance } from '../../services/sockets/socketInstance'
 import { emitCreateMessage, emitPaginateMessages, emitViewedMessage } from '../../services/sockets/messages'
-import { emitGetConversation } from '../../services/sockets/conversations'
+import { emitGetConversation, emitReportConversation } from '../../services/sockets/conversations'
 import ValidateWrapper from '../../components/UI/ValidateWrapper'
 import { convertToLocaleDate } from '../../helpers/convertToLocaleDate'
 import ChatMessage from '../../components/ChatMessage'
 import InfiniteScroll from 'react-infinite-scroller'
+import { dispatchAlert } from '../../helpers/alert'
 
 const MessageWindow = () => {
     const user = useSelector((state) => state?.auth?.user)
@@ -133,6 +134,18 @@ const MessageWindow = () => {
         }, initialValue)
     }
 
+    const handleReportUser = async () => {
+        console.log(conversation?.user.id)
+        try {
+            let res = await emitReportConversation(conversation?.user.id)
+            console.log(res)
+            dispatchAlert('success', 'Жалоба отправлена')
+        } catch (e) {
+            dispatchAlert('danger', 'Ошибка')
+            console.log(e)
+        }
+    }
+
     return (
         <div className="main p-0">
             <div className="message-window">
@@ -159,7 +172,7 @@ const MessageWindow = () => {
                                 <IoEllipsisHorizontal className="fs-15" />
                             </Dropdown.Toggle>
                             <Dropdown.Menu>
-                                <Dropdown.Item as="button">
+                                <Dropdown.Item as="button" onClick={handleReportUser}>
                                     <BiMessageRoundedError className="fs-13" />
                                     <span className="ms-2">Пожаловаться</span>
                                 </Dropdown.Item>
