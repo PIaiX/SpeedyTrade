@@ -25,6 +25,8 @@ const notificationMenuSlice = createSlice({
     },
     extraReducers: builder =>
         builder
+
+            // logout
             .addCase(logout.fulfilled, (state) => {
                 state.messages = initialState.messages
                 state.count = initialState.count
