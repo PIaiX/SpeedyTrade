@@ -206,6 +206,9 @@ const Game = () => {
         }
     }, [currentRegion, currentServer, currentCategory, selectedOptions, onlineOnly, selectedNumericOptions, query])
 
+    // Is current category carrency
+    const isCurrency = game?.categories && catId && game.categories.filter(c => c.id === Number(catId))[0]?.isCurrency
+
     return (
         <main>
             <Container>
@@ -337,141 +340,8 @@ const Game = () => {
                     >
                         <span className="fw-5">Создать лот</span>
                     </NavLink>
-                    {/* Lots ------------------------------------------------------------------------------------------------------------------------------ */}
-                    {/* <ul className="lot-line-heading mt-4">
-                        <div className="lot-line-server">Сервер</div>
-                        <div className='lot-line-cat'>Параметр</div>
-                        <div className="lot-line-descr">Описание</div>
-                        <div className="lot-line-user">Продавец</div>
-                        <div className="lot-line-price">Цена</div>
-                    </ul>
 
-                    <ul className="mt-2 mt-sm-3 mb-4 mt-lg-0 list-unstyled g-3 g-sm-4 g-lg-0 row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-1">
-                        <li>
-                            <div className="lot-line">
-                                <div className="lot-line-server">Сервер</div>
-                                <div className='lot-line-cat'>Прочее</div>
-                                <div className="lot-line-descr">
-                                    <div className="clamped">ProjectSuperEssence.net Top Rang Step - Season 3, l8k-2568, Прочее, Без ранга, 150 шт., Avatar</div>
-                                </div>
-                                <div className="lot-line-user">
-                                    <div className="img">
-                                        <img
-                                            src="images/user.png"
-                                            alt=""
-                                        />
-                                        <div className={`indicator`}></div>
-                                    </div>
-                                    <div>
-                                        <div className="d-flex flex-row flex-sm-column">
-                                            <h5 className="achromat-3 mb-0 mb-sm-1 me-3 me-sm-0">
-                                            @Irishka1911
-                                            </h5>
-                                            <StarRating
-                                                rate={4}
-                                                className="justify-content-start fs-08"
-                                            />
-                                        </div>
-                                        <div className='mt-1 fs-09 achromat-3 fw-3'>На сайте с сентября 2019 г.</div>
-                                    </div>
-                                </div>
-                                <div className="lot-line-price">3 000 руб.</div>
-                            </div>
-                        </li>
-                        <li>
-                            <div className="lot-line">
-                                <div className="lot-line-server">Сервер</div>
-                                <div className='lot-line-cat'>Прочее</div>
-                                <div className="lot-line-descr">
-                                    <div className="clamped">ProjectSuperEssence.net Top Rang Step - Season 3, l8k-2568, Прочее, Без ранга, 150 шт., Avatar</div>
-                                </div>
-                                <div className="lot-line-user">
-                                    <div className="img">
-                                        <img
-                                            src="images/user.png"
-                                            alt=""
-                                        />
-                                        <div className={`indicator`}></div>
-                                    </div>
-                                    <div>
-                                        <div className="d-flex flex-row flex-sm-column">
-                                            <h5 className="achromat-3 mb-0 mb-sm-1 me-3 me-sm-0">
-                                            @Irishka1911
-                                            </h5>
-                                            <StarRating
-                                                rate={4}
-                                                className="justify-content-start fs-08"
-                                            />
-                                        </div>
-                                        <div className='mt-1 fs-09 achromat-3 fw-3'>На сайте с сентября 2019 г.</div>
-                                    </div>
-                                </div>
-                                <div className="lot-line-price">3 000 руб.</div>
-                            </div>
-                        </li>
-                        <li>
-                            <div className="lot-line">
-                                <div className="lot-line-server">Сервер</div>
-                                <div className='lot-line-cat'>Прочее</div>
-                                <div className="lot-line-descr">
-                                    <div className="clamped">ProjectSuperEssence.net Top Rang Step - Season 3, l8k-2568, Прочее, Без ранга, 150 шт., Avatar</div>
-                                </div>
-                                <div className="lot-line-user">
-                                    <div className="img">
-                                        <img
-                                            src="images/user.png"
-                                            alt=""
-                                        />
-                                        <div className={`indicator`}></div>
-                                    </div>
-                                    <div>
-                                        <div className="d-flex flex-row flex-sm-column">
-                                            <h5 className="achromat-3 mb-0 mb-sm-1 me-3 me-sm-0">
-                                            @Irishka1911
-                                            </h5>
-                                            <StarRating
-                                                rate={4}
-                                                className="justify-content-start fs-08"
-                                            />
-                                        </div>
-                                        <div className='mt-1 fs-09 achromat-3 fw-3'>На сайте с сентября 2019 г.</div>
-                                    </div>
-                                </div>
-                                <div className="lot-line-price">3 000 руб.</div>
-                            </div>
-                        </li>
-                        <li>
-                            <div className="lot-line">
-                                <div className="lot-line-server">Сервер</div>
-                                <div className='lot-line-cat'>Прочее</div>
-                                <div className="lot-line-descr">
-                                    <div className="clamped">ProjectSuperEssence.net Top Rang Step - Season 3, l8k-2568, Прочее, Без ранга, 150 шт., Avatar</div>
-                                </div>
-                                <div className="lot-line-user">
-                                    <div className="img">
-                                        <img
-                                            src="images/user.png"
-                                            alt=""
-                                        />
-                                        <div className={`indicator`}></div>
-                                    </div>
-                                    <div>
-                                        <div className="d-flex flex-row flex-sm-column">
-                                            <h5 className="achromat-3 mb-0 mb-sm-1 me-3 me-sm-0">
-                                            @Irishka1911
-                                            </h5>
-                                            <StarRating
-                                                rate={4}
-                                                className="justify-content-start fs-08"
-                                            />
-                                        </div>
-                                        <div className='mt-1 fs-09 achromat-3 fw-3'>На сайте с сентября 2019 г.</div>
-                                    </div>
-                                </div>
-                                <div className="lot-line-price">3 000 руб.</div>
-                            </div>
-                        </li>
-                    </ul> */}
+                    {/* Lots ------------------------------------------------------------------------------------------------------------------------------ */}
 
                     {lots.isLoaded &&
                         (lots.items?.length > 0 ? (
@@ -482,7 +352,7 @@ const Game = () => {
                                         parametersToShow.map((param) => (
                                             <div className='lot-line-cat' key={`param-${param.id}`}>{param.name}</div>
                                         ))}
-                                    <div className="lot-line-descr">Описание</div>
+                                    <div className="lot-line-descr">{isCurrency ? 'Доступно' : 'Описание'}</div>
                                     <div className="lot-line-user">Продавец</div>
                                     <div className="lot-line-price">Цена</div>
                                 </ul>
@@ -512,11 +382,17 @@ const Game = () => {
                                                         ))}
 
                                                     <div className="lot-line-descr" onClick={() => nav(`/lot/${lot.id}`)}>
-                                                        <div className="clamped">
-                                                            {lot.description && lot.description.length > 300
-                                                                ? lot.description.substring(0, 300) + '...'
-                                                                : lot.description}
-                                                        </div>
+                                                        {isCurrency
+                                                            ?
+                                                            <div className="clamped">
+                                                                {lot.amount} шт
+                                                            </div>
+                                                            :
+                                                            <div className="clamped">
+                                                                {lot.description && lot.description.length > 300
+                                                                    ? lot.description.substring(0, 300) + '...'
+                                                                    : lot.description}
+                                                            </div>}
                                                     </div>
 
                                                     <div className="lot-line-user" onClick={() => nav(`/lot/${lot.id}`)}>
