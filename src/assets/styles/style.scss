@@ -3788,6 +3788,9 @@ footer {
 
     &.offcanvas-top {
         height: fit-content;
+        width: 544px;
+        right: 5vw;
+        left: auto;
 
         .offcanvas-body {
             padding: calc(var(--h-height) + 2em) 0 2em;
