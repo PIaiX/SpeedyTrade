@@ -15,8 +15,8 @@ const MessagePreview = ({ conversation }) => {
                 {conversation?.user?.isOnline && <div className="indicator unread"></div>}
             </div>
             <div className="header">
-                <h4 className="color-1 mb-0 mb-md-2">{conversation?.user?.fullName}</h4>
-                <div className="fs-11 d-none d-md-block">@{conversation?.user?.nickname}</div>
+                <h4 className="color-1 mb-0 mb-md-2">@{conversation?.user?.nickname}</h4>
+                {/* <div className="fs-11 d-none d-md-block">@{conversation?.user?.nickname}</div> */}
             </div>
             {conversation.lastMessage && (
                 <div className="message">
