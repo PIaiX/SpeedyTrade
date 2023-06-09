@@ -115,7 +115,7 @@ const App = () => {
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isLoadingRefresh])
+    }, [isLoadingRefresh, user])
 
     return isLoadingRefresh ? <></> : <AppRouter />
 }
