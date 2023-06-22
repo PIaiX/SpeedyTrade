@@ -65,6 +65,7 @@ const PurchaseHistory = () => {
                                 createdAt={i?.lot?.createdAtForUser}
                                 description={i?.lot?.description}
                                 userNickname={i?.lot?.user?.nickname}
+                                userId={i?.lot?.user?.id}
                                 price={i?.lot?.priceCommission * i?.amount}
                                 priceCommission={i?.lot?.priceCommission}
                             />
