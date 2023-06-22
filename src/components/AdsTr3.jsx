@@ -1,18 +1,18 @@
-import React, { useState } from 'react'
-import { submitPurchase } from '../services/lots'
+import React, {useState} from 'react'
+import {submitPurchase} from '../services/lots'
 import Dropdown from 'react-bootstrap/Dropdown'
-import { IoEllipsisHorizontal } from 'react-icons/io5'
-import { BiHelpCircle, BiLike } from 'react-icons/bi'
-import { BsChatText } from 'react-icons/bs'
+import {IoEllipsisHorizontal} from 'react-icons/io5'
+import {BiHelpCircle, BiLike} from 'react-icons/bi'
+import {BsChatText} from 'react-icons/bs'
 import Modal from "react-bootstrap/Modal";
-import { VscChromeClose } from "react-icons/vsc";
+import {VscChromeClose} from "react-icons/vsc";
 import InputRating from "./utils/InputRating";
 import ValidateWrapper from "./UI/ValidateWrapper";
-import { useForm } from "react-hook-form";
-import { createReview } from "../services/reviews";
-import { dispatchAlert } from "../helpers/alert";
-import { useSelector } from "react-redux";
-import { emitCallForHelp } from '../services/sockets/messages'
+import {useForm} from "react-hook-form";
+import {createReview} from "../services/reviews";
+import {dispatchAlert} from "../helpers/alert";
+import {emitCallForHelp} from '../services/sockets/messages'
+import {Link} from "react-router-dom";
 
 const AdsTr3 = (props) => {
 
@@ -51,7 +51,7 @@ const AdsTr3 = (props) => {
             <td>{props?.createdAt}</td>
             <td>{props?.purchaseId}</td>
             <td>{props?.description}</td>
-            <td>{props?.userNickname}</td>
+            <td><Link to={`/user/${props?.userId}`}>{props?.userNickname}</Link></td>
             <td>{status}</td>
             <td>{props?.price} руб.</td>
             <td>

@@ -13,7 +13,7 @@ import { useForm } from 'react-hook-form'
 import useSocketConnect from '../../hooks/socketConnect'
 import { socketInstance } from '../../services/sockets/socketInstance'
 import { emitCreateMessage, emitPaginateMessages, emitViewedMessage } from '../../services/sockets/messages'
-import { emitGetConversation, emitReportConversation } from '../../services/sockets/conversations'
+import {emitBannedConversation, emitGetConversation, emitReportConversation} from '../../services/sockets/conversations'
 import ValidateWrapper from '../../components/UI/ValidateWrapper'
 import { convertToLocaleDate } from '../../helpers/convertToLocaleDate'
 import ChatMessage from '../../components/ChatMessage'
@@ -146,6 +146,17 @@ const MessageWindow = () => {
         }
     }
 
+    const blockMessage = (message)=>{
+        const items = messages?.items?.map(element=> element?.id==message?.id?message:element)
+        setMessages({...messages, items})
+    }
+
+    const BlockChat = ()=>{
+        alert(2)
+        emitBannedConversation(conversation?.user?.id)
+            .then(res => setConversation({...conversation, isBlockedForUser:true}))
+    }
+
     return (
         <div className="main p-0">
             <div className="message-window">
@@ -176,9 +187,12 @@ const MessageWindow = () => {
                                     <BiMessageRoundedError className="fs-13" />
                                     <span className="ms-2">Пожаловаться</span>
                                 </Dropdown.Item>
-                                <Dropdown.Item as="button">
+                                <Dropdown.Item
+                                    as="button"
+                                    onClick={BlockChat}
+                                >
                                     <BiBlock className="fs-13" />
-                                    <span className="ms-2">Заблокировать</span>
+                                    <span className="ms-2">{conversation?.isBlockedForUser?'Заблокировано':'Заблокировать'}</span>
                                 </Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
@@ -195,7 +209,7 @@ const MessageWindow = () => {
                         useWindow={false}
                     >
                         {Object.entries(groupBy(messages?.items, 'createdAt')).map((key, index) => (
-                            <ChatMessage key={key} keyArr={key[0]} arr={key[1]} />
+                            <ChatMessage blockMessage={blockMessage} key={key} keyArr={key[0]} arr={key[1]} />
                         ))}
                     </InfiniteScroll>
                 </div>

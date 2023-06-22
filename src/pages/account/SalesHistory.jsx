@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import Table from 'react-bootstrap/Table'
 import AdsTr3 from '../../components/AdsTr3'
-import { Link } from 'react-router-dom'
-import { FiArrowLeft } from 'react-icons/fi'
-import { useSelector } from 'react-redux'
+import {Link} from 'react-router-dom'
+import {FiArrowLeft} from 'react-icons/fi'
+import {useSelector} from 'react-redux'
 import usePagination from '../../hooks/pagination'
-import { getSale } from '../../services/purchases'
+import {getSale} from '../../services/purchases'
 import Paginate from '../../components/utils/paginate'
 
 const SalesHistory = () => {
@@ -18,7 +18,7 @@ const SalesHistory = () => {
     })
     const generalLimit = 10
 
-    const { paginationItems, pageCount, selectedPage, setSelectedPage, handlePageClick } = usePagination(
+    const { paginationItems, pageCount, selectedPage, handlePageClick } = usePagination(
         saleHistory?.items,
         generalLimit,
         saleHistory?.meta?.total
@@ -29,6 +29,8 @@ const SalesHistory = () => {
             .then((res) => setSaleHistory({ isLoaded: true, meta: res?.meta, items: res?.data }))
             .catch(() => setSaleHistory({ isLoaded: true, meta: null, items: null }))
     }, [userId, selectedPage])
+
+    console.log(paginationItems)
 
     return (
         <div className="main">
@@ -47,7 +49,7 @@ const SalesHistory = () => {
                                 <th>Дата</th>
                                 <th>Заказ</th>
                                 <th>Описание</th>
-                                <th>Продавец</th>
+                                <th>Покупатель</th>
                                 <th>Статус</th>
                                 <th>Цена</th>
                                 <th></th>
@@ -63,7 +65,8 @@ const SalesHistory = () => {
                                 status={i?.statusForUser}
                                 createdAt={i?.lot?.createdAtForUser}
                                 description={i?.lot?.description}
-                                userNickname={i?.lot?.userId}
+                                userId={i?.user?.id}
+                                userNickname={i?.user?.nickname}
                                 price={i?.lot?.price}
                                 priceCommission={i?.lot?.priceCommission}
                             />

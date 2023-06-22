@@ -284,6 +284,7 @@ const PostAd = () => {
     }, [lotId])
 
     useEffect(() => {
+        console.log(lot)
         if (!lot) return
 
         !selectedOptionGame && setSelectedOptionGame(optionsGames.find((o) => o.value === lot.gameInfo.id))
@@ -293,7 +294,7 @@ const PostAd = () => {
         !selectedCategory &&
             setSelectedCategory(getOptions(selectedGame?.categories).find((o) => o.value === lot.categoryId))
         !description && setDescription(lot.description)
-        !amount && setAmount(lot.amount)
+        setAmount(lot.amount)
         !active && setActive(lot.isVisible)
         !price && setPrice(lot.price)
         lot.minPrice && setMinPrice(lot.minPrice)

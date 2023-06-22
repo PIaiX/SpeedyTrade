@@ -89,15 +89,15 @@ const App = () => {
                     }))
                 swal('У Вас новое уведомление')
             })
-            socketNotification?.on('lots:wasBought', (sold) => {
-                sold &&
-                    dispatch(addNotification({
-                        text: `Ваш лот №${sold.lotId} приобретен`,
-                        link: '/account/sales',
-                        id: sold.id
-                    }))
-                swal('У Вас новое уведомление')
-            })
+            // socketNotification?.on('lots:wasBought', (sold) => {
+            //     sold &&
+            //         dispatch(addNotification({
+            //             text: `Ваш лот №${sold.lotId} приобретен`,
+            //             link: '/account/sales',
+            //             id: sold.id
+            //         }))
+            //     swal('У Вас новое уведомление')
+            // })
             socketNotification?.on('message:viewed', (message) => {
                 if (message.userId == user.id) {
                     dispatch(removeMessageNotification(message.conversationId))
@@ -110,7 +110,6 @@ const App = () => {
             socketNotification?.off('message:create')
             socketNotification?.off('conversation:unreadCount')
             socketNotification?.off('ticket:answerWasCreated')
-            socketNotification?.off('lots:wasBought')
             socketNotification?.off('lots:wasBought')
         }
 

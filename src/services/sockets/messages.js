@@ -12,6 +12,18 @@ export const emitCreateMessage = async (payloads) => {
     })
 }
 
+export const emitMessageBanned = async (payloads) => {
+    return await new Promise((resolve, reject) => {
+        socketInstance?.emit('message:ban', payloads, (response) => {
+            try {
+                resolve(response)
+            } catch (e) {
+                reject(e)
+            }
+        })
+    })
+}
+
 export const emitViewedMessage = async (conversationId) => {
     // conversationId: { conversationId: number , userId: number }
     return await new Promise((resolve, reject) => {
@@ -49,7 +61,6 @@ export const emitGetConversationWithUserId = async (userId) => {
     })
 }
 
-
 export const emitCallForHelp = async (payloads) => {
     return await new Promise((resolve, reject) => {
         socketInstance?.emit('lots:callForHelp', payloads, (response) => {
@@ -68,7 +79,6 @@ export const emitCallForHelp = async (payloads) => {
 //     text: text,
 //     attachedfile: file,
 // }
-
 export const emitCreatePublicMessage = async (payloads) => {
     //
     return await new Promise((resolve, reject) => {

@@ -95,10 +95,13 @@ const MyAds = () => {
                                             <BiEdit />
                                             <Link to={`edit/${lot.id}`}>Редактировать</Link>
                                         </Dropdown.Item>
-                                        <Dropdown.Item as="button">
-                                            <BiTrash />
-                                            <span>Удалить запись</span>
-                                        </Dropdown.Item>
+                                        {/*<Dropdown.Item*/}
+                                        {/*    as="button"*/}
+                                        {/*    onClick={()=>alert(lot?.id)}*/}
+                                        {/*>*/}
+                                        {/*    <BiTrash />*/}
+                                        {/*    <span>Удалить запись</span>*/}
+                                        {/*</Dropdown.Item>*/}
                                     </Dropdown.Menu>
                                 </Dropdown>
                             </td>

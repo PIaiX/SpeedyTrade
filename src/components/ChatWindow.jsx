@@ -105,6 +105,11 @@ function ChatWindow() {
         }, initialValue)
     }
 
+    const blockMessage = (message)=>{
+        const items = messages?.items?.map(element=> element?.id==message?.id?message:element)
+        setMessages({...messages, items})
+    }
+
     return (
         <section className="chat">
             <div className="chat-title">
@@ -123,7 +128,7 @@ function ChatWindow() {
                         useWindow={false}
                     >
                         {Object.entries(groupBy(messages?.items, 'createdAt')).map((key, index) => (
-                            <ChatMessage key={key} keyArr={key[0]} arr={key[1]} avatarUser={user.avatar} />
+                            <ChatMessage blockMessage={blockMessage} key={key} keyArr={key[0]} arr={key[1]} avatarUser={user.avatar} />
                         ))}
                     </InfiniteScroll>
                 </div>

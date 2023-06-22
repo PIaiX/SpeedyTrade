@@ -59,3 +59,15 @@ export const emitReportConversation = async (userID) => {
         })
     })
 }
+
+export const emitBannedConversation = async (userID) => {
+    return await new Promise((resolve, reject) => {
+        socketInstance?.emit('conversation:blockUser', userID, (response) => {
+            try {
+                resolve(response?.body)
+            } catch (e) {
+                reject(e)
+            }
+        })
+    })
+}

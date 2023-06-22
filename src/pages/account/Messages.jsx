@@ -38,6 +38,11 @@ const Messages = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [search])
 
+    const BlockChat = (conversation)=>{
+        const newConversations = conversations?.map(element=>element?.id == conversation?.id?conversation:element)
+        setConversations(newConversations)
+    }
+
     return (
         <div className="main p-0 py-3 py-sm-4">
             <div className="d-flex justify-content-between flex-wrap align-items-center mb-3 mb-sm-4 mx-3 mx-sm-4 mx-lg-5">
@@ -54,7 +59,7 @@ const Messages = () => {
             <ul className="messages-list">
                 {conversations &&
                     conversations.map((conversation) => {
-                        return <MessagePreview key={conversation.id} conversation={conversation} />
+                        return <MessagePreview key={conversation.id} BlockChat={BlockChat} conversation={conversation} />
                     })}
             </ul>
         </div>

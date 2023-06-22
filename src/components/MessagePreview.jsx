@@ -5,9 +5,15 @@ import { Link } from 'react-router-dom'
 import { BiBlock, BiDotsHorizontalRounded, BiTrash } from 'react-icons/bi'
 import { getImageURL } from '../helpers/image'
 import Moment from 'react-moment'
+import {emitBannedConversation} from "../services/sockets/conversations";
 
-const MessagePreview = ({ conversation }) => {
+const MessagePreview = ({ conversation, BlockChat }) => {
     const user = useSelector((state) => state?.auth?.user)
+    const BanDialog=()=>{
+        emitBannedConversation(conversation?.id)
+            .then(res => BlockChat({...conversation, isBlockedForUser:true}))
+    }
+
     return (
         <li className="messages-list-preview">
             <div className="img">
@@ -49,9 +55,9 @@ const MessagePreview = ({ conversation }) => {
                     <BiTrash className="fs-13" />
                     <span className="ms-2">Удалить сообщение</span>
                 </button> */}
-                <button type="button">
+                <button type="button" onClick={BanDialog}>
                     <BiBlock className="fs-13" />
-                    <span className="ms-2">Заблокировать</span>
+                    <span className="ms-2">{conversation?.isBlockedForUser?'Заблокировано':'Заблокировать'}</span>
                 </button>
             </div>
             <div className="drop d-md-none">
@@ -64,9 +70,9 @@ const MessagePreview = ({ conversation }) => {
                             <BiTrash className="fs-13" />
                             <span className="ms-2">Удалить сообщение</span>
                         </Dropdown.Item> */}
-                        <Dropdown.Item as="button">
+                        <Dropdown.Item as="button" onClick={BanDialog}>
                             <BiBlock className="fs-13" />
-                            <span className="ms-2">Заблокировать</span>
+                            <span className="ms-2">{conversation?.isBlockedForUser?'Заблокировано':'Заблокировать'}</span>
                         </Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
