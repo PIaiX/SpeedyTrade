@@ -152,9 +152,8 @@ const MessageWindow = () => {
     }
 
     const BlockChat = ()=>{
-        alert(2)
-        emitBannedConversation(conversation?.user?.id)
-            .then(res => setConversation({...conversation, isBlockedForUser:true}))
+        emitBannedConversation(conversation?.id)
+            .then(res => setConversation(res))
     }
 
     return (
@@ -192,7 +191,7 @@ const MessageWindow = () => {
                                     onClick={BlockChat}
                                 >
                                     <BiBlock className="fs-13" />
-                                    <span className="ms-2">{conversation?.isBlockedForUser?'Заблокировано':'Заблокировать'}</span>
+                                    <span className="ms-2">{conversation?.isTargetBlocked?'Заблокировано':'Заблокировать'}</span>
                                 </Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
