@@ -28,6 +28,7 @@ const LotChat = ({ lotUser }) => {
     const { id } = useParams()
     const [currentPage, setCurrentPage] = useState(1)
     const [conversationId, setConversationId] = useState()
+    const [conversation, setConversation] = useState()
     const [isFileSent, setIsFileSent] = useState(false)
 
     const {
@@ -65,6 +66,9 @@ const LotChat = ({ lotUser }) => {
         let setConvId = async () => {
             if (lotUser) {
                 let res = await emitGetConversationWithUserId(lotUser.id)
+                if(res.status==200){
+                    setConversation(res.body)
+                }
                 res.status === 200 ? setConversationId(res.body.id) : console.log(res)
                 conversationId && setValue('conversationId', res.body.id)
             }
@@ -193,22 +197,29 @@ const LotChat = ({ lotUser }) => {
                 )}
             </div>
             <form onSubmit={handleSubmit(createMessage)}>
-                <InputFile register={register('attachedfile')} isFileSent={isFileSent} setIsFileSent={setIsFileSent} disabled={!isAuth} />
+                {
+                    conversation?.isBlockedForUser ?
+                        <div>
+                            Пользователь запретил оправку сообщений.
+                        </div>
+                        :<>
+                            <InputFile register={register('attachedfile')} isFileSent={isFileSent} setIsFileSent={setIsFileSent} disabled={!isAuth} />
+                            <ValidateWrapper error={errors?.text}>
+                                <input
+                                    type="text"
+                                    placeholder="Введите сообщение"
+                                    {...register('text', {
+                                        required: 'Минимум 1 знак',
+                                    })}
+                                    disabled={!isAuth}
+                                />
+                            </ValidateWrapper>
 
-                <ValidateWrapper error={errors?.text}>
-                    <input
-                        type="text"
-                        placeholder="Введите сообщение"
-                        {...register('text', {
-                            required: 'Минимум 1 знак',
-                        })}
-                        disabled={!isAuth}
-                    />
-                </ValidateWrapper>
-
-                <button type="submit" disabled={!isAuth}>
-                    <FiSend />
-                </button>
+                            <button type="submit" disabled={!isAuth}>
+                                <FiSend />
+                            </button>
+                        </>
+                        }
             </form>
         </>
     )

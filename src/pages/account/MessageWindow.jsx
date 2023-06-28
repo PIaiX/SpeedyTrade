@@ -191,7 +191,7 @@ const MessageWindow = () => {
                                     onClick={BlockChat}
                                 >
                                     <BiBlock className="fs-13" />
-                                    <span className="ms-2">{conversation?.isTargetBlocked?'Заблокировано':'Заблокировать'}</span>
+                                    <span className="ms-2">{conversation?.isTargetBlocked?'Разблокировать':'Заблокировать'}</span>
                                 </Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
@@ -212,23 +212,31 @@ const MessageWindow = () => {
                         ))}
                     </InfiniteScroll>
                 </div>
-                <form onSubmit={handleSubmit(createMessage)}>
-                    <InputFile isFileSent={isFileSent} setIsFileSent={setIsFileSent} register={register('attachedfile')} />
+                        <form onSubmit={handleSubmit(createMessage)}>
+                            {
+                                conversation?.isBlockedForUser?
+                                    <div>
+                                        Пользователь запретил оправку сообщений.
+                                    </div>
+                                    :<>
+                                        <InputFile isFileSent={isFileSent} setIsFileSent={setIsFileSent} register={register('attachedfile')} />
+                                        <ValidateWrapper error={errors?.text}>
+                                            <input
+                                                type="text"
+                                                placeholder="Введите сообщение"
+                                                {...register('text', {
+                                                    required: 'Минимум 1 знак',
+                                                })}
+                                            />
+                                        </ValidateWrapper>
 
-                    <ValidateWrapper error={errors?.text}>
-                        <input
-                            type="text"
-                            placeholder="Введите сообщение"
-                            {...register('text', {
-                                required: 'Минимум 1 знак',
-                            })}
-                        />
-                    </ValidateWrapper>
+                                        <button type="submit">
+                                            <FiSend />
+                                        </button>
+                                    </>
+                            }
+                        </form>
 
-                    <button type="submit">
-                        <FiSend />
-                    </button>
-                </form>
             </div>
         </div>
     )

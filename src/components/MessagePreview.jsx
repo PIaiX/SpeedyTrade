@@ -11,7 +11,7 @@ const MessagePreview = ({ conversation, BlockChat }) => {
     const user = useSelector((state) => state?.auth?.user)
     const BanDialog=()=>{
         emitBannedConversation(conversation?.id)
-            .then(res => BlockChat({...conversation, isTargetBlocked:true}))
+            .then(res => BlockChat(res))
     }
 
     return (
@@ -57,7 +57,7 @@ const MessagePreview = ({ conversation, BlockChat }) => {
                 </button> */}
                 <button type="button" onClick={BanDialog}>
                     <BiBlock className="fs-13" />
-                    <span className="ms-2">{conversation?.isTargetBlocked?'Заблокировано':'Заблокировать'}</span>
+                    <span className="ms-2">{conversation?.isTargetBlocked?'Разблокировать':'Заблокировать'}</span>
                 </button>
             </div>
             <div className="drop d-md-none">
@@ -72,7 +72,7 @@ const MessagePreview = ({ conversation, BlockChat }) => {
                         </Dropdown.Item> */}
                         <Dropdown.Item as="button" onClick={BanDialog}>
                             <BiBlock className="fs-13" />
-                            <span className="ms-2">{conversation?.isTargetBlocked?'Заблокировано':'Заблокировать'}</span>
+                            <span className="ms-2">{conversation?.isTargetBlocked?'Разблокировать':'Заблокировать'}</span>
                         </Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
