@@ -174,7 +174,9 @@ const MessageWindow = () => {
                     </div>
                     <div className="d-flex align-items-center">
                         <div className="img me-2 me-sm-4">
-                            <img src={getImageURL(conversation?.user?.avatar)} alt={conversation?.user?.fullName} />
+                            <Link to={`/user/${conversation?.user?.id}`}>
+                                <img src={getImageURL(conversation?.user?.avatar)} alt={conversation?.user?.fullName} />
+                            </Link>
                             <div className={conversation?.user?.isOnline ? 'indicator unread' : 'indicator'}></div>
                         </div>
                         <Dropdown align="end">

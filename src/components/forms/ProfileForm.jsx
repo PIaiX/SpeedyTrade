@@ -96,9 +96,6 @@ const ProfileForm = () => {
                             onDelete={() => setValue('avatar', null)}
                         />
                         <div className="d-flex flex-column align-items-center align-items-sm-start align-items-xl-center justify-content-center">
-                            <h4 className="color-1 mt-3 mt-sm-0 mb-2 mb-sm-4">
-                                {`${watch('lastName')} ${watch('firstName')}`}
-                            </h4>
                             <StarRating
                                 className="justify-content-start justify-content-xl-center"
                                 rate={user?.rating}
@@ -109,30 +106,6 @@ const ProfileForm = () => {
                 </Col>
                 <Col xs={12} xl={8}>
                     <Row className="g-3 g-xl-4 align-items-center">
-                        {/* <Col md={3}>
-                            <div>Имя:</div>
-                        </Col>
-                        <Col md={9}>
-                            <ValidateWrapper error={errors?.firstName}>
-                                <input
-                                    type="text"
-                                    placeholder="Имя"
-                                    {...register('firstName', { required: 'Заполните поле' })}
-                                />
-                            </ValidateWrapper>
-                        </Col>
-                        <Col md={3}>
-                            <div>Фамилия:</div>
-                        </Col>
-                        <Col md={9}>
-                            <ValidateWrapper error={errors?.lastName}>
-                                <input
-                                    type="text"
-                                    placeholder="Фамилия"
-                                    {...register('lastName', { required: 'Заполните поле' })}
-                                />
-                            </ValidateWrapper>
-                        </Col> */}
                         <Col md={3}>
                             <div>Ник:</div>
                         </Col>
