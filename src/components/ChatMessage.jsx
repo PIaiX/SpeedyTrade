@@ -122,15 +122,15 @@ const SingleMessage = ({msg, blockMessage}) => {
                         />
                     )}
                 </div>
-                {blockMessage && <div
-                    title={'Заблокировать'}
-                    onClick={() => emitMessageBanned(msg?.id).then(res => {
-                        if (user?.roleId >= 0 && user?.roleId <= 4)
+                {user?.roleId <= 4 && blockMessage &&
+                    <div
+                        title={'Заблокировать'}
+                        onClick={() => emitMessageBanned(msg?.id).then(res => {
                             blockMessage(res?.body)
-                    })}
-                >
-                    <RiErrorWarningLine/>
-                </div>
+                        })}
+                    >
+                        <RiErrorWarningLine/>
+                    </div>
                 }
 
             </div>
@@ -145,7 +145,8 @@ const ChatMessage = ({keyArr, arr, blockMessage}) => {
     return (
         <>
             <Moment locale="ru" format="DD MMMM" date={convertedDate}/>
-            {arr && arr.map((i) => <SingleMessage color={'red'} blockMessage={blockMessage} msg={i} key={`chat${i.id}`}/>)}
+            {arr && arr.map((i) => <SingleMessage color={'red'} blockMessage={blockMessage} msg={i}
+                                                  key={`chat${i.id}`}/>)}
         </>
     )
 }
