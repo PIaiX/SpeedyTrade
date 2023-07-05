@@ -112,80 +112,81 @@ const ProfileForm = () => {
                         <Col md={9}>
                             <ValidateWrapper error={errors?.nickname}>
                                 <input
+                                    disabled
                                     type="text"
                                     placeholder="Ник"
                                     {...register('nickname', { required: 'Заполните поле' })}
                                 />
                             </ValidateWrapper>
                         </Col>
-                        <Col md={3}>
-                            <div>Пол:</div>
-                        </Col>
-                        <Col md={9} className="d-flex">
-                            <label className="c-pointer">
-                                <input
-                                    className="c-pointer"
-                                    type="radio"
-                                    {...register('sex', { required: true })}
-                                    value="true"
-                                />
-                                <span>Женский</span>
-                            </label>
-                            <label className="ms-4 c-pointer">
-                                <input
-                                    className="c-pointer"
-                                    type="radio"
-                                    {...register('sex', { required: true })}
-                                    value="false"
-                                />
-                                <span>Мужской</span>
-                            </label>
-                        </Col>
-                        <Col md={3}>
-                            <div>Дата рождения:</div>
-                        </Col>
-                        <Col md={9} className="d-sm-flex">
-                            <ValidateWrapper error={errors?.birthday} className="w-100">
-                                <Controller
-                                    name="birthday"
-                                    control={control}
-                                    render={({ field }) => (
-                                        <DatePicker
-                                            selected={new Date(moment(watch('birthday'), 'DD.MM.YYYY').format())}
-                                            onChange={(date) => field.onChange(moment(date).format('DD.MM.YYYY'))}
-                                            peekNextMonth
-                                            showMonthDropdown
-                                            showYearDropdown
-                                            dropdownMode="select"
-                                            dateFormat="dd-MM-yyyy"
-                                        />
-                                    )}
-                                    rules={{ required: 'Заполните поле' }}
-                                />
-                            </ValidateWrapper>
-                        </Col>
-                        <Col md={3}>
-                            <div>Телефон:</div>
-                        </Col>
-                        <Col md={9}>
-                            <ValidateWrapper error={errors?.phone}>
-                                <Controller
-                                    name="phone"
-                                    control={control}
-                                    render={({ field }) => (
-                                        <PhoneInput
-                                            required={false}
-                                            inputClass="phone-input"
-                                            country={'ru'}
-                                            placeholder="Номер телефона"
-                                            specialLabel={null}
-                                            value={getValues('phone')}
-                                            onChange={(phone) => field.onChange(`${phone}`)}
-                                        />
-                                    )}
-                                />
-                            </ValidateWrapper>
-                        </Col>
+                        {/*<Col md={3}>*/}
+                        {/*    <div>Пол:</div>*/}
+                        {/*</Col>*/}
+                        {/*<Col md={9} className="d-flex">*/}
+                        {/*    <label className="c-pointer">*/}
+                        {/*        <input*/}
+                        {/*            className="c-pointer"*/}
+                        {/*            type="radio"*/}
+                        {/*            {...register('sex', { required: true })}*/}
+                        {/*            value="true"*/}
+                        {/*        />*/}
+                        {/*        <span>Женский</span>*/}
+                        {/*    </label>*/}
+                        {/*    <label className="ms-4 c-pointer">*/}
+                        {/*        <input*/}
+                        {/*            className="c-pointer"*/}
+                        {/*            type="radio"*/}
+                        {/*            {...register('sex', { required: true })}*/}
+                        {/*            value="false"*/}
+                        {/*        />*/}
+                        {/*        <span>Мужской</span>*/}
+                        {/*    </label>*/}
+                        {/*</Col>*/}
+                        {/*<Col md={3}>*/}
+                        {/*    <div>Дата рождения:</div>*/}
+                        {/*</Col>*/}
+                        {/*<Col md={9} className="d-sm-flex">*/}
+                        {/*    <ValidateWrapper error={errors?.birthday} className="w-100">*/}
+                        {/*        <Controller*/}
+                        {/*            name="birthday"*/}
+                        {/*            control={control}*/}
+                        {/*            render={({ field }) => (*/}
+                        {/*                <DatePicker*/}
+                        {/*                    selected={new Date(moment(watch('birthday'), 'DD.MM.YYYY').format())}*/}
+                        {/*                    onChange={(date) => field.onChange(moment(date).format('DD.MM.YYYY'))}*/}
+                        {/*                    peekNextMonth*/}
+                        {/*                    showMonthDropdown*/}
+                        {/*                    showYearDropdown*/}
+                        {/*                    dropdownMode="select"*/}
+                        {/*                    dateFormat="dd-MM-yyyy"*/}
+                        {/*                />*/}
+                        {/*            )}*/}
+                        {/*            rules={{ required: 'Заполните поле' }}*/}
+                        {/*        />*/}
+                        {/*    </ValidateWrapper>*/}
+                        {/*</Col>*/}
+                        {/*<Col md={3}>*/}
+                        {/*    <div>Телефон:</div>*/}
+                        {/*</Col>*/}
+                        {/*<Col md={9}>*/}
+                        {/*    <ValidateWrapper error={errors?.phone}>*/}
+                        {/*        <Controller*/}
+                        {/*            name="phone"*/}
+                        {/*            control={control}*/}
+                        {/*            render={({ field }) => (*/}
+                        {/*                <PhoneInput*/}
+                        {/*                    required={false}*/}
+                        {/*                    inputClass="phone-input"*/}
+                        {/*                    country={'ru'}*/}
+                        {/*                    placeholder="Номер телефона"*/}
+                        {/*                    specialLabel={null}*/}
+                        {/*                    value={getValues('phone')}*/}
+                        {/*                    onChange={(phone) => field.onChange(`${phone}`)}*/}
+                        {/*                />*/}
+                        {/*            )}*/}
+                        {/*        />*/}
+                        {/*    </ValidateWrapper>*/}
+                        {/*</Col>*/}
                         <Col md={3}>
                             <div>Email:</div>
                         </Col>
@@ -194,23 +195,23 @@ const ProfileForm = () => {
                                 <input type="email" placeholder="email@email.com" value={user?.email} disabled />
                             </ValidateWrapper>
                         </Col>
-                        <Col md={{ span: 9, offset: 3 }}>
-                            <label className="c-pointer">
-                                <input type="checkbox" {...register('isSubscribed')} className="c-pointer" />
-                                <span>Получать уведомления на почту</span>
-                            </label>
-                        </Col>
+                        {/*<Col md={{ span: 9, offset: 3 }}>*/}
+                        {/*    <label className="c-pointer">*/}
+                        {/*        <input type="checkbox" {...register('isSubscribed')} className="c-pointer" />*/}
+                        {/*        <span>Получать уведомления на почту</span>*/}
+                        {/*    </label>*/}
+                        {/*</Col>*/}
+                        <div className="d-flex mt-4">
+                            <button type="submit" className="btn-5" disabled={!isDirty || !isValid}>
+                                Сохранить изменения
+                            </button>
+                            <button type="button" className="btn-1 ms-2 ms-sm-4" disabled={!isDirty} onClick={() => reset()}>
+                                Отмена
+                            </button>
+                        </div>
                     </Row>
                 </Col>
             </Row>
-            <div className="d-flex mt-4">
-                <button type="submit" className="btn-5" disabled={!isDirty || !isValid}>
-                    Сохранить изменения
-                </button>
-                <button type="button" className="btn-1 ms-2 ms-sm-4" disabled={!isDirty} onClick={() => reset()}>
-                    Отмена
-                </button>
-            </div>
         </form>
     )
 }

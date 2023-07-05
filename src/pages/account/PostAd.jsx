@@ -541,7 +541,7 @@ const PostAd = () => {
                 </Row>
                 <div className="d-flex">
                     <button type="button" className="btn-5" onClick={() => addLot()}>
-                        Опубликовать объявление
+                        {lotId? 'Cохранить изменения' : 'Опубликовать объявление'}
                     </button>
                     <button type="reset" className="btn-1 ms-2 ms-sm-3">
                         Отмена
