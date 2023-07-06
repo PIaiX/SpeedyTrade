@@ -33,9 +33,9 @@ export const getUserLots = async (userId, page, perPage, gameId, serverId, platf
     }
 }
 
-export const getSellerLots = async (sellerId) => {
+export const getSellerLots = async () => {
     try {
-        const response = await $authApi.get(`${apiRoutes.LOTS_SELLER}/${sellerId}?page=1`)
+        const response = await $authApi.get(`${apiRoutes.LOTS_SELLER}?page=1$limit=1000`)
         return response.data?.body
     } catch (error) {
         console.log(error)

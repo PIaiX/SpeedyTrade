@@ -43,7 +43,7 @@ const UserPage = () => {
 
     const [rating, setRating] = useState(null)
     useEffect(() => {
-        getSellerLots(id)
+        getSellerLots()
             .then((res) => {
                 setSellerLots({ isLoaded: true, items: res?.data })
             })

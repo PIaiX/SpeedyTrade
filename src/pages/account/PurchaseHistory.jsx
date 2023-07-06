@@ -58,10 +58,12 @@ const PurchaseHistory = () => {
                     <tbody>
                         {paginationItems?.map((i) => (
                             <AdsTr3
+                                isMyLot={false}
                                 key={i?.id}
                                 purchaseId={i?.id}
                                 lotId={i?.lotId}
                                 status={i?.statusForUser}
+                                statusForClick={i?.status}
                                 createdAt={i?.lot?.createdAtForUser}
                                 description={i?.lot?.description}
                                 userNickname={i?.lot?.user?.nickname}

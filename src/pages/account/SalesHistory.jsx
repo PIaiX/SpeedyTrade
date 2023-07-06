@@ -30,8 +30,6 @@ const SalesHistory = () => {
             .catch(() => setSaleHistory({ isLoaded: true, meta: null, items: null }))
     }, [userId, selectedPage])
 
-    console.log(paginationItems)
-
     return (
         <div className="main">
             <div className="d-flex align-items-center mb-4">

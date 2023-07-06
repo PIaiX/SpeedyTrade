@@ -1,4 +1,4 @@
-import React, {memo, useCallback, useEffect, useState} from 'react'
+import React, {memo, useCallback, useEffect, useMemo, useState} from 'react'
 import {Link, NavLink} from 'react-router-dom'
 import {useSelector} from 'react-redux'
 import Moment from 'react-moment'
@@ -26,7 +26,6 @@ const SingleMessage = ({msg, blockMessage}) => {
     }
 
     useEffect(() => {
-        // console.log(msg)
         const loadImage = async (url) => {
             return new Promise((res, rej) => {
                 let img = new Image()
@@ -57,6 +56,11 @@ const SingleMessage = ({msg, blockMessage}) => {
                 .then(img => setImage([img]))
         }
     }, [])
+
+    const timeLastMessage = ()=>{
+        const options = { hour: "numeric", minute: "numeric"}
+        return new Date(msg.createdAt).toLocaleDateString(undefined, options)?.slice(12)
+    }
 
     return (
         <div className={`chat-box${user?.id === msg?.userId ? '-reverse' : ''}`}>
@@ -132,6 +136,9 @@ const SingleMessage = ({msg, blockMessage}) => {
                         <RiErrorWarningLine/>
                     </div>
                 }
+                <div style={{textAlign:user?.id === msg?.userId? 'right' : 'left'}}>
+                    {timeLastMessage()}
+                </div>
 
             </div>
         </div>

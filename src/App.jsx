@@ -11,7 +11,7 @@ import ru from 'date-fns/locale/ru'
 import { initFingerprint } from './store/actions/fingerprint'
 import Loader from './components/UI/Loader'
 import { setSocketConnection } from '../src/services/sockets/socketInstance'
-import { setNotification, setUnreadCount } from './store/reducers/notificationSlice'
+import {setNotification, setSaleCount, setUnreadCount} from './store/reducers/notificationSlice'
 
 import { BASE_URL_SOCKET } from './config/api'
 import { io } from 'socket.io-client'
@@ -80,6 +80,11 @@ const App = () => {
             socketNotification.on('conversation:unreadCount', (count) => {
                 dispatch(setUnreadCount(count))
             })
+
+            socketNotification.on('conversation:saleCount', (count) => {
+                dispatch(setSaleCount(count))
+            })
+
             socketNotification?.on('ticket:answerWasCreated', (ticket) => {
                 ticket &&
                     dispatch(addNotification({

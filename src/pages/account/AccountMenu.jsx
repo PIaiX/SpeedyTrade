@@ -15,6 +15,7 @@ import {
 
 export default function AccountMenu() {
     const unreadCount = useSelector((state) => state?.notification?.unreadCount)
+    const saleCount = useSelector((state) => state?.notification?.saleCount)
 
     return (
         <nav className="menu">
@@ -41,6 +42,7 @@ export default function AccountMenu() {
                     <NavLink to="sales">
                         <BiBookOpen />
                         <span>История продаж</span>
+                        {saleCount && <span className="unread-conversations-count">{saleCount}</span>}
                     </NavLink>
                 </li>
                 <li>

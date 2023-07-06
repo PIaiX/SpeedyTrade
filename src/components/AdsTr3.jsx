@@ -60,10 +60,12 @@ const AdsTr3 = (props) => {
                         <IoEllipsisHorizontal />
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                        <Dropdown.Item as="button">
-                            <BiLike />
-                            <div onClick={handler}>Подтвердить</div>
-                        </Dropdown.Item>
+                        {props.isMyLot==false && props.statusForClick==0 &&
+                            <Dropdown.Item as="button">
+                                <BiLike />
+                                <div onClick={handler}>Подтвердить</div>
+                            </Dropdown.Item>
+                        }
                         <Dropdown.Item as="button" onClick={() => setShowReview(true)}>
                             <BsChatText />
                             <div>Оставить отзыв</div>

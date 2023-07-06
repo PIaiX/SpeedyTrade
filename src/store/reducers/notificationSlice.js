@@ -7,6 +7,7 @@ const initialState = {
     conversation: '',
     isShow: false,
     unreadCount: '',
+    saleCount: '',
 }
 
 const notificationSlice = createSlice({
@@ -29,9 +30,12 @@ const notificationSlice = createSlice({
         setUnreadCount: (state, action) => {
             state.unreadCount = action?.payload?.unreadCount
         },
+        setSaleCount: (state, action) => {
+            state.saleCount = action?.payload?.saleCount
+        },
     },
 })
 
-export const {setNotification, resetNotification, setUnreadCount} = notificationSlice.actions
+export const {setNotification, resetNotification, setUnreadCount, setSaleCount} = notificationSlice.actions
 
 export default notificationSlice.reducer
