@@ -41,7 +41,7 @@ const apiRoutes = {
     NEWS_ACTION: 'news',
 
     //purchase
-    GET_PURCHASE: 'lot/purchase/purchase',
+    GET_PURCHASE: 'lot/purchase/mypurchases',
     GET_SALE: 'lot/purchase/sale',
 
     //tickets
@@ -57,7 +57,7 @@ const apiRoutes = {
     FAVORITES_ACTIONS: 'user/favorite',
 
     //lots
-    LOTS_SELLER: 'lot/purchase/purchase/mypurchases',
+    LOTS_SELLER: 'lot/purchase',
     LOTS_ACTIONS: 'lot',
     PURCHASE_LOT: 'lot/purchase',
     PURCHASE_CONFIRM: 'lot/purchase/confirm',

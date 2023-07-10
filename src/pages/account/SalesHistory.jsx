@@ -3,14 +3,17 @@ import Table from 'react-bootstrap/Table'
 import AdsTr3 from '../../components/AdsTr3'
 import {Link} from 'react-router-dom'
 import {FiArrowLeft} from 'react-icons/fi'
-import {useSelector} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import usePagination from '../../hooks/pagination'
 import {getSale} from '../../services/purchases'
 import Paginate from '../../components/utils/paginate'
+import {socketInstance} from "../../services/sockets/socketInstance";
+import {setSaleCount} from "../../store/reducers/notificationSlice";
 
 const SalesHistory = () => {
     const theme = useSelector((state) => state?.theme?.mode)
     const userId = useSelector((state) => state?.auth?.user?.id)
+    const dispatch = useDispatch()
     const [saleHistory, setSaleHistory] = useState({
         isLoaded: false,
         items: null,
@@ -24,11 +27,23 @@ const SalesHistory = () => {
         saleHistory?.meta?.total
     )
 
+    useEffect(()=>{
+
+    }, [])
+
     useEffect(() => {
         getSale({ page: selectedPage + 1, limit: generalLimit }, userId)
             .then((res) => setSaleHistory({ isLoaded: true, meta: res?.meta, items: res?.data }))
             .catch(() => setSaleHistory({ isLoaded: true, meta: null, items: null }))
     }, [userId, selectedPage])
+
+    useEffect(()=>{
+        socketInstance.emit('boughts:view', () => {
+            dispatch(setSaleCount(''))
+        })
+
+    }, [])
+
 
     return (
         <div className="main">

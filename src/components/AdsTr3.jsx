@@ -13,12 +13,14 @@ import {createReview} from "../services/reviews";
 import {dispatchAlert} from "../helpers/alert";
 import {emitCallForHelp} from '../services/sockets/messages'
 import {Link} from "react-router-dom";
+import {useDispatch} from "react-redux";
 
 const AdsTr3 = (props) => {
 
     const [status, setStatus] = useState(props?.status)
     const [showReview, setShowReview] = useState(false)
     const [rating, setRating] = useState(1)
+    const [statusForClick, setStatusForClick] = useState(props.statusForClick)
     const {
         register,
         formState: { errors },
@@ -27,7 +29,10 @@ const AdsTr3 = (props) => {
 
     const handler = () => {
         submitPurchase(props?.purchaseId)
-            .then(res => setStatus(res.body.statusForUser))
+            .then(res =>{ if(res){
+                setStatus(res.body.statusForUser)
+                setStatusForClick(false)
+        }})
     }
 
     const onSubmitCreateReview = (data) => {
@@ -60,7 +65,7 @@ const AdsTr3 = (props) => {
                         <IoEllipsisHorizontal />
                     </Dropdown.Toggle>
                     <Dropdown.Menu>
-                        {props.isMyLot==false && props.statusForClick==0 &&
+                        {props.isMyLot==false && statusForClick &&
                             <Dropdown.Item as="button">
                                 <BiLike />
                                 <div onClick={handler}>Подтвердить</div>

@@ -81,8 +81,8 @@ const App = () => {
                 dispatch(setUnreadCount(count))
             })
 
-            socketNotification.on('conversation:saleCount', (count) => {
-                dispatch(setSaleCount(count))
+            socketNotification.on('lots:unseenBoughts', ({unseenBoughts}) => {
+                dispatch(setSaleCount(unseenBoughts))
             })
 
             socketNotification?.on('ticket:answerWasCreated', (ticket) => {

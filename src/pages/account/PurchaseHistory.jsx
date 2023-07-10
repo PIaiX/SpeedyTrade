@@ -4,9 +4,11 @@ import AdsTr3 from '../../components/AdsTr3'
 import { Link } from 'react-router-dom'
 import { FiArrowLeft } from 'react-icons/fi'
 import { getPurchases } from '../../services/purchases'
-import { useSelector } from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import Paginate from '../../components/utils/paginate'
 import usePagination from '../../hooks/pagination'
+import {socketInstance} from "../../services/sockets/socketInstance";
+import {setSaleCount} from "../../store/reducers/notificationSlice";
 
 const PurchaseHistory = () => {
     const theme = useSelector((state) => state?.theme?.mode)
@@ -25,7 +27,7 @@ const PurchaseHistory = () => {
     )
 
     useEffect(() => {
-        getPurchases({ page: selectedPage + 1, limit: generalLimit }, userId)
+        getPurchases({ page: selectedPage + 1, limit: generalLimit })
             .then((res) => setPurchase({ isLoaded: true, meta: res?.meta, items: res?.data }))
             .catch(() => setPurchase({ isLoaded: true, meta: null, items: null }))
     }, [userId, selectedPage])
@@ -60,15 +62,15 @@ const PurchaseHistory = () => {
                             <AdsTr3
                                 isMyLot={false}
                                 key={i?.id}
-                                purchaseId={i?.id}
+                                purchaseId={i?.purchaseId}
                                 lotId={i?.lotId}
                                 status={i?.statusForUser}
-                                statusForClick={i?.status}
-                                createdAt={i?.lot?.createdAtForUser}
-                                description={i?.lot?.description}
-                                userNickname={i?.lot?.user?.nickname}
+                                statusForClick={i?.status=='pending'}
+                                createdAt={i?.createdAtForUser}
+                                description={i?.purchase?.lot?.description}
+                                userNickname={i?.purchase?.lot?.user?.nickname}
                                 userId={i?.lot?.user?.id}
-                                price={i?.lot?.priceCommission * i?.amount}
+                                price={(i?.purchase?.amount * Number(i?.price)*(-1))?.toFixed(2)}
                                 priceCommission={i?.lot?.priceCommission}
                             />
                         ))}

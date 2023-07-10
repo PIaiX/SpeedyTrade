@@ -1,10 +1,10 @@
 import {$authApi} from './index'
 import {apiRoutes} from '../config/api'
 
-export const getPurchases = async (payload, userId) => {
+export const getPurchases = async (payload) => {
     try {
         const response = await $authApi.get(
-            `${apiRoutes.GET_PURCHASE}/${userId}?page=${payload.page}&limit=${payload.limit}&orderBy=desc`
+            `${apiRoutes.GET_PURCHASE}?page=${payload.page}&limit=${payload.limit}&orderBy=desc`
         )
         return response.data?.body
     } catch (error) {

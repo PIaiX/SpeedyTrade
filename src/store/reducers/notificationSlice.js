@@ -31,7 +31,7 @@ const notificationSlice = createSlice({
             state.unreadCount = action?.payload?.unreadCount
         },
         setSaleCount: (state, action) => {
-            state.saleCount = action?.payload?.saleCount
+            state.saleCount = action?.payload
         },
     },
 })

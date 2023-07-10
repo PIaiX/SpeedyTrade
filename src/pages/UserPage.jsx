@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -7,35 +7,34 @@ import Modal from 'react-bootstrap/Modal'
 import StarRating from '../components/utils/StarRating'
 import InputRating from '../components/utils/InputRating'
 import ReviewBlock from '../components/ReviewBlock'
-import { VscChromeClose } from 'react-icons/vsc'
+import {VscChromeClose} from 'react-icons/vsc'
 import useGetUserInfo from '../hooks/axios/getUserInfo'
-import { useParams } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import { getImageURL } from '../helpers/image'
+import {Link, useParams} from 'react-router-dom'
+import {useSelector} from 'react-redux'
+import {getImageURL} from '../helpers/image'
 import Moment from 'react-moment'
-import { useForm } from 'react-hook-form'
-import { getLotsByUserAndGame, getSellerLots } from '../services/lots'
-import { createReview, getUserReviewsByFilter } from '../services/reviews'
-import { dispatchAlert } from '../helpers/alert'
+import {useForm} from 'react-hook-form'
+import {getLotsByUserAndGame, getSellerLots} from '../services/lots'
+import {createReview, getUserReviewsByFilter} from '../services/reviews'
+import {dispatchAlert} from '../helpers/alert'
 import ValidateWrapper from '../components/UI/ValidateWrapper'
-import { Link } from 'react-router-dom'
-import { BsFillCaretDownFill, BsFillCaretUpFill } from "react-icons/bs";
-import { getAllGamesWhereUserHasLots } from '../services/games'
+import {BsFillCaretDownFill, BsFillCaretUpFill} from "react-icons/bs";
+import {getAllGamesWhereUserHasLots} from '../services/games'
 
 const UserPage = () => {
-    const { id } = useParams()
+    const {id} = useParams()
     const [showReview, setShowReview] = useState(false)
     const currentUser = useSelector((state) => state?.auth?.user)
     const [filterParam, setFilterParam] = useState('init')
     const [refatch, setRefatch] = useState(true)
-    const { user } = useGetUserInfo(id)
+    const {user} = useGetUserInfo(id)
     const [reviews, setReviews] = useState()
     const {
         register,
-        formState: { errors },
+        formState: {errors},
         handleSubmit,
         reset,
-    } = useForm({ mode: 'onSubmit', reValidateMode: 'onChange' })
+    } = useForm({mode: 'onSubmit', reValidateMode: 'onChange'})
     const [sellerLots, setSellerLots] = useState({
         isLoaded: false,
         items: [],
@@ -43,11 +42,12 @@ const UserPage = () => {
 
     const [rating, setRating] = useState(null)
     useEffect(() => {
-        getSellerLots()
+        getSellerLots(id)
             .then((res) => {
-                setSellerLots({ isLoaded: true, items: res?.data })
+                setSellerLots({isLoaded: true, items: res?.data})
             })
-            .catch(() => { })
+            .catch(() => {
+            })
     }, [id])
 
     useEffect(() => {
@@ -66,14 +66,16 @@ const UserPage = () => {
                 setReviews(res)
             }
         })
-        console.log(filterParam)
     }, [filterParam])
 
     const [showAllGames, setShowAllGames] = useState(false)
     const [games, setGames] = useState()
     useEffect(() => {
         getAllGamesWhereUserHasLots(id)
-            .then(res => { setGames(res); res && setActiveGame(res[0].id) })
+            .then(res => {
+                setGames(res);
+                res && setActiveGame(res[0].id)
+            })
     }, [])
 
     const [activeGame, setActiveGame] = useState()
@@ -84,7 +86,7 @@ const UserPage = () => {
 
     const onSubmitCreateReview = (data) => {
         const userId = currentUser.id
-        const req = { ...data, rating, userId }
+        const req = {...data, rating, userId}
         createReview(req)
             .then(() => {
                 setRefatch(true)
@@ -105,19 +107,22 @@ const UserPage = () => {
                                 <Row className='mb-4 mb-sm-5'>
                                     <Col xs={12} sm={5}>
                                         {user.isLoaded ? (
-                                            <img src={getImageURL(user.item?.avatar)} alt="" className="img" />
+                                            <img src={getImageURL(user.item?.avatar)} alt="" className="img"/>
                                         ) : null}
                                     </Col>
                                     <Col xs={12} sm={7}>
                                         {user.isLoaded ? (
                                             <>
-                                                <h4 className='mb-2'><span className='total-invert'>{user.item?.fullName}</span> - <span className='achromat-3 fw-4'>@{user.item?.nickname}</span></h4>
-                                                <div className='achromat-3'>{user.item?.isOnline ? 'Онлайн' : 'Был(а) онлайн ' + user.item?.lastSeenForUser}</div>
+                                                <h4 className='mb-2'><span
+                                                    className='total-invert'>{user.item?.fullName}</span> - <span
+                                                    className='achromat-3 fw-4'>@{user.item?.nickname}</span></h4>
+                                                <div
+                                                    className='achromat-3'>{user.item?.isOnline ? 'Онлайн' : 'Был(а) онлайн ' + user.item?.lastSeenForUser}</div>
                                             </>
                                         ) : null}
                                         {user.isLoaded ? (
                                             <p className="total-invert mt-2">
-                                                На сайте с <Moment format={'LL'} date={user.item?.createdAt} />
+                                                На сайте с <Moment format={'LL'} date={user.item?.createdAt}/>
                                             </p>
                                         ) : null}
 
@@ -125,7 +130,8 @@ const UserPage = () => {
                                             <div>
                                                 <p className='total-invert mb-3'>Рейтинг</p>
                                                 {user.isLoaded ? (
-                                                    <StarRating rate={user.item?.rating || 0} className="justify-content-start" />
+                                                    <StarRating rate={user.item?.rating || 0}
+                                                                className="justify-content-start"/>
                                                 ) : null}
                                             </div>
                                             <div className='ms-4 ms-xl-5'>
@@ -158,7 +164,7 @@ const UserPage = () => {
                                                 className={`game-btn ${activeGame === game.id ? 'active' : ''}`}
                                                 onClick={() => setActiveGame(game.id)}
                                             >
-                                                <img src={getImageURL(game.logo)} alt={game.name} />
+                                                <img src={getImageURL(game.logo)} alt={game.name}/>
                                                 <h5>{game.name}</h5>
                                             </button>
                                         </li>
@@ -170,25 +176,28 @@ const UserPage = () => {
                                     onClick={() => setShowAllGames(!showAllGames)}
                                 >
                                     <span>{showAllGames ? 'Скрыть' : 'Показать все'}</span>
-                                    {showAllGames ? <BsFillCaretUpFill /> : <BsFillCaretDownFill />}
+                                    {showAllGames ? <BsFillCaretUpFill/> : <BsFillCaretDownFill/>}
                                 </button>
 
                                 <Table borderless responsive className="mt-4 mt-sm-5">
                                     <thead>
-                                        <tr>
-                                            <th width="55%">Описание</th>
-                                            <th>Количество</th>
-                                            <th>Цена</th>
-                                        </tr>
+                                    <tr>
+                                        <th width="55%">Описание</th>
+                                        <th>Количество</th>
+                                        <th>Цена</th>
+                                    </tr>
                                     </thead>
                                     <tbody>
-                                        {lots && lots.map(lot =>
-                                            <tr className='position-relative' key={'lots-' + lot.id}>
-                                                <td><Link className='stretched-link' to={`/lot/${lot.id}`}>{lot.description}</Link></td>
-                                                <td>{lot.amount}</td>
-                                                <td><div className="color-1 fw-7">{lot.priceCommission}&nbsp;руб.</div></td>
-                                            </tr>
-                                        )}
+                                    {lots && lots.map(lot =>
+                                        <tr className='position-relative' key={'lots-' + lot.id}>
+                                            <td><Link className='stretched-link'
+                                                      to={`/lot/${lot.id}`}>{lot.description}</Link></td>
+                                            <td>{lot.amount}</td>
+                                            <td>
+                                                <div className="color-1 fw-7">{lot.priceCommission}&nbsp;руб.</div>
+                                            </td>
+                                        </tr>
+                                    )}
                                     </tbody>
                                 </Table>
                             </Col>
@@ -205,15 +214,16 @@ const UserPage = () => {
                                     </select>
                                 </div>
                                 {reviews ?
-                                    reviews?.map(i =>
-                                        <ReviewBlock
-                                            key={i.id}
-                                            fullName={i.user?.fullName}
-                                            avatar={i.user?.avatar}
-                                            rating={i.rating}
-                                            description={i.text}
-                                            nickname={i.user?.nickname}
-                                        />)
+                                    reviews?.filter(element => filterParam=='init'?element:element?.rating == filterParam)
+                                        ?.map(i =>
+                                            <ReviewBlock
+                                                key={i.id}
+                                                fullName={i.user?.fullName}
+                                                avatar={i.user?.avatar}
+                                                rating={i.rating}
+                                                description={i.text}
+                                                nickname={i.user?.nickname}
+                                            />)
                                     : <h6>Отзывов нет</h6>
                                 }
                             </Col>
@@ -323,7 +333,7 @@ const UserPage = () => {
                     <div className="d-flex align-items-center justify-content-between mb-4">
                         <h3 className="color-1">Оставьте отзыв</h3>
                         <button type="button" onClick={() => setShowReview(false)} className="btn-4 px-3 py-2">
-                            <VscChromeClose />
+                            <VscChromeClose/>
                         </button>
                     </div>
 
@@ -331,7 +341,7 @@ const UserPage = () => {
                         <div className="mb-2">Приобретенный лот:</div>
 
                         <select
-                            style={errors.lotId ? { borderColor: 'red' } : undefined}
+                            style={errors.lotId ? {borderColor: 'red'} : undefined}
                             {...register('lotId', {
                                 setValueAs: (v) => parseInt(v),
                                 min: {
@@ -343,21 +353,21 @@ const UserPage = () => {
                             <option value={'0'}>Нет лотов</option>
                             {sellerLots.items?.length > 0 &&
                                 sellerLots.items?.map((i) => (
-                                    <option key={i.id} value={i.lotId}>
-                                        {i.lot.description}
+                                    <option key={i.id} value={i?.purchase?.lotId}>
+                                        {i?.purchase?.lot?.description}
                                     </option>
                                 ))}
                         </select>
-                        {errors.lotId && <p style={{ fontSize: '0.8em', color: 'red' }}>{errors.lotId.message}</p>}
+                        {errors.lotId && <p style={{fontSize: '0.8em', color: 'red'}}>{errors.lotId.message}</p>}
 
                         <div className="mt-4 mb-2">Ваша оценка:</div>
-                        <InputRating className="fs-15" seterRating={seterRating} />
+                        <InputRating className="fs-15" seterRating={seterRating}/>
                         <div className="mt-4 mb-2">Текст отзыва:</div>
                         <ValidateWrapper error={errors?.text}>
                             <textarea
                                 rows={5}
                                 placeholder="Отзыв"
-                                {...register('text', { required: 'Заполните поле' })}
+                                {...register('text', {required: 'Заполните поле'})}
                             />
                         </ValidateWrapper>
                         <button type="submit" className="btn-5 w-100 mt-4">
