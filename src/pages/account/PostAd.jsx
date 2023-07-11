@@ -1,19 +1,19 @@
 import React from 'react'
-import { useState, useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import {useState, useEffect} from 'react'
+import {useSelector} from 'react-redux'
+import {useLocation, useNavigate, useParams} from 'react-router-dom'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Select from 'react-select'
 import Table from 'react-bootstrap/Table'
-import { Link } from 'react-router-dom'
-import { FiArrowLeft } from 'react-icons/fi'
-import { getAllGames, getOneGame, getGameRegions, getCategories, getCategoryParameters } from '../../services/games'
-import { getLot, postLot, editLot } from '../../services/lots'
+import {Link} from 'react-router-dom'
+import {FiArrowLeft} from 'react-icons/fi'
+import {getAllGames, getOneGame, getGameRegions, getCategories, getCategoryParameters} from '../../services/games'
+import {getLot, postLot, editLot} from '../../services/lots'
 import swal from 'sweetalert'
-import { $authApi } from '../../services'
-import { selectStyles } from '../../assets/styles/react-select-scrollbar'
-import { sortByLAbel } from '../../helpers/sortByLabel'
+import {$authApi} from '../../services'
+import {selectStyles} from '../../assets/styles/react-select-scrollbar'
+import {sortByLAbel} from '../../helpers/sortByLabel'
 
 // Опциии для использование с react-select
 const getOptions = (res) => {
@@ -33,7 +33,7 @@ const getOptions = (res) => {
     return arr
 }
 
-const Parameters = ({ params, lot, setNumericParameters, setOptions, numericParameters, options }) => {
+const Parameters = ({params, lot, setNumericParameters, setOptions, numericParameters, options}) => {
     const [chParam, setChParam] = useState({})
 
     useEffect(() => {
@@ -97,7 +97,7 @@ const Parameters = ({ params, lot, setNumericParameters, setOptions, numericPara
                                         ...options,
                                         [parameter.id]: e?.value,
                                     }))
-                                    setChParam((params) => ({ ...params, [parameter.id]: e.childParameter }))
+                                    setChParam((params) => ({...params, [parameter.id]: e.childParameter}))
                                 }}
                                 styles={selectStyles}
                             />
@@ -120,10 +120,10 @@ const Parameters = ({ params, lot, setNumericParameters, setOptions, numericPara
 }
 
 const PostAd = () => {
-    const { lotId } = useParams()
+    const {lotId} = useParams()
     const [lot, setLot] = useState()
 
-    const { state: stateFromLocation } = useLocation()
+    const {state: stateFromLocation} = useLocation()
     const [state, setState] = useState(stateFromLocation)
     // Games
     const [selectedOptionGame, setSelectedOptionGame] = useState(null)
@@ -213,19 +213,19 @@ const PostAd = () => {
             }
         } else {
             price > 10000000
-                ? swal({ text: 'Цена не более 10 000 000', icon: 'error' })
-                : swal({ text: 'Необходимо заполнить все поля', icon: 'error' })
+                ? swal({text: 'Цена не более 10 000 000', icon: 'error'})
+                : swal({text: 'Необходимо заполнить все поля', icon: 'error'})
         }
     }
 
 
     useEffect(() => {
         if (state) {
-            const def = { childParameter: undefined, currency: undefined, servers: undefined, slug: undefined }
-            setSelectedOptionGame({ ...def, ...state.selectedOptionGame })
-            setSelectedRegion({ ...def, ...state?.selectedRegion })
-            setSelectedServer({ ...def, ...state.selectedServer })
-            setSelectedCategory({ ...def, currency: false, ...state.selectedCategory })
+            const def = {childParameter: undefined, currency: undefined, servers: undefined, slug: undefined}
+            setSelectedOptionGame({...def, ...state.selectedOptionGame})
+            setSelectedRegion({...def, ...state?.selectedRegion})
+            setSelectedServer({...def, ...state.selectedServer})
+            setSelectedCategory({...def, currency: false, ...state.selectedCategory})
         }
     }, [state])
 
@@ -258,7 +258,7 @@ const PostAd = () => {
         setOptions({})
         if (selectedCategory) {
             if (lot) {
-                let optionsObjects = lot.options.map((option) => ({ [option.parameterId]: option.id }))
+                let optionsObjects = lot.options.map((option) => ({[option.parameterId]: option.id}))
                 let lotOptions = Object.assign({}, ...optionsObjects)
                 selectedCategory?.value === lot.categoryId ? setOptions(lotOptions) : setOptions({})
             }
@@ -284,48 +284,40 @@ const PostAd = () => {
     }, [lotId])
 
     useEffect(() => {
-        console.log(lot)
         if (!lot) return
 
         !selectedOptionGame && setSelectedOptionGame(optionsGames.find((o) => o.value === lot.gameInfo.id))
         !selectedRegion && setSelectedRegion(getOptions(selectedGame?.regions).find((o) => o.value === lot.regionId))
         !selectedServer &&
-            setSelectedServer(getOptions(selectedRegion?.servers).find((o) => o.value === lot.serverId))
+        setSelectedServer(getOptions(selectedRegion?.servers).find((o) => o.value === lot.serverId))
         !selectedCategory &&
-            setSelectedCategory(getOptions(selectedGame?.categories).find((o) => o.value === lot.categoryId))
+        setSelectedCategory(getOptions(selectedGame?.categories).find((o) => o.value === lot.categoryId))
         !description && setDescription(lot.description)
         setAmount(lot.amount)
         !active && setActive(lot.isVisible)
         !price && setPrice(lot.price)
         lot.minPrice && setMinPrice(lot.minPrice)
         lot.numericParameters.length > 0 &&
-            lot.numericParameters.map((param) =>
-                setNumericParameters((options) => ({
-                    ...options,
-                    [param.id]: param.numericValue,
-                }))
-            )
-    }, [lot, selectedGame, selectedRegion])
+        lot.numericParameters.map((param) =>
+            setNumericParameters((options) => ({
+                ...options,
+                [param.id]: param.numericValue,
+            }))
+        )
+    }, [lot, selectedGame, selectedRegion, optionsGames])
 
-    // ----------------------------------------------------------------------
-
-    // useEffect(() => {
-    //     (async () => {
-    //         selectedServer.
-    //         const lot = await $authApi.get('', {param: { categoryId: selectedCategory.value } })
-    //     })()
-    // }, [gold])
-
+    if (lotId && (!selectedOptionGame || !selectedCategory))
+        return <></>
     return (
         <div className="main">
             <div className="d-flex align-items-center mb-4">
                 <Link to="/account/ads" className="btn-1 p-2 me-4 d-lg-none">
-                    <FiArrowLeft className="fs-15" />
+                    <FiArrowLeft className="fs-15"/>
                 </Link>
                 <h4 className="color-1 mb-0">Мои объявления</h4>
             </div>
             <p className="mb-4">{lot ? 'Редактирование объявления' : 'Добавление нового объявления'}</p>
-            <form className={lotId ? opacity : undefined} style={{ transition: '0.14s opacity ease-in' }}>
+            <form className={lotId ? opacity : undefined} style={{transition: '0.14s opacity ease-in'}}>
                 <Row className="g-3 g-lg-4 align-items-center">
                     {/* ---------------------- Game --------------------------------------------------------------- */}
                     <Col xs={12} sm={3} md={2}>
@@ -424,7 +416,7 @@ const PostAd = () => {
                         <>
                             {selectedCategory && selectedCategory.isDescriptionEnabled && <>
                                 <Col xs={12}>
-                                    <hr className="horizontal" />
+                                    <hr className="horizontal"/>
                                 </Col>
                                 <Col xs={12} sm={3} md={2}>
                                     Описание:
@@ -440,7 +432,7 @@ const PostAd = () => {
                             </>}
 
                             <Col xs={12}>
-                                <hr className="horizontal" />
+                                <hr className="horizontal"/>
                             </Col>
                             <Col xs={12} sm={3} md={2}>
                                 Цена:
@@ -481,7 +473,7 @@ const PostAd = () => {
                                 </label>
                             </Col>
                             <Col xs={12}>
-                                <hr className="horizontal" />
+                                <hr className="horizontal"/>
                             </Col>
                             {/* ---------------------- Gold --------------------------------------------------------------- */}
                         </>
@@ -489,51 +481,51 @@ const PostAd = () => {
                         <Col xs={12}>
                             <Table borderless responsive className="my-4">
                                 <thead>
-                                    <tr>
-                                        <th>Показать</th>
-                                        <th>Наличие</th>
-                                        <th>
-                                            Цена, руб. <div>за 1 000 ед.</div>
-                                        </th>
-                                        <th>
-                                            Мин. сумма заказа <div>чем меньше, тем лучше</div>
-                                        </th>
-                                    </tr>
+                                <tr>
+                                    <th>Показать</th>
+                                    <th>Наличие</th>
+                                    <th>
+                                        Цена, руб. <div>за 1 000 ед.</div>
+                                    </th>
+                                    <th>
+                                        Мин. сумма заказа <div>чем меньше, тем лучше</div>
+                                    </th>
+                                </tr>
                                 </thead>
                                 <tbody>
-                                    <tr className="centered">
-                                        <td>
-                                            <label className="switch">
-                                                <input
-                                                    type="checkbox"
-                                                    checked={active}
-                                                    onChange={(e) => setActive(e.target.checked)}
-                                                />
-                                            </label>
-                                        </td>
-                                        <td>
+                                <tr className="centered">
+                                    <td>
+                                        <label className="switch">
                                             <input
-                                                type="number"
-                                                defaultValue={lot && amount}
-                                                onChange={(e) => setAmount(e.target.valueAsNumber)}
+                                                type="checkbox"
+                                                checked={active}
+                                                onChange={(e) => setActive(e.target.checked)}
                                             />
-                                        </td>
-                                        <td>
-                                            <input
-                                                type="number"
-                                                defaultValue={lot && price}
-                                                onChange={(e) => setPrice(e.target.valueAsNumber)}
-                                            />
-                                        </td>
-                                        <td className="d-flex align-items-center">
-                                            <input
-                                                type="number"
-                                                defaultValue={lot && minPrice}
-                                                onChange={(e) => setMinPrice(e.target.valueAsNumber)}
-                                            />
-                                            <span className="ms-3">руб.</span>
-                                        </td>
-                                    </tr>
+                                        </label>
+                                    </td>
+                                    <td>
+                                        <input
+                                            type="number"
+                                            defaultValue={lot && amount}
+                                            onChange={(e) => setAmount(e.target.valueAsNumber)}
+                                        />
+                                    </td>
+                                    <td>
+                                        <input
+                                            type="number"
+                                            defaultValue={lot && price}
+                                            onChange={(e) => setPrice(e.target.valueAsNumber)}
+                                        />
+                                    </td>
+                                    <td className="d-flex align-items-center">
+                                        <input
+                                            type="number"
+                                            defaultValue={lot && minPrice}
+                                            onChange={(e) => setMinPrice(e.target.valueAsNumber)}
+                                        />
+                                        <span className="ms-3">руб.</span>
+                                    </td>
+                                </tr>
                                 </tbody>
                             </Table>
                         </Col>
@@ -541,7 +533,7 @@ const PostAd = () => {
                 </Row>
                 <div className="d-flex">
                     <button type="button" className="btn-5" onClick={() => addLot()}>
-                        {lotId? 'Cохранить изменения' : 'Опубликовать объявление'}
+                        {lotId ? 'Cохранить изменения' : 'Опубликовать объявление'}
                     </button>
                     <button type="reset" className="btn-1 ms-2 ms-sm-3">
                         Отмена

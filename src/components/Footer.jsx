@@ -10,6 +10,10 @@ import Plaix from './utils/Plaix'
 import { useSelector } from 'react-redux'
 import swal from 'sweetalert'
 import { useNavigate } from 'react-router-dom'
+import {SlSocialVkontakte} from "react-icons/sl";
+import {BsTelegram} from "react-icons/bs";
+import {FcGoogle} from "react-icons/fc";
+import {AiFillYoutube} from "react-icons/ai";
 
 function Footer() {
     const [showMenu, setShowMenu] = useState(false)
@@ -46,6 +50,19 @@ function Footer() {
                                         style={{ cursor: 'pointer' }}
                                     >Помощь</div>
                                 }
+                            </li>
+                            <li>
+                                <div className={'d-flex gap-2'}>
+                                    <div className={'bg-white d-flex justify-content-center align-items-center'} style={{width:'30px', height:'30px', borderRadius:'25px'}}>
+                                        <SlSocialVkontakte color={'blue'} size={20} />
+                                    </div>
+                                    <div className={'bg-white d-flex justify-content-center align-items-center'} style={{width:'30px', height:'30px', borderRadius:'25px'}}>
+                                        <BsTelegram color={'#32A8E2'} size={20} />
+                                    </div>
+                                    <div className={'bg-white d-flex justify-content-center align-items-center'} style={{width:'30px', height:'30px', borderRadius:'25px'}}>
+                                        <AiFillYoutube color={'red'} size={20} />
+                                    </div>
+                                </div>
                             </li>
                         </ul>
                         <Sign className="text-center fs-09 mt-3 mt-xl-0 me-xl-4" />
@@ -143,6 +160,19 @@ function Footer() {
                                     <Link to="/document/2" className="">
                                         Политика cookie
                                     </Link>
+                                </li>
+                                <li>
+                                    <div className={'d-flex gap-2'}>
+                                        <div className={'bg-white d-flex justify-content-center align-items-center'} style={{width:'30px', height:'30px', borderRadius:'25px'}}>
+                                            <SlSocialVkontakte color={'blue'} size={20} />
+                                        </div>
+                                        <div className={'bg-white d-flex justify-content-center align-items-center'} style={{width:'30px', height:'30px', borderRadius:'25px'}}>
+                                            <BsTelegram color={'#32A8E2'} size={20} />
+                                        </div>
+                                        <div className={'bg-white d-flex justify-content-center align-items-center'} style={{width:'30px', height:'30px', borderRadius:'25px'}}>
+                                            <AiFillYoutube color={'red'} size={20} />
+                                        </div>
+                                    </div>
                                 </li>
                             </ul>
                         </nav>
