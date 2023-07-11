@@ -27,10 +27,11 @@ const SalesHistory = () => {
         saleHistory?.meta?.total
     )
 
-    useEffect(()=>{
-
-    }, [])
-
+    socketInstance.on('lots:unseenBoughts', () => {
+        getSale({ page: selectedPage + 1, limit: generalLimit }, userId)
+            .then((res) => setSaleHistory({ isLoaded: true, meta: res?.meta, items: res?.data }))
+            .catch(() => setSaleHistory({ isLoaded: true, meta: null, items: null }))
+    })
     useEffect(() => {
         getSale({ page: selectedPage + 1, limit: generalLimit }, userId)
             .then((res) => setSaleHistory({ isLoaded: true, meta: res?.meta, items: res?.data }))
@@ -41,9 +42,7 @@ const SalesHistory = () => {
         socketInstance.emit('boughts:view', () => {
             dispatch(setSaleCount(''))
         })
-
     }, [])
-
 
     return (
         <div className="main">
