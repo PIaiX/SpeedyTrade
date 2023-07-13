@@ -1,5 +1,4 @@
 export const sortByLAbel = (a, b) => {
-    console.log(a.name)
     if (a.name < b.name) {
         return -1
     }

@@ -5,7 +5,7 @@ import Col from 'react-bootstrap/Col'
 import Table from 'react-bootstrap/Table'
 import { FiSearch } from 'react-icons/fi'
 import BtnAddFav from '../components/utils/BtnAddFav'
-import { Link, useNavigate, useParams, ScrollRestoration, Navigate, NavLink } from 'react-router-dom'
+import {Link, useNavigate, useParams, ScrollRestoration, Navigate, NavLink, useLocation} from 'react-router-dom'
 import { getOneGame } from '../services/games'
 import { getImageURL } from '../helpers/image'
 import { useSelector } from 'react-redux'
@@ -111,7 +111,6 @@ const Parameters = ({ params, selectedOptions, setSelectedOptions, selectedNumer
 }
 
 const Game = () => {
-    const theme = useSelector((state) => state?.theme?.mode)
     const nav = useNavigate()
     const userId = useSelector((state) => state?.auth?.user?.id)
     const { slug, regId, catId } = useParams()
@@ -127,12 +126,12 @@ const Game = () => {
     const [parametersToShow, setParametersToShow] = useState([])
     const [onlineOnly, setOnlineOnly] = useState(false)
     const [query, setQuery] = useState('')
+    const navigate = useNavigate()
 
     const [lots, setLots] = useState({
         isLoaded: false,
         items: [],
     })
-
 
     // Time converter
     const timeOnSite = (timeDate) => {
@@ -170,6 +169,7 @@ const Game = () => {
             let key = game.categories.findIndex((cat) => cat.id == catId)
             setCurrentCategory({ id: catId, key: key })
         } else if (game.categories.length > 0) {
+            game.categories[0].id && navigate(`${game.categories[0].id}`)
             setCurrentCategory({ id: game.categories[0].id, key: 0 })
         }
         // eslint-disable-next-line no-prototype-builtins

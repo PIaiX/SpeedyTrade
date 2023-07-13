@@ -308,6 +308,7 @@ const PostAd = () => {
 
     if (lotId && (!selectedOptionGame || !selectedCategory))
         return <></>
+
     return (
         <div className="main">
             <div className="d-flex align-items-center mb-4">
@@ -354,7 +355,17 @@ const PostAd = () => {
                                     isClearable={true}
                                     isSearchable={true}
                                     value={selectedRegion}
-                                    onChange={setSelectedRegion}
+                                    onChange={value=>{
+                                        setSelectedServer(null)
+                                        setMinPrice('')
+                                        setPrice('')
+                                        setActive(null)
+                                        setSelectedCategory(null)
+                                        setDescription(undefined)
+                                        setAmount('')
+
+                                        setSelectedRegion(value)
+                                    }}
                                     isDisabled={selectedGame?.regions?.length > 0 ? false : true}
                                     styles={selectStyles}
                                 />
@@ -425,7 +436,7 @@ const PostAd = () => {
                                     <input
                                         type="text"
                                         placeholder="Описание"
-                                        defaultValue={lot && description}
+                                        value={description}
                                         onChange={(e) => setDescription(e.target.value)}
                                     />
                                 </Col>
@@ -442,8 +453,8 @@ const PostAd = () => {
                                     type="number"
                                     placeholder="0"
                                     className="flex-1"
-                                    defaultValue={lot && price}
-                                    onChange={(e) => setPrice(e.target.valueAsNumber)}
+                                    value={price}
+                                    onChange={(e) => setPrice(e.target.value)}
                                 />
                                 <span className="ms-3">руб.</span>
                             </Col>
@@ -456,7 +467,7 @@ const PostAd = () => {
                                         type="number"
                                         placeholder="0"
                                         className="flex-1"
-                                        defaultValue={lot && amount}
+                                        defaultValue={amount}
                                         onChange={(e) => setAmount(e.target.valueAsNumber)}
                                     />
                                     <span className="ms-3"></span>
@@ -506,21 +517,21 @@ const PostAd = () => {
                                     <td>
                                         <input
                                             type="number"
-                                            defaultValue={lot && amount}
+                                            value={amount}
                                             onChange={(e) => setAmount(e.target.valueAsNumber)}
                                         />
                                     </td>
                                     <td>
                                         <input
                                             type="number"
-                                            defaultValue={lot && price}
+                                            value={price}
                                             onChange={(e) => setPrice(e.target.valueAsNumber)}
                                         />
                                     </td>
                                     <td className="d-flex align-items-center">
                                         <input
                                             type="number"
-                                            defaultValue={lot && minPrice}
+                                            value={minPrice}
                                             onChange={(e) => setMinPrice(e.target.valueAsNumber)}
                                         />
                                         <span className="ms-3">руб.</span>
@@ -535,7 +546,7 @@ const PostAd = () => {
                     <button type="button" className="btn-5" onClick={() => addLot()}>
                         {lotId ? 'Cохранить изменения' : 'Опубликовать объявление'}
                     </button>
-                    <button type="reset" className="btn-1 ms-2 ms-sm-3">
+                    <button onClick={()=>navigate(-1)} type="reset" className="btn-1 ms-2 ms-sm-3">
                         Отмена
                     </button>
                 </div>
