@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useState} from 'react'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import InputPassword from '../utils/InputPassword'
@@ -10,7 +10,6 @@ import {login} from '../../store/actions/auth'
 import LoaderButton from '../UI/LoaderButton'
 import {apiRoutes} from '../../config/api'
 import {$authApi} from '../../services'
-import {useState} from 'react'
 
 const LoginForm = () => {
     const dispatch = useDispatch()
@@ -40,7 +39,7 @@ const LoginForm = () => {
         checkCredential(data)
             .then((res) => {
                 res.status === 200 && dispatch(login(data))
-                res.status === 400 && setLoginError(true)
+                res.status === 400 && setLoginError(res?.message)
             })
             .catch((error) => console.log('error'))
         localStorage.setItem('isOtherPC', data?.isOtherPC)
@@ -78,6 +77,9 @@ const LoginForm = () => {
                             })}
                         />
                     </ValidateWrapper>
+                    <div>
+                        {loginError && <div style={{color: 'red'}}>{loginError}</div>}
+                    </div>
                 </Col>
             </Row>
             <div className="mt-4 d-flex align-items-center justify-content-between">
@@ -85,7 +87,6 @@ const LoginForm = () => {
                     <input type="checkbox" {...register('isOtherPC')} />
                     <span>Чужой компьютер</span>
                 </label>
-                {loginError && <div style={{color: 'red'}}>Неверный логин или пароль</div>}
                 <Link to="/reset-password" className="achromat-1 fw-5">
                     Забыли пароль?
                 </Link>

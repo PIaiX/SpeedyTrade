@@ -35,7 +35,6 @@ export const getAllTicketMessages = async (ticketId, payload) => {
 }
 
 export const createTicketMessage = async (payloads) => {
-    console.log(payloads)
     return await new Promise((resolve, reject) => {
         socketInstance?.emit('ticket:messageCreate', payloads, (response) => {
             try {

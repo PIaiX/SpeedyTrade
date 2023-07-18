@@ -17,6 +17,8 @@ import { dispatchAlert } from '../../helpers/alert'
 import { convertToLocaleDate } from '../../helpers/convertToLocaleDate'
 import { socketInstance } from '../../services/sockets/socketInstance'
 import useSocketConnect from '../../hooks/socketConnect'
+import useGetUserInfo from "../../hooks/axios/getUserInfo";
+import {getImageURL} from "../../helpers/image";
 
 const Ticket = () => {
     const { id } = useParams()
@@ -29,6 +31,7 @@ const Ticket = () => {
     const [currentPage, setCurrentPage] = useState(1)
     const [isFileSent, setIsFileSent] = useState(false)
     const { isConnected } = useSocketConnect()
+    const {user} = useGetUserInfo(1)
 
     const {
         register,
@@ -44,6 +47,7 @@ const Ticket = () => {
             userId: userId ?? '',
             ticketId: id ?? '',
             text: '',
+            medias: ''
         },
     })
 
@@ -76,7 +80,6 @@ const Ticket = () => {
                         ...prevState,
                         items: prevState.items ? [...prevState.items, newMessage] : [newMessage],
                     }))
-                console.log(newMessage)
             })
         }
         return () => {
@@ -86,10 +89,10 @@ const Ticket = () => {
     }, [isConnected])
 
     const createMessage = (data) => {
-
         createTicketMessage(data)
             .then((res) => {
-                console.log(res)
+                if(!res.body)
+                    return
                 setMessages((prevState) => ({
                     ...prevState,
                     items: prevState.items ? [...prevState.items, res.body] : [res.body],
@@ -102,7 +105,6 @@ const Ticket = () => {
                 dispatchAlert('danger', 'Произошла ошибка, сообщение не отправлено')
             })
     }
-
     const getMessages = () => {
         if (id) {
             getAllTicketMessages(id, { page: currentPage, limit: 4, orderBy: 'desc' })
@@ -134,7 +136,7 @@ const Ticket = () => {
                     </div>
                     <div className="d-flex align-items-center">
                         <div className="img me-2 me-sm-4">
-                            <img src="/images/user2.png" alt="Иванченко Дарья" />
+                            <img src={getImageURL(user?.item?.avatar)} alt="Иванченко Дарья" />
                         </div>
                         <Dropdown align="end">
                             <Dropdown.Toggle variant="simple">
@@ -168,7 +170,9 @@ const Ticket = () => {
                             useWindow={false}
                         >
                             {messages.items &&
-                                Object.entries(groupBy(messages.items, 'createdAt', true))?.map((message, index) => (
+                                Object
+                                    .entries(groupBy(messages.items, 'createdAt'))
+                                    ?.map((message, index) => (
                                     <ChatMessage key={message[0]} keyArr={message[0]} arr={message[1]} />
                                 ))}
                         </InfiniteScroll>

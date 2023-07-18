@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, {useEffect, useState} from 'react'
 import Container from 'react-bootstrap/Container'
 import Offcanvas from 'react-bootstrap/Offcanvas'
-import { Link } from 'react-router-dom'
+import {Link, useLocation} from 'react-router-dom'
 import { IoGridOutline, IoHomeOutline, IoSearchOutline } from 'react-icons/io5'
 import { VscAccount, VscChromeClose, VscCommentDiscussion } from 'react-icons/vsc'
 import { FiSearch } from 'react-icons/fi'
@@ -16,6 +16,7 @@ import {FcGoogle} from "react-icons/fc";
 import {AiFillYoutube} from "react-icons/ai";
 
 function Footer() {
+    const {pathname} = useLocation()
     const [showMenu, setShowMenu] = useState(false)
     const handleCloseMenu = () => setShowMenu(false)
     const handleShowMenu = () => setShowMenu(true)
@@ -25,6 +26,10 @@ function Footer() {
     const handleShowSearch = () => setShowSearch(true)
     const theme = useSelector((state) => state?.theme?.mode)
     const nav = useNavigate()
+
+    useEffect(()=>{
+        setShowMenu(false)
+    }, [pathname])
 
     return (
         <>

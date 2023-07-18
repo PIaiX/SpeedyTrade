@@ -37,7 +37,7 @@ $authApi.interceptors.response.use(
                 const response = await $api.get(apiRoutes.AUTH_REFRESH)
                 localStorage.setItem('token', response?.data?.body?.token)
             } catch (error) {
-                console.log('er')
+                console.log(error)
             }
         }
         return Promise.reject(error)
