@@ -1,21 +1,21 @@
-import {useEffect, useState} from 'react'
-import {getCatalogAllGames} from '../../services/catalog'
+import { useEffect, useState } from "react";
+import { getCatalogAllGames } from "../../services/catalog";
 
 const useGetCatalogAllGame = () => {
-    const [allGames, setAllGames] = useState({
-        isLoaded: false,
-        items: null,
-    })
+  const [allGames, setAllGames] = useState({
+    isLoaded: false,
+    items: null,
+  });
 
-    useEffect(() => {
-        getCatalogAllGames()
-            .then((res) => {
-                setAllGames({isLoaded: true, items: res})
-            })
-            .catch()
-    }, [])
+  useEffect(() => {
+    getCatalogAllGames()
+      .then((res) => {
+        setAllGames({ isLoaded: true, items: res });
+      })
+      .catch();
+  }, []);
 
-    return {allGames}
-}
+  return { allGames };
+};
 
-export default useGetCatalogAllGame
+export default useGetCatalogAllGame;

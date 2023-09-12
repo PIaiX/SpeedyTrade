@@ -1,20 +1,20 @@
-import {useEffect, useState} from 'react'
-import {getOneLot} from '../../services/lots'
+import { useEffect, useState } from "react";
+import { getOneLot } from "../../services/lots";
 
 const useGetOneLot = (lotId) => {
-    const [lot, setLot] = useState({
-        isLoaded: false,
-        item: {},
-    })
+  const [lot, setLot] = useState({
+    isLoaded: false,
+    item: {},
+  });
 
-    useEffect(() => {
-        lotId &&
-            getOneLot(lotId)
-                .then((res) => setLot({isLoaded: true, item: res}))
-                .catch(() => setLot({isLoaded: true, item: {}}))
-    }, [lotId])
+  useEffect(() => {
+    lotId &&
+      getOneLot(lotId)
+        .then((res) => setLot({ isLoaded: true, item: res }))
+        .catch(() => setLot({ isLoaded: true, item: {} }));
+  }, [lotId]);
 
-    return {lot}
-}
+  return { lot };
+};
 
-export default useGetOneLot
+export default useGetOneLot;

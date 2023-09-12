@@ -1,21 +1,23 @@
-import {useEffect, useState} from 'react'
-import {getLotsByCategory} from '../../services/lots'
+import { useEffect, useState } from "react";
+import { getLotsByCategory } from "../../services/lots";
 
 const useGetLotsByCategory = (currentCategoryId) => {
-    const [lots, setLots] = useState({
-        isLoaded: false,
-        items: [],
-        meta: {},
-    })
+  const [lots, setLots] = useState({
+    isLoaded: false,
+    items: [],
+    meta: {},
+  });
 
-    useEffect(() => {
-        currentCategoryId &&
-            getLotsByCategory(currentCategoryId)
-                .then((res) => setLots({isLoaded: true, items: res?.data, meta: res?.meta}))
-                .catch(() => setLots({isLoaded: true, items: [], meta: {}}))
-    }, [currentCategoryId])
+  useEffect(() => {
+    currentCategoryId &&
+      getLotsByCategory(currentCategoryId)
+        .then((res) =>
+          setLots({ isLoaded: true, items: res?.data, meta: res?.meta })
+        )
+        .catch(() => setLots({ isLoaded: true, items: [], meta: {} }));
+  }, [currentCategoryId]);
 
-    return {lots}
-}
+  return { lots };
+};
 
-export default useGetLotsByCategory
+export default useGetLotsByCategory;
