@@ -1,12 +1,18 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import App from "./App";
+import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
-import store from "./store";
+import { PersistGate } from "redux-persist/integration/react";
+import store, { persistor } from "./store";
+import App from "./App";
+import moment from "moment";
+import momentRu from "moment/locale/ru";
+import { NotificationContainer } from "react-notifications";
+moment.updateLocale("ru", momentRu);
 
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(
+createRoot(document.getElementById("root")).render(
   <Provider store={store}>
-    <App />
+    <PersistGate persistor={persistor}>
+      <App />
+      <NotificationContainer />
+    </PersistGate>
   </Provider>
 );
