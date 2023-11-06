@@ -1,5 +1,5 @@
 import { apiRoutes } from "../config/api";
-import $api, { $authApi } from "./index";
+import { $api, $authApi } from "./index";
 
 export const searchGames = async (q) => {
   try {

@@ -60,5 +60,4 @@ const axiosBaseQuery = async (url) => {
   }
 };
 
-export default $api;
-export { $authApi, axiosBaseQuery };
+export { $api, $authApi, axiosBaseQuery };

@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { apiRoutes } from "../../config/api";
-import $api, { $authApi } from "../../services";
+import { $api, $authApi } from "../../services";
 
 const login = createAsyncThunk("auth/login", async (payload = {}, thunkAPI) => {
   try {

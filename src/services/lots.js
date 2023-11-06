@@ -1,5 +1,5 @@
 import { apiRoutes } from "../config/api";
-import $api, { $authApi } from "./index";
+import { $api, $authApi } from "./index";
 import { socketInstance } from "./sockets/socketInstance";
 
 export const getGameLots = async (gameId) => {

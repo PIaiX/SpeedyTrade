@@ -1,5 +1,5 @@
-import $api from './index'
-import {apiRoutes} from '../config/api'
+import { $api } from './index'
+import { apiRoutes } from '../config/api'
 
 export const getBanner = async () => {
     try {

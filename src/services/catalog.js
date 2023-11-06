@@ -1,5 +1,5 @@
-import {apiRoutes} from '../config/api'
-import $api from './index'
+import { apiRoutes } from '../config/api'
+import { $api } from './index'
 
 export const getCatalogAllGames = async () => {
     try {
