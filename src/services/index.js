@@ -1,18 +1,15 @@
 import axios from "axios";
-import { apiRoutes, BASE_API_URL } from "../config/api";
+import { apiRoutes, BASE_URL } from "../config/api";
 
-const apiBody = {
-  baseURL: BASE_API_URL,
+const $api = axios.create({
+  baseURL: BASE_URL,
   withCredentials: true,
-  headers: {
-    Accept: "application/json",
-    "Access-Control-Allow-Origin": "*",
-    "Content-Type": "application/json",
-  },
-};
+});
 
-const $api = axios.create(apiBody);
-const $authApi = axios.create(apiBody);
+const $authApi = axios.create({
+  baseURL: BASE_URL,
+  withCredentials: true,
+});
 
 $api.interceptors.request.use((config) => {
   config.headers["User-Fingerprint"] = localStorage.getItem("fingerprint");
