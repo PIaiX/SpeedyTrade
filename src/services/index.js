@@ -1,29 +1,55 @@
 import axios from "axios";
-import { apiRoutes, BASE_API_URL } from "../config/api";
+import { BASE_URL } from "../config/api";
+import store from "../store";
+import { refreshAuth } from "./auth";
+import { ClientJS } from "clientjs";
 
-const apiBody = {
-  baseURL: BASE_API_URL,
+const $api = axios.create({
+  baseURL: BASE_URL,
   withCredentials: true,
-  headers: {
-    Accept: "application/json",
-    "Access-Control-Allow-Origin": "*",
-    "Content-Type": "application/json",
+});
+
+const client = new ClientJS();
+const browser = client.getBrowserData();
+const language = client.getLanguage();
+
+const DEVICE = JSON.stringify({
+  brand: browser.browser.name ?? "",
+  osName: browser.os.name ?? "",
+  osVersion: browser.os.version ?? "",
+  language: language ?? "ru-RU",
+});
+
+$api.interceptors.request.use(
+  async (config) => {
+    // config.headers["Content-Type"] = "application/json";
+    const state = store.getState();
+    config.headers.device = DEVICE;
+    config.headers.ip = state?.settings?.ip ?? "0.0.0.0";
+    return config;
   },
-};
+  (error) => Promise.reject(error)
+);
 
-const $api = axios.create(apiBody);
-const $authApi = axios.create(apiBody);
-
-$api.interceptors.request.use((config) => {
-  config.headers["User-Fingerprint"] = localStorage.getItem("fingerprint");
-  return config;
+const $authApi = axios.create({
+  baseURL: BASE_URL,
+  withCredentials: true,
 });
 
-$authApi.interceptors.request.use((config) => {
-  config.headers.Authorization = `Bearer ${localStorage.getItem("token")}`;
-  config.headers["User-Fingerprint"] = localStorage.getItem("fingerprint");
-  return config;
-});
+$authApi.interceptors.request.use(
+  async (config) => {
+    // config.headers["Content-Type"] = "application/json";
+    const token = localStorage.getItem("token");
+    if (token) {
+      config.headers.authorization = `Bearer ${token}`;
+    }
+    const state = store.getState();
+    config.headers.device = DEVICE;
+    config.headers.ip = state?.settings?.ip ?? "0.0.0.0";
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
 
 $authApi.interceptors.response.use(
   (config) => {
@@ -32,36 +58,23 @@ $authApi.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
     if (
-      error?.response?.status === 400 &&
+      error.response.status === 401 &&
       originalRequest &&
       !originalRequest._isRetry
     ) {
       originalRequest._isRetry = true;
-      try {
-        const response = await $api.get(apiRoutes.AUTH_REFRESH);
-        localStorage.setItem("token", response?.data?.body?.token);
-      } catch (error) {
-        console.log(error);
+      if (
+        error?.response?.data?.message?.type == "REFRESH_TOKEN_EXPIRED" ||
+        error?.response?.data?.message?.type == "ACCESS_TOKEN_EXPIRED"
+      ) {
+        localStorage.removeItem("token");
       }
+      return store
+        .dispatch(refreshAuth())
+        .then(() => $authApi(originalRequest));
     }
     return Promise.reject(error);
   }
 );
 
-const axiosBaseQuery = async (url) => {
-  try {
-    const result = await $api(url);
-    return { data: result.data };
-  } catch (axiosError) {
-    let err = axiosError;
-    return {
-      error: {
-        status: err.response?.status,
-        data: err.response?.data || err.message,
-      },
-    };
-  }
-};
-
-export default $api;
-export { $authApi, axiosBaseQuery };
+export { $api, $authApi };

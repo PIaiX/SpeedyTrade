@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { login, logout, refreshAuth } from "../actions/auth";
+import { refreshAuth, login, logout, checkAuth } from "../../services/auth";
+import { NotificationManager } from "react-notifications";
 
 const initialState = {
-  isLoadingRefresh: true,
   isLoadingLogin: false,
   loginError: null,
   isAuth: false,
@@ -19,9 +19,6 @@ const authSlice = createSlice({
     setAuth: (state, action) => {
       state.isAuth = action.payload;
     },
-    setLoadingRefresh: (state, action) => {
-      state.isLoadingRefresh = action.payload;
-    },
     setLoadingLogin: (state, action) => {
       state.isLoadingLogin = action.payload;
     },
@@ -30,65 +27,64 @@ const authSlice = createSlice({
     },
   },
   extraReducers: {
-    // ! LOGIN
     [login.pending]: (state) => {
       state.isLoadingLogin = true;
       state.loginError = null;
     },
     [login.fulfilled]: (state, action) => {
-      localStorage.setItem("token", action?.payload?.token);
+      if (action?.payload?.token) {
+        localStorage.setItem("token", action.payload.token);
+      }
       state.isLoadingLogin = false;
       state.isAuth = true;
       state.user = action?.payload?.user;
-      state.loginError = null;
-      console.log(action?.payload?.token);
+      NotificationManager.success("Вы вошли в аккаунт");
     },
     [login.rejected]: (state, action) => {
+      NotificationManager.error(
+        action?.payload?.response?.data?.error ?? "Неизвестная ошибка при входе"
+      );
       state.isLoadingLogin = false;
-      state.loginError = action?.payload;
     },
 
-    // ! LOGOUT
     [logout.fulfilled]: (state) => {
+      NotificationManager.success("Вы вышли из аккаунта");
       localStorage.removeItem("token");
-      localStorage.removeItem("isOtherPC");
       state.isAuth = false;
       state.user = {};
     },
-    [logout.rejected]: (state) => {
+    [logout.rejected]: (state, action) => {
       localStorage.removeItem("token");
-      localStorage.removeItem("isOtherPC");
       state.isAuth = false;
       state.user = {};
     },
-    // ! REFRESH AUTH
-    [refreshAuth.fulfilled]: (state, action) => {
-      localStorage.setItem("token", action?.payload?.token);
-      state.isLoadingRefresh = false;
+
+    [checkAuth.fulfilled]: (state, action) => {
       state.isAuth = true;
       state.user = action?.payload?.user;
-      console.log(action?.payload?.token);
+    },
+    [checkAuth.rejected]: (state) => {
+      state.isAuth = false;
+      state.user = initialState.user;
+    },
+
+    [refreshAuth.fulfilled]: (state, action) => {
+      if (action?.payload?.token) {
+        localStorage.setItem("token", action.payload.token);
+      }
+      state.isAuth = true;
+      state.user = action?.payload?.user;
     },
     [refreshAuth.rejected]: (state, action) => {
-      if (
-        action?.payload?.response?.data?.message?.type ===
-        "ACCESS_TOKEN_EXPIRED"
-      ) {
-        localStorage.removeItem("token");
-      }
-
-      state.isLoadingRefresh = false;
-      console.error("Refresh rejected", action.payload);
+      NotificationManager.success("Вы вышли из аккаунта");
+      localStorage.removeItem("token");
+      state.isAuth = false;
+      state.user = {};
     },
   },
 });
 
-export const {
-  setLoadingLogin,
-  setLoadingRefresh,
-  setUser,
-  setAuth,
-  setLoginError,
-} = authSlice.actions;
+export const { setLoadingLogin, setUser, setAuth, setLoginError } =
+  authSlice.actions;
 
 export default authSlice.reducer;

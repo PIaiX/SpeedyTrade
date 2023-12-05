@@ -1,11 +1,13 @@
-import $api from './index'
 import {apiRoutes} from '../config/api'
+import {$api} from './index'
 
-export const getDocument = async (id='') => {
-    try {
-        const response = await $api.get(`${apiRoutes.GET_DOCUMENT}/${id}`)
-        return response.data?.body
-    } catch (error) {
-        throw error
-    }
+const getDocuments = async () => {
+    const response = await $api.get(apiRoutes.DOCUMENTS)
+    return response?.data
 }
+const getDocument = async (link) => {
+    const response = await $api.get(apiRoutes.DOCUMENT, {params: {link}})
+    return response?.data
+}
+
+export {getDocuments, getDocument}

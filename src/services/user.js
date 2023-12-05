@@ -1,31 +1,18 @@
-import { $authApi } from "./index";
+import { $api, $authApi } from ".";
 import { apiRoutes } from "../config/api";
 
-const userUpdateProfile = async (payload = {}, userId) => {
-  try {
-    const response = await $authApi.patch(
-      `${apiRoutes.USER_ACTIONS}/${userId}`,
-      payload,
-      {
-        headers: { "Content-Type": "multipart/form-data" },
-      }
-    );
-    return response.data?.body;
-  } catch (error) {
-    throw error;
-  }
+const getUser = async (id) => {
+  const response = await $api.get(apiRoutes.USER, {
+    params: { id },
+  });
+  return response?.data;
 };
 
-const userUpdatePassword = async (payload = {}, userId) => {
-  try {
-    const response = await $authApi.patch(
-      `${apiRoutes.USER_UPDATE_PASSWORD}/${userId}`,
-      payload
-    );
-    if (response && response.status === 200) return response;
-  } catch (error) {
-    throw error;
-  }
+const deleteSession = async (data) => {
+  const response = await $authApi.delete(apiRoutes.USER_DELETE_SESSION, {
+    params: data,
+  });
+  return response?.data;
 };
 
-export { userUpdateProfile, userUpdatePassword };
+export { getUser, deleteSession };
